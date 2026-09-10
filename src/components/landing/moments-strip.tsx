@@ -82,16 +82,16 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
           <CardContent className="flex flex-col gap-6 p-6">
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   <Sparkles
-                    className="size-3.5 shrink-0 text-action-primary"
+                    className="size-5 shrink-0 text-action-primary"
                     aria-hidden
                   />
-                  <p className="type-label text-fg-primary">
+                  <h3 className="type-title text-fg-primary">
                     {selected.name} · AI insights
-                  </p>
+                  </h3>
                 </div>
-                <p className="mt-1 type-caption text-fg-tertiary">
+                <p className="mt-1.5 type-caption text-fg-tertiary">
                   {selected.skuCount.toLocaleString()} SKUs need review ·{" "}
                   {selected.valueLabel} opportunity · {selected.daysUntil} days
                   out
@@ -110,21 +110,13 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
             </div>
 
             <div>
-              <p className="type-caption-strong uppercase tracking-wider text-fg-tertiary">
-                Most common issues
-              </p>
-              <p className="mt-2 max-w-3xl type-body-lg text-fg-primary">
+              <p className="max-w-3xl type-body-lg text-fg-primary">
                 {selected.commonIssues}
               </p>
             </div>
 
             <div>
-              <p className="type-caption-strong uppercase tracking-wider text-fg-tertiary">
-                Potential by dimension
-              </p>
-              <div className="mt-4">
-                <DimensionRow dimensions={selected.dimensions} />
-              </div>
+              <DimensionRow dimensions={selected.dimensions} />
             </div>
           </CardContent>
         </Card>
