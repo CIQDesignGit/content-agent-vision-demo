@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import "@ciq-dev/ciq-design-system/styles";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 

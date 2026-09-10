@@ -107,7 +107,7 @@
   --color-warning-800: #923009;
   --color-warning-900: #78270a;
 
-  /* ── Success — Green ────────────────────── */
+  /* ── Success — Green (aligned with CIQ feedback-success / green-600) ── */
   --color-success-50:  #f0fdf4;
   --color-success-100: #dcfce7;
   --color-success-500: #22c55e;

@@ -340,7 +340,7 @@ export default function TitleOptimizationPage() {
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-slate-50">
-      <AppHeader title="Title Optimization" backHref="/" />
+      <AppHeader title="Title Optimization" backHref="/workbench" />
       <FilterBar
         search={search}
         onSearchChange={setSearch}

@@ -13,9 +13,9 @@ export function BrandPerformanceView() {
   return (
     <PageShell>
       <AppHeader
-        backHref="/"
+        backHref="/workbench"
         breadcrumb={[
-          { label: "Content Agent", href: "/" },
+          { label: "Content Agent", href: "/workbench" },
           { label: "Brand Performance" },
         ]}
       />

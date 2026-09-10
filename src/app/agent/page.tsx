@@ -16,7 +16,7 @@ export default function AgentPage() {
         <button
           type="button"
           aria-label="Go back"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/workbench")}
           className="grid size-9 shrink-0 place-items-center rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200"
         >
           <ArrowLeft className="size-4" />

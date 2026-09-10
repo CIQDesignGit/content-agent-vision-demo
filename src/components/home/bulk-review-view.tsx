@@ -89,11 +89,11 @@ export function BulkReviewView() {
       skuIds: allIds.filter((id) => localSkuIds.has(id)),
     }
     sessionStorage.setItem(BRD_OUTPUT_KEY, JSON.stringify(output))
-    router.push("/")
+    router.push("/workbench")
   }
 
   function handleCancel() {
-    router.push("/")
+    router.push("/workbench")
   }
 
   const skuLabel = `${rows.length} SKU${rows.length !== 1 ? "s" : ""}`
@@ -101,7 +101,7 @@ export function BulkReviewView() {
   return (
     <div className="flex h-screen flex-col bg-background">
       {/* ── Page header — matches AppHeader design ───────────────────────── */}
-      <AppHeader backHref="/" title={`Review Changes — ${skuLabel}`} />
+      <AppHeader backHref="/workbench" title={`Review Changes — ${skuLabel}`} />
 
       {/* ── Scrollable table area ────────────────────────────────────────────── */}
       <div className="min-h-0 flex-1 overflow-auto">

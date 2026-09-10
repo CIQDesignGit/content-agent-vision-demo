@@ -118,7 +118,7 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
         </IconHeaderButton>
         <IconHeaderButton
           label={backHref ? "Content Agent" : "Title Optimization"}
-          href={backHref ? "/" : "/title-optimization"}
+          href={backHref ? "/workbench" : "/title-optimization"}
           className="bg-brand-100"
         >
           <Rocket className="size-4 text-brand-500" />
