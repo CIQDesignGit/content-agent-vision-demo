@@ -52,7 +52,7 @@ export function SecondaryStats({
               key={stat.id}
               className="flex min-w-0 flex-col gap-1.5 rounded-xl bg-slate-50 px-4 py-3"
             >
-              <p className="min-w-0 truncate text-xs font-medium text-fg-tertiary">
+              <p className="min-w-0 truncate uppercase tracking-wider text-[11px] font-medium text-fg-tertiary">
                 {stat.label}
               </p>
               <StatValue stat={stat} isPositive={isPositive} />

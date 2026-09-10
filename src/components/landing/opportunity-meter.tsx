@@ -65,7 +65,7 @@ export function OpportunityMeter({
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="flex min-w-0 flex-1 flex-col gap-1 text-base text-fg-primary">
               <div className="flex items-baseline gap-1.5">
-                <span className="font-sans text-5xl font-semibold tracking-tight text-brand-800 tabular-nums">
+                <span className="font-sans text-5xl font-semibold tracking-tight text-brand-950 tabular-nums">
                   ${data.identifiedMillions.toFixed(1)}M
                 </span>
                 <button

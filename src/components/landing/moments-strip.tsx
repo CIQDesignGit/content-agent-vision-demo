@@ -19,11 +19,13 @@ function DimensionRow({ dimensions }: { dimensions: MomentDimensionInsight[] }) 
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
       {ranked.map((dim) => (
         <div key={dim.kind} className="min-w-0">
-          <p className="type-caption text-fg-tertiary">{dim.label}</p>
+          <p className="uppercase tracking-wider text-[11px] font-medium text-fg-tertiary">
+            {dim.label}
+          </p>
           <p className="mt-1 type-title tabular-nums tracking-tight text-fg-primary">
             {dim.potential}
           </p>
-          <p className="mt-1 type-caption text-fg-tertiary">{dim.note}</p>
+          <p className="mt-1 type-caption text-fg-secondary">{dim.note}</p>
         </div>
       ))}
     </div>
@@ -65,7 +67,7 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
               )}
             >
               <div className="flex items-center justify-between gap-2">
-                <p className="type-title text-fg-primary">{moment.name}</p>
+                <p className="type-title text-fg-secondary">{moment.name}</p>
                 <span className="inline-flex shrink-0 items-center gap-1.5 type-caption text-fg-tertiary">
                   {moment.daysUntil <= 10 ? (
                     <span className="relative flex size-1.5 shrink-0" aria-hidden>
@@ -99,7 +101,7 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
               <h3 className="type-title text-fg-primary">
                 {selected.name} · AI insights
               </h3>
-              <p className="mt-1.5 text-xs text-fg-tertiary">
+              <p className="mt-1.5 text-xs font-medium text-slate-400">
                 {selected.skuCount.toLocaleString()} SKUs need review ·{" "}
                 {selected.valueLabel} opportunity · {selected.daysUntil} days
                 out
@@ -115,7 +117,7 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
             </Button>
           </div>
 
-          <p className="max-w-3xl type-body-lg text-fg-primary">
+          <p className="max-w-3xl type-body-lg text-fg-secondary">
             {selected.commonIssues}
           </p>
 
