@@ -2,8 +2,8 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowUpRight, CalendarDays, Sparkles } from "lucide-react"
-import { Button, Card, CardContent, cn } from "@ciq-dev/ciq-design-system"
+import { ArrowUpRight, CalendarDays } from "lucide-react"
+import { Button, cn } from "@ciq-dev/ciq-design-system"
 import type { MomentDimensionInsight, UpcomingMoment } from "./types"
 
 interface MomentsStripProps {
@@ -40,26 +40,38 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
   if (moments.length === 0) return null
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <div className="overflow-hidden rounded-2xl border border-border-default bg-surface shadow-sm">
+      <div
+        role="tablist"
+        aria-label="Upcoming moments"
+        className="grid grid-cols-1 gap-3 p-4 sm:grid-cols-3"
+      >
         {moments.map((moment) => {
           const active = selectedId === moment.id
           return (
             <button
               key={moment.id}
               type="button"
+              role="tab"
+              aria-selected={active}
               onClick={() =>
                 setSelectedId((prev) => (prev === moment.id ? null : moment.id))
               }
               className={cn(
-                "group rounded-xl border bg-surface p-5 text-left transition-all",
+                "group rounded-xl border p-5 text-left transition-all",
                 active
                   ? "border-action-primary bg-brand-50"
-                  : "border-border-default hover:border-brand-200 hover:bg-surface-muted",
+                  : "border-border-default bg-surface hover:border-brand-200 hover:bg-surface-muted",
               )}
             >
               <div className="flex items-center justify-between gap-2">
                 <span className="inline-flex items-center gap-1.5 type-caption text-fg-tertiary">
+                  {moment.daysUntil <= 10 ? (
+                    <span className="relative flex size-1.5 shrink-0" aria-hidden>
+                      <span className="absolute inline-flex size-full animate-ping rounded-full bg-feedback-danger opacity-60" />
+                      <span className="relative inline-flex size-1.5 rounded-full bg-feedback-danger" />
+                    </span>
+                  ) : null}
                   <CalendarDays className="size-3.5" aria-hidden />
                   In {moment.daysUntil} days
                 </span>
@@ -78,48 +90,37 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
       </div>
 
       {selected ? (
-        <Card className="border-border-default bg-surface shadow-none">
-          <CardContent className="flex flex-col gap-6 p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <div className="flex items-center gap-2">
-                  <Sparkles
-                    className="size-5 shrink-0 text-action-primary"
-                    aria-hidden
-                  />
-                  <h3 className="type-title text-fg-primary">
-                    {selected.name} · AI insights
-                  </h3>
-                </div>
-                <p className="mt-1.5 type-caption text-fg-tertiary">
-                  {selected.skuCount.toLocaleString()} SKUs need review ·{" "}
-                  {selected.valueLabel} opportunity · {selected.daysUntil} days
-                  out
-                </p>
-              </div>
-              <Button
-                size="sm"
-                className="shrink-0 bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
-                onClick={() =>
-                  router.push(`/workbench?moment=${selected.id}`)
-                }
-              >
-                Take Action
-                <ArrowUpRight className="size-3.5" aria-hidden />
-              </Button>
-            </div>
-
-            <div>
-              <p className="max-w-3xl type-body-lg text-fg-primary">
-                {selected.commonIssues}
+        <div
+          role="tabpanel"
+          className="flex flex-col gap-6 px-6 pb-6 pt-2"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <h3 className="type-title text-fg-primary">
+                {selected.name} · AI insights
+              </h3>
+              <p className="mt-1.5 text-xs text-fg-tertiary">
+                {selected.skuCount.toLocaleString()} SKUs need review ·{" "}
+                {selected.valueLabel} opportunity · {selected.daysUntil} days
+                out
               </p>
             </div>
+            <Button
+              size="sm"
+              className="shrink-0 bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
+              onClick={() => router.push(`/workbench?moment=${selected.id}`)}
+            >
+              Take Action
+              <ArrowUpRight className="size-3.5" aria-hidden />
+            </Button>
+          </div>
 
-            <div>
-              <DimensionRow dimensions={selected.dimensions} />
-            </div>
-          </CardContent>
-        </Card>
+          <p className="max-w-3xl type-body-lg text-fg-primary">
+            {selected.commonIssues}
+          </p>
+
+          <DimensionRow dimensions={selected.dimensions} />
+        </div>
       ) : null}
     </div>
   )

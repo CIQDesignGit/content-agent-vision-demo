@@ -5,8 +5,8 @@ export type PillarKind = "foundational" | "seasonal" | "aeo"
 export interface OpportunityMeterData {
   identifiedMillions: number
   realizedMillions: number
-  updatedLabel: string
-  rolloutLabel: string
+  /** When the identified opportunity is expected to be realized */
+  timelineLabel: string
 }
 
 export interface SecondaryStat {
@@ -14,6 +14,13 @@ export interface SecondaryStat {
   label: string
   value: string
   delta?: string
+}
+
+export interface LostToInactionData {
+  amountLabel: string
+  eventName: string
+  eventDateLabel: string
+  support: string
 }
 
 export interface ValuePillar {

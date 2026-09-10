@@ -1,4 +1,5 @@
 import type {
+  LostToInactionData,
   OpportunityMeterData,
   SecondaryStat,
   UpcomingMoment,
@@ -8,8 +9,7 @@ import type {
 export const opportunityMeter: OpportunityMeterData = {
   identifiedMillions: 5.7,
   realizedMillions: 1.84,
-  updatedLabel: "Updated 2 hrs ago",
-  rolloutLabel: "4 months into rollout",
+  timelineLabel: "end of 2026",
 }
 
 export const secondaryStats: SecondaryStat[] = [
@@ -25,7 +25,21 @@ export const secondaryStats: SecondaryStat[] = [
     value: "47 hrs",
     delta: "This month",
   },
+  {
+    id: "ai-rank",
+    label: "AI Rank",
+    value: "#2",
+    delta: "+1",
+  },
 ]
+
+export const lostToInaction: LostToInactionData = {
+  amountLabel: "$890K",
+  eventName: "Prime Day",
+  eventDateLabel: "Jul 2025",
+  support:
+    "210 deal SKUs still had title and bullet gaps when the event window closed.",
+}
 
 export const valuePillars: ValuePillar[] = [
   {
@@ -55,7 +69,7 @@ export const valuePillars: ValuePillar[] = [
   {
     id: "aeo",
     kind: "aeo",
-    title: "AI visibility (AEO)",
+    title: "AEO drive sales",
     displayValue: "$1.4M",
     support: "Share of voice in AI answers tracking up over the last 10 weeks.",
     confidence: "med",

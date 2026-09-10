@@ -18,17 +18,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import type { OpportunityMeterData, ValuePillar } from "./types"
+import type { OpportunityMeterData, SecondaryStat, ValuePillar } from "./types"
+import { SecondaryStats } from "./secondary-stats"
 
 interface OpportunityMeterProps {
   data: OpportunityMeterData
   pillars: ValuePillar[]
+  stats?: SecondaryStat[]
   onOpenAudit?: () => void
 }
 
 export function OpportunityMeter({
   data,
   pillars,
+  stats,
   onOpenAudit,
 }: OpportunityMeterProps) {
   const [calcOpen, setCalcOpen] = useState(false)
@@ -36,127 +39,140 @@ export function OpportunityMeter({
     100,
     Math.round((data.realizedMillions / data.identifiedMillions) * 100),
   )
+  const isInteractive = Boolean(onOpenAudit)
 
   return (
     <>
       <Card
-        role="button"
-        tabIndex={0}
+        role={isInteractive ? "button" : undefined}
+        tabIndex={isInteractive ? 0 : undefined}
         onClick={onOpenAudit}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault()
-            onOpenAudit?.()
-          }
-        }}
+        onKeyDown={
+          isInteractive
+            ? (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault()
+                  onOpenAudit?.()
+                }
+              }
+            : undefined
+        }
         className={cn(
-          "min-w-0 flex-1 cursor-pointer border-border-default bg-surface",
-          "shadow-none transition-colors hover:bg-surface-muted",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus",
+          "min-w-0 flex-1 rounded-2xl border-border-default bg-surface shadow-sm",
+          isInteractive &&
+            "cursor-pointer transition-colors hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus",
         )}
       >
-        <CardContent className="relative flex flex-col gap-6 p-6">
-          <button
-            type="button"
-            aria-label="How this number is calculated"
-            title="How this number is calculated"
-            className="absolute right-4 top-4 grid size-7 place-items-center rounded-md text-fg-tertiary transition-colors hover:bg-surface-subtle hover:text-fg-secondary"
-            onClick={(e) => {
-              e.stopPropagation()
-              setCalcOpen(true)
-            }}
-            onKeyDown={(e) => e.stopPropagation()}
-          >
-            <ScanSearch className="size-3.5" aria-hidden />
-          </button>
-
-          <div className="flex flex-wrap items-end justify-between gap-4 pr-8">
-            <div>
-              <p className="type-caption-strong uppercase tracking-wider text-fg-tertiary">
-                Identified opportunity
-              </p>
-              <div className="mt-2 flex items-center gap-3">
-                <p className="font-sans text-5xl font-semibold tracking-tight text-fg-brand tabular-nums">
-                  ${data.identifiedMillions.toFixed(1)}M
+        <CardContent className="relative flex flex-col p-0">
+          <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <p className="type-caption-strong uppercase tracking-wider text-fg-tertiary">
+                    Identified opportunity
+                  </p>
+                  <button
+                    type="button"
+                    aria-label="How this number is calculated"
+                    title="How this number is calculated"
+                    className="grid size-6 shrink-0 place-items-center rounded-md text-fg-tertiary transition-colors hover:bg-surface-subtle hover:text-fg-secondary"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setCalcOpen(true)
+                    }}
+                    onKeyDown={(e) => e.stopPropagation()}
+                  >
+                    <ScanSearch className="size-3.5" aria-hidden />
+                  </button>
+                </div>
+                <div className="mt-2 flex items-center gap-3">
+                  <p className="font-sans text-5xl font-semibold tracking-tight text-fg-brand tabular-nums">
+                    ${data.identifiedMillions.toFixed(1)}M
+                  </p>
+                  <Flag
+                    className="mb-1 size-5 shrink-0 text-action-primary fill-current"
+                    aria-hidden
+                  />
+                </div>
+                <p className="mt-2 type-caption text-fg-secondary">
+                  Expected to unlock by{" "}
+                  <span className="font-medium text-fg-primary">
+                    {data.timelineLabel}
+                  </span>
                 </p>
-                <Flag
-                  className="mb-1 size-5 shrink-0 text-action-primary fill-current"
-                  aria-hidden
-                />
+              </div>
+              <div className="text-right">
+                <p className="type-caption text-fg-tertiary">Realized so far</p>
+                <p className="mt-1 type-title tabular-nums text-feedback-success">
+                  ${data.realizedMillions.toFixed(2)}M
+                </p>
               </div>
             </div>
-            <div className="text-right">
-              <p className="type-caption text-fg-tertiary">Realized so far</p>
-              <p className="mt-1 type-title tabular-nums text-feedback-success">
-                ${data.realizedMillions.toFixed(2)}M
-              </p>
-            </div>
-          </div>
 
-          <div className="flex flex-col gap-2">
-            <div
-              className="relative h-1.5 w-full overflow-hidden rounded-full bg-surface-subtle"
-              role="progressbar"
-              aria-valuenow={pct}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              aria-label={`${pct}% of identified opportunity realized`}
-            >
+            <div className="flex flex-col gap-2">
               <div
-                className="h-full rounded-full bg-feedback-success"
-                style={{ width: `${pct}%` }}
-              />
-            </div>
-            <div className="flex items-center justify-between gap-3">
+                className="relative h-1.5 w-full overflow-hidden rounded-full bg-surface-subtle"
+                role="progressbar"
+                aria-valuenow={pct}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-label={`${pct}% of identified opportunity realized`}
+              >
+                <div
+                  className="h-full rounded-full bg-feedback-success"
+                  style={{ width: `${pct}%` }}
+                />
+              </div>
               <p className="type-caption text-fg-tertiary">
                 {pct}% of identified captured
               </p>
-              <p className="type-caption text-fg-tertiary">
-                {data.updatedLabel} · {data.rolloutLabel}
-              </p>
             </div>
+
+            <TooltipProvider delayDuration={200}>
+              <div className="grid grid-cols-3 gap-4">
+                {pillars.map((pillar) => (
+                  <div key={pillar.id} className="min-w-0">
+                    <div className="flex items-center gap-1">
+                      <p className="min-w-0 truncate text-xs font-medium text-fg-secondary">
+                        {pillar.title}
+                        {pillar.tag ? <span> · {pillar.tag.label}</span> : null}
+                      </p>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label={`About ${pillar.title}`}
+                            className="shrink-0 rounded-sm text-fg-tertiary transition-colors hover:text-fg-secondary"
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          >
+                            <Info className="size-3.5" aria-hidden />
+                          </button>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          side="bottom"
+                          className="max-w-xs type-caption"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <p>{pillar.methodology}</p>
+                          {pillar.benchmark ? (
+                            <p className="mt-1 opacity-80">{pillar.benchmark}</p>
+                          ) : null}
+                        </TooltipContent>
+                      </Tooltip>
+                    </div>
+                    <p className="mt-1 type-title tracking-tight text-fg-secondary tabular-nums">
+                      {pillar.displayValue}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </TooltipProvider>
           </div>
 
-          <TooltipProvider delayDuration={200}>
-            <div className="grid grid-cols-3 gap-4 border-t border-border-default pt-5">
-              {pillars.map((pillar) => (
-                <div key={pillar.id} className="min-w-0">
-                  <div className="flex items-center gap-1">
-                    <p className="type-caption min-w-0 truncate text-fg-tertiary">
-                      {pillar.title}
-                      {pillar.tag ? <span> · {pillar.tag.label}</span> : null}
-                    </p>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <button
-                          type="button"
-                          aria-label={`About ${pillar.title}`}
-                          className="shrink-0 rounded-sm text-fg-tertiary transition-colors hover:text-fg-secondary"
-                          onClick={(e) => e.stopPropagation()}
-                          onKeyDown={(e) => e.stopPropagation()}
-                        >
-                          <Info className="size-3.5" aria-hidden />
-                        </button>
-                      </TooltipTrigger>
-                      <TooltipContent
-                        side="bottom"
-                        className="max-w-xs type-caption"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <p>{pillar.methodology}</p>
-                        {pillar.benchmark ? (
-                          <p className="mt-1 opacity-80">{pillar.benchmark}</p>
-                        ) : null}
-                      </TooltipContent>
-                    </Tooltip>
-                  </div>
-                  <p className="mt-1 type-title tracking-tight text-fg-secondary tabular-nums">
-                    {pillar.displayValue}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </TooltipProvider>
+          {stats && stats.length > 0 ? (
+            <SecondaryStats stats={stats} variant="embedded" />
+          ) : null}
         </CardContent>
       </Card>
 

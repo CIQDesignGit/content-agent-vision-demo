@@ -1,15 +1,15 @@
 "use client"
 
-import { toast } from "sonner"
 import {
+  lostToInaction,
   opportunityMeter,
   secondaryStats,
   upcomingMoments,
   valuePillars,
 } from "./data"
+import { LostToInactionCard } from "./lost-to-inaction-card"
 import { MomentsStrip } from "./moments-strip"
 import { OpportunityMeter } from "./opportunity-meter"
-import { SecondaryStats } from "./secondary-stats"
 
 export function LaunchpadView() {
   return (
@@ -18,23 +18,24 @@ export function LaunchpadView() {
         aria-label="Opportunity overview"
         className="flex flex-col gap-3 lg:flex-row lg:items-stretch"
       >
-        <OpportunityMeter
-          data={opportunityMeter}
-          pillars={valuePillars}
-          onOpenAudit={() =>
-            toast("Audit view coming soon", {
-              description: "Opportunity meter detail is stubbed for v1.",
-            })
-          }
-        />
-        <SecondaryStats stats={secondaryStats} />
+        <div className="min-w-0 flex-1">
+          <OpportunityMeter
+            data={opportunityMeter}
+            pillars={valuePillars}
+            stats={secondaryStats}
+          />
+        </div>
+        <LostToInactionCard data={lostToInaction} />
       </section>
 
       <section aria-label="Action opportunities" className="flex flex-col gap-4">
         <div>
-          <h2 className="type-title text-fg-primary">Act on these moments</h2>
+          <h2 className="type-title text-fg-primary">
+            Dollars waiting to be unlocked
+          </h2>
           <p className="mt-1 type-body text-fg-tertiary">
-            Near-term windows where content changes unlock dollar impact now.
+            Upcoming events where a few content fixes can unlock sales before
+            the window closes.
           </p>
         </div>
         <MomentsStrip moments={upcomingMoments} />

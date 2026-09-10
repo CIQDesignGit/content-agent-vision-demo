@@ -10,10 +10,10 @@ import { PageShell } from "@/components/layout/page-shell"
 export default function LandingPage() {
   return (
     <PageShell>
-      <div className="flex min-h-screen flex-col bg-canvas">
+      <div className="flex min-h-screen flex-col bg-slate-50">
         <AppHeader />
-        <LaunchpadTabs />
-        <main className="flex-1 bg-canvas">
+        <LaunchpadTabs className="bg-surface" />
+        <main className="flex-1 bg-slate-50">
           <LaunchpadView />
         </main>
       </div>
