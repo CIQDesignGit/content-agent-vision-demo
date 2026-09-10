@@ -1,10 +1,8 @@
-import { ArrowUpRight } from "lucide-react"
-import { Card, CardContent } from "@ciq-dev/ciq-design-system"
 import type { SecondaryStat } from "./types"
 
 interface SecondaryStatsProps {
   stats: SecondaryStat[]
-  /** Flat row inside a parent card vs standalone cards */
+  /** Soft sub-cards inside a parent card vs standalone bordered cards */
   variant?: "cards" | "embedded"
 }
 
@@ -19,21 +17,18 @@ function StatValue({
 }) {
   return (
     <div className="flex shrink-0 items-baseline gap-1.5">
-      <p className="type-title tracking-tight text-fg-secondary tabular-nums">
+      <p className="font-sans text-xl font-semibold tracking-tight text-fg-primary tabular-nums">
         {stat.value}
       </p>
       {stat.delta ? (
         <p
           className={
             isPositive
-              ? "flex items-center gap-0.5 text-xs font-medium text-feedback-success"
-              : "flex items-center gap-0.5 type-caption text-fg-secondary"
+              ? "text-xs font-medium text-emerald-600"
+              : "type-caption text-fg-secondary"
           }
         >
-          {isPositive ? (
-            <ArrowUpRight className="size-3" aria-hidden />
-          ) : null}
-          <span>{stat.delta}</span>
+          {stat.delta}
         </p>
       ) : null}
     </div>
@@ -48,14 +43,14 @@ export function SecondaryStats({
     return (
       <div
         aria-label="Auxiliary metrics"
-        className="grid grid-cols-3 divide-x divide-border-default border-t border-border-default py-4"
+        className="grid grid-cols-3 gap-3"
       >
         {stats.map((stat) => {
           const isPositive = POSITIVE_DELTA_IDS.has(stat.id)
           return (
             <div
               key={stat.id}
-              className="flex min-w-0 flex-col gap-1 px-6"
+              className="flex min-w-0 flex-col gap-1.5 rounded-xl bg-slate-50 px-4 py-3"
             >
               <p className="min-w-0 truncate text-xs font-medium text-fg-tertiary">
                 {stat.label}
@@ -73,17 +68,15 @@ export function SecondaryStats({
       {stats.map((stat) => {
         const isPositive = POSITIVE_DELTA_IDS.has(stat.id)
         return (
-          <Card
+          <div
             key={stat.id}
-            className="rounded-2xl border-border-default bg-surface shadow-none"
+            className="flex items-center justify-between gap-3 rounded-2xl border border-border-default bg-surface px-4 py-3"
           >
-            <CardContent className="flex items-center justify-between gap-3 px-4 py-3">
-              <p className="min-w-0 truncate text-xs font-medium text-fg-secondary">
-                {stat.label}
-              </p>
-              <StatValue stat={stat} isPositive={isPositive} />
-            </CardContent>
-          </Card>
+            <p className="min-w-0 truncate text-xs font-medium text-fg-secondary">
+              {stat.label}
+            </p>
+            <StatValue stat={stat} isPositive={isPositive} />
+          </div>
         )
       })}
     </div>

@@ -60,12 +60,13 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
               className={cn(
                 "group rounded-xl border p-5 text-left transition-all",
                 active
-                  ? "border-action-primary bg-brand-50"
+                  ? "border-action-primary bg-brand-25"
                   : "border-border-default bg-surface hover:border-brand-200 hover:bg-surface-muted",
               )}
             >
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 type-caption text-fg-tertiary">
+                <p className="type-title text-fg-primary">{moment.name}</p>
+                <span className="inline-flex shrink-0 items-center gap-1.5 type-caption text-fg-tertiary">
                   {moment.daysUntil <= 10 ? (
                     <span className="relative flex size-1.5 shrink-0" aria-hidden>
                       <span className="absolute inline-flex size-full animate-ping rounded-full bg-feedback-danger opacity-60" />
@@ -76,11 +77,10 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
                   In {moment.daysUntil} days
                 </span>
               </div>
-              <p className="mt-3 type-title text-fg-primary">{moment.name}</p>
               <p className="mt-2 font-sans text-3xl font-semibold tracking-tight text-fg-brand tabular-nums">
                 {moment.valueLabel}
               </p>
-              <p className="mt-2 type-caption text-fg-tertiary">
+              <p className="mt-2 text-xs text-fg-tertiary">
                 {moment.skuCount.toLocaleString()} SKUs need review to unlock
                 this
               </p>

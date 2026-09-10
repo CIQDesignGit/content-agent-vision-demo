@@ -15,7 +15,7 @@ export const opportunityMeter: OpportunityMeterData = {
 export const secondaryStats: SecondaryStat[] = [
   {
     id: "actions",
-    label: "Actions taken so far",
+    label: "Actions taken",
     value: "128",
     delta: "+14",
   },
@@ -23,7 +23,6 @@ export const secondaryStats: SecondaryStat[] = [
     id: "time-saved",
     label: "Time saved",
     value: "47 hrs",
-    delta: "This month",
   },
   {
     id: "ai-rank",
@@ -69,7 +68,7 @@ export const valuePillars: ValuePillar[] = [
   {
     id: "aeo",
     kind: "aeo",
-    title: "AEO drive sales",
+    title: "AI driven sales",
     displayValue: "$1.4M",
     support: "Share of voice in AI answers tracking up over the last 10 weeks.",
     confidence: "med",
