@@ -15,23 +15,17 @@ import {
 import { OpportunityStatusTrack } from "./opportunity-status-track"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
-/** Teal = banked · brand violet = live money to act on · hatch = not yet activated. */
+/** Sequential data ramp: solid and deep = settled, fading = least committed. */
 const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
-  captured: "bg-teal-500",
-  deadline: "bg-brand-500",
-  open: "bg-[repeating-linear-gradient(-45deg,var(--color-brand-300),var(--color-brand-300)_1.5px,var(--color-brand-50),var(--color-brand-50)_6px)]",
+  captured: "bg-data-1",
+  deadline: "bg-data-2",
+  open: "bg-[repeating-linear-gradient(-45deg,var(--color-data-3),var(--color-data-3)_1.5px,var(--color-data-5),var(--color-data-5)_6px)]",
 }
 
 const DOT_FILL: Record<OpportunityStatusKind, string> = {
-  captured: "bg-teal-500",
-  deadline: "bg-brand-500",
-  open: "bg-brand-200",
-}
-
-const AMOUNT_TONE: Record<OpportunityStatusKind, string> = {
-  captured: "text-teal-700",
-  deadline: "text-brand-700",
-  open: "text-brand-500",
+  captured: "bg-data-1",
+  deadline: "bg-data-2",
+  open: "bg-data-4",
 }
 
 interface OpportunityStatusBarProps {
@@ -80,11 +74,10 @@ export function OpportunityStatusBar({
               key={segment.id}
               swatchClassName={DOT_FILL[segment.id]}
               swatchRingClassName={
-                segment.id === "open" ? "ring-1 ring-brand-300" : undefined
+                segment.id === "open" ? "ring-1 ring-data-3" : undefined
               }
               label={segment.label}
               amountLabel={segment.amountLabel}
-              amountClassName={AMOUNT_TONE[segment.id]}
               dimmed={hoveredId != null && hoveredId !== segment.id}
               info={
                 <Tooltip>

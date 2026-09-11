@@ -12,17 +12,16 @@ interface HistoryCardProps {
 
 const TONE = {
   captured: {
-    accent: "bg-teal-400",
     icon: "bg-teal-50 text-teal-600 ring-teal-100",
     badge: "bg-teal-50 text-teal-700 ring-teal-100",
     value: "text-teal-700",
     Icon: CircleCheck,
   },
+  /** Red is earned here — this is value the user lost by not acting. */
   forfeited: {
-    accent: "bg-slate-300",
-    icon: "bg-slate-50 text-slate-400 ring-slate-200",
-    badge: "bg-slate-100 text-slate-500 ring-slate-200",
-    value: "text-slate-400",
+    icon: "bg-error-50 text-error-600 ring-error-100",
+    badge: "bg-error-50 text-error-700 ring-error-100",
+    value: "text-error-600",
     Icon: CircleSlash,
   },
 } as const
@@ -38,13 +37,7 @@ function HistoryCard({
   const Icon = style.Icon
 
   return (
-    <Card className="relative min-w-0 overflow-hidden rounded-2xl border-0 bg-white/80 ring-1 ring-slate-900/6 backdrop-blur-md shadow-pane!">
-      {/* Tone lives in a hairline accent, not a filled header block. */}
-      <span
-        aria-hidden
-        className={cn("absolute inset-x-0 top-0 h-0.5", style.accent)}
-      />
-
+    <Card className="min-w-0 overflow-hidden rounded-2xl border-0 bg-white/80 ring-1 ring-slate-900/6 backdrop-blur-md shadow-pane!">
       <CardContent className="p-0">
         <div className="flex items-start justify-between gap-4 px-5 pt-5 pb-4">
           <div className="flex min-w-0 items-start gap-3">
@@ -73,36 +66,43 @@ function HistoryCard({
           </span>
         </div>
 
+        {/* Ledger rows, not a hero figure per event — the pattern repeats
+            cleanly whether there is one window or a dozen. */}
         <ul className="divide-y divide-slate-100 border-t border-slate-100">
           {events.map((event) => (
-            <li key={event.id}>
-              <div className="px-5 pt-5 pb-4">
-                <p
-                  className={cn(
-                    "font-sans text-3xl font-semibold leading-none tracking-[-0.03em] tabular-nums",
-                    style.value,
-                  )}
-                >
-                  {event.valueLabel}
-                </p>
-                <p className="mt-2 truncate text-sm font-semibold text-slate-900">
+            <li
+              key={event.id}
+              className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-slate-50/70"
+            >
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold text-slate-900">
                   {event.name}
                 </p>
-              </div>
-              <div className="grid grid-cols-2 border-t border-slate-100 bg-slate-50/60">
-                <div className="flex items-center gap-2 px-5 py-3 text-xs text-slate-500">
-                  <Package className="size-3.5 text-slate-300" aria-hidden />
-                  <span className="font-medium tabular-nums">
-                    {event.skuCount.toLocaleString()} SKUs
+                <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-400">
+                  <span className="inline-flex items-center gap-1.5">
+                    <Package className="size-3.5 shrink-0" aria-hidden />
+                    <span className="font-medium tabular-nums">
+                      {event.skuCount.toLocaleString()} SKUs
+                    </span>
                   </span>
-                </div>
-                <div className="flex items-center justify-end gap-2 border-l border-slate-100 px-5 py-3 text-xs text-slate-500">
-                  <CalendarDays className="size-3.5 text-slate-300" aria-hidden />
-                  <span className="font-medium tabular-nums">
-                    {tone === "captured" ? "Captured" : "Closed"} {event.dateLabel}
+                  <span aria-hidden>·</span>
+                  <span className="inline-flex items-center gap-1.5">
+                    <CalendarDays className="size-3.5 shrink-0" aria-hidden />
+                    <span className="font-medium tabular-nums">
+                      {tone === "captured" ? "Captured" : "Closed"}{" "}
+                      {event.dateLabel}
+                    </span>
                   </span>
-                </div>
+                </p>
               </div>
+              <p
+                className={cn(
+                  "shrink-0 font-sans text-2xl font-semibold tracking-[-0.02em] tabular-nums",
+                  style.value,
+                )}
+              >
+                {event.valueLabel}
+              </p>
             </li>
           ))}
         </ul>

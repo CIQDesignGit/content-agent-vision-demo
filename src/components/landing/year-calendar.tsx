@@ -19,7 +19,7 @@ export function YearCalendar({ yearLabel, events }: YearCalendarProps) {
   return (
     <div className="flex flex-col gap-14">
       <CalendarEventSection
-        label="Upcoming opportunities"
+        label="Dollars waiting to be unlocked"
         description={`Publish-by deadlines on your ${yearLabel} calendar — not the event dates themselves.`}
         items={openEvents}
         activeRing

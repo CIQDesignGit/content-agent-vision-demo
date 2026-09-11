@@ -10,11 +10,11 @@ import type {
   MomentDimensionInsight,
 } from "./types"
 
-/** Matches the driver hues used by the opportunity breakdown legend. */
+/** Same data ramp, same kind-to-step mapping, as the breakdown legend. */
 const DRIVER_DOT: Record<CalendarDriverKind, string> = {
-  seasonal: "bg-sky-500",
-  aeo: "bg-teal-500",
-  foundational: "bg-brand-500",
+  foundational: "bg-data-1",
+  seasonal: "bg-data-2",
+  aeo: "bg-data-3",
 }
 
 interface CalendarEventDetailProps {

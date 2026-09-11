@@ -35,9 +35,11 @@ function statusMeta(event: CalendarEvent) {
   const urgent = event.daysToAct != null && event.daysToAct <= URGENT_DAYS
   return {
     muted: false,
+    // Only the urgent window gets colour, so it is the one thing that pulls
+    // the eye down the list.
     pill: urgent
       ? "bg-warning-50 text-warning-700 ring-warning-200"
-      : "bg-brand-50 text-brand-700 ring-brand-100",
+      : "bg-slate-50 text-slate-600 ring-slate-200",
     Icon: CalendarClock,
     label:
       event.daysToAct != null

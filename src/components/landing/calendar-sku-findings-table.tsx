@@ -3,10 +3,12 @@
 import { cn } from "@ciq-dev/ciq-design-system"
 import type { CalendarDriverKind, CalendarSkuFinding } from "./types"
 
-const DRIVER_BADGE: Record<CalendarDriverKind, string> = {
-  seasonal: "bg-sky-50 text-sky-700 ring-sky-100",
-  aeo: "bg-teal-50 text-teal-700 ring-teal-100",
-  foundational: "bg-brand-50 text-brand-700 ring-brand-100",
+/** Swatch + label instead of a tinted pill — same mapping as the chart legend,
+ *  and it keeps colored chips out of a dense table. */
+const DRIVER_DOT: Record<CalendarDriverKind, string> = {
+  foundational: "bg-data-1",
+  seasonal: "bg-data-2",
+  aeo: "bg-data-3",
 }
 
 export function CalendarSkuFindingsTable({
@@ -50,12 +52,14 @@ export function CalendarSkuFindingsTable({
                 {row.impactLabel}
               </td>
               <td className="py-3 pr-4 align-middle">
-                <span
-                  className={cn(
-                    "inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset",
-                    DRIVER_BADGE[row.driver],
-                  )}
-                >
+                <span className="inline-flex items-center gap-2 text-xs font-medium text-slate-600">
+                  <span
+                    className={cn(
+                      "size-2 shrink-0 rounded-full",
+                      DRIVER_DOT[row.driver],
+                    )}
+                    aria-hidden
+                  />
                   {row.driverLabel}
                 </span>
               </td>

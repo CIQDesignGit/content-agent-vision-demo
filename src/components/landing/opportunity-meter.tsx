@@ -56,13 +56,13 @@ export function OpportunityMeter({
               carry the weight. tabular-nums stays on the digits only —
               on "$" and "M" it just adds dead advance width. */}
           <p className="flex items-start font-sans font-semibold leading-none text-brand-950">
-            <span className="mt-1 -mr-1 text-3xl text-brand-500 sm:mt-1.5 sm:text-4xl">
+            <span className="mt-1 -mr-1 text-3xl text-slate-600 sm:mt-1.5 sm:text-4xl">
               $
             </span>
             <span className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl">
               {data.identifiedMillions.toFixed(2)}
             </span>
-            <span className="mt-1 ml-1 text-3xl text-brand-500 sm:mt-1.5 sm:text-4xl">
+            <span className="mt-1 ml-1 text-3xl text-slate-600 sm:mt-1.5 sm:text-4xl">
               M
             </span>
           </p>

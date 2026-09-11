@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@ciq-dev/ciq-design-system"
 
 export const LAUNCHPAD_TABS = [
-  { id: "glance", label: "At a Glance", href: "/" },
+  { id: "glance", label: "Overview", href: "/" },
   { id: "review", label: "Review", href: "/workbench" },
   { id: "impact", label: "Impact", href: "/impact" },
   { id: "settings", label: "Settings", href: "/settings" },

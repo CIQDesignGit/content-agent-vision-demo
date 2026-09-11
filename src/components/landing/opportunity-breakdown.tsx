@@ -16,16 +16,11 @@ import {
 } from "./composition-bar"
 import type { PillarKind, ValuePillar } from "./types"
 
+/** Same sequential ramp as the status view — one palette for all charts. */
 const SEGMENT_FILL: Record<PillarKind, string> = {
-  foundational: "bg-brand-500",
-  seasonal: "bg-sky-500",
-  aeo: "bg-teal-500",
-}
-
-const AMOUNT_TONE: Record<PillarKind, string> = {
-  foundational: "text-brand-700",
-  seasonal: "text-sky-700",
-  aeo: "text-teal-700",
+  foundational: "bg-data-1",
+  seasonal: "bg-data-2",
+  aeo: "bg-data-3",
 }
 
 function parseMillions(displayValue: string): number {
@@ -80,7 +75,6 @@ export function OpportunityBreakdown({
               swatchClassName={SEGMENT_FILL[pillar.kind]}
               label={pillar.title}
               amountLabel={pillar.displayValue}
-              amountClassName={AMOUNT_TONE[pillar.kind]}
               info={
                 <Tooltip>
                   <TooltipTrigger asChild>

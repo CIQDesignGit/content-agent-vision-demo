@@ -14,27 +14,20 @@ export function UpNextCard({ data }: UpNextCardProps) {
   const [expandedId, setExpandedId] = useState(items[0]?.id ?? "")
 
   return (
-    <Card className="relative flex w-full shrink-0 flex-col self-stretch overflow-hidden rounded-3xl border-0 bg-brand-950 !shadow-pane-brand lg:w-[340px]">
-      {/* Inverted surface so the action zone reads as the one place to click. */}
+    <Card className="relative flex w-full shrink-0 flex-col self-stretch overflow-hidden rounded-3xl border-0 bg-brand-25 ring-1 ring-brand-200/70 !shadow-pane-lg lg:w-[340px]">
+      {/* Faint brand tint plus the page's only filled button is enough to mark
+          this as the action pane — no inverted surface required. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 -top-32 h-72 bg-[radial-gradient(60%_100%_at_50%_50%,var(--color-brand-600),transparent_70%)] opacity-70"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-20 -bottom-24 size-64 rounded-full bg-brand-500/25 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-white/10 ring-inset"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(70%_100%_at_50%_0%,var(--color-brand-100),transparent_75%)]"
       />
 
       <CardContent className="relative flex min-h-0 flex-1 flex-col p-7">
-        <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-300">
+        <p className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-600">
           Up next
         </p>
 
-        <ul className="mt-4 flex min-h-0 flex-1 flex-col divide-y divide-white/10">
+        <ul className="mt-4 flex min-h-0 flex-1 flex-col divide-y divide-brand-200/60">
           {items.map((item) => (
             <UpNextActionItem
               key={item.id}

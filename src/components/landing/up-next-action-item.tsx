@@ -14,8 +14,8 @@ interface UpNextActionItemProps {
 export const UP_NEXT_COLLAPSED_H = "h-12"
 
 const SPEC_ROW = "flex items-center justify-between py-3.5"
-const SPEC_LABEL = "text-xs text-brand-300"
-const SPEC_VALUE = "text-sm font-semibold text-white"
+const SPEC_LABEL = "text-xs text-slate-500"
+const SPEC_VALUE = "text-sm font-semibold text-slate-900"
 
 export function UpNextActionItem({
   item,
@@ -34,14 +34,14 @@ export function UpNextActionItem({
           className="group flex h-full w-full items-center justify-between gap-3 text-left"
         >
           <span className="min-w-0 truncate">
-            <span className="text-sm font-semibold text-brand-100 transition-colors group-hover:text-white">
+            <span className="text-sm font-semibold text-slate-700 transition-colors group-hover:text-brand-800">
               {item.name}
             </span>
-            <span className="ml-2 text-xs text-brand-400">
+            <span className="ml-2 text-xs text-slate-400">
               {item.publishBy}
             </span>
           </span>
-          <span className="shrink-0 text-sm font-medium tabular-nums text-brand-200">
+          <span className="shrink-0 text-sm font-medium tabular-nums text-slate-600">
             {item.valueLabel}
           </span>
         </button>
@@ -58,10 +58,10 @@ export function UpNextActionItem({
           aria-expanded
           className="text-left"
         >
-          <p className="text-base font-semibold leading-snug text-white">
+          <p className="text-base font-semibold leading-snug text-slate-900">
             {item.name}
           </p>
-          <p className="mt-2 font-sans text-4xl font-semibold leading-none tracking-[-0.03em] text-white tabular-nums">
+          <p className="mt-2 font-sans text-4xl font-semibold leading-none tracking-[-0.03em] text-brand-950 tabular-nums">
             {item.valueLabel}
           </p>
         </button>
@@ -69,7 +69,7 @@ export function UpNextActionItem({
         {/* Spec list rather than a 3-up grid — each label/value pair gets its
             own baseline. my-auto splits the leftover height evenly above and
             below so the pane reads as composed rather than bottom-weighted. */}
-        <dl className="my-auto flex flex-col divide-y divide-white/10 border-y border-white/10">
+        <dl className="my-auto flex flex-col divide-y divide-brand-200/60 border-y border-brand-200/60">
           <div className={SPEC_ROW}>
             <dt className={SPEC_LABEL}>Publish by</dt>
             <dd className={`${SPEC_VALUE} tabular-nums`}>{item.publishBy}</dd>
@@ -86,7 +86,7 @@ export function UpNextActionItem({
 
         <div className="pt-2">
           <Button
-            className="group h-11 w-full rounded-xl bg-white text-sm font-semibold text-brand-950 shadow-lg transition-colors hover:bg-brand-50 focus:outline-white"
+            className="group h-11 w-full rounded-xl bg-brand-700 text-sm font-semibold text-white transition-colors hover:bg-brand-800 focus:outline-brand-700"
             onClick={() => router.push(`/workbench?moment=${item.id}`)}
           >
             Review {item.skuCount} SKUs

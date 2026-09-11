@@ -36,13 +36,13 @@ function BarMarker({
       <span
         className={cn(
           "whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white shadow-sm",
-          emphasis ? "bg-slate-900" : "bg-brand-900",
+          emphasis ? "bg-slate-900" : "bg-slate-700",
         )}
       >
         {label}
       </span>
       <span
-        className={cn("h-2 w-px", emphasis ? "bg-slate-900" : "bg-brand-900")}
+        className={cn("h-2 w-px", emphasis ? "bg-slate-900" : "bg-slate-700")}
         aria-hidden
       />
     </div>
@@ -139,14 +139,13 @@ export function OpportunityStatusTrack({
           ))}
         </CompositionBarTrack>
 
+        {/* One needle only. On hover the segment brightens and its siblings
+            dim, so a second needle would just add noise. */}
         <TrackNeedle
           leftPct={markerLeft}
-          tone="bg-brand-900"
+          tone="bg-slate-900"
           faded={hoveredId != null}
         />
-        {hovered ? (
-          <TrackNeedle leftPct={hovered.mid} tone="bg-slate-900" />
-        ) : null}
       </div>
     </CompositionBarFrame>
   )

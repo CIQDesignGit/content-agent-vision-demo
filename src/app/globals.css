@@ -157,6 +157,22 @@
   --color-info-600: #2563eb;
   --color-info-700: #1d4ed8;
 
+  /* ── Data visualization — cool arc ──────────
+     Deliberately OUTSIDE the semantic scale, so a chart
+     fill can never be misread as a status: no violet
+     (brand), red (error), green (success) or amber
+     (warning) anywhere in this ramp.
+     A continuous hue arc — azure 221° → cerulean 197°
+     → cyan 186° → aqua — so the steps are genuinely
+     different colors while still reading as one family.
+     data-1 = most settled, data-4 = least.
+     Never mix these with semantic colors in one chart. */
+  --color-data-1: #1d4fd8;
+  --color-data-2: #0b93d5;
+  --color-data-3: #22c9dd;
+  --color-data-4: #9fe4ee;
+  --color-data-5: #ecfbfd;
+
   /* ── Neutral — Gray ─────────────────────── */
   --color-neutral-50:  #f9fafb;
   --color-neutral-100: #f3f4f6;

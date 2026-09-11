@@ -45,7 +45,7 @@ export function CompositionBarSegment({
   return (
     <div
       className={cn(
-        "relative h-full min-w-0 origin-center overflow-hidden rounded-[3px] transition-[filter,opacity] duration-200",
+        "relative h-full min-w-0 overflow-hidden rounded-[3px] transition-[filter,opacity] duration-200",
         onHoverChange && "cursor-pointer hover:brightness-110 hover:saturate-125",
         dimmed && "opacity-35",
         isFirst && "rounded-l-full",
@@ -59,11 +59,9 @@ export function CompositionBarSegment({
       onFocus={() => onHoverChange?.(true)}
       onBlur={() => onHoverChange?.(false)}
     >
-      {/* Top sheen — gives the fill dimension without a gradient fill. */}
-      <span
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-1/2 bg-white/20"
-      />
+      {/* Top-half highlight — reads as a lit, slightly convex fill without
+          needing a gradient on the fill colour itself. */}
+      <span aria-hidden className="absolute inset-x-0 top-0 h-1/2 bg-white/20" />
     </div>
   )
 }
@@ -105,7 +103,6 @@ export function CompositionBarLegendItem({
   swatchRingClassName,
   label,
   amountLabel,
-  amountClassName,
   info,
   dimmed,
 }: {
@@ -113,7 +110,6 @@ export function CompositionBarLegendItem({
   swatchRingClassName?: string
   label: string
   amountLabel: string
-  amountClassName: string
   info?: ReactNode
   dimmed?: boolean
 }) {
@@ -127,7 +123,7 @@ export function CompositionBarLegendItem({
       <span className="flex items-center gap-2 text-xs font-medium text-slate-500">
         <span
           className={cn(
-            "size-2 shrink-0 rounded-full",
+            "size-2.5 shrink-0 rounded-full",
             swatchClassName,
             swatchRingClassName,
           )}
@@ -136,12 +132,9 @@ export function CompositionBarLegendItem({
         <span className="truncate">{label}</span>
         {info}
       </span>
-      <span
-        className={cn(
-          "pl-4 font-sans text-lg font-semibold tracking-tight tabular-nums",
-          amountClassName,
-        )}
-      >
+      {/* Amount stays neutral — the swatch already carries the mapping, and
+          a colored figure would compete with the headline value. */}
+      <span className="pl-4 font-sans text-lg font-semibold tracking-tight tabular-nums text-slate-900">
         {amountLabel}
       </span>
     </li>
