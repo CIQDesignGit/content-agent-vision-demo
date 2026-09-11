@@ -9,7 +9,7 @@ export function LostToInactionCard({ data }: LostToInactionCardProps) {
   return (
     <Card
       className={cn(
-        "relative flex w-full shrink-0 overflow-hidden rounded-2xl !border-red-100 bg-surface shadow-sm lg:w-70",
+        "relative flex w-full shrink-0 overflow-hidden rounded-2xl !border-red-100 bg-surface shadow-brand-soft lg:w-70",
         "bg-linear-to-bl from-red-50/50 via-25% via-surface to-surface",
       )}
     >

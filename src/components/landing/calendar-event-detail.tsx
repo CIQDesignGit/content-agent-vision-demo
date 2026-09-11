@@ -101,7 +101,7 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
       {hasInsightRow ? (
         <div className="border-b border-slate-100">
           {event.insightSummary ? (
-            <div className="bg-linear-to-r from-brand-100 via-brand-50 to-surface px-3 py-3.5">
+            <div className="bg-linear-to-r from-brand-50 via-brand-50/40 to-surface px-3 py-3.5">
               <p className="text-sm leading-relaxed text-fg-secondary">
                 {event.insightSummary}
               </p>
@@ -137,7 +137,7 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
         <Button
           size="sm"
           className="shrink-0 bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
-          onClick={() => router.push("/impact")}
+          onClick={() => router.push(`/impact?moment=${event.id}`)}
         >
           View impact
           <ArrowUpRight className="size-3.5" aria-hidden />

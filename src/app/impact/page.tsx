@@ -2,9 +2,19 @@
 
 export const dynamic = "force-static"
 
+import { Suspense } from "react"
 import { AppHeader } from "@/components/home/app-header"
+import { ImpactView } from "@/components/impact/impact-view"
 import { LaunchpadTabs } from "@/components/landing/launchpad-tabs"
 import { PageShell } from "@/components/layout/page-shell"
+
+function ImpactFallback() {
+  return (
+    <div className="mx-auto w-full max-w-[1200px] px-6 py-6">
+      <div className="h-40 animate-pulse rounded-2xl bg-slate-100" />
+    </div>
+  )
+}
 
 export default function ImpactPage() {
   return (
@@ -13,14 +23,9 @@ export default function ImpactPage() {
         <AppHeader />
         <LaunchpadTabs />
         <main className="flex-1 bg-canvas">
-          <div className="mx-auto max-w-[1200px] px-6 py-8">
-            <div className="rounded-xl border border-border-default bg-surface px-6 py-20 text-center">
-              <h1 className="type-title text-fg-primary">Impact</h1>
-              <p className="mx-auto mt-2 max-w-md type-body text-fg-tertiary">
-                Realized vs identified impact over time. Coming next.
-              </p>
-            </div>
-          </div>
+          <Suspense fallback={<ImpactFallback />}>
+            <ImpactView />
+          </Suspense>
         </main>
       </div>
     </PageShell>

@@ -30,23 +30,34 @@ export function CompositionBarSegment({
   title,
   isFirst,
   isLast,
+  dimmed,
+  onHoverChange,
 }: {
   widthPct: number
   className?: string
   title?: string
   isFirst: boolean
   isLast: boolean
+  /** Soften sibling segments while another is hovered */
+  dimmed?: boolean
+  onHoverChange?: (hovered: boolean) => void
 }) {
   return (
     <div
       className={cn(
-        "h-full min-w-0",
+        "h-full min-w-0 origin-center transition-[filter,opacity,transform] duration-150",
+        onHoverChange && "cursor-pointer hover:brightness-110 hover:saturate-125",
+        dimmed && "opacity-40",
         isFirst && "rounded-l-lg",
         isLast && "rounded-r-lg",
         className,
       )}
       style={{ width: `${widthPct}%` }}
       title={title}
+      onMouseEnter={() => onHoverChange?.(true)}
+      onMouseLeave={() => onHoverChange?.(false)}
+      onFocus={() => onHoverChange?.(true)}
+      onBlur={() => onHoverChange?.(false)}
     />
   )
 }

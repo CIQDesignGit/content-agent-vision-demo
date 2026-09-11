@@ -14,7 +14,7 @@ export function UpNextCard({ data }: UpNextCardProps) {
   const [expandedId, setExpandedId] = useState(items[0]?.id ?? "")
 
   return (
-    <Card className="flex w-full shrink-0 flex-col self-stretch overflow-hidden rounded-2xl border-border-default bg-surface shadow-sm lg:w-80">
+    <Card className="flex w-full shrink-0 flex-col self-stretch overflow-hidden rounded-2xl border-border-default bg-surface !shadow-brand-soft lg:w-80">
       <CardContent className="flex min-h-0 flex-1 flex-col p-6">
         <p className="shrink-0 text-sm text-fg-tertiary">Up next</p>
 

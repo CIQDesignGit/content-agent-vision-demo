@@ -77,6 +77,11 @@
   --shadow-2xl:      0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-brand:    0 4px 14px 0 rgb(135 91 247 / 0.35);  /* brand glow */
   --shadow-brand-lg: 0 8px 28px 0 rgb(135 91 247 / 0.40); /* brand glow — large */
+  /* Soft card lift — wide blur, barely-there brand tint */
+  --shadow-brand-soft:
+    0 4px 24px -4px rgb(15 23 42 / 0.04),
+    0 20px 60px -12px rgb(135 91 247 / 0.04),
+    0 40px 100px -20px rgb(135 91 247 / 0.025);
   --shadow-inner:    inset 0 2px 4px 0 rgb(0 0 0 / 0.06);
 
   /* ── Brand — Purple (Figma Purple/500 = #875BF7) ── */

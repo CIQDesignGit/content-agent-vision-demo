@@ -80,7 +80,7 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
             <ArrowLeft className="size-5" />
           </Link>
         ) : (
-          <div className="grid size-8 place-items-center rounded-md bg-primary text-white">
+          <div className="grid size-8 place-items-center rounded-md bg-brand-700 text-white">
             <Home className="size-4" />
           </div>
         )}

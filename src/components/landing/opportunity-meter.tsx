@@ -35,7 +35,7 @@ export function OpportunityMeter({
   const totalAmountLabel = `$${data.identifiedMillions.toFixed(2)}M`
 
   return (
-    <Card className="min-w-0 flex-1 rounded-2xl border-border-default bg-surface shadow-sm">
+    <Card className="min-w-0 flex-1 rounded-2xl border-border-default bg-surface !shadow-brand-soft">
       <CardContent className="flex flex-col gap-6 p-6">
         <div className="flex flex-col gap-1">
           <p className="text-sm text-fg-tertiary">

@@ -50,7 +50,7 @@ export function CalendarEventRow({
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl border border-border-default bg-surface shadow-sm",
+        "overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft",
         forfeited && "opacity-70",
       )}
     >

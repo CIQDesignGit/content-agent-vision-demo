@@ -10,7 +10,7 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
   return (
     <div
       aria-label="Key performance metrics"
-      className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border-default bg-surface shadow-sm sm:grid-cols-4"
+      className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft sm:grid-cols-4"
     >
       {stats.map((stat, index) => {
         const isPositive = POSITIVE_DELTA_IDS.has(stat.id)
