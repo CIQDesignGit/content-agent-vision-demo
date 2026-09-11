@@ -68,7 +68,7 @@ interface AppHeaderProps {
 
 export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: AppHeaderProps) {
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4">
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/70 px-4 backdrop-blur-xl">
       <div className="flex items-center gap-3">
         {/* Left button — back link or brand mark */}
         {backHref ? (

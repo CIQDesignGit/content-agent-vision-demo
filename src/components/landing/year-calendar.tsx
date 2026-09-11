@@ -17,7 +17,7 @@ export function YearCalendar({ yearLabel, events }: YearCalendarProps) {
   const forfeitedEvents = events.filter((e) => e.status === "forfeited")
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-14">
       <CalendarEventSection
         label="Upcoming opportunities"
         description={`Publish-by deadlines on your ${yearLabel} calendar — not the event dates themselves.`}

@@ -16,12 +16,12 @@ import { YearCalendar } from "./year-calendar"
 
 export function LaunchpadView() {
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-6 py-8">
+    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-10 pb-16">
       <section
         aria-label="Opportunity overview"
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-4"
       >
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch lg:min-h-[400px]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:min-h-[420px]">
           <OpportunityMeter
             data={opportunityMeter}
             statusSegments={opportunityByStatus}

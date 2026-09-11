@@ -1,19 +1,20 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Sparkles } from "lucide-react"
 import { Button, cn } from "@ciq-dev/ciq-design-system"
+import { CalendarSkuFindingsTable } from "./calendar-sku-findings-table"
 import type {
   CalendarDriverKind,
   CalendarEvent,
-  CalendarSkuFinding,
   MomentDimensionInsight,
 } from "./types"
 
-const DRIVER_BADGE: Record<CalendarDriverKind, string> = {
-  seasonal: "bg-sky-100 text-sky-800",
-  aeo: "bg-brand-100 text-brand-800",
-  foundational: "bg-slate-100 text-slate-700",
+/** Matches the driver hues used by the opportunity breakdown legend. */
+const DRIVER_DOT: Record<CalendarDriverKind, string> = {
+  seasonal: "bg-sky-500",
+  aeo: "bg-teal-500",
+  foundational: "bg-brand-500",
 }
 
 interface CalendarEventDetailProps {
@@ -25,69 +26,19 @@ function LiftBreakdown({ dimensions }: { dimensions: MomentDimensionInsight[] })
     <ul className="grid grid-cols-3 gap-4">
       {dimensions.map((dim) => (
         <li key={dim.kind} className="min-w-0">
-          <p className="font-sans text-sm font-semibold tabular-nums tracking-tight text-fg-primary">
+          <p className="flex items-center gap-1.5 text-xs text-slate-500">
+            <span
+              className={cn("size-2 shrink-0 rounded-full", DRIVER_DOT[dim.kind])}
+              aria-hidden
+            />
+            <span className="truncate">{dim.label}</span>
+          </p>
+          <p className="mt-1 pl-3.5 font-sans text-base font-semibold tabular-nums tracking-tight text-slate-900">
             {dim.potential}
           </p>
-          <p className="mt-0.5 text-xs text-fg-tertiary">{dim.label}</p>
         </li>
       ))}
     </ul>
-  )
-}
-
-function SkuFindingsTable({ findings }: { findings: CalendarSkuFinding[] }) {
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[640px] border-collapse text-left">
-        <thead>
-          <tr className="border-b border-slate-100 text-xs font-medium text-fg-tertiary">
-            <th className="px-3 py-2.5 pr-4 font-medium">SKU</th>
-            <th className="py-2.5 pr-4 text-right font-medium">Impact</th>
-            <th className="py-2.5 pr-4 font-medium">Driver</th>
-            <th className="px-3 py-2.5 pl-0 font-medium">What the agent found</th>
-          </tr>
-        </thead>
-        <tbody>
-          {findings.map((row) => (
-            <tr key={row.id} className="border-b border-slate-100 last:border-0">
-              <td className="px-3 py-3 pr-4 align-middle">
-                <div className="flex items-center gap-3">
-                  <img
-                    src={row.imageUrl}
-                    alt=""
-                    className="size-10 shrink-0 rounded-md border border-slate-200 object-cover"
-                  />
-                  <div className="min-w-0">
-                    <p className="truncate text-sm font-medium text-fg-primary">
-                      {row.name}
-                    </p>
-                    <p className="font-mono text-xs text-fg-tertiary">
-                      {row.asin}
-                    </p>
-                  </div>
-                </div>
-              </td>
-              <td className="py-3 pr-4 text-right align-middle text-sm font-semibold tabular-nums text-fg-primary">
-                {row.impactLabel}
-              </td>
-              <td className="py-3 pr-4 align-middle">
-                <span
-                  className={cn(
-                    "inline-flex rounded-md px-2 py-0.5 text-xs font-medium",
-                    DRIVER_BADGE[row.driver],
-                  )}
-                >
-                  {row.driverLabel}
-                </span>
-              </td>
-              <td className="px-3 py-3 pl-0 align-middle text-sm text-fg-secondary">
-                {row.finding}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
   )
 }
 
@@ -101,8 +52,11 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
       {hasInsightRow ? (
         <div className="border-b border-slate-100">
           {event.insightSummary ? (
-            <div className="bg-linear-to-r from-brand-50 via-brand-50/40 to-surface px-3 py-3.5">
-              <p className="text-sm leading-relaxed text-fg-secondary">
+            <div className="flex items-start gap-3 bg-brand-50/60 px-4 py-4">
+              <span className="mt-0.5 grid size-6 shrink-0 place-items-center rounded-full bg-white text-brand-600 ring-1 ring-brand-100">
+                <Sparkles className="size-3.5" aria-hidden />
+              </span>
+              <p className="text-sm leading-relaxed text-slate-600">
                 {event.insightSummary}
               </p>
             </div>
@@ -111,8 +65,8 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
           {event.dimensions?.length ? (
             <div
               className={cn(
-                "px-3 py-3",
-                event.insightSummary && "border-t border-slate-200",
+                "px-4 py-4",
+                event.insightSummary && "border-t border-brand-100",
               )}
             >
               <LiftBreakdown dimensions={event.dimensions} />
@@ -122,12 +76,12 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
       ) : null}
 
       {event.skuFindings?.length ? (
-        <SkuFindingsTable findings={event.skuFindings} />
+        <CalendarSkuFindingsTable findings={event.skuFindings} />
       ) : null}
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 px-3 py-3.5">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 bg-slate-50/60 px-4 py-3.5">
         {event.remainingCount != null && event.remainingValueLabel ? (
-          <p className="text-sm text-fg-tertiary">
+          <p className="text-sm text-slate-500">
             {event.remainingCount.toLocaleString()} more SKUs worth{" "}
             {event.remainingValueLabel}, ranked by impact.
           </p>
@@ -136,11 +90,14 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
         )}
         <Button
           size="sm"
-          className="shrink-0 bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
+          className="group shrink-0 rounded-lg bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
           onClick={() => router.push(`/impact?moment=${event.id}`)}
         >
           View impact
-          <ArrowUpRight className="size-3.5" aria-hidden />
+          <ArrowUpRight
+            className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            aria-hidden
+          />
         </Button>
       </div>
     </div>

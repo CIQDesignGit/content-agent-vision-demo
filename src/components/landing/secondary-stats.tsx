@@ -10,30 +10,28 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
   return (
     <div
       aria-label="Key performance metrics"
-      className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft sm:grid-cols-4"
+      className="grid grid-cols-2 gap-3 sm:grid-cols-4"
     >
-      {stats.map((stat, index) => {
+      {stats.map((stat) => {
         const isPositive = POSITIVE_DELTA_IDS.has(stat.id)
         return (
           <div
             key={stat.id}
-            className={`flex flex-col gap-2 px-5 py-5 ${
-              index > 0
-                ? "border-t border-slate-100 sm:border-t-0 sm:border-l sm:border-slate-100"
-                : ""
-            }`}
+            className="rounded-2xl bg-white/70 px-5 py-4 ring-1 ring-slate-900/5 shadow-pane backdrop-blur-md transition-shadow duration-200 hover:shadow-pane-hover"
           >
-            <p className="text-xs text-fg-tertiary">{stat.label}</p>
-            <div className="flex items-baseline gap-2">
-              <p className="font-sans text-2xl font-semibold tracking-tight text-fg-primary tabular-nums">
+            <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-slate-400">
+              {stat.label}
+            </p>
+            <div className="mt-2.5 flex items-baseline gap-2">
+              <p className="font-sans text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">
                 {stat.value}
               </p>
               {stat.delta ? (
                 <p
                   className={
                     isPositive
-                      ? "text-sm font-medium text-success-600"
-                      : "text-sm font-medium text-fg-secondary"
+                      ? "rounded-full bg-teal-50 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-teal-700"
+                      : "rounded-full bg-slate-100 px-1.5 py-0.5 text-[11px] font-semibold tabular-nums text-slate-600"
                   }
                 >
                   {stat.delta}

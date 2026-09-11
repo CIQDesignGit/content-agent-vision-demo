@@ -1,6 +1,6 @@
 "use client"
 
-import { ChevronRight } from "lucide-react"
+import { CalendarClock, ChevronRight, CircleCheck, CircleSlash } from "lucide-react"
 import { cn } from "@ciq-dev/ciq-design-system"
 import type { CalendarEvent } from "./types"
 import { CalendarEventDetail } from "./calendar-event-detail"
@@ -11,24 +11,34 @@ interface CalendarEventRowProps {
   onToggle: () => void
 }
 
+/** Deadlines inside this window get the warning tone instead of brand. */
+const URGENT_DAYS = 7
+
 function statusMeta(event: CalendarEvent) {
   if (event.status === "forfeited") {
     return {
       muted: true,
-      className: "text-fg-tertiary",
+      pill: "bg-slate-100 text-slate-500 ring-slate-200",
+      Icon: CircleSlash,
       label: `Window closed ${event.dateLabel} — forfeited`,
     }
   }
   if (event.status === "captured") {
     return {
       muted: false,
-      className: "font-medium text-emerald-700",
+      pill: "bg-teal-50 text-teal-700 ring-teal-100",
+      Icon: CircleCheck,
       label: `Captured ${event.dateLabel}`,
     }
   }
+
+  const urgent = event.daysToAct != null && event.daysToAct <= URGENT_DAYS
   return {
     muted: false,
-    className: "font-medium text-brand-700",
+    pill: urgent
+      ? "bg-warning-50 text-warning-700 ring-warning-200"
+      : "bg-brand-50 text-brand-700 ring-brand-100",
+    Icon: CalendarClock,
     label:
       event.daysToAct != null
         ? `Publish by ${event.dateLabel} · ${event.daysToAct} days to act`
@@ -46,33 +56,48 @@ export function CalendarEventRow({
   const canExpand =
     !forfeited &&
     Boolean(event.insightSummary || event.skuFindings?.length)
+  const StatusIcon = meta.Icon
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft">
+    <div
+      className={cn(
+        "group overflow-hidden rounded-2xl bg-white/80 ring-1 backdrop-blur-md transition-all duration-200",
+        expanded
+          ? "ring-brand-200 shadow-pane-hover"
+          : "ring-slate-900/6 shadow-pane",
+        canExpand && !expanded && "hover:ring-brand-200/80 hover:shadow-pane-hover",
+        forfeited && "bg-white/50",
+      )}
+    >
       <button
         type="button"
         onClick={canExpand ? onToggle : undefined}
         disabled={!canExpand}
         aria-expanded={canExpand ? expanded : undefined}
         className={cn(
-          "flex w-full items-center gap-3 px-4 py-4 text-left",
-          canExpand && "hover:bg-slate-50/80",
+          "flex w-full items-center gap-3.5 px-4 py-4 text-left",
           !canExpand && "cursor-default",
         )}
       >
-        <ChevronRight
+        <span
           className={cn(
-            "size-4 shrink-0 text-slate-400 transition-transform",
-            expanded && "rotate-90",
-            forfeited && "opacity-40",
+            "grid size-7 shrink-0 place-items-center rounded-full transition-colors",
+            canExpand
+              ? "bg-slate-100 text-slate-500 group-hover:bg-brand-100 group-hover:text-brand-700"
+              : "bg-slate-50 text-slate-300",
+            expanded && "bg-brand-100 text-brand-700",
           )}
-          aria-hidden
-        />
+        >
+          <ChevronRight
+            className={cn("size-4 transition-transform duration-200", expanded && "rotate-90")}
+            aria-hidden
+          />
+        </span>
 
         <span
           className={cn(
             "w-40 shrink-0 truncate text-sm font-semibold",
-            meta.muted ? "text-fg-tertiary" : "text-fg-primary",
+            meta.muted ? "text-slate-400" : "text-slate-900",
           )}
         >
           {event.name}
@@ -80,24 +105,27 @@ export function CalendarEventRow({
 
         <span
           className={cn(
-            "w-20 shrink-0 font-sans text-base font-semibold tabular-nums tracking-tight",
-            meta.muted ? "text-fg-tertiary" : "text-fg-primary",
+            "w-24 shrink-0 font-sans text-lg font-semibold tabular-nums tracking-[-0.02em]",
+            meta.muted ? "text-slate-400" : "text-brand-950",
           )}
         >
           {event.valueLabel}
         </span>
 
-        <span className="hidden w-20 shrink-0 text-sm text-fg-tertiary sm:inline">
+        <span className="hidden w-24 shrink-0 text-sm tabular-nums text-slate-400 sm:inline">
           {event.skuCount.toLocaleString()} SKUs
         </span>
 
-        <span
-          className={cn(
-            "min-w-0 flex-1 truncate text-right text-sm",
-            meta.className,
-          )}
-        >
-          {meta.label}
+        <span className="flex min-w-0 flex-1 justify-end">
+          <span
+            className={cn(
+              "inline-flex min-w-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset",
+              meta.pill,
+            )}
+          >
+            <StatusIcon className="size-3.5 shrink-0" aria-hidden />
+            <span className="truncate">{meta.label}</span>
+          </span>
         </span>
       </button>
 

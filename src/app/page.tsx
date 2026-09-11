@@ -9,11 +9,20 @@ import { PageShell } from "@/components/layout/page-shell"
 
 export default function LandingPage() {
   return (
-    <PageShell>
-      <div className="flex min-h-screen flex-col bg-white">
+    <PageShell className="bg-slate-50">
+      <div className="relative flex min-h-screen flex-col">
+        {/* Ambient canvas — keeps every pane reading as a lit surface
+            rather than white-on-white. Fixed so it never scrolls away. */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+          <div className="absolute inset-0 bg-slate-50" />
+          <div className="absolute inset-x-0 top-0 h-170 bg-[radial-gradient(90%_100%_at_50%_-25%,var(--color-brand-100),transparent_62%)]" />
+          <div className="absolute -left-48 top-24 size-140 rounded-full bg-sky-200/40 blur-[130px]" />
+          <div className="absolute -right-40 -top-16 size-130 rounded-full bg-violet-300/40 blur-[130px]" />
+        </div>
+
         <AppHeader />
-        <LaunchpadTabs className="bg-surface" />
-        <main className="flex-1 bg-white">
+        <LaunchpadTabs className="border-slate-200/70 bg-white/60 backdrop-blur-xl" />
+        <main className="flex-1">
           <LaunchpadView />
         </main>
       </div>
