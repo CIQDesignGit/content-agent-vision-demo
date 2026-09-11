@@ -11,7 +11,8 @@ import type {
 } from "./types"
 
 export const opportunityMeter: OpportunityMeterData = {
-  identifiedMillions: 5.7,
+  /** Active opportunity only — forfeited / past windows are excluded. */
+  identifiedMillions: 4.81,
   realizedMillions: 1.84,
   yearLabel: "2026",
 }
@@ -22,24 +23,24 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
     label: "Captured",
     amountLabel: "$1.84M",
     millions: 1.84,
+    tooltip:
+      "Opportunity already realized — content changes are live on retailer PDPs and contributing to incremental sales.",
   },
   {
     id: "deadline",
     label: "On a deadline",
     amountLabel: "$2.61M",
     millions: 2.61,
+    tooltip:
+      "Opportunity tied to an upcoming event window. Publish by the date to capture the lift before the moment passes.",
   },
   {
     id: "open",
     label: "Open",
     amountLabel: "$360K",
     millions: 0.36,
-  },
-  {
-    id: "forfeited",
-    label: "Forfeited",
-    amountLabel: "$890K",
-    millions: 0.89,
+    tooltip:
+      "Identified opportunity with no hard event deadline yet. Still available to capture through review and publish.",
   },
 ]
 
@@ -78,22 +79,6 @@ export const upNext: UpNextData = {
       skuCount: 384,
       goesLiveNote: "4 days later",
     },
-    {
-      id: "cm",
-      name: "Cyber Monday",
-      valueLabel: "$860K",
-      publishBy: "Sep 18",
-      skuCount: 261,
-      goesLiveNote: "4 days later",
-    },
-    {
-      id: "gg",
-      name: "Holiday Gift Guide",
-      valueLabel: "$510K",
-      publishBy: "Oct 3",
-      skuCount: 147,
-      goesLiveNote: "5 days later",
-    },
   ],
 }
 
@@ -122,7 +107,7 @@ export const valuePillars: ValuePillar[] = [
     id: "seasonal",
     kind: "seasonal",
     title: "Seasonal lift",
-    displayValue: "$3.2M",
+    displayValue: "$2.31M",
     tag: { label: "recurring", tone: "recurring" },
     support: "Event-tied copy ready for Black Friday through gift guides.",
     confidence: "med",

@@ -1,7 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { cn } from "@ciq-dev/ciq-design-system"
+import { Info } from "lucide-react"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  cn,
+} from "@ciq-dev/ciq-design-system"
 import {
   CompositionBarFrame,
   CompositionBarScale,
@@ -10,27 +17,23 @@ import {
 } from "./composition-bar"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
-/** Same triad as driver bar: teal · sky · violet, plus hatch for forfeited. */
+/** Teal · sky · hatched open (was forfeited texture). */
 const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-teal-500",
   deadline: "bg-sky-500",
-  open: "bg-violet-200",
-  forfeited:
-    "bg-[repeating-linear-gradient(-45deg,var(--color-slate-300),var(--color-slate-300)_1px,var(--color-slate-50)_1px,var(--color-slate-50)_5px)]",
+  open: "bg-[repeating-linear-gradient(-45deg,var(--color-violet-300),var(--color-violet-300)_1px,var(--color-violet-50)_1px,var(--color-violet-50)_5px)]",
 }
 
 const DOT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-teal-500",
   deadline: "bg-sky-500",
   open: "bg-violet-200",
-  forfeited: "bg-slate-300",
 }
 
 const AMOUNT_TONE: Record<OpportunityStatusKind, string> = {
   captured: "text-teal-700",
   deadline: "text-sky-700",
   open: "text-violet-700",
-  forfeited: "text-slate-500",
 }
 
 interface OpportunityStatusBarProps {
@@ -134,37 +137,59 @@ export function OpportunityStatusBar({
         <CompositionBarScale end={totalAmountLabel} />
       </div>
 
-      <ul className="grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
-        {segments.map((segment) => (
-          <li
-            key={segment.id}
-            className={cn(
-              "flex min-w-0 flex-col gap-1 transition-opacity duration-150",
-              hoveredId != null && hoveredId !== segment.id && "opacity-40",
-            )}
-          >
-            <span className="flex items-center gap-1.5 text-xs text-fg-secondary">
-              <span
-                className={cn(
-                  "size-2.5 shrink-0 rounded-full",
-                  DOT_FILL[segment.id],
-                  segment.id === "forfeited" && "ring-1 ring-slate-300",
-                )}
-                aria-hidden
-              />
-              {segment.label}
-            </span>
-            <span
+      <TooltipProvider delayDuration={200}>
+        <ul className="grid grid-cols-3 gap-x-6 gap-y-3">
+          {segments.map((segment) => (
+            <li
+              key={segment.id}
               className={cn(
-                "pl-4 font-sans text-base font-semibold tabular-nums tracking-tight",
-                AMOUNT_TONE[segment.id],
+                "flex min-w-0 flex-col gap-1 transition-opacity duration-150",
+                hoveredId != null && hoveredId !== segment.id && "opacity-40",
               )}
             >
-              {segment.amountLabel}
-            </span>
-          </li>
-        ))}
-      </ul>
+              <span className="flex items-center gap-1.5 text-xs text-fg-secondary">
+                <span
+                  className={cn(
+                    "size-2.5 shrink-0 rounded-full",
+                    DOT_FILL[segment.id],
+                    segment.id === "open" && "ring-1 ring-violet-300",
+                  )}
+                  aria-hidden
+                />
+                <span className="truncate">{segment.label}</span>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      type="button"
+                      aria-label={`About ${segment.label}`}
+                      className="shrink-0 rounded-sm text-fg-tertiary transition-colors hover:text-fg-secondary"
+                      onClick={(e) => e.stopPropagation()}
+                      onKeyDown={(e) => e.stopPropagation()}
+                    >
+                      <Info className="size-3.5" aria-hidden />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent
+                    side="bottom"
+                    className="max-w-xs type-caption"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <p>{segment.tooltip}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </span>
+              <span
+                className={cn(
+                  "pl-4 font-sans text-base font-semibold tabular-nums tracking-tight",
+                  AMOUNT_TONE[segment.id],
+                )}
+              >
+                {segment.amountLabel}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </TooltipProvider>
     </div>
   )
 }

@@ -48,12 +48,7 @@ export function CalendarEventRow({
     Boolean(event.insightSummary || event.skuFindings?.length)
 
   return (
-    <div
-      className={cn(
-        "overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft",
-        forfeited && "opacity-70",
-      )}
-    >
+    <div className="overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft">
       <button
         type="button"
         onClick={canExpand ? onToggle : undefined}

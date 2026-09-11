@@ -2,11 +2,7 @@ export type ConfidenceLevel = "high" | "med" | "low"
 
 export type PillarKind = "foundational" | "seasonal" | "aeo"
 
-export type OpportunityStatusKind =
-  | "captured"
-  | "deadline"
-  | "open"
-  | "forfeited"
+export type OpportunityStatusKind = "captured" | "deadline" | "open"
 
 export type OpportunityViewMode = "status" | "driver"
 
@@ -22,6 +18,8 @@ export interface OpportunityStatusSegment {
   label: string
   amountLabel: string
   millions: number
+  /** Shown in the legend info tooltip */
+  tooltip: string
 }
 
 export interface SecondaryStat {
