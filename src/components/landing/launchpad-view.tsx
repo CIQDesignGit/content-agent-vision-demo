@@ -1,44 +1,42 @@
 "use client"
 
 import {
-  lostToInaction,
+  calendarEvents,
+  calendarYearLabel,
+  opportunityByStatus,
   opportunityMeter,
   secondaryStats,
-  upcomingMoments,
+  upNext,
   valuePillars,
 } from "./data"
-import { LostToInactionCard } from "./lost-to-inaction-card"
-import { MomentsStrip } from "./moments-strip"
 import { OpportunityMeter } from "./opportunity-meter"
+import { SecondaryStats } from "./secondary-stats"
+import { UpNextCard } from "./up-next-card"
+import { YearCalendar } from "./year-calendar"
 
 export function LaunchpadView() {
   return (
     <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-6 py-8">
       <section
         aria-label="Opportunity overview"
-        className="flex flex-col gap-3 lg:flex-row lg:items-stretch"
+        className="flex flex-col gap-3"
       >
-        <div className="min-w-0 flex-1">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-stretch lg:min-h-[400px]">
           <OpportunityMeter
             data={opportunityMeter}
+            statusSegments={opportunityByStatus}
             pillars={valuePillars}
-            stats={secondaryStats}
           />
+          <UpNextCard data={upNext} />
         </div>
-        <LostToInactionCard data={lostToInaction} />
+        <SecondaryStats stats={secondaryStats} />
       </section>
 
-      <section aria-label="Action opportunities" className="flex flex-col gap-4">
-        <div>
-          <h2 className="type-title text-fg-primary">
-            Dollars waiting to be unlocked
-          </h2>
-          <p className="mt-1 type-body text-fg-tertiary">
-            Upcoming events where a few content fixes can unlock sales before
-            the window closes.
-          </p>
-        </div>
-        <MomentsStrip moments={upcomingMoments} />
+      <section aria-label="Publish calendar">
+        <YearCalendar
+          yearLabel={calendarYearLabel}
+          events={calendarEvents}
+        />
       </section>
     </div>
   )

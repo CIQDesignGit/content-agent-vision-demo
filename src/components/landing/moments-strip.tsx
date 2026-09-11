@@ -42,7 +42,7 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
   if (moments.length === 0) return null
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-border-default bg-surface shadow-sm">
+    <div className="overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft">
       <div
         role="tablist"
         aria-label="Upcoming moments"
