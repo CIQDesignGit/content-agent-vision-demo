@@ -1,3 +1,7 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { DURATION, EASE_SWAP, fadeRise, staggerContainer } from "@/lib/motion"
 import type { SecondaryStat } from "./types"
 
 interface SecondaryStatsProps {
@@ -8,15 +12,21 @@ const POSITIVE_DELTA_IDS = new Set(["changes-approved", "ai-share"])
 
 export function SecondaryStats({ stats }: SecondaryStatsProps) {
   return (
-    <div
+    <motion.div
       aria-label="Key performance metrics"
       className="grid grid-cols-2 gap-3 sm:grid-cols-4"
+      variants={staggerContainer(0.06)}
     >
       {stats.map((stat) => {
         const isPositive = POSITIVE_DELTA_IDS.has(stat.id)
         return (
-          <div
+          <motion.div
             key={stat.id}
+            variants={fadeRise}
+            whileHover={{
+              y: -2,
+              transition: { duration: DURATION.quick, ease: EASE_SWAP },
+            }}
             className="rounded-2xl bg-white/70 px-5 py-4 ring-1 ring-slate-900/5 shadow-pane backdrop-blur-md transition-shadow duration-200 hover:shadow-pane-hover"
           >
             <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-slate-400">
@@ -38,9 +48,9 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                 </p>
               ) : null}
             </div>
-          </div>
+          </motion.div>
         )
       })}
-    </div>
+    </motion.div>
   )
 }

@@ -1,9 +1,12 @@
 "use client"
 
 import type { ReactNode } from "react"
+import { motion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { drawDownOnScroll, fadeRiseOnScroll } from "@/lib/motion"
 import type { CalendarEvent } from "./types"
 import { CalendarEventRow } from "./calendar-event-row"
+import { RevealGroup } from "./reveal"
 import { SectionHeading } from "./section-heading"
 
 interface CalendarEventSectionProps {
@@ -27,7 +30,13 @@ export function CalendarEventSection({
   if (items.length === 0) return null
 
   return (
-    <section aria-label={label} className="flex flex-col gap-5">
+    <RevealGroup
+      as="section"
+      aria-label={label}
+      className="flex flex-col gap-5"
+      stagger={0.14}
+      onScroll
+    >
       <SectionHeading title={label} description={description} />
 
       <ol className="relative flex flex-col">
@@ -36,7 +45,11 @@ export function CalendarEventSection({
           const isActive = activeRing && index === 0
 
           return (
-            <li key={event.id} className="relative flex gap-3">
+            <motion.li
+              key={event.id}
+              variants={fadeRiseOnScroll}
+              className="relative flex gap-3"
+            >
               <div className="flex w-14 shrink-0 flex-col items-end pt-4">
                 <span
                   className={cn(
@@ -50,8 +63,11 @@ export function CalendarEventSection({
 
               <div className="relative flex w-4 shrink-0 justify-center">
                 {!isLast ? (
-                  <span
-                    className="absolute top-5 bottom-0 w-px bg-linear-to-b from-slate-300 to-slate-200"
+                  // Draws downward as each row lands, so the spine appears to
+                  // thread the list together rather than being there already.
+                  <motion.span
+                    variants={drawDownOnScroll}
+                    className="absolute top-5 bottom-0 w-px origin-top bg-linear-to-b from-slate-300 to-slate-200"
                     aria-hidden
                   />
                 ) : null}
@@ -73,10 +89,10 @@ export function CalendarEventSection({
                   onToggle={() => onToggle(event.id)}
                 />
               </div>
-            </li>
+            </motion.li>
           )
         })}
       </ol>
-    </section>
+    </RevealGroup>
   )
 }

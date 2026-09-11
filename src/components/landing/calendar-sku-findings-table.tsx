@@ -1,6 +1,8 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { fadeRiseTight, staggerContainer } from "@/lib/motion"
 import type { CalendarDriverKind, CalendarSkuFinding } from "./types"
 
 /** Swatch + label instead of a tinted pill — same mapping as the chart legend,
@@ -27,10 +29,19 @@ export function CalendarSkuFindingsTable({
             <th className="px-4 py-3 pl-0 font-semibold">What the agent found</th>
           </tr>
         </thead>
-        <tbody>
+        {/* The rows trail the panel's height tween rather than racing it, so
+            the findings read as the agent listing them out one at a time.
+            Declares its own initial/animate — the panel above animates to
+            object targets, so there is no variant state to inherit. */}
+        <motion.tbody
+          variants={staggerContainer(0.05, 0.14)}
+          initial="hidden"
+          animate="visible"
+        >
           {findings.map((row) => (
-            <tr
+            <motion.tr
               key={row.id}
+              variants={fadeRiseTight}
               className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50/70"
             >
               <td className="px-4 py-3 pr-4 align-middle">
@@ -66,9 +77,9 @@ export function CalendarSkuFindingsTable({
               <td className="px-4 py-3 pl-0 align-middle text-sm text-slate-600">
                 {row.finding}
               </td>
-            </tr>
+            </motion.tr>
           ))}
-        </tbody>
+        </motion.tbody>
       </table>
     </div>
   )

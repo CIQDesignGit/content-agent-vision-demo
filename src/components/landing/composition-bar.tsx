@@ -1,7 +1,9 @@
 "use client"
 
 import type { ReactNode } from "react"
+import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { DURATION, EASE_OUT, fadeRiseTight } from "@/lib/motion"
 
 /** Shared track chrome for opportunity composition bars (status + driver). */
 export function CompositionBarTrack({
@@ -31,6 +33,7 @@ export function CompositionBarSegment({
   isFirst,
   isLast,
   dimmed,
+  enterDelay = 0,
   onHoverChange,
 }: {
   widthPct: number
@@ -40,10 +43,15 @@ export function CompositionBarSegment({
   isLast: boolean
   /** Soften sibling segments while another is hovered */
   dimmed?: boolean
+  /** Seconds to hold before this segment draws itself in */
+  enterDelay?: number
   onHoverChange?: (hovered: boolean) => void
 }) {
+  const reduced = useReducedMotion()
+  const target = `${widthPct}%`
+
   return (
-    <div
+    <motion.div
       className={cn(
         "relative h-full min-w-0 overflow-hidden rounded-[3px] transition-[filter,opacity] duration-200",
         onHoverChange && "cursor-pointer hover:brightness-110 hover:saturate-125",
@@ -52,7 +60,13 @@ export function CompositionBarSegment({
         isLast && "rounded-r-full",
         className,
       )}
-      style={{ width: `${widthPct}%` }}
+      initial={{ width: reduced ? target : 0 }}
+      animate={{ width: target }}
+      transition={{
+        duration: DURATION.draw,
+        ease: EASE_OUT,
+        delay: reduced ? 0 : enterDelay,
+      }}
       title={title}
       onMouseEnter={() => onHoverChange?.(true)}
       onMouseLeave={() => onHoverChange?.(false)}
@@ -62,7 +76,7 @@ export function CompositionBarSegment({
       {/* Top-half highlight — reads as a lit, slightly convex fill without
           needing a gradient on the fill colour itself. */}
       <span aria-hidden className="absolute inset-x-0 top-0 h-1/2 bg-white/20" />
-    </div>
+    </motion.div>
   )
 }
 
@@ -114,7 +128,8 @@ export function CompositionBarLegendItem({
   dimmed?: boolean
 }) {
   return (
-    <li
+    <motion.li
+      variants={fadeRiseTight}
       className={cn(
         "flex min-w-0 flex-col gap-1.5 transition-opacity duration-200",
         dimmed && "opacity-40",
@@ -137,6 +152,6 @@ export function CompositionBarLegendItem({
       <span className="pl-4 font-sans text-lg font-semibold tracking-tight tabular-nums text-slate-900">
         {amountLabel}
       </span>
-    </li>
+    </motion.li>
   )
 }

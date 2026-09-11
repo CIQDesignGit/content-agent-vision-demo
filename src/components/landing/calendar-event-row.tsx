@@ -1,51 +1,17 @@
 "use client"
 
-import { CalendarClock, ChevronRight, CircleCheck, CircleSlash } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { ChevronRight } from "lucide-react"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { DURATION, EASE_SWAP } from "@/lib/motion"
 import type { CalendarEvent } from "./types"
 import { CalendarEventDetail } from "./calendar-event-detail"
+import { statusMeta } from "./calendar-event-status"
 
 interface CalendarEventRowProps {
   event: CalendarEvent
   expanded: boolean
   onToggle: () => void
-}
-
-/** Deadlines inside this window get the warning tone instead of brand. */
-const URGENT_DAYS = 7
-
-function statusMeta(event: CalendarEvent) {
-  if (event.status === "forfeited") {
-    return {
-      muted: true,
-      pill: "bg-slate-100 text-slate-500 ring-slate-200",
-      Icon: CircleSlash,
-      label: `Window closed ${event.dateLabel} — forfeited`,
-    }
-  }
-  if (event.status === "captured") {
-    return {
-      muted: false,
-      pill: "bg-teal-50 text-teal-700 ring-teal-100",
-      Icon: CircleCheck,
-      label: `Captured ${event.dateLabel}`,
-    }
-  }
-
-  const urgent = event.daysToAct != null && event.daysToAct <= URGENT_DAYS
-  return {
-    muted: false,
-    // Only the urgent window gets colour, so it is the one thing that pulls
-    // the eye down the list.
-    pill: urgent
-      ? "bg-warning-50 text-warning-700 ring-warning-200"
-      : "bg-slate-50 text-slate-600 ring-slate-200",
-    Icon: CalendarClock,
-    label:
-      event.daysToAct != null
-        ? `Publish by ${event.dateLabel} · ${event.daysToAct} days to act`
-        : `Publish by ${event.dateLabel}`,
-  }
 }
 
 export function CalendarEventRow({
@@ -61,9 +27,14 @@ export function CalendarEventRow({
   const StatusIcon = meta.Icon
 
   return (
-    <div
+    <motion.div
+      whileHover={
+        canExpand && !expanded
+          ? { y: -1, transition: { duration: DURATION.quick, ease: EASE_SWAP } }
+          : undefined
+      }
       className={cn(
-        "group overflow-hidden rounded-2xl bg-white/80 ring-1 backdrop-blur-md transition-all duration-200",
+        "group overflow-hidden rounded-2xl bg-white/80 ring-1 backdrop-blur-md transition-[box-shadow,background-color] duration-200",
         expanded
           ? "ring-brand-200 shadow-pane-hover"
           : "ring-slate-900/6 shadow-pane",
@@ -131,7 +102,25 @@ export function CalendarEventRow({
         </span>
       </button>
 
-      {expanded && canExpand ? <CalendarEventDetail event={event} /> : null}
-    </div>
+      {/* Height tween on open/close — the detail body is the one place on this
+          page where content genuinely arrives, so it earns the movement. */}
+      <AnimatePresence initial={false}>
+        {expanded && canExpand ? (
+          <motion.div
+            key="detail"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{
+              height: { duration: DURATION.base, ease: EASE_SWAP },
+              opacity: { duration: DURATION.quick, ease: EASE_SWAP },
+            }}
+            className="overflow-hidden"
+          >
+            <CalendarEventDetail event={event} />
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </motion.div>
   )
 }

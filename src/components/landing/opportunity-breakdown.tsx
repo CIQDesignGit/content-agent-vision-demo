@@ -58,6 +58,7 @@ export function OpportunityBreakdown({
                   title={`${pillar.title} ${pillar.displayValue}`}
                   isFirst={index === 0}
                   isLast={index === pillars.length - 1}
+                  enterDelay={index * 0.07}
                 />
               )
             })}

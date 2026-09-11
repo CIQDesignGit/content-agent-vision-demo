@@ -1,8 +1,10 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@ciq-dev/ciq-design-system"
+import { DURATION, EASE_SWAP, fadeRiseTight, swapTransition } from "@/lib/motion"
 import type { UpNextActionItem as UpNextActionItemData } from "./types"
 
 interface UpNextActionItemProps {
@@ -26,11 +28,22 @@ export function UpNextActionItem({
 
   if (!expanded) {
     return (
-      <li className={`shrink-0 ${UP_NEXT_COLLAPSED_H}`}>
-        <button
+      // `layout` tweens this row's height as the selection moves through the
+      // list instead of snapping the whole pane to its new shape.
+      <motion.li
+        layout
+        variants={fadeRiseTight}
+        transition={swapTransition}
+        className={`shrink-0 ${UP_NEXT_COLLAPSED_H}`}
+      >
+        <motion.button
           type="button"
           onClick={onSelect}
           aria-expanded={false}
+          whileHover={{
+            x: 2,
+            transition: { duration: DURATION.quick, ease: EASE_SWAP },
+          }}
           className="group flex h-full w-full items-center justify-between gap-3 text-left"
         >
           <span className="min-w-0 truncate">
@@ -44,14 +57,27 @@ export function UpNextActionItem({
           <span className="shrink-0 text-sm font-medium tabular-nums text-slate-600">
             {item.valueLabel}
           </span>
-        </button>
-      </li>
+        </motion.button>
+      </motion.li>
     )
   }
 
   return (
-    <li className="flex min-h-0 flex-1 flex-col">
-      <div className="flex flex-1 flex-col pb-1 pt-1">
+    <motion.li
+      layout
+      variants={fadeRiseTight}
+      transition={swapTransition}
+      className="flex min-h-0 flex-1 flex-col"
+    >
+      {/* layout="position" lets the parent animate its own height while this
+          subtree's type stays unscaled — no rubber-banding text. */}
+      <motion.div
+        layout="position"
+        className="flex flex-1 flex-col pb-1 pt-1"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: DURATION.base, ease: EASE_SWAP, delay: 0.06 }}
+      >
         <button
           type="button"
           onClick={onSelect}
@@ -96,7 +122,7 @@ export function UpNextActionItem({
             />
           </Button>
         </div>
-      </div>
-    </li>
+      </motion.div>
+    </motion.li>
   )
 }

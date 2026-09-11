@@ -1,6 +1,8 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { DURATION, EASE_SWAP, swapTransition } from "@/lib/motion"
 import {
   CompositionBarFrame,
   CompositionBarSegment,
@@ -15,7 +17,11 @@ export interface StatusSegmentLayout {
   mid: number
 }
 
-/** Pointer + pill used for both the captured marker and the hovered segment. */
+/**
+ * One marker for the whole track. It slides to whichever segment is hovered
+ * and returns to the captured position on release, so the reading never
+ * jumps from one place to another.
+ */
 function BarMarker({
   leftPct,
   label,
@@ -26,26 +32,34 @@ function BarMarker({
   emphasis: boolean
 }) {
   return (
-    <div
+    <motion.div
       className={cn(
         "pointer-events-none absolute top-0 flex -translate-x-1/2 flex-col items-center",
         emphasis ? "z-20" : "z-10",
       )}
-      style={{ left: `${leftPct}%` }}
+      initial={{ opacity: 0, left: `${leftPct}%` }}
+      animate={{ opacity: 1, left: `${leftPct}%` }}
+      transition={{
+        left: swapTransition,
+        opacity: { duration: DURATION.base, ease: EASE_SWAP, delay: 0.3 },
+      }}
     >
       <span
         className={cn(
-          "whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white shadow-sm",
+          "whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white shadow-sm transition-colors duration-200",
           emphasis ? "bg-slate-900" : "bg-slate-700",
         )}
       >
         {label}
       </span>
       <span
-        className={cn("h-2 w-px", emphasis ? "bg-slate-900" : "bg-slate-700")}
+        className={cn(
+          "h-2 w-px transition-colors duration-200",
+          emphasis ? "bg-slate-900" : "bg-slate-700",
+        )}
         aria-hidden
       />
-    </div>
+    </motion.div>
   )
 }
 
@@ -60,13 +74,16 @@ function TrackNeedle({
   faded?: boolean
 }) {
   return (
-    <div
+    <motion.div
       className={cn(
-        "pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 rounded-full transition-opacity",
+        "pointer-events-none absolute inset-y-0 w-0.5 -translate-x-1/2 rounded-full",
         tone,
-        faded ? "z-10 opacity-25" : "z-20 opacity-100",
+        faded ? "z-10" : "z-20",
       )}
       style={{ left: `${leftPct}%` }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: faded ? 0.25 : 1 }}
+      transition={{ duration: DURATION.base, ease: EASE_SWAP, delay: faded ? 0 : 0.3 }}
       aria-hidden
     >
       <span
@@ -75,7 +92,7 @@ function TrackNeedle({
           tone,
         )}
       />
-    </div>
+    </motion.div>
   )
 }
 
@@ -104,19 +121,15 @@ export function OpportunityStatusTrack({
   return (
     <CompositionBarFrame
       annotation={
-        hovered ? (
-          <BarMarker
-            leftPct={hovered.mid}
-            label={`${hovered.segment.label} · ${hovered.segment.amountLabel}`}
-            emphasis
-          />
-        ) : (
-          <BarMarker
-            leftPct={markerLeft}
-            label={`${capturedPct}% · ${capturedAmountLabel}`}
-            emphasis={false}
-          />
-        )
+        <BarMarker
+          leftPct={hovered ? hovered.mid : markerLeft}
+          label={
+            hovered
+              ? `${hovered.segment.label} · ${hovered.segment.amountLabel}`
+              : `${capturedPct}% · ${capturedAmountLabel}`
+          }
+          emphasis={Boolean(hovered)}
+        />
       }
     >
       <div className="relative">
@@ -132,6 +145,7 @@ export function OpportunityStatusTrack({
               isFirst={index === 0}
               isLast={index === layouts.length - 1}
               dimmed={hoveredId != null && hoveredId !== segment.id}
+              enterDelay={index * 0.07}
               onHoverChange={(active) =>
                 onHoverChange(active ? segment.id : null)
               }

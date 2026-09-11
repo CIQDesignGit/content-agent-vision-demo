@@ -91,9 +91,9 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
         <Button
           size="sm"
           className="group shrink-0 rounded-lg bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
-          onClick={() => router.push(`/impact?moment=${event.id}`)}
+          onClick={() => router.push(`/workbench?moment=${event.id}`)}
         >
-          View impact
+          Take Action
           <ArrowUpRight
             className="size-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             aria-hidden
