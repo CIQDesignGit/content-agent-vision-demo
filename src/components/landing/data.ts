@@ -4,6 +4,7 @@ import type {
   LostToInactionData,
   OpportunityMeterData,
   OpportunityStatusSegment,
+  OpportunityStream,
   SecondaryStat,
   UpcomingMoment,
   UpNextData,
@@ -27,20 +28,29 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
       "Opportunity already realized — content changes are live on retailer PDPs and contributing to incremental sales.",
   },
   {
-    id: "deadline",
-    label: "On a deadline",
+    id: "seasonal",
+    label: "Seasonal",
     amountLabel: "$2.61M",
     millions: 2.61,
     tooltip:
       "Opportunity tied to an upcoming event window. Publish by the date to capture the lift before the moment passes.",
   },
   {
-    id: "open",
-    label: "Open",
+    id: "pdp",
+    label: "PDP optimization",
     amountLabel: "$360K",
     millions: 0.36,
     tooltip:
-      "Identified opportunity with no hard event deadline yet. Still available to capture through review and publish.",
+      "Always-on SEO and AEO lifts with no hard event deadline. Still available to capture through review and publish.",
+  },
+  {
+    id: "expired",
+    label: "Expired",
+    amountLabel: "$890K",
+    millions: 0.89,
+    muted: true,
+    tooltip:
+      "Past windows that closed before publish — excluded from your active opportunity total.",
   },
 ]
 
@@ -449,3 +459,163 @@ export const upcomingMoments: UpcomingMoment[] = calendarEvents
     commonIssues: e.insightSummary ?? "",
     dimensions: e.dimensions ?? [],
   }))
+
+/** Accordion streams that replace the open publish-by calendar list. */
+export const opportunityStreams: OpportunityStream[] = [
+  {
+    id: "retail-readiness",
+    title: "Retail-readiness",
+    context: "of catalog is retail-ready",
+    skuCount: 342,
+    valueLabel: "$410K",
+    valueKind: "blocked",
+    tone: "warning",
+    readyPercent: 94,
+    insight:
+      "**342 SKUs** are missing required **Amazon attributes** — item weight, safety details, technical specs. Amazon won’t accept a content push until these are backfilled, so **$410K** of **PDP fixes** already queued are stuck behind this, not in addition to it.",
+    remainingLabel: "338 more SKUs, $389K blocked in total.",
+    rows: [
+      {
+        id: "rr-1",
+        name: "Yankee Candle Black Cherry Large Jar",
+        asin: "B08NF9KBZ4",
+        finding: "6 attributes missing — material, weight, safety",
+        impactThousands: 8.9,
+      },
+      {
+        id: "rr-2",
+        name: "NutriChef Food Processor 8-Cup",
+        asin: "B00I0DI0Z6",
+        finding: "4 attributes missing — care instructions, weight",
+        impactThousands: 6.1,
+      },
+      {
+        id: "rr-3",
+        name: "Proctor Silex 2-Slice Toaster",
+        asin: "B00FQK1H8C",
+        finding: "3 attributes missing — battery type, dimensions",
+        impactThousands: 3.4,
+      },
+      {
+        id: "rr-4",
+        name: "Instant Pot Duo 7-in-1, 6 Qt",
+        asin: "B00FLYWNYQ",
+        finding: "9 attributes missing — material, capacity, safety",
+        impactThousands: 2.8,
+      },
+    ],
+  },
+  {
+    id: "seasonal",
+    title: "Seasonal",
+    context: "Next up · Black Friday · Publish by Sep 15 ·",
+    contextHighlight: "5 days to act",
+    skuCount: 384,
+    valueLabel: "$1.24M",
+    valueKind: "potential",
+    tone: "default",
+    insight:
+      "**384 SKUs** are missing event-ready titles, deal framing, or bundle language for **Black Friday**. I ranked them by revenue each fix is worth, so the **top 20** carry about **a third of the total**.",
+    queueNote:
+      "Cyber Monday ($860K) and Holiday Gift Guide ($510K) are queued next — they’ll open here once this window closes.",
+    remainingLabel: "378 more SKUs worth $882K, ranked by impact.",
+    rows: [
+      {
+        id: "bf-1",
+        name: "Vitamix E310 Explorian Blender",
+        asin: "B079KLGWGR",
+        finding: "No promo keyword in title",
+        impactThousands: 84,
+      },
+      {
+        id: "bf-2",
+        name: "Dyson V11 Animal Cordless Vacuum",
+        asin: "B07GR5MSKD",
+        finding: "Bullets don't state the deal terms",
+        impactThousands: 71,
+      },
+      {
+        id: "bf-3",
+        name: "KitchenAid Artisan 5-Quart Mixer",
+        asin: "B00005UP2P",
+        finding: "Bundle contents not described",
+        impactThousands: 63,
+      },
+      {
+        id: "bf-4",
+        name: "Instant Pot Duo 7-in-1, 6 Qt",
+        asin: "B00FLYWNYQ",
+        finding: "No Black Friday urgency language",
+        impactThousands: 52,
+      },
+      {
+        id: "bf-5",
+        name: "Shark Navigator Lift-Away Vacuum",
+        asin: "B003IH3JN4",
+        finding: "Title truncated at 142 characters",
+        impactThousands: 47,
+      },
+      {
+        id: "bf-6",
+        name: "iRobot Roomba i3+ EVO",
+        asin: "B08C4L7HC1",
+        finding: "Bullets 4 and 5 empty",
+        impactThousands: 41,
+      },
+    ],
+  },
+  {
+    id: "pdp",
+    title: "PDP optimization",
+    context: "Always on · SEO & AEO · No deadline",
+    skuCount: 612,
+    valueLabel: "$2.50M",
+    valueKind: "potential",
+    tone: "default",
+    insight:
+      "**612 SKUs** are missing category-standard keywords, competitor-matched terms, or the structured specs that let an **AI answer engine** cite the listing directly.",
+    remainingLabel: "607 more SKUs worth $2.20M, ranked by impact.",
+    rows: [
+      {
+        id: "pdp-1",
+        name: "NutriChef Food Processor 8-Cup",
+        asin: "B00I0DI0Z6",
+        finding: "Missing top category keywords in bullets",
+        impactThousands: 84,
+        findingType: "SEO",
+      },
+      {
+        id: "pdp-2",
+        name: "Yankee Candle Black Cherry Large Jar",
+        asin: "B08NF9KBZ4",
+        finding: "No answer-ready specs for 'best candle' prompts",
+        impactThousands: 67,
+        findingType: "AEO",
+      },
+      {
+        id: "pdp-3",
+        name: "Proctor Silex 2-Slice Toaster",
+        asin: "B00FQK1H8C",
+        finding: "Title missing key search term 'wide slot'",
+        impactThousands: 58,
+        findingType: "SEO",
+      },
+      {
+        id: "pdp-4",
+        name: "Vevor Electric Grain Mill Grinder",
+        asin: "B00H8R3KM2",
+        finding: "Bullets don't answer common comparison prompts",
+        impactThousands: 52,
+        findingType: "AEO",
+      },
+      {
+        id: "pdp-5",
+        name: "KitchenAid Artisan 5-Quart Mixer",
+        asin: "B00005UP2P",
+        finding: "Missing burr-type keyword competitors rank on",
+        impactThousands: 44,
+        findingType: "SEO",
+      },
+    ],
+  },
+]

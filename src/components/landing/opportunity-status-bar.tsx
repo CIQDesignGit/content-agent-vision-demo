@@ -15,17 +15,21 @@ import {
 import { OpportunityStatusTrack } from "./opportunity-status-track"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
-/** Sequential data ramp: solid and deep = settled, fading = least committed. */
+/** Brand → cool → soft brand → expired hatch. */
 const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
-  captured: "bg-data-1",
-  deadline: "bg-data-2",
-  open: "bg-[repeating-linear-gradient(-45deg,var(--color-data-3),var(--color-data-3)_1.5px,var(--color-data-5),var(--color-data-5)_6px)]",
+  captured: "bg-brand-500",
+  seasonal: "bg-data-1",
+  pdp: "bg-brand-200",
+  expired:
+    "bg-[repeating-linear-gradient(-45deg,var(--color-slate-300),var(--color-slate-300)_1.5px,var(--color-slate-100),var(--color-slate-100)_5px)]",
 }
 
 const DOT_FILL: Record<OpportunityStatusKind, string> = {
-  captured: "bg-data-1",
-  deadline: "bg-data-2",
-  open: "bg-data-4",
+  captured: "bg-brand-500",
+  seasonal: "bg-data-1",
+  pdp: "bg-brand-200",
+  expired:
+    "bg-[repeating-linear-gradient(-45deg,var(--color-slate-400),var(--color-slate-400)_1px,var(--color-slate-200),var(--color-slate-200)_3px)]",
 }
 
 interface OpportunityStatusBarProps {
@@ -100,6 +104,13 @@ export function OpportunityStatusBar({
     return { segment, share, mid: cursor + share / 2 }
   })
 
+  // The track spans every bucket, expired included, so the needle rides the
+  // captured segment's trailing edge and reads as a share of the whole track.
+  const captured = layouts.find((l) => l.segment.id === "captured")
+  const markerPct = captured ? captured.mid + captured.share / 2 : capturedPct
+  const markerShare = Math.round(markerPct)
+  const trackTotalLabel = `$${total.toFixed(2)}M`
+
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-col gap-2">
@@ -108,24 +119,26 @@ export function OpportunityStatusBar({
           segmentFill={SEGMENT_FILL}
           hoveredId={hoveredId}
           onHoverChange={setHoveredId}
-          capturedPct={capturedPct}
-          capturedAmountLabel={capturedAmountLabel}
-          totalAmountLabel={totalAmountLabel}
+          markerPct={markerPct}
+          markerLabel={`${markerShare}% · ${capturedAmountLabel}`}
+          ariaLabel={`Opportunity breakdown by status. ${markerShare}% captured (${capturedAmountLabel} of ${trackTotalLabel})`}
         />
-        <CompositionBarScale end={totalAmountLabel} />
+        <CompositionBarScale end={trackTotalLabel} />
       </div>
 
       <TooltipProvider delayDuration={200}>
-        <ul className="grid grid-cols-3 gap-x-6 gap-y-3 border-t border-slate-100 pt-4">
+        <ul className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4 sm:grid-cols-4">
           {segments.map((segment) => (
             <CompositionBarLegendItem
               key={segment.id}
+              className="rounded-xl border border-slate-200 bg-white px-3 py-3"
               swatchClassName={DOT_FILL[segment.id]}
               swatchRingClassName={
-                segment.id === "open" ? "ring-1 ring-data-3" : undefined
+                segment.id === "expired" ? "ring-1 ring-slate-300" : undefined
               }
               label={segment.label}
               amountLabel={segment.amountLabel}
+              muted={segment.muted}
               dimmed={hoveredId != null && hoveredId !== segment.id}
               info={
                 <SegmentInfo label={segment.label} tooltip={segment.tooltip} />

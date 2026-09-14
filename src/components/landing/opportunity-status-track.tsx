@@ -101,9 +101,10 @@ interface OpportunityStatusTrackProps {
   segmentFill: Record<OpportunityStatusKind, string>
   hoveredId: OpportunityStatusKind | null
   onHoverChange: (id: OpportunityStatusKind | null) => void
-  capturedPct: number
-  capturedAmountLabel: string
-  totalAmountLabel: string
+  /** Needle position along the track, 0–100 */
+  markerPct: number
+  markerLabel: string
+  ariaLabel: string
 }
 
 export function OpportunityStatusTrack({
@@ -111,11 +112,11 @@ export function OpportunityStatusTrack({
   segmentFill,
   hoveredId,
   onHoverChange,
-  capturedPct,
-  capturedAmountLabel,
-  totalAmountLabel,
+  markerPct,
+  markerLabel,
+  ariaLabel,
 }: OpportunityStatusTrackProps) {
-  const markerLeft = Math.min(Math.max(capturedPct, 0), 100)
+  const markerLeft = Math.min(Math.max(markerPct, 0), 100)
   const hovered = layouts.find((s) => s.segment.id === hoveredId)
 
   return (
@@ -126,16 +127,14 @@ export function OpportunityStatusTrack({
           label={
             hovered
               ? `${hovered.segment.label} · ${hovered.segment.amountLabel}`
-              : `${capturedPct}% · ${capturedAmountLabel}`
+              : markerLabel
           }
           emphasis={Boolean(hovered)}
         />
       }
     >
       <div className="relative">
-        <CompositionBarTrack
-          ariaLabel={`Opportunity breakdown by status. ${capturedPct}% captured (${capturedAmountLabel} of ${totalAmountLabel})`}
-        >
+        <CompositionBarTrack ariaLabel={ariaLabel}>
           {layouts.map(({ segment, share }, index) => (
             <CompositionBarSegment
               key={segment.id}

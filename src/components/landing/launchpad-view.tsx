@@ -2,19 +2,18 @@
 
 import { MotionConfig } from "framer-motion"
 import {
-  calendarEvents,
-  calendarYearLabel,
   opportunityByStatus,
   opportunityMeter,
+  opportunityStreams,
   secondaryStats,
   upNext,
   valuePillars,
 } from "./data"
 import { OpportunityMeter } from "./opportunity-meter"
+import { OpportunityStreams } from "./opportunity-streams"
 import { RevealGroup } from "./reveal"
 import { SecondaryStats } from "./secondary-stats"
 import { UpNextCard } from "./up-next-card"
-import { YearCalendar } from "./year-calendar"
 
 export function LaunchpadView() {
   return (
@@ -43,13 +42,7 @@ export function LaunchpadView() {
           <SecondaryStats stats={secondaryStats} />
         </RevealGroup>
 
-        {/* Below the fold: each band waits until it is scrolled to. */}
-        <section aria-label="Publish calendar">
-          <YearCalendar
-            yearLabel={calendarYearLabel}
-            events={calendarEvents}
-          />
-        </section>
+        <OpportunityStreams streams={opportunityStreams} />
       </div>
     </MotionConfig>
   )

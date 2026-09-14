@@ -13,7 +13,7 @@ import {
 } from "@/components/home/source-logos"
 import { AppHeader } from "@/components/home/app-header"
 import { LaunchpadTabs } from "@/components/landing/launchpad-tabs"
-import { upcomingMoments } from "@/components/landing/data"
+import { opportunityStreams, upcomingMoments } from "@/components/landing/data"
 import { FilterBar } from "@/components/home/filter-bar"
 import { SkuSidebar } from "@/components/home/sku-sidebar"
 import { ProductHeader, type PublishBarState } from "@/components/home/product-header"
@@ -39,7 +39,7 @@ import {
   PUBLISH_PHASE_DELAYS_MS,
 } from "@/lib/simulate-publish"
 import { resolveBulletSyncFootprint } from "@/lib/sync-footprint"
-import { buildMomentSkuQueue } from "@/lib/moment-sku-queue"
+import { buildMomentSkuQueue, type SkuQueueSource } from "@/lib/moment-sku-queue"
 import {
   MOCK_SKUS,
   buildInitialState,
@@ -57,13 +57,27 @@ function WorkbenchPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const momentId = searchParams.get("moment")
-  const activeMoment = useMemo(
-    () => upcomingMoments.find((m) => m.id === momentId) ?? null,
-    [momentId],
-  )
+  const streamId = searchParams.get("stream")
+  // Both entry points land here: a moment from Up next, or an opportunity
+  // stream from the landing accordion.
+  const activeQueue = useMemo<SkuQueueSource | null>(() => {
+    if (momentId) {
+      const moment = upcomingMoments.find((m) => m.id === momentId)
+      return moment
+        ? { id: moment.id, name: moment.name, skuCount: moment.skuCount }
+        : null
+    }
+    if (streamId) {
+      const stream = opportunityStreams.find((s) => s.id === streamId)
+      return stream
+        ? { id: stream.id, name: stream.title, skuCount: stream.skuCount }
+        : null
+    }
+    return null
+  }, [momentId, streamId])
   const catalogSkus = useMemo(
-    () => (activeMoment ? buildMomentSkuQueue(activeMoment) : MOCK_SKUS),
-    [activeMoment],
+    () => (activeQueue ? buildMomentSkuQueue(activeQueue) : MOCK_SKUS),
+    [activeQueue],
   )
 
   const [selectedSkuId, setSelectedSkuId] = useState(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
@@ -72,14 +86,14 @@ function WorkbenchPage() {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [contentState, setContentState] = useState<ContentState>(() =>
-    activeMoment ? {} : buildInitialState(),
+    activeQueue ? {} : buildInitialState(),
   )
   // Tracks each SKU's workflow state: to-do → in-progress (after publish) → success
   const [actionStatusMap, setActionStatusMap] = useState<Record<string, ActionStatus>>(() =>
     Object.fromEntries(
       catalogSkus.map((s) => [
         s.id,
-        activeMoment ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
+        activeQueue ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
       ]),
     ),
   )
@@ -87,7 +101,7 @@ function WorkbenchPage() {
   const [bookmarkSet, setBookmarkSet] = useState<Set<string>>(
     () =>
       new Set(
-        activeMoment
+        activeQueue
           ? []
           : MOCK_SKUS.filter((s) => s.isBookmarked).map((s) => s.id),
       ),
@@ -125,22 +139,22 @@ function WorkbenchPage() {
         Object.fromEntries(
           catalogSkus.map((s) => [
             s.id,
-            activeMoment ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
+            activeQueue ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
           ]),
         ),
       )
-      setContentState(activeMoment ? {} : buildInitialState())
+      setContentState(activeQueue ? {} : buildInitialState())
       setSelectedSkuIds(new Set())
       setIsSelectionMode(false)
       setBookmarkSet(
         new Set(
-          activeMoment
+          activeQueue
             ? []
             : MOCK_SKUS.filter((s) => s.isBookmarked).map((s) => s.id),
         ),
       )
     })
-  }, [activeMoment, catalogSkus])
+  }, [activeQueue, catalogSkus])
 
   const filteredSkus = useMemo(
     () => catalogSkus
@@ -962,10 +976,10 @@ function WorkbenchPage() {
         onFilterPopoverOpenChange={setFilterPopoverOpen}
       />
 
-      {activeMoment ? (
+      {activeQueue ? (
         <div className="shrink-0 border-b border-border-default bg-surface-muted px-6 py-2">
           <p className="type-caption text-fg-secondary">
-            {activeMoment.name} queue · {activeMoment.skuCount.toLocaleString()} SKUs need
+            {activeQueue.name} queue · {activeQueue.skuCount.toLocaleString()} SKUs need
             review
           </p>
         </div>

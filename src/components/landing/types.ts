@@ -2,7 +2,11 @@ export type ConfidenceLevel = "high" | "med" | "low"
 
 export type PillarKind = "foundational" | "seasonal" | "aeo"
 
-export type OpportunityStatusKind = "captured" | "deadline" | "open"
+export type OpportunityStatusKind =
+  | "captured"
+  | "seasonal"
+  | "pdp"
+  | "expired"
 
 export type OpportunityViewMode = "status" | "driver"
 
@@ -20,6 +24,8 @@ export interface OpportunityStatusSegment {
   millions: number
   /** Shown in the legend info tooltip */
   tooltip: string
+  /** Muted figure — used for expired / out-of-total buckets */
+  muted?: boolean
 }
 
 export interface SecondaryStat {
@@ -124,4 +130,38 @@ export interface UpNextActionItem {
 
 export interface UpNextData {
   items: UpNextActionItem[]
+}
+
+export type OpportunityStreamKind = "retail-readiness" | "seasonal" | "pdp"
+
+export type StreamFindingType = "SEO" | "AEO"
+
+export interface OpportunityStreamSku {
+  id: string
+  name: string
+  asin: string
+  finding: string
+  /** Dollar impact in thousands (e.g. 84 → $84K, 8.9 → $8.9K) */
+  impactThousands: number
+  findingType?: StreamFindingType
+}
+
+export interface OpportunityStream {
+  id: OpportunityStreamKind
+  title: string
+  /** Middle-column context when collapsed (and beside title when expanded) */
+  context: string
+  /** Highlighted suffix inside context — e.g. "5 days to act" */
+  contextHighlight?: string
+  skuCount: number
+  valueLabel: string
+  valueKind: "blocked" | "potential"
+  tone: "warning" | "default"
+  /** Markdown string; use **bold** for metrics and keywords */
+  insight: string
+  queueNote?: string
+  remainingLabel: string
+  rows: OpportunityStreamSku[]
+  /** Retail-readiness only — catalog % that is already ready */
+  readyPercent?: number
 }

@@ -119,6 +119,8 @@ export function CompositionBarLegendItem({
   amountLabel,
   info,
   dimmed,
+  muted,
+  className,
 }: {
   swatchClassName: string
   swatchRingClassName?: string
@@ -126,6 +128,9 @@ export function CompositionBarLegendItem({
   amountLabel: string
   info?: ReactNode
   dimmed?: boolean
+  /** Soften the amount — expired / out-of-total buckets */
+  muted?: boolean
+  className?: string
 }) {
   return (
     <motion.li
@@ -133,6 +138,7 @@ export function CompositionBarLegendItem({
       className={cn(
         "flex min-w-0 flex-col gap-1.5 transition-opacity duration-200",
         dimmed && "opacity-40",
+        className,
       )}
     >
       <span className="flex items-center gap-2 text-xs font-medium text-slate-500">
@@ -149,7 +155,12 @@ export function CompositionBarLegendItem({
       </span>
       {/* Amount stays neutral — the swatch already carries the mapping, and
           a colored figure would compete with the headline value. */}
-      <span className="pl-4 font-sans text-lg font-semibold tracking-tight tabular-nums text-slate-900">
+      <span
+        className={cn(
+          "pl-4 font-sans text-lg font-semibold tracking-tight tabular-nums",
+          muted ? "text-slate-400" : "text-slate-900",
+        )}
+      >
         {amountLabel}
       </span>
     </motion.li>
