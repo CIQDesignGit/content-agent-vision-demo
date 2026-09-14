@@ -113,16 +113,15 @@ export interface SkuCardProps {
   onToggle: () => void
 }
 
-// ─── Meta row — ASIN · Brand · Category + optional status badge ───────────────
+// ─── Meta row — Brand · ASIN + optional status badge ─────────────────────────
 
 function MetaRow({ sku, isActive }: { sku: Sku; isActive: boolean }) {
   return (
     <div className="flex items-center justify-between gap-1">
       <p className="flex min-w-0 flex-wrap items-center gap-1">
-        {/* ASIN is the primary identifier — one step stronger than brand/category */}
-        <span className="font-mono text-xs text-slate-500">{sku.asin}</span>
-        <span aria-hidden className="size-1 rounded-full bg-slate-300" />
         <span className="text-xs text-slate-400">{sku.brand}</span>
+        <span aria-hidden className="size-1 rounded-full bg-slate-300" />
+        <span className="font-mono text-xs text-slate-500">{sku.asin}</span>
       </p>
       {/* Bookmark first, then in-progress — both can show simultaneously */}
       <div className="flex items-center gap-1.5 shrink-0">
@@ -177,9 +176,9 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
               <Checkbox checked={isSelected} />
               <div className="flex min-w-0 flex-1 items-center justify-between gap-1">
                 <p className="flex min-w-0 flex-wrap items-center gap-1">
-                  <span className="font-mono text-xs text-slate-500">{sku.asin}</span>
-                  <span aria-hidden className="size-1 rounded-full bg-slate-300" />
                   <span className="text-xs text-slate-400">{sku.brand}</span>
+                  <span aria-hidden className="size-1 rounded-full bg-slate-300" />
+                  <span className="font-mono text-xs text-slate-500">{sku.asin}</span>
                 </p>
                 {sku.actionStatus && (
                   <ActionStatusBadge status={sku.actionStatus} showLabel={false} />

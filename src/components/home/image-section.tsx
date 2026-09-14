@@ -207,11 +207,11 @@ function ImageCompareColumn({
 }) {
   return (
     <div className={fieldLabelContentStack("min-h-0 min-w-0")}>
-      <div className="flex flex-wrap items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center gap-3">
         {columnLabel ?? (
           <SourceCellLabel logoSrc={logoSrc!} logoAlt={logoAlt!} sublabel={sublabel!} />
         )}
-        <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-xs font-medium text-slate-500">
+        <span className="text-xs font-medium text-slate-500">
           {images.length} Images
         </span>
       </div>

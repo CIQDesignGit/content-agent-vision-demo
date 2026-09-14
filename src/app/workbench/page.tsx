@@ -1053,7 +1053,7 @@ function WorkbenchPage() {
 
           <div className="flex min-h-0 flex-1">
             <section className="flex min-w-0 flex-1 flex-col">
-              <div className="flex-1 space-y-4 overflow-y-auto bg-slate-25 px-5 pb-5">
+              <div className="flex-1 space-y-4 overflow-y-auto bg-slate-50 px-5 pb-5">
                 {/* Toolbar: sync info (left) + bulk select (right) */}
                 <div className="flex items-center justify-between pt-3 pb-1">
                   {/* PIM sync + AI sync chips — icons match SourceLogoBadge styling */}

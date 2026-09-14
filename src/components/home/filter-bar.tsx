@@ -9,28 +9,25 @@ import { COLUMNS, ColumnFilterPanel, type ColumnFilters } from "./column-filter-
 
 // ─── Shared constants ─────────────────────────────────────────────────────────
 
-const FILTERS = [
+const TASK_TYPE_FILTERS = [
   {
     key: "compliance",
     label: "Compliance",
     description: "Checks content against retailer policy requirements",
   },
   {
-    key: "compliance-seo",
-    label: "Compliance + SEO",
-    description: "Policy checks plus keyword optimization",
-  },
-  {
     key: "compliance-seo-aeo",
-    label: "Compliance + SEO + AEO",
-    description: "Full optimization with AI answer engine visibility",
+    label: "PDP Optimization",
+    description: "Ensures content is compliant, SEO & AEO optimized",
   },
-  {
-    key: "title-optimization",
-    label: "Title Optimization",
-    description: "AI-powered title rewrites for discoverability",
-  },
-]
+] as const
+
+/** Shown only on pages that lock task type (e.g. Title Optimization). */
+const LOCKED_PAGE_TASK_FILTER = {
+  key: "title-optimization",
+  label: "Title Optimization",
+  description: "AI-powered title rewrites for discoverability",
+} as const
 
 export const BRANDS = ["Yankee Candle", "NutriChef", "Vevor", "Proctor Silex", "Dyson"]
 
@@ -167,17 +164,21 @@ function TypeFilterDropdown({
   lockedFilter?: string
 }) {
   const activeValue = lockedFilter ?? value
-  const selected = FILTERS.find((f) => f.key === activeValue)
+  const filters =
+    lockedFilter === LOCKED_PAGE_TASK_FILTER.key
+      ? [...TASK_TYPE_FILTERS, LOCKED_PAGE_TASK_FILTER]
+      : [...TASK_TYPE_FILTERS]
+  const selected = filters.find((f) => f.key === activeValue)
 
   return (
     <Popover>
       <DropdownTrigger
         field="Task type"
-        value={selected?.label ?? FILTERS[0].label}
+        value={selected?.label ?? TASK_TYPE_FILTERS[0].label}
       />
       <PopoverContent align="start" className="w-72 p-1.5">
         <ul className="flex flex-col gap-0.5">
-          {FILTERS.map((f) => (
+          {filters.map((f) => (
             <RadioItem
               key={f.key}
               label={f.label}
