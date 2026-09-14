@@ -8,26 +8,18 @@ import type { Sku } from "./types"
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const METRIC_TIPS: Record<string, string> = {
-  C: "Compliance with Amazon's policies",
+const METRIC_FULL_LABELS: Record<"C" | "S" | "A", string> = {
+  C: "Compliance",
   S: "Search engine optimisation",
   A: "Answer engine optimisation",
 }
 
-function CompactMetric({ letter, value }: { letter: "C" | "S" | "A"; value: number }) {
+function MetricSegment({ letter, value }: { letter: "C" | "S" | "A"; value: number }) {
   return (
-    <TooltipProvider>
-      <Tooltip>
-        {/* render={<span />} prevents a <button> inside the SkuCard <button> */}
-        <TooltipTrigger render={<span />}>
-          <span className="inline-flex items-baseline gap-px text-xs leading-none">
-            <span className="text-slate-400">{letter}</span>
-            <span className="font-medium tabular-nums text-slate-800">{value}</span>
-          </span>
-        </TooltipTrigger>
-        <TooltipContent>{METRIC_TIPS[letter]}</TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+    <span className="inline-flex items-baseline gap-px text-xs leading-none">
+      <span className="font-medium text-slate-400">{letter}</span>
+      <span className="font-medium tabular-nums text-slate-800">{value}%</span>
+    </span>
   )
 }
 
@@ -40,12 +32,33 @@ function CardMetrics({
   seo: number
   aeo: number
 }) {
+  const rows: { letter: "C" | "S" | "A"; value: number }[] = [
+    { letter: "C", value: compliance },
+    { letter: "S", value: seo },
+    { letter: "A", value: aeo },
+  ]
+
   return (
-    <span className="inline-flex items-center gap-2">
-      <CompactMetric letter="C" value={compliance} />
-      <CompactMetric letter="S" value={seo} />
-      <CompactMetric letter="A" value={aeo} />
-    </span>
+    <TooltipProvider>
+      <Tooltip>
+        {/* render={<span />} prevents a <button> inside the SkuCard <button> */}
+        <TooltipTrigger render={<span className="inline-flex items-center gap-2" />}>
+          {rows.map(({ letter, value }) => (
+            <MetricSegment key={letter} letter={letter} value={value} />
+          ))}
+        </TooltipTrigger>
+        <TooltipContent side="top" className="block w-max max-w-none px-3 py-2 text-left">
+          <ul className="flex flex-col gap-1.5">
+            {rows.map(({ letter, value }) => (
+              <li key={letter} className="whitespace-nowrap leading-snug">
+                <span className="font-medium">{METRIC_FULL_LABELS[letter]}</span>
+                <span className="opacity-80"> — {value}%</span>
+              </li>
+            ))}
+          </ul>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
