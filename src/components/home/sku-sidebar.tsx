@@ -3,7 +3,12 @@
 import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { AlignJustify, CheckCircle2, PanelLeftOpen } from "lucide-react"
+import { enterTransition, fadeRise, staggerContainer } from "@/lib/motion"
 import { cn } from "@/lib/utils"
+import {
+  REVIEW_SIDEBAR_CARD_DELAY,
+  REVIEW_SIDEBAR_CARD_STAGGER,
+} from "./review-entrance"
 import { Button } from "@/components/ui/button"
 import { Checkbox, ContentAgentSkuCard, TitleOptimizationSkuCard } from "./sku-card"
 import type { BulkField } from "./bulk-publish-confirm-dialog"
@@ -128,6 +133,8 @@ interface SkuSidebarProps {
   onBulkAcceptAndPublish?: (fields: BulkField[]) => void
   /** Called when "Review" is clicked — defaults to exiting selection mode */
   onBulkReview?: () => void
+  /** Play the Review landing sequence: pane first, then staggered SKU cards. */
+  animateEntrance?: boolean
 }
 
 export function SkuSidebar({
@@ -148,13 +155,19 @@ export function SkuSidebar({
   onDeselectAllSkus = () => {},
   onBulkAcceptAndPublish = () => {},
   onBulkReview,
+  animateEntrance = false,
 }: SkuSidebarProps) {
   // Hooks must run unconditionally — before any early return.
   const { rendered, leavingDelays } = useSlidingList(skus)
 
   if (collapsed) {
     return (
-      <aside className="flex w-10 shrink-0 flex-col items-center border-r border-slate-200 bg-white pt-4">
+      <motion.aside
+        initial={animateEntrance ? { opacity: 0, x: -8 } : false}
+        animate={{ opacity: 1, x: 0 }}
+        transition={enterTransition}
+        className="flex w-10 shrink-0 flex-col items-center border-r border-slate-200 bg-white pt-4"
+      >
         <button
           type="button"
           aria-label="Expand panel"
@@ -163,7 +176,7 @@ export function SkuSidebar({
         >
           <PanelLeftOpen className="size-4" />
         </button>
-      </aside>
+      </motion.aside>
     )
   }
 
@@ -181,7 +194,12 @@ export function SkuSidebar({
   const isEmpty = rendered.length === 0
 
   return (
-    <aside className="flex w-[420px] shrink-0 flex-col overflow-hidden border-r border-slate-200 bg-white">
+    <motion.aside
+      initial={animateEntrance ? { opacity: 0, x: -8 } : false}
+      animate={{ opacity: 1, x: 0 }}
+      transition={enterTransition}
+      className="flex w-[420px] shrink-0 flex-col overflow-hidden border-r border-slate-200 bg-white"
+    >
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="flex shrink-0 items-start justify-between px-4 pb-2 pt-4">
         {isSelectionMode ? (
@@ -249,7 +267,16 @@ export function SkuSidebar({
           <p className="px-4 pb-4 text-xs text-slate-500">No SKUs match the current filter.</p>
         )
       ) : (
-        <ul className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-3 pb-4 pt-1">
+        <motion.ul
+          variants={
+            animateEntrance
+              ? staggerContainer(REVIEW_SIDEBAR_CARD_STAGGER, REVIEW_SIDEBAR_CARD_DELAY)
+              : undefined
+          }
+          initial={animateEntrance ? "hidden" : false}
+          animate={animateEntrance ? "visible" : undefined}
+          className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-3 pb-4 pt-1"
+        >
           {rendered.map((sku) => {
             const isLeaving = leavingDelays.has(sku.id)
             // Per-card stagger offset in ms (0 for single removals)
@@ -260,8 +287,9 @@ export function SkuSidebar({
                * Outer <li> — collapses height via CSS grid-rows trick.
                * pb-2 keeps card shadows inside the row box (margin would clip in the scroll area).
                */
-              <li
+              <motion.li
                 key={sku.id}
+                variants={animateEntrance ? fadeRise : undefined}
                 style={{
                   transitionDelay: isLeaving ? `${staggerMs + 350}ms` : "0ms",
                 }}
@@ -293,8 +321,8 @@ export function SkuSidebar({
                         : { x: 0, opacity: 1 }
                     }
                     transition={{
-                      x:       { delay: staggerMs / 1000, duration: 0.55, ease: [0.4, 0, 0.2, 1] },
-                      opacity: { delay: staggerMs / 1000, duration: 0.3,  ease: "easeOut" },
+                      x: { delay: staggerMs / 1000, duration: 0.55, ease: [0.4, 0, 0.2, 1] },
+                      opacity: { delay: staggerMs / 1000, duration: 0.3, ease: "easeOut" },
                     }}
                   >
                     <SkuCardComponent
@@ -307,10 +335,10 @@ export function SkuSidebar({
                     />
                   </motion.div>
                 </div>
-              </li>
+              </motion.li>
             )
           })}
-        </ul>
+        </motion.ul>
       )}
 
       {/* ── Bottom action bar — visible when ≥1 SKU is selected ──────────────── */}
@@ -341,6 +369,6 @@ export function SkuSidebar({
           </div>
         </div>
       )}
-    </aside>
+    </motion.aside>
   )
 }

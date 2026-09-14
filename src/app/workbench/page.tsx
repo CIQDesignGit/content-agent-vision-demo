@@ -27,6 +27,11 @@ import { BRD_INPUT_KEY, BRD_OUTPUT_KEY, type BrdOutput } from "@/components/home
 import { toast } from "sonner"
 import { UnpublishedChangesGuardDialog } from "@/components/home/unpublished-changes-guard-dialog"
 import { QueueEmptyState } from "@/components/home/queue-empty-state"
+import {
+  REVIEW_DETAIL_DELAY,
+  ReviewDetailItem,
+  ReviewEntrance,
+} from "@/components/home/review-entrance"
 
 import { getFieldPublishQueue } from "@/lib/build-field-publish-queue"
 import { getActivePublishBatch, getPublishBatchForField } from "@/lib/publish-batch"
@@ -957,6 +962,7 @@ function WorkbenchPage() {
   const pdp = content.pdpContent
 
   return (
+    <ReviewEntrance>
     <div className="flex h-screen flex-col overflow-hidden bg-slate-50">
       <AppHeader />
       <LaunchpadTabs className="bg-white" />
@@ -1002,6 +1008,7 @@ function WorkbenchPage() {
           onSelectAllSkus={handleSelectAllSkus}
           onDeselectAllSkus={handleDeselectAllSkus}
           onBulkAcceptAndPublish={(fields) => { setPendingBulkFields(fields); setBulkPublishDialogOpen(true) }}
+          animateEntrance
           onBulkReview={() => {
             // Store current state so the bulk-review page can read it
             sessionStorage.setItem(
@@ -1025,6 +1032,24 @@ function WorkbenchPage() {
             <QueueEmptyState />
           ) : (
             <>
+          <UnpublishedChangesGuardDialog
+            open={unpublishedGuardOpen}
+            onOpenChange={(open) => {
+              if (!open) handleUnpublishedGuardStay()
+            }}
+            onStay={handleUnpublishedGuardStay}
+            onLeave={handleUnpublishedGuardLeave}
+          />
+
+          <PublishConfirmDialog
+            open={publishDialogOpen}
+            onOpenChange={setPublishDialogOpen}
+            summary={effectivePublishSummary}
+            hasActiveBatch={effectivePublishSummary.hasActiveBatch}
+            onConfirm={handlePublishConfirm}
+          />
+
+            <ReviewDetailItem className="shrink-0" delay={REVIEW_DETAIL_DELAY.header}>
             <ProductHeader
             title={selectedSku.title}
             asin={selectedSku.asin}
@@ -1047,29 +1072,16 @@ function WorkbenchPage() {
               if (includedCount > 0) setPublishDialogOpen(true)
             }}
           />
-
-          <UnpublishedChangesGuardDialog
-            open={unpublishedGuardOpen}
-            onOpenChange={(open) => {
-              if (!open) handleUnpublishedGuardStay()
-            }}
-            onStay={handleUnpublishedGuardStay}
-            onLeave={handleUnpublishedGuardLeave}
-          />
-
-          <PublishConfirmDialog
-            open={publishDialogOpen}
-            onOpenChange={setPublishDialogOpen}
-            summary={effectivePublishSummary}
-            hasActiveBatch={effectivePublishSummary.hasActiveBatch}
-            onConfirm={handlePublishConfirm}
-          />
+            </ReviewDetailItem>
 
           <div className="flex min-h-0 flex-1">
             <section className="flex min-w-0 flex-1 flex-col">
               <div className="flex-1 space-y-4 overflow-y-auto bg-slate-50 px-5 pb-5">
                 {/* Toolbar: sync info (left) + bulk select (right) */}
-                <div className="flex items-center justify-between pt-3 pb-1">
+                <ReviewDetailItem
+                  className="flex items-center justify-between pt-3 pb-1"
+                  delay={REVIEW_DETAIL_DELAY.toolbar}
+                >
                   {/* PIM sync + AI sync chips — icons match SourceLogoBadge styling */}
                   <div className="flex items-center gap-3">
                     {selectedSku.pimSyncedOn && (
@@ -1091,7 +1103,8 @@ function WorkbenchPage() {
                     onSelectAll={() => { setTitleIncluded(true); setImageIncluded(true); setBulletsIncluded(true); setDescriptionIncluded(true) }}
                     onDeselectAll={() => { setTitleIncluded(false); setImageIncluded(false); setBulletsIncluded(false); setDescriptionIncluded(false) }}
                   />
-                </div>
+                </ReviewDetailItem>
+                <ReviewDetailItem delay={REVIEW_DETAIL_DELAY.title}>
                 <ProductTitleSection
                   key={selectedSkuId}
                   pimTitle={content.title}
@@ -1116,6 +1129,8 @@ function WorkbenchPage() {
                   onToggleInclude={() => setTitleIncluded((v) => !v)}
                   hideActions
                 />
+                </ReviewDetailItem>
+                <ReviewDetailItem delay={REVIEW_DETAIL_DELAY.image}>
                 <ImageSection
                   pimImages={content.images}
                   pdpImages={pdp.images ?? []}
@@ -1129,6 +1144,8 @@ function WorkbenchPage() {
                   isIncluded={imageIncluded}
                   onToggleInclude={() => setImageIncluded((v) => !v)}
                 />
+                </ReviewDetailItem>
+                <ReviewDetailItem delay={REVIEW_DETAIL_DELAY.bullets}>
                 <BulletPointsSection
                   pimBullets={content.bullets}
                   pdpBullets={pdp.bullets}
@@ -1154,6 +1171,8 @@ function WorkbenchPage() {
                   onToggleInclude={() => setBulletsIncluded((v) => !v)}
                   hideActions
                 />
+                </ReviewDetailItem>
+                <ReviewDetailItem delay={REVIEW_DETAIL_DELAY.description}>
                 <DescriptionSection
                   pimDescription={content.description}
                   pdpDescription={pdp.description}
@@ -1174,6 +1193,7 @@ function WorkbenchPage() {
                   onToggleInclude={() => setDescriptionIncluded((v) => !v)}
                   hideActions
                 />
+                </ReviewDetailItem>
               </div>
             </section>
           </div>
@@ -1182,6 +1202,7 @@ function WorkbenchPage() {
         </main>
       </div>
     </div>
+    </ReviewEntrance>
   )
 }
 
