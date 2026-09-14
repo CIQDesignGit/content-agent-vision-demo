@@ -1,9 +1,11 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
+import { ChevronDown, ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { fieldLabelContentStack, fieldSectionStack } from "./field-layout"
 import { BulletSourceCell, SourceCellLabel } from "./bullet-source-cell"
+import { MatchPercentBadge } from "./match-percent-badge"
 import { PIM_CHANNEL_LABEL, PIM_LOGO_ALT, RETAILER_LOGO_SRC, SALSIFY_LOGO_SRC } from "./source-logos"
 
 export type FieldCompareTarget = "pim" | "pdp" | "final"
@@ -40,6 +42,14 @@ interface VerticalSourceCompareGridProps {
   reverseColumns?: boolean
   /** When set, shows a character counter inside each source text box. */
   charLimit?: number
+  /** When true, recommendation block renders above PIM/retailer columns. */
+  recommendationFirst?: boolean
+  /** When true, PIM/retailer grid can be collapsed (see defaultSourceCompareOpen). */
+  sourceCompareCollapsible?: boolean
+  /** Initial expanded state for the source compare grid. Defaults to true. */
+  defaultSourceCompareOpen?: boolean
+  /** When set, shows a match pill beside the PIM/retailer toggle (PIM vs retailer). */
+  matchPercent?: number
 }
 
 function sourceColumnClass(showPim: boolean, showPdp: boolean) {
@@ -87,7 +97,12 @@ export function VerticalSourceCompareGrid({
   recommendationBody,
   reverseColumns = false,
   charLimit,
+  recommendationFirst = false,
+  sourceCompareCollapsible = false,
+  defaultSourceCompareOpen = true,
+  matchPercent,
 }: VerticalSourceCompareGridProps) {
+  const [sourceCompareOpen, setSourceCompareOpen] = useState(defaultSourceCompareOpen)
   const columnClass = sourceColumnClass(showPim, showPdp)
   const hasRecommendation = Boolean(recommendationHeader || recommendationBody)
   const sourceCellShellClass =
@@ -108,9 +123,8 @@ export function VerticalSourceCompareGrid({
       </>
     )
 
-  return (
-    <div className={fieldSectionStack("w-full")}>
-      <div className={cn("grid gap-x-3", (pimCellBare || pdpCellBare) ? "items-start" : "items-stretch", columnClass)}>
+  const sourceGrid = (
+    <div className={cn("grid gap-x-3", (pimCellBare || pdpCellBare) ? "items-start" : "items-stretch", columnClass)}>
         {(() => {
           const pimColumn = showPim ? (
             <SourceCompareColumn
@@ -169,9 +183,64 @@ export function VerticalSourceCompareGrid({
 
           return reverseColumns ? [pdpColumn, pimColumn] : [pimColumn, pdpColumn]
         })()}
-      </div>
+    </div>
+  )
 
-      {hasRecommendation ? recommendationGrouped : null}
+  const sourceCompareToggleClass =
+    "inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 transition-colors hover:text-slate-800"
+
+  function SourceCompareToggle({
+    expanded,
+    onClick,
+  }: {
+    expanded: boolean
+    onClick: () => void
+  }) {
+    return (
+      <div className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+        <button
+          type="button"
+          onClick={onClick}
+          className={sourceCompareToggleClass}
+          aria-expanded={expanded}
+        >
+          {expanded ? (
+            <ChevronDown className="size-3.5 shrink-0 text-slate-400" aria-hidden />
+          ) : (
+            <ChevronRight className="size-3.5 shrink-0 text-slate-400" aria-hidden />
+          )}
+          PIM and Retailer
+        </button>
+        {matchPercent !== undefined ? (
+          <MatchPercentBadge percent={matchPercent} />
+        ) : null}
+      </div>
+    )
+  }
+
+  const sourceCompareSeparatorClass =
+    recommendationFirst && hasRecommendation ? "border-t border-slate-100 pt-3" : undefined
+
+  const sourceCompareBlock = sourceCompareCollapsible ? (
+    sourceCompareOpen ? (
+      <div className={cn(fieldLabelContentStack("w-full"), sourceCompareSeparatorClass)}>
+        <SourceCompareToggle expanded onClick={() => setSourceCompareOpen(false)} />
+        {sourceGrid}
+      </div>
+    ) : (
+      <div className={sourceCompareSeparatorClass}>
+        <SourceCompareToggle expanded={false} onClick={() => setSourceCompareOpen(true)} />
+      </div>
+    )
+  ) : (
+    sourceGrid
+  )
+
+  return (
+    <div className={fieldSectionStack("w-full")}>
+      {recommendationFirst && hasRecommendation ? recommendationGrouped : null}
+      {sourceCompareBlock}
+      {!recommendationFirst && hasRecommendation ? recommendationGrouped : null}
     </div>
   )
 }

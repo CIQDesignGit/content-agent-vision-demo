@@ -24,7 +24,7 @@ export function LostToInactionCard({ data }: LostToInactionCardProps) {
           <p className="mt-3 text-sm leading-snug text-fg-secondary">
             Estimated sales missed on{" "}
             <span className="font-semibold text-fg-primary">{data.eventName}</span>{" "}
-            because recommended content changes weren't published in time.
+            because recommended content changes weren&apos;t published in time.
           </p>
         </div>
 

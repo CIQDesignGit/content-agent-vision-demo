@@ -1,12 +1,11 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {
   animate,
-  motion,
   useMotionValue,
+  useMotionValueEvent,
   useReducedMotion,
-  useTransform,
 } from "framer-motion"
 import { DURATION, EASE_OUT } from "@/lib/motion"
 
@@ -26,21 +25,36 @@ export function AnimatedFigure({
   className,
 }: AnimatedFigureProps) {
   const reduced = useReducedMotion()
-  const count = useMotionValue(reduced ? value : 0)
-  const label = useTransform(count, (v) => v.toFixed(fractionDigits))
+  // SSR + first paint show the final value so markup matches on hydrate.
+  const [label, setLabel] = useState(() => value.toFixed(fractionDigits))
+  const count = useMotionValue(value)
+
+  useMotionValueEvent(count, "change", (v) => {
+    setLabel(v.toFixed(fractionDigits))
+  })
 
   useEffect(() => {
     if (reduced) {
       count.set(value)
       return
     }
-    const controls = animate(count, value, {
-      duration: DURATION.figure,
-      delay,
-      ease: EASE_OUT,
+
+    let controls: { stop: () => void } | undefined
+    // Defer so the hydrated final value paints once before the count-up starts.
+    const raf = requestAnimationFrame(() => {
+      count.set(0)
+      controls = animate(count, value, {
+        duration: DURATION.figure,
+        delay,
+        ease: EASE_OUT,
+      })
     })
-    return () => controls.stop()
+
+    return () => {
+      cancelAnimationFrame(raf)
+      controls?.stop()
+    }
   }, [count, delay, reduced, value])
 
-  return <motion.span className={className}>{label}</motion.span>
+  return <span className={className}>{label}</span>
 }

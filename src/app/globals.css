@@ -82,6 +82,14 @@
     0 4px 24px -4px rgb(15 23 42 / 0.04),
     0 20px 60px -12px rgb(135 91 247 / 0.04),
     0 40px 100px -20px rgb(135 91 247 / 0.025);
+  /* Field cards — extra-wide blur, almost no edge */
+  --shadow-field:
+    0 8px 40px -12px rgb(15 23 42 / 0.035),
+    0 28px 80px -20px rgb(15 23 42 / 0.03);
+  /* SKU sidebar cards — subtle lift on white rail */
+  --shadow-sku-card:
+    0 1px 2px 0 rgb(15 23 42 / 0.04),
+    0 2px 8px -4px rgb(15 23 42 / 0.05);
   --shadow-inner:    inset 0 2px 4px 0 rgb(0 0 0 / 0.06);
 
   /* ── Pane elevation ladder ──────────────────
@@ -172,6 +180,9 @@
   --color-data-3: #22c9dd;
   --color-data-4: #9fe4ee;
   --color-data-5: #ecfbfd;
+
+  /* ── Slate tints (workbench canvas, subtle rails) ── */
+  --color-slate-25: #fbfcfd;
 
   /* ── Neutral — Gray ─────────────────────── */
   --color-neutral-50:  #f9fafb;

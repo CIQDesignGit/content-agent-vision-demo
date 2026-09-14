@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
-import { Columns2, Type } from "lucide-react"
+import { useMemo, useState } from "react"
+import { Type } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SectionSelectToggle } from "./section-controls"
 import { titleMatchPercent } from "@/lib/title-match"
@@ -90,10 +90,12 @@ export function ProductTitleSection({
   const isPublishedLocked =
     status === "accepted" && (syncFootprint === "syncing" || syncFootprint === "queued")
   const [isOpen, setIsOpen] = useState(() => !isPublishedLocked)
+  const [prevPublishedLocked, setPrevPublishedLocked] = useState(isPublishedLocked)
   // Keep open/collapsed in sync with the queued state across the full publish lifecycle
-  useEffect(() => {
+  if (isPublishedLocked !== prevPublishedLocked) {
+    setPrevPublishedLocked(isPublishedLocked)
     setIsOpen(!isPublishedLocked)
-  }, [isPublishedLocked])
+  }
 
   const [isAddingNew, setIsAddingNew] = useState(false)
   const [draftText, setDraftText] = useState("")
@@ -296,16 +298,10 @@ export function ProductTitleSection({
     (noPimShowReasoning || noPimShowAltKeywords)
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-field">
       <header className="flex flex-wrap items-center gap-2 pl-1 py-2">
         <Type className="size-4 shrink-0 text-slate-400" aria-hidden />
         <span className="text-sm font-semibold text-slate-900">Title</span>
-        {hasPimData && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-normal text-slate-500">
-            <Columns2 className="size-3.5 shrink-0 text-slate-400" aria-hidden />
-            {matchPercent}% match between PIM and retailer
-          </span>
-        )}
         {showReco && (
           <div className="ml-auto">
             <SectionSelectToggle
@@ -417,6 +413,10 @@ export function ProductTitleSection({
           pdpValue={displayPdp}
           compareTarget={effectiveCompareTarget}
           charLimit={charLimit}
+          recommendationFirst
+          sourceCompareCollapsible
+          defaultSourceCompareOpen={false}
+          matchPercent={hasPimData ? matchPercent : undefined}
           recommendationHeader={showHeaderInGrid ? recommendationHeaderEl : undefined}
           recommendationBody={
             !recommendation ? undefined : isFullySynced ? (

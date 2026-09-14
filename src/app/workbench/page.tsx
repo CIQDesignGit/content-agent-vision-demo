@@ -119,25 +119,27 @@ function WorkbenchPage() {
 
   // Reset queue when landing from a moment Take Action (or clearing the param).
   useEffect(() => {
-    setSelectedSkuId(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
-    setActionStatusMap(
-      Object.fromEntries(
-        catalogSkus.map((s) => [
-          s.id,
-          activeMoment ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
-        ]),
-      ),
-    )
-    setContentState(activeMoment ? {} : buildInitialState())
-    setSelectedSkuIds(new Set())
-    setIsSelectionMode(false)
-    setBookmarkSet(
-      new Set(
-        activeMoment
-          ? []
-          : MOCK_SKUS.filter((s) => s.isBookmarked).map((s) => s.id),
-      ),
-    )
+    queueMicrotask(() => {
+      setSelectedSkuId(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
+      setActionStatusMap(
+        Object.fromEntries(
+          catalogSkus.map((s) => [
+            s.id,
+            activeMoment ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
+          ]),
+        ),
+      )
+      setContentState(activeMoment ? {} : buildInitialState())
+      setSelectedSkuIds(new Set())
+      setIsSelectionMode(false)
+      setBookmarkSet(
+        new Set(
+          activeMoment
+            ? []
+            : MOCK_SKUS.filter((s) => s.isBookmarked).map((s) => s.id),
+        ),
+      )
+    })
   }, [activeMoment, catalogSkus])
 
   const filteredSkus = useMemo(
@@ -290,10 +292,12 @@ function WorkbenchPage() {
 
   useEffect(() => {
     clearPublishTimers()
-    setTitleIncluded(true)
-    setImageIncluded(true)
-    setBulletsIncluded(true)
-    setDescriptionIncluded(true)
+    queueMicrotask(() => {
+      setTitleIncluded(true)
+      setImageIncluded(true)
+      setBulletsIncluded(true)
+      setDescriptionIncluded(true)
+    })
   }, [selectedSkuId, clearPublishTimers])
 
   // When the user returns from /bulk-review, pick up the approve result
@@ -302,9 +306,11 @@ function WorkbenchPage() {
     if (!raw) return
     sessionStorage.removeItem(BRD_OUTPUT_KEY)
     const { fields, skuIds } = JSON.parse(raw) as BrdOutput
-    setSelectedSkuIds(new Set(skuIds))
-    setPendingBulkFields(fields)
-    setBulkPublishDialogOpen(true)
+    queueMicrotask(() => {
+      setSelectedSkuIds(new Set(skuIds))
+      setPendingBulkFields(fields)
+      setBulkPublishDialogOpen(true)
+    })
   }, [])
 
   function schedulePublishSimulation(skuId: string, batchId: string) {
@@ -1047,7 +1053,7 @@ function WorkbenchPage() {
 
           <div className="flex min-h-0 flex-1">
             <section className="flex min-w-0 flex-1 flex-col">
-              <div className="flex-1 space-y-4 overflow-y-auto bg-slate-100 px-5 pb-5">
+              <div className="flex-1 space-y-4 overflow-y-auto bg-slate-25 px-5 pb-5">
                 {/* Toolbar: sync info (left) + bulk select (right) */}
                 <div className="flex items-center justify-between pt-3 pb-1">
                   {/* PIM sync + AI sync chips — icons match SourceLogoBadge styling */}

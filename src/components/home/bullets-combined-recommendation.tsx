@@ -1,10 +1,9 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import { Check, Circle, GripVertical, RotateCcw, ToggleLeft, ToggleRight, Trash2, Undo2, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { buildTitleDiff } from "@/lib/build-title-diff"
-import { CompareTabs } from "./content-recommendation-card"
 import { AltKeywordsPanel } from "./alt-keywords-panel"
 import type { AltKeyword, BulletRecommendation, Reason } from "./types"
 import type { FieldCompareTarget } from "./vertical-source-compare-grid"
@@ -103,6 +102,7 @@ type FlatEntry =
 interface Props {
   items: CombinedBulletItem[]
   hasPimData?: boolean
+  compareTarget?: FieldCompareTarget
   altKeywords?: AltKeyword[]
   hideActions?: boolean
   onTextChange: (id: string, text: string) => void
@@ -117,10 +117,9 @@ interface Props {
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export function BulletsCombinedRecommendationView({
-  items, hasPimData = true, altKeywords = [], hideActions = false,
+  items, hasPimData = true, compareTarget = "final", altKeywords = [], hideActions = false,
   onTextChange, onAccept, onReject, onReset, onUndoAccept, onUndoReject, onAddBullet,
 }: Props) {
-  const [compareTarget, setCompareTarget] = useState<FieldCompareTarget>("final")
   // Ordered flat list: existing bullets interleaved with locally-inserted ones
   const [flatList, setFlatList] = useState<FlatEntry[]>(() =>
     items.map((item) => ({ kind: "existing" as const, id: item.reco.id, item })),
@@ -132,13 +131,16 @@ export function BulletsCombinedRecommendationView({
   const [usedKeywordIds, setUsedKeywordIds] = useState<Set<string>>(new Set())
   const [appliedSuffixes, setAppliedSuffixes] = useState<Map<string, string>>(new Map())
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const localIdRef = useRef(0)
 
   // ─── Drag & drop state ──────────────────────────────────────────────────────
   const [draggingId, setDraggingId] = useState<string | null>(null)
   const [dragOverId, setDragOverId] = useState<string | null>(null)
 
   // Sync existing entries when parent updates text (after onTextChange)
-  useEffect(() => {
+  const [prevItems, setPrevItems] = useState(items)
+  if (items !== prevItems) {
+    setPrevItems(items)
     setFlatList((prev) =>
       prev.map((entry) => {
         if (entry.kind !== "existing") return entry
@@ -146,13 +148,18 @@ export function BulletsCombinedRecommendationView({
         return updated ? { ...entry, item: updated } : entry
       }),
     )
-  }, [items])
+  }
 
   const grouped = useMemo(
     () => buildGroupedReasoning(items.map((i) => i.reco)),
     [items],
   )
-  const hasPendingItems = items.some((i) => i.reco.status === "pending")
+
+  const [prevCompareTarget, setPrevCompareTarget] = useState(compareTarget)
+  if (compareTarget !== prevCompareTarget) {
+    setPrevCompareTarget(compareTarget)
+    setEditingId(null)
+  }
 
   const allAccepted = items.every((i) => i.reco.status === "accepted")
   const allRejected = items.every((i) => i.reco.status === "rejected")
@@ -184,7 +191,8 @@ export function BulletsCombinedRecommendationView({
 
   /** Insert a brand-new local bullet at flatIdx+1 and immediately open it for editing. */
   function insertLocalAt(afterFlatIdx: number, initialText: string) {
-    const newId = `local-${Date.now()}`
+    localIdRef.current += 1
+    const newId = `local-${localIdRef.current}`
     setFlatList((prev) => [
       ...prev.slice(0, afterFlatIdx + 1),
       { kind: "local" as const, id: newId, text: initialText },
@@ -331,16 +339,6 @@ export function BulletsCombinedRecommendationView({
 
   return (
     <div className="flex flex-col gap-2">
-      {hasPendingItems && (
-        <div className="flex justify-end">
-          <CompareTabs
-            value={compareTarget}
-            onChange={(t) => { setCompareTarget(t); setEditingId(null) }}
-            exclude={hasPimData ? [] : ["pim"]}
-          />
-        </div>
-      )}
-
       <div className={cn("w-full min-w-0 rounded-lg px-0.5 py-0.5", outerCls)}>
         <div className={cn("rounded-md border bg-white px-3 py-2.5", borderCls,
           editingId && "ring-2 ring-brand-200",

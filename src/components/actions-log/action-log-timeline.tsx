@@ -1,4 +1,4 @@
-import { Fragment } from "react"
+import { createElement, Fragment } from "react"
 import { cn } from "@/lib/utils"
 import { stageStatusIcon } from "./status-badge"
 import { COLOR_INTENT_CLASSES } from "./status-styles"
@@ -14,7 +14,7 @@ const CIRCLE_CLASSES: Record<TimelineVariant, string> = {
 
 function TimelineStepColumn({ step }: { step: TimelineStep }) {
   const colors = COLOR_INTENT_CLASSES[step.variant]
-  const Icon = stageStatusIcon(step.stage, step.statusKey)
+  const icon = stageStatusIcon(step.stage, step.statusKey)
 
   return (
     <div className="flex w-[88px] shrink-0 flex-col items-center text-center">
@@ -25,7 +25,10 @@ function TimelineStepColumn({ step }: { step: TimelineStep }) {
           CIRCLE_CLASSES[step.variant],
         )}
       >
-        <Icon className={cn("size-3.5 shrink-0 stroke-[2.5]", colors.icon)} />
+        {createElement(icon, {
+          className: cn("size-3.5 shrink-0 stroke-[2.5]", colors.icon),
+          "aria-hidden": true,
+        })}
       </div>
       <p className={cn("mt-2 text-xs font-medium", colors.text)}>{step.statusLabel}</p>
       {step.meta ? (

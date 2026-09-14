@@ -50,11 +50,13 @@ export function BulkReviewView() {
       .map((id) => MOCK_SKUS.find((s) => s.id === id))
       .filter(Boolean) as Sku[]
 
-    setAllIds(selectedSkuIds)
-    setSkus(resolvedSkus)
-    setContentState(cs)
-    setLocalSkuIds(new Set(selectedSkuIds))
-    setSelectedFields(ALL_FIELDS)
+    queueMicrotask(() => {
+      setAllIds(selectedSkuIds)
+      setSkus(resolvedSkus)
+      setContentState(cs)
+      setLocalSkuIds(new Set(selectedSkuIds))
+      setSelectedFields(ALL_FIELDS)
+    })
   }, [])
 
   const rows = allIds

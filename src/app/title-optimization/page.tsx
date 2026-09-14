@@ -100,11 +100,13 @@ export default function TitleOptimizationPage() {
   const hasUnpublished = publishSummary.publishable.length > 0
 
   // Reset highlights and inclusion state when SKU changes
-  useEffect(() => {
+  const [highlightSkuId, setHighlightSkuId] = useState(selectedSkuId)
+  if (selectedSkuId !== highlightSkuId) {
+    setHighlightSkuId(selectedSkuId)
     setHighlights(makeHighlights(selectedSkuId))
     setTitleIncluded(true)
     setHighlightIncluded(true)
-  }, [selectedSkuId])
+  }
 
   function patch(updater: (prev: SkuContent) => SkuContent) {
     setContentState((prev) => ({ ...prev, [selectedSkuId]: updater(prev[selectedSkuId]) }))

@@ -362,21 +362,27 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     },
   },
 
-  // sku-2 — PDP-only SKU: no PIM catalog entry exists. AI recommends content to add.
+  // sku-2 — NutriChef: PIM catalog + retailer PDP (content gaps drive AI recs)
   "sku-2": {
-    hasPimData: false,
     titleStatus: "pending",
-    title: "",
-    bullets: [],
-    description: "",
+    title: "NutriChef Food Processor - 8-Cup Capacity, Digital Control Panel",
+    bullets: [
+      "500W MOTOR — Handles everyday chopping, slicing, and shredding tasks.",
+      "8-CUP CAPACITY — Room for family-sized recipes without multiple batches.",
+      "DIGITAL CONTROL PANEL — Touch display for speed and function selection.",
+      "STAINLESS STEEL BLADE SET — Includes S-blade, slicing disc, and shredding disc.",
+      "EASY CLEANUP — Removable parts are top-rack dishwasher safe and BPA-free.",
+    ],
+    description:
+      "The NutriChef Food Processor pairs an 8-cup bowl with a digital control panel for everyday chopping, slicing, and shredding. Compact footprint fits standard kitchen counters.",
     images: makeImages([260, 270, 250, 280]),
     titleRecommendation: {
       ...rec(
         "Jessica",
         "NutriChef 8-Cup Food Processor — 500W, Steel Blades, BPA-Free",
-        "",
-        "",
-        "NutriChef 8-Cup Food Processor — 500W, Steel Blades, BPA-Free",
+        "NutriChef Food Processor - 8-Cup Capacity, Digital Control Panel",
+        ", Digital Control Panel",
+        "— 500W, Steel Blades, BPA-Free",
         "Match high-intent search queries",
         "Leading with wattage and blade material targets top food-processor search filters and is expected to lift impressions ~18%.",
         "Include compliance-required specifics",
@@ -395,9 +401,9 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionRecommendation: rec(
       "Jessica",
       "Power through every kitchen task with the NutriChef 8-Cup Food Processor. The 500W motor drives stainless steel S-blade, slicing disc, and shredding disc attachments — all BPA-free and dishwasher safe. An intuitive digital LCD panel lets you switch between functions in one tap, while the compact upright design fits any standard kitchen cabinet.",
+      "The NutriChef Food Processor pairs an 8-cup bowl with a digital control panel for everyday chopping, slicing, and shredding. Compact footprint fits standard kitchen counters.",
       "",
       "",
-      "Power through every kitchen task with the NutriChef 8-Cup Food Processor.",
       "Open with the primary use-case and differentiator",
       "Amazon shoppers scan the first sentence; leading with motor power and capacity matches top product description queries.",
       "Surface compliance-required attributes",
@@ -407,7 +413,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       {
         id: "br-sku2-b1",
         label: "Bullet 1",
-        kind: "add",
+        kind: "edit",
+        pimIndex: 0,
         status: "pending",
         recommendedText:
           "POWERFUL 500W MOTOR — Handles tough chopping, slicing, shredding, and pureeing with consistent high performance.",
@@ -428,7 +435,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       {
         id: "br-sku2-b2",
         label: "Bullet 2",
-        kind: "add",
+        kind: "edit",
+        pimIndex: 1,
         status: "pending",
         recommendedText:
           "8-CUP CAPACITY — Generous bowl handles family-sized recipes without multiple batches.",
@@ -449,7 +457,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       {
         id: "br-sku2-b3",
         label: "Bullet 3",
-        kind: "add",
+        kind: "edit",
+        pimIndex: 2,
         status: "pending",
         recommendedText:
           "DIGITAL LCD CONTROL PANEL — Intuitive touch display lets you select speed and function with a single tap.",
@@ -470,7 +479,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       {
         id: "br-sku2-b4",
         label: "Bullet 4",
-        kind: "add",
+        kind: "edit",
+        pimIndex: 3,
         status: "pending",
         recommendedText:
           "THREE STAINLESS STEEL ATTACHMENTS — S-blade, slicing disc, and shredding disc included for maximum versatility.",
@@ -491,7 +501,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       {
         id: "br-sku2-b5",
         label: "Bullet 5",
-        kind: "add",
+        kind: "edit",
+        pimIndex: 4,
         status: "pending",
         recommendedText:
           "BPA-FREE & DISHWASHER SAFE — All removable parts are top-rack dishwasher safe and certified BPA-free.",
@@ -899,6 +910,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         recommendedText: "7-YEAR FULL WARRANTY — Vitamix covers parts, performance, and return shipping for a full 7 years — the longest warranty in the blender category.",
         reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Clarify warranty scope", detail: "Adding 'parts, performance, and return shipping' exactly mirrors Vitamix's official warranty terms and avoids overpromising." }] }] },
     ],
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Maya",
+      "Unlock restaurant-quality results at home with the Vitamix E310 Explorian. Aircraft-grade stainless steel blades and a robust motor blend ice, nuts, and fibrous greens into silky smoothies, hot soup, and nut butter. The 48 oz low-profile container fits under most cabinets; 10 speeds plus Pulse deliver precise texture control. Self-cleaning in under a minute — backed by a 7-year full warranty.",
+      "The Vitamix E310 Explorian delivers the full Vitamix performance in a compact, affordable package. Its powerful motor and aircraft-grade stainless steel blades break down any ingredient — whole fruits, nuts, seeds, ice — into silky perfection, batch after batch.",
+      "",
+      "",
+      "Lead with outcome keywords",
+      "First sentence names smoothies, soup, and nut butter — top blender description search intents on the retailer.",
+      "Close with warranty trust signal",
+      "7-year warranty messaging mirrors bullets and reduces hesitation on high-ticket purchases.",
+    ),
     pdpContent: {
       title: "Vitamix E310 Explorian Blender, Variable Speed, 48-oz. Low-Profile Container",
       bullets: [

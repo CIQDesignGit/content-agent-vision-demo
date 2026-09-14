@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Check, CheckCircle, Send } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -45,11 +45,15 @@ export function BulkPublishConfirmDialog({
   const [checkedFields, setCheckedFields] = useState<Set<BulkField>>(
     () => new Set(fields),
   )
+  const [wasOpen, setWasOpen] = useState(open)
 
   // Reset selection every time the dialog opens
-  useEffect(() => {
-    if (open) setCheckedFields(new Set(fields))
-  }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
+  if (open && !wasOpen) {
+    setWasOpen(true)
+    setCheckedFields(new Set(fields))
+  } else if (!open && wasOpen) {
+    setWasOpen(false)
+  }
 
   function toggleField(id: BulkField) {
     setCheckedFields((prev) => {

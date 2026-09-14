@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { AlignLeft, Columns2 } from "lucide-react"
+import { AlignLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { SectionSelectToggle } from "./section-controls"
 import { titleMatchPercent } from "@/lib/title-match"
@@ -177,19 +177,13 @@ export function DescriptionSection({
     : null
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-field">
       <header className="flex flex-wrap items-center gap-2 pl-1 py-2">
         <AlignLeft className="size-4 shrink-0 text-slate-400" aria-hidden />
         <span className="text-sm font-semibold text-slate-900">Description</span>
         <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-xs font-medium text-slate-500">
           Optional
         </span>
-        {hasPimData && (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-normal text-slate-500">
-            <Columns2 className="size-3.5 shrink-0 text-slate-400" aria-hidden />
-            {matchPercent}% match between PIM and retailer
-          </span>
-        )}
         {showReco && status === "pending" && isOpen && !hideActions && (
           <CompareTabs
             value={effectiveCompareTarget}
@@ -209,6 +203,10 @@ export function DescriptionSection({
         pimValue={hasPimData ? displayPim : ""}
         pdpValue={displayPdp}
         compareTarget={effectiveCompareTarget}
+        recommendationFirst={hasPimData}
+        sourceCompareCollapsible={hasPimData}
+        defaultSourceCompareOpen={!hasPimData}
+        matchPercent={hasPimData ? matchPercent : undefined}
         pimCell={noPimRecoCell ?? undefined}
         pimCellBare={!hasPimData}
         pimColumnLabel={

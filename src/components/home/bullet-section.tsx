@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Columns2, ListChecks } from "lucide-react"
+import { ListChecks } from "lucide-react"
 import { SectionSelectToggle } from "./section-controls"
 import { cn } from "@/lib/utils"
 import { buildTitleDiff } from "@/lib/build-title-diff"
@@ -330,18 +330,10 @@ export function BulletPointsSection({
   )
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-field">
       <header className="flex flex-wrap items-center gap-2 pl-1 py-2">
         <ListChecks className="size-4 shrink-0 text-slate-400" aria-hidden />
         <span className="text-sm font-semibold text-slate-900">Bullet Points</span>
-        {hasPimData && (
-          <>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-normal text-slate-500">
-              <Columns2 className="size-3.5 shrink-0 text-slate-400" aria-hidden />
-              {matchPercent}% match between PIM and retailer
-            </span>
-          </>
-        )}
         {/* CompareTabs only shown here for the no-PIM path; PIM path has tabs inside the combined box */}
         {!hasPimData && hasPendingRecommendations && !hideActions && (
           <CompareTabs
@@ -362,6 +354,10 @@ export function BulletPointsSection({
         pimValue=""
         pdpValue=""
         compareTarget={gridCompareTarget}
+        recommendationFirst={hasPimData}
+        sourceCompareCollapsible={hasPimData}
+        defaultSourceCompareOpen={!hasPimData}
+        matchPercent={hasPimData ? matchPercent : undefined}
         pimCell={
           noPimBulletsCell ?? (
             <BulletsSourceCompare
@@ -404,13 +400,13 @@ export function BulletPointsSection({
                   isOpen
                   collapsible={false}
                   onToggleOpen={() => undefined}
-                  hideCompareTabs
                 />
               </div>
               <div className="pt-3">
                 <BulletsCombinedRecommendationView
                   items={combinedBulletItems}
                   hasPimData={hasPimData}
+                  compareTarget={recoCompareTarget}
                   altKeywords={mergedBulletAltKeywords}
                   hideActions={hideActions}
                   onTextChange={onRecommendationTextChange}

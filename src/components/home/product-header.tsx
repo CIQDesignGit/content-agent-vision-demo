@@ -1,6 +1,6 @@
 "use client"
 
-import { Bookmark, BookmarkPlus, Package, Search, ShieldCheck, Zap } from "lucide-react"
+import { Bookmark, BookmarkPlus, Package } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { MetricChip } from "./metric-chip"
 import { OpsTag } from "./sku-card"
@@ -102,9 +102,9 @@ export function ProductHeader({
             <h1 className="truncate text-base font-semibold text-slate-900">{title}</h1>
             {!hideMetrics && (
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                <MetricChip label="Compliance" value={compliance} icon={<ShieldCheck className="size-3" />} />
-                <MetricChip label="SEO" value={seo} icon={<Search className="size-3" />} />
-                <MetricChip label="AEO" value={aeo} icon={<Zap className="size-3" />} />
+                <MetricChip label="Compliance" value={compliance} />
+                <MetricChip label="SEO" value={seo} />
+                <MetricChip label="AEO" value={aeo} />
                 {ops !== undefined && <OpsTag value={ops} />}
               </div>
             )}
@@ -120,7 +120,7 @@ export function ProductHeader({
               disabled={!canPublish}
               className={cn(
                 "inline-flex h-8 items-center gap-2 rounded-md px-4 text-xs font-medium text-white",
-                canPublish ? "bg-primary hover:bg-brand-700" : "cursor-not-allowed bg-slate-300",
+                canPublish ? "bg-brand-700 hover:bg-brand-800" : "cursor-not-allowed bg-slate-300",
               )}
             >
               {ctaLabel}

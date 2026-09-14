@@ -8,7 +8,7 @@ interface SecondaryStatsProps {
   stats: SecondaryStat[]
 }
 
-const POSITIVE_DELTA_IDS = new Set(["changes-approved", "ai-share"])
+const POSITIVE_DELTA_IDS = ["changes-approved", "ai-share"] as const
 
 export function SecondaryStats({ stats }: SecondaryStatsProps) {
   return (
@@ -18,7 +18,9 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
       variants={staggerContainer(0.06)}
     >
       {stats.map((stat) => {
-        const isPositive = POSITIVE_DELTA_IDS.has(stat.id)
+        const isPositive = POSITIVE_DELTA_IDS.includes(
+          stat.id as (typeof POSITIVE_DELTA_IDS)[number],
+        )
         return (
           <motion.div
             key={stat.id}

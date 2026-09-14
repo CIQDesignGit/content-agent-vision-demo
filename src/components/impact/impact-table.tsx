@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { EmptyState } from "@ciq-dev/ciq-design-system"
 import { ImpactTablePagination } from "./impact-table-pagination"
 import type { ImpactRow } from "./types"
@@ -13,23 +13,23 @@ interface ImpactTableProps {
 
 export function ImpactTable({ rows }: ImpactTableProps) {
   const [page, setPage] = useState(1)
-  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE))
-
-  useEffect(() => {
+  const [rowsIdentity, setRowsIdentity] = useState(rows)
+  // Reset to page 1 when the row set changes (filter / moment switch).
+  if (rows !== rowsIdentity) {
+    setRowsIdentity(rows)
     setPage(1)
-  }, [rows])
+  }
 
-  useEffect(() => {
-    if (page > totalPages) setPage(totalPages)
-  }, [page, totalPages])
+  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE))
+  const currentPage = Math.min(page, totalPages)
 
   const pageRows = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE
+    const start = (currentPage - 1) * PAGE_SIZE
     return rows.slice(start, start + PAGE_SIZE)
-  }, [page, rows])
+  }, [currentPage, rows])
 
-  const rangeStart = rows.length === 0 ? 0 : (page - 1) * PAGE_SIZE + 1
-  const rangeEnd = Math.min(page * PAGE_SIZE, rows.length)
+  const rangeStart = rows.length === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1
+  const rangeEnd = Math.min(currentPage * PAGE_SIZE, rows.length)
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border-default bg-surface shadow-brand-soft">
@@ -102,7 +102,7 @@ export function ImpactTable({ rows }: ImpactTableProps) {
 
       {rows.length > 0 ? (
         <ImpactTablePagination
-          page={page}
+          page={currentPage}
           totalPages={totalPages}
           rangeStart={rangeStart}
           rangeEnd={rangeEnd}

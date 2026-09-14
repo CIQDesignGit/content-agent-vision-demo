@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Info } from "lucide-react"
 import {
   Tooltip,
@@ -35,6 +35,51 @@ interface OpportunityStatusBarProps {
   totalAmountLabel: string
 }
 
+function SegmentInfo({
+  label,
+  tooltip,
+}: {
+  label: string
+  tooltip: string
+}) {
+  // Radix tooltip IDs differ between server and client — mount before wiring.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    queueMicrotask(() => setMounted(true))
+  }, [])
+
+  if (!mounted) {
+    return (
+      <button
+        type="button"
+        aria-label={`About ${label}`}
+        className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
+      >
+        <Info className="size-3.5" aria-hidden />
+      </button>
+    )
+  }
+
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          aria-label={`About ${label}`}
+          className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+          <Info className="size-3.5" aria-hidden />
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" className="max-w-xs type-caption">
+        <p>{tooltip}</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
 export function OpportunityStatusBar({
   segments,
   capturedPct,
@@ -44,12 +89,15 @@ export function OpportunityStatusBar({
   const [hoveredId, setHoveredId] = useState<OpportunityStatusKind | null>(null)
   const total = segments.reduce((sum, s) => sum + s.millions, 0)
 
-  let cursor = 0
-  const layouts = segments.map((segment) => {
+  const layouts = segments.map((segment, index) => {
     const share = total > 0 ? (segment.millions / total) * 100 : 0
-    const mid = cursor + share / 2
-    cursor += share
-    return { segment, share, mid }
+    const cursor = segments
+      .slice(0, index)
+      .reduce(
+        (sum, item) => sum + (total > 0 ? (item.millions / total) * 100 : 0),
+        0,
+      )
+    return { segment, share, mid: cursor + share / 2 }
   })
 
   return (
@@ -80,22 +128,7 @@ export function OpportunityStatusBar({
               amountLabel={segment.amountLabel}
               dimmed={hoveredId != null && hoveredId !== segment.id}
               info={
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      type="button"
-                      aria-label={`About ${segment.label}`}
-                      className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
-                      onClick={(e) => e.stopPropagation()}
-                      onKeyDown={(e) => e.stopPropagation()}
-                    >
-                      <Info className="size-3.5" aria-hidden />
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom" className="max-w-xs type-caption">
-                    <p>{segment.tooltip}</p>
-                  </TooltipContent>
-                </Tooltip>
+                <SegmentInfo label={segment.label} tooltip={segment.tooltip} />
               }
             />
           ))}

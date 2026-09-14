@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Check, Minus } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -125,14 +125,16 @@ export function BulkReviewDialog({
 }: BulkReviewDialogProps) {
   const [selectedFields, setSelectedFields] = useState<BulkField[]>(ALL_FIELDS)
   const [localSkuIds, setLocalSkuIds] = useState<Set<string>>(new Set(selectedSkuIds))
+  const [wasOpen, setWasOpen] = useState(open)
 
   // Reset to fully-selected state every time the dialog opens
-  useEffect(() => {
-    if (open) {
-      setLocalSkuIds(new Set(selectedSkuIds))
-      setSelectedFields(ALL_FIELDS)
-    }
-  }, [open])
+  if (open && !wasOpen) {
+    setWasOpen(true)
+    setLocalSkuIds(new Set(selectedSkuIds))
+    setSelectedFields(ALL_FIELDS)
+  } else if (!open && wasOpen) {
+    setWasOpen(false)
+  }
 
   const allIds = Array.from(selectedSkuIds)
   const allChecked = allIds.length > 0 && allIds.every((id) => localSkuIds.has(id))

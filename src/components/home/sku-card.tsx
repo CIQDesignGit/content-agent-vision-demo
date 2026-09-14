@@ -1,6 +1,6 @@
 "use client"
 
-import { Bookmark, Check, DollarSign, Minus, Search, ShieldCheck, Square, Zap } from "lucide-react"
+import { Bookmark, Check, DollarSign, Minus, Square } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { ActionStatusBadge } from "./action-status-badge"
@@ -9,33 +9,43 @@ import type { Sku } from "./types"
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 const METRIC_TIPS: Record<string, string> = {
-  Compliance: "Compliance with Amazon's policies",
-  SEO: "Search engine optimisation",
-  AEO: "Answer engine optimisation",
+  C: "Compliance with Amazon's policies",
+  S: "Search engine optimisation",
+  A: "Answer engine optimisation",
 }
 
-const METRIC_ICONS = {
-  Compliance: ShieldCheck,
-  SEO: Search,
-  AEO: Zap,
-} as const
-
-function CardMetric({ label, value }: { label: string; value: number }) {
-  const Icon = METRIC_ICONS[label as keyof typeof METRIC_ICONS]
+function CompactMetric({ letter, value }: { letter: "C" | "S" | "A"; value: number }) {
   return (
     <TooltipProvider>
       <Tooltip>
         {/* render={<span />} prevents a <button> inside the SkuCard <button> */}
         <TooltipTrigger render={<span />}>
-          <span className="inline-flex items-center gap-1 text-xs text-slate-500">
-            {Icon && <Icon className="size-3 shrink-0 text-slate-400" />}
-            {label}
-            <span className="font-semibold tabular-nums text-slate-700">{value}%</span>
+          <span className="inline-flex items-baseline gap-px text-xs leading-none">
+            <span className="text-slate-400">{letter}</span>
+            <span className="font-medium tabular-nums text-slate-800">{value}</span>
           </span>
         </TooltipTrigger>
-        <TooltipContent>{METRIC_TIPS[label] ?? label}</TooltipContent>
+        <TooltipContent>{METRIC_TIPS[letter]}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
+  )
+}
+
+function CardMetrics({
+  compliance,
+  seo,
+  aeo,
+}: {
+  compliance: number
+  seo: number
+  aeo: number
+}) {
+  return (
+    <span className="inline-flex items-center gap-2">
+      <CompactMetric letter="C" value={compliance} />
+      <CompactMetric letter="S" value={seo} />
+      <CompactMetric letter="A" value={aeo} />
+    </span>
   )
 }
 
@@ -46,8 +56,8 @@ export function OpsTag({ value }: { value: number }) {
       <Tooltip>
         {/* render={<span />} prevents a <button> inside the SkuCard <button> */}
         <TooltipTrigger render={<span />}>
-          <span className="inline-flex items-center gap-1 rounded-md bg-brand-50 px-1.5 py-0.5 text-xs text-slate-500">
-            <DollarSign className="size-3 shrink-0 text-slate-400" />
+          <span className="inline-flex items-center gap-1 rounded-md bg-brand-50 px-1.5 py-0.5 text-xs text-slate-600">
+            <DollarSign className="size-3 shrink-0 text-slate-600" />
             3M OPS
             <span className="font-bold tabular-nums text-slate-700">${formatted}</span>
           </span>
@@ -150,13 +160,13 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
       type="button"
       onClick={() => (isSelectionMode ? onToggle() : onSelect())}
       className={cn(
-        "flex flex-col w-full overflow-hidden rounded-xl border text-left transition-colors",
+        "flex flex-col w-full overflow-hidden rounded-xl border text-left shadow-sku-card transition-colors",
         isSelectionMode
           ? isSelected
             ? "border-brand-200 bg-brand-25"
             : "border-slate-200 bg-white hover:bg-slate-50"
           : isActive
-            ? "border-primary bg-brand-25"
+            ? "border-brand-500 bg-brand-25"
             : "border-slate-200 bg-white hover:bg-slate-50",
       )}
     >
@@ -185,10 +195,12 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
           </div>
           {/* Content Agent: keep metric tags visible in selection mode */}
           {!hideMetrics && (
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-3 pt-0 pb-3">
-              <CardMetric label="Compliance" value={sku.metrics.compliance} />
-              <CardMetric label="SEO" value={sku.metrics.seo} />
-              <CardMetric label="AEO" value={sku.metrics.aeo} />
+            <div className="flex w-full items-center justify-between gap-y-1.5 px-3 pt-0 pb-3">
+              <CardMetrics
+                compliance={sku.metrics.compliance}
+                seo={sku.metrics.seo}
+                aeo={sku.metrics.aeo}
+              />
               <OpsTag value={sku.metrics.ops} />
             </div>
           )}
@@ -234,10 +246,12 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
               </p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 px-3 pt-2 pb-3">
-            <CardMetric label="Compliance" value={sku.metrics.compliance} />
-            <CardMetric label="SEO" value={sku.metrics.seo} />
-            <CardMetric label="AEO" value={sku.metrics.aeo} />
+          <div className="flex w-full items-center justify-between gap-y-1.5 px-3 pt-2 pb-3">
+            <CardMetrics
+              compliance={sku.metrics.compliance}
+              seo={sku.metrics.seo}
+              aeo={sku.metrics.aeo}
+            />
             <OpsTag value={sku.metrics.ops} />
           </div>
         </>

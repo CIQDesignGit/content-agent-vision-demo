@@ -22,21 +22,27 @@ export function EditableCell({
 }: EditableCellProps) {
   const [draft, setDraft] = useState(value)
   const ref = useRef<HTMLTextAreaElement>(null)
+  const [wasEditing, setWasEditing] = useState(editing)
 
   // Sync draft whenever we enter edit mode
+  if (editing && !wasEditing) {
+    setWasEditing(true)
+    setDraft(value)
+  } else if (!editing && wasEditing) {
+    setWasEditing(false)
+  }
+
   useEffect(() => {
-    if (editing) {
-      setDraft(value)
-      // Give the browser a tick to mount the textarea before focusing
-      requestAnimationFrame(() => {
-        if (ref.current) {
-          ref.current.focus()
-          ref.current.style.height = "auto"
-          ref.current.style.height = `${ref.current.scrollHeight}px`
-        }
-      })
-    }
-  }, [editing]) // intentionally omit `value` — don't reset draft on external changes
+    if (!editing) return
+    // Give the browser a tick to mount the textarea before focusing
+    requestAnimationFrame(() => {
+      if (ref.current) {
+        ref.current.focus()
+        ref.current.style.height = "auto"
+        ref.current.style.height = `${ref.current.scrollHeight}px`
+      }
+    })
+  }, [editing])
 
   if (editing) {
     return (
@@ -96,18 +102,24 @@ export function EditableBulletCell({
 }: EditableBulletCellProps) {
   const [draft, setDraft] = useState(items.join("\n"))
   const ref = useRef<HTMLTextAreaElement>(null)
+  const [wasEditing, setWasEditing] = useState(editing)
+
+  if (editing && !wasEditing) {
+    setWasEditing(true)
+    setDraft(items.join("\n"))
+  } else if (!editing && wasEditing) {
+    setWasEditing(false)
+  }
 
   useEffect(() => {
-    if (editing) {
-      setDraft(items.join("\n"))
-      requestAnimationFrame(() => {
-        if (ref.current) {
-          ref.current.focus()
-          ref.current.style.height = "auto"
-          ref.current.style.height = `${ref.current.scrollHeight}px`
-        }
-      })
-    }
+    if (!editing) return
+    requestAnimationFrame(() => {
+      if (ref.current) {
+        ref.current.focus()
+        ref.current.style.height = "auto"
+        ref.current.style.height = `${ref.current.scrollHeight}px`
+      }
+    })
   }, [editing])
 
   function commit() {

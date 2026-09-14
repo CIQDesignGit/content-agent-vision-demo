@@ -149,6 +149,9 @@ export function SkuSidebar({
   onBulkAcceptAndPublish = () => {},
   onBulkReview,
 }: SkuSidebarProps) {
+  // Hooks must run unconditionally — before any early return.
+  const { rendered, leavingDelays } = useSlidingList(skus)
+
   if (collapsed) {
     return (
       <aside className="flex w-10 shrink-0 flex-col items-center border-r border-slate-200 bg-white pt-4">
@@ -169,7 +172,6 @@ export function SkuSidebar({
   const someSelected = selectedCount > 0 && !allSelected
 
   const SkuCardComponent = hideMetrics ? TitleOptimizationSkuCard : ContentAgentSkuCard
-  const { rendered, leavingDelays } = useSlidingList(skus)
 
   // Only show empty state once all exit animations have fully completed.
   // Must use `rendered.length` (not `skus.length`) because `skus` becomes empty
@@ -247,7 +249,7 @@ export function SkuSidebar({
           <p className="px-4 pb-4 text-xs text-slate-500">No SKUs match the current filter.</p>
         )
       ) : (
-        <ul className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-3 pb-4">
+        <ul className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto bg-white px-3 pb-4 pt-1">
           {rendered.map((sku) => {
             const isLeaving = leavingDelays.has(sku.id)
             // Per-card stagger offset in ms (0 for single removals)
@@ -256,8 +258,7 @@ export function SkuSidebar({
             return (
               /**
                * Outer <li> — collapses height via CSS grid-rows trick.
-               * transitionDelay is inline (dynamic per card) so the space only
-               * starts closing after the card has mostly slid off screen.
+               * pb-2 keeps card shadows inside the row box (margin would clip in the scroll area).
                */
               <li
                 key={sku.id}
@@ -265,14 +266,19 @@ export function SkuSidebar({
                   transitionDelay: isLeaving ? `${staggerMs + 350}ms` : "0ms",
                 }}
                 className={cn(
-                  "grid transition-[grid-template-rows,margin-bottom] ease-in-out",
+                  "grid transition-[grid-template-rows,padding-bottom] ease-in-out",
                   isLeaving
-                    ? "grid-rows-[0fr] mb-0 duration-500"
-                    : "grid-rows-[1fr] mb-2 duration-200",
+                    ? "grid-rows-[0fr] pb-0 duration-500"
+                    : "grid-rows-[1fr] pb-2 duration-200",
                 )}
               >
-                {/* min-h-0 + overflow-hidden clip the card as it slides left */}
-                <div className="min-h-0 overflow-hidden">
+                {/* overflow-hidden only while exiting — otherwise box-shadow on the card is clipped */}
+                <div
+                  className={cn(
+                    "min-h-0 px-0.5 py-0.5",
+                    isLeaving ? "overflow-hidden" : "overflow-visible",
+                  )}
+                >
                   {/*
                    * Drive the slide via `animate` (not `exit`) so the stagger delay
                    * is evaluated fresh on the same render where isLeaving turns true.

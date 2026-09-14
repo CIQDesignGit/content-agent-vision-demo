@@ -110,31 +110,35 @@ export function EditableRecommendationField({
   // Two-phase highlight: `lit` = instantly amber (no transition), `fading` = transition class added before color clears
   const [highlightPhase, setHighlightPhase] = useState<"off" | "lit" | "fading">("off")
   const canEdit = !readOnly
+  const [editEpoch, setEditEpoch] = useState(exitEditKey)
 
-  useEffect(() => {
-    if (value === originalValue) setIsEditing(false)
-  }, [value, originalValue])
-
-  useEffect(() => {
-    if (readOnly) setIsEditing(false)
-  }, [readOnly])
-
-  // Exit edit mode whenever the tab/view changes so the diff is visible again
-  useEffect(() => {
+  if (exitEditKey !== editEpoch) {
+    setEditEpoch(exitEditKey)
     setIsEditing(false)
-  }, [exitEditKey])
+  }
+  if (isEditing && (value === originalValue || readOnly)) {
+    setIsEditing(false)
+  }
 
   // Trigger a flash highlight when a keyword is inserted.
   // Phase 1 — "lit": instantly amber, no transition class (pop in).
   // Phase 2 — "fading": add transition class first, then clear color so only the exit animates (ease out).
   useEffect(() => {
     if (!highlightedText || highlightKey === undefined) return
-    setHighlightPhase("lit")
-    const startFade = setTimeout(() => {
-      setHighlightPhase("fading")          // render with transition class while still amber
-      setTimeout(() => setHighlightPhase("off"), 50) // next paint: clear color → transition fires
-    }, 1400)
-    return () => clearTimeout(startFade)
+    let fadeTimer: ReturnType<typeof setTimeout> | undefined
+    let offTimer: ReturnType<typeof setTimeout> | undefined
+    const raf = requestAnimationFrame(() => {
+      setHighlightPhase("lit")
+      fadeTimer = setTimeout(() => {
+        setHighlightPhase("fading")
+        offTimer = setTimeout(() => setHighlightPhase("off"), 50)
+      }, 1400)
+    })
+    return () => {
+      cancelAnimationFrame(raf)
+      if (fadeTimer) clearTimeout(fadeTimer)
+      if (offTimer) clearTimeout(offTimer)
+    }
   }, [highlightKey]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Render plain text, splitting off the highlighted substring when present

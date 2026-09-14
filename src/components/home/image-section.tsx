@@ -4,7 +4,6 @@ import { useMemo, useRef, useState, type ReactNode } from "react"
 import {
   ChevronLeft,
   ChevronRight,
-  Columns2,
   Image as ImageIcon,
   ImagePlus,
   Link2,
@@ -16,6 +15,7 @@ import { fieldLabelContentStack, fieldSectionStack } from "./field-layout"
 import { AiRecommendationSparklesIcon, SourceCellLabel, SourceChannelLabel } from "./bullet-source-cell"
 import { PIM_CHANNEL_LABEL, PIM_LOGO_ALT, RETAILER_LOGO_SRC, SALSIFY_LOGO_SRC } from "./source-logos"
 import type { ProductImage } from "./types"
+import { MatchPercentBadge } from "./match-percent-badge"
 import { SectionSelectToggle } from "./section-controls"
 
 const CARD_WIDTH_PX = 192
@@ -276,16 +276,11 @@ export function ImageSection({
   const pdpPresentCount = imagePresentCount(pdp)
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
+    <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-field">
       <header className="flex flex-wrap items-center gap-2 pl-1 py-2">
         <ImageIcon className="size-4 shrink-0 text-slate-400" aria-hidden />
         <span className="text-sm font-semibold text-slate-900">Image</span>
-        {hasPimData ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 px-2.5 py-0.5 text-xs font-normal text-slate-500">
-            <Columns2 className="size-3.5 shrink-0 text-slate-400" aria-hidden />
-            {matchPercent}% match between PIM and retailer
-          </span>
-        ) : null}
+        {hasPimData ? <MatchPercentBadge percent={matchPercent} /> : null}
         {!readOnly ? (
           <button
             type="button"

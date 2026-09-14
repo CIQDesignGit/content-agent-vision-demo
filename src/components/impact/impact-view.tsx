@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { calendarEvents } from "@/components/landing/data"
 import {
@@ -64,15 +64,16 @@ export function ImpactView() {
   const searchParams = useSearchParams()
   const momentId = searchParams.get("moment")
   const [selectedBrand, setSelectedBrand] = useState("All Brands")
+  const [brandMomentId, setBrandMomentId] = useState(momentId)
+  if (momentId !== brandMomentId) {
+    setBrandMomentId(momentId)
+    setSelectedBrand("All Brands")
+  }
 
   const activeEvent = useMemo(
     () => calendarEvents.find((event) => event.id === momentId) ?? null,
     [momentId],
   )
-
-  useEffect(() => {
-    setSelectedBrand("All Brands")
-  }, [momentId])
 
   const contextRows = useMemo(
     () => (activeEvent ? buildImpactRowsFromEvent(activeEvent) : null),
