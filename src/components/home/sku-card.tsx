@@ -3,6 +3,7 @@
 import { Bookmark, Check, DollarSign, Minus, Square } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { ActionStatusBadge } from "./action-status-badge"
 import type { Sku } from "./types"
 
@@ -81,17 +82,8 @@ export function OpsTag({ value }: { value: number }) {
   )
 }
 
-function SkuThumb({ sku }: { sku: Sku }) {
-  if (sku.thumbnailUrl) {
-    return (
-      <img
-        src={sku.thumbnailUrl}
-        alt=""
-        className="size-11 shrink-0 rounded-lg border border-slate-100 bg-slate-50 object-contain p-0.5"
-      />
-    )
-  }
-  return <div className="size-11 shrink-0 rounded-lg border border-slate-100 bg-slate-100" aria-hidden />
+function SkuThumb() {
+  return <SkuGradientThumbnail className="size-11 border border-slate-100" />
 }
 
 // Exported so SkuSidebar's master-select header can reuse it
@@ -199,7 +191,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
               </div>
             </div>
             <div className="flex items-start gap-2.5">
-              <SkuThumb sku={sku} />
+              <SkuThumb />
               <p className="line-clamp-2 flex-1 text-sm font-semibold leading-snug text-slate-700">
                 {sku.title}
               </p>
@@ -223,18 +215,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
           <MetaRow sku={sku} isActive={isActive} />
           <div className="flex items-stretch gap-3">
             {/* Image stretches to match the right column height, stays square */}
-            {sku.thumbnailUrl ? (
-              <img
-                src={sku.thumbnailUrl}
-                alt=""
-                className="aspect-square self-stretch shrink-0 rounded-lg border border-slate-100 bg-slate-50 object-contain p-0.5"
-              />
-            ) : (
-              <div
-                className="aspect-square self-stretch shrink-0 rounded-lg border border-slate-100 bg-slate-100"
-                aria-hidden
-              />
-            )}
+            <SkuGradientThumbnail className="aspect-square w-14 self-stretch border border-slate-100" />
             {/* Right column: title + OPS tag, tightly stacked */}
             <div className="flex min-w-0 flex-1 flex-col justify-start gap-1.5">
               <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-700">
@@ -252,7 +233,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
           <div className="flex flex-col gap-2 px-3 pb-2.5 pt-3">
             <MetaRow sku={sku} isActive={isActive} />
             <div className="flex gap-3">
-              <SkuThumb sku={sku} />
+              <SkuThumb />
               <p className="line-clamp-2 flex-1 text-sm font-semibold leading-snug text-slate-700">
                 {sku.title}
               </p>

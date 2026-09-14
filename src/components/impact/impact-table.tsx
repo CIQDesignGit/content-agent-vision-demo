@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react"
 import { EmptyState } from "@ciq-dev/ciq-design-system"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { ImpactTablePagination } from "./impact-table-pagination"
 import type { ImpactRow } from "./types"
 
@@ -69,11 +70,7 @@ export function ImpactTable({ rows }: ImpactTableProps) {
                 >
                   <td className="px-5 py-3.5 align-middle">
                     <div className="flex min-w-0 items-center gap-3">
-                      <img
-                        src={row.thumbnailUrl}
-                        alt=""
-                        className="size-10 shrink-0 rounded-md border border-slate-200 object-cover"
-                      />
+                      <SkuGradientThumbnail className="size-10 rounded-md border border-slate-200" />
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-fg-primary">
                           {row.productName}

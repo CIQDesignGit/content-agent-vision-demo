@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Check, Minus } from "lucide-react"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import type { BulkField } from "./bulk-publish-confirm-dialog"
@@ -226,9 +227,7 @@ export function BulkReviewDialog({
                           label={`${isChecked ? "Deselect" : "Select"} ${sku.brand}`}
                         />
                         <div className="min-w-0">
-                          {sku.thumbnailUrl && (
-                            <img src={sku.thumbnailUrl} alt="" className="mb-1 size-9 rounded-lg border border-slate-100 object-contain" />
-                          )}
+                          <SkuGradientThumbnail className="mb-1 size-9 border border-slate-100" />
                           <p className="font-mono text-xs text-slate-400">{sku.asin}</p>
                           <p className="text-sm font-medium text-slate-700 line-clamp-2 leading-snug">{sku.brand}</p>
                         </div>

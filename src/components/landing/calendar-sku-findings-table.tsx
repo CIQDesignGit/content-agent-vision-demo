@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { fadeRiseTight, staggerContainer } from "@/lib/motion"
 import type { CalendarDriverKind, CalendarSkuFinding } from "./types"
 
@@ -46,11 +47,7 @@ export function CalendarSkuFindingsTable({
             >
               <td className="px-4 py-3 pr-4 align-middle">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={row.imageUrl}
-                    alt=""
-                    className="size-10 shrink-0 rounded-lg object-cover ring-1 ring-slate-200"
-                  />
+                  <SkuGradientThumbnail />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-slate-900">
                       {row.name}

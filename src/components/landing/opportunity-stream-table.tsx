@@ -2,10 +2,8 @@
 
 import { cn } from "@/lib/utils"
 import type { OpportunityStreamKind, OpportunityStreamSku } from "./types"
-import {
-  formatStreamValue,
-  streamSkuThumbnailUrl,
-} from "./opportunity-stream-format"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
+import { formatStreamValue } from "./opportunity-stream-format"
 
 const TYPE_PILL: Record<NonNullable<OpportunityStreamSku["findingType"]>, string> =
   {
@@ -50,11 +48,7 @@ export function OpportunityStreamTable({
             >
               <td className="py-3.5 pl-6 pr-4 align-middle">
                   <div className="flex items-center gap-3">
-                    <img
-                      src={streamSkuThumbnailUrl(row.asin)}
-                      alt=""
-                      className="size-10 shrink-0 rounded-lg bg-slate-50 object-contain ring-1 ring-slate-200"
-                    />
+                    <SkuGradientThumbnail />
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold tracking-tight text-slate-900">
                         {row.name}

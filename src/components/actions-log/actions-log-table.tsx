@@ -5,6 +5,7 @@ import { Check, Copy } from "lucide-react"
 import { PdpStatusBadge, PimStatusBadge, RetailerStatusBadge } from "./status-badge"
 import { effectiveTableStatuses } from "./resolve-panel-view"
 import type { ActionLogEntry } from "./types"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { cn } from "@/lib/utils"
 
 function SkuCell({ entry }: { entry: ActionLogEntry }) {
@@ -22,15 +23,7 @@ function SkuCell({ entry }: { entry: ActionLogEntry }) {
 
   return (
     <div className="flex min-w-0 items-center gap-3">
-      {entry.thumbnailUrl ? (
-        <img
-          src={entry.thumbnailUrl}
-          alt=""
-          className="size-10 shrink-0 rounded-md border border-slate-200 object-cover"
-        />
-      ) : (
-        <div className="size-10 shrink-0 rounded-md border border-slate-200 bg-slate-100" />
-      )}
+      <SkuGradientThumbnail className="size-10 rounded-md" />
       <div className="min-w-0">
         {entry.name ? (
           <p className="line-clamp-1 text-sm font-medium text-slate-900">{entry.name}</p>

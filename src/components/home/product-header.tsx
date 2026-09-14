@@ -1,6 +1,7 @@
 "use client"
 
 import { Bookmark, BookmarkPlus, Package } from "lucide-react"
+import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { cn } from "@/lib/utils"
 import { MetricChip } from "./metric-chip"
 import { OpsTag } from "./sku-card"
@@ -38,7 +39,6 @@ export function ProductHeader({
   asin,
   productId,
   brand,
-  thumbnailUrl,
   compliance,
   seo,
   aeo,
@@ -74,18 +74,7 @@ export function ProductHeader({
       <div className="flex items-start justify-between gap-6 px-6 py-4">
         {/* Left: thumbnail + product info — items-stretch so thumbnail matches text height */}
         <div className="flex min-w-0 items-stretch gap-3">
-          {thumbnailUrl ? (
-            <img
-              src={thumbnailUrl}
-              alt=""
-              className="size-14 shrink-0 rounded-lg border border-slate-200 bg-slate-100 object-contain p-1"
-            />
-          ) : (
-            <div
-              className="size-14 shrink-0 rounded-lg border border-slate-200 bg-slate-100"
-              aria-hidden
-            />
-          )}
+          <SkuGradientThumbnail className="size-14 border border-slate-200" />
 
           {/* Metadata + title + optional metrics */}
           <div className="min-w-0 space-y-1">
