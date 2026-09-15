@@ -5,6 +5,7 @@ import { MotionConfig } from "framer-motion"
 import { applyCapture } from "./apply-capture"
 import {
   opportunityByStatus,
+  opportunityCalculation,
   opportunityMeter,
   opportunityStreams,
   secondaryStats,
@@ -51,11 +52,12 @@ export function LaunchpadView() {
           delay={0.06}
           stagger={0.09}
         >
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-stretch">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
             <OpportunityMeter
               data={meter}
               statusSegments={statusSegments}
               capture={capture}
+              calculation={opportunityCalculation}
             />
             <UpNextCard data={upNext} />
           </div>

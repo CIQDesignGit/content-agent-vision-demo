@@ -19,21 +19,21 @@ import { SegmentInfo } from "./segment-info"
 import type { CaptureReveal } from "./use-capture-reveal"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
-/** Chart blues only — captured deepest, open buckets step lighter (data-1 → data-3). */
+/** Chart blues — captured deepest; remaining opportunity mid-light (data-3). */
 const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-data-1",
-  seasonal: "bg-data-2",
+  seasonal: "bg-data-3",
   pdp: "bg-data-3",
-  opportunity: "bg-data-2",
+  opportunity: "bg-data-3",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-300),var(--color-slate-300)_1.5px,var(--color-slate-100),var(--color-slate-100)_5px)]",
 }
 
 const DOT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-data-1",
-  seasonal: "bg-data-2",
+  seasonal: "bg-data-3",
   pdp: "bg-data-3",
-  opportunity: "bg-data-2",
+  opportunity: "bg-data-3",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-400),var(--color-slate-400)_1px,var(--color-slate-200),var(--color-slate-200)_3px)]",
 }
@@ -77,8 +77,8 @@ export function OpportunityStatusBar({
   const trackTotalLabel = `$${total.toFixed(2)}M`
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-1.5">
+    <div className="flex w-full min-w-0 flex-col gap-3">
+      <div className="flex w-full min-w-0 flex-col gap-1.5">
         <OpportunityStatusTrack
           layouts={layouts}
           segmentFill={SEGMENT_FILL}
@@ -115,7 +115,7 @@ export function OpportunityStatusBar({
       </div>
 
       <TooltipProvider delayDuration={200}>
-        <ul className="grid grid-cols-2 gap-2.5 border-t border-slate-100 pt-3 sm:grid-cols-3">
+        <ul className="grid w-full grid-cols-3 gap-2 border-t border-slate-100 pt-3">
           {legend.map((segment) => (
             <CompositionBarLegendItem
               key={segment.id}
@@ -144,14 +144,7 @@ export function OpportunityStatusBar({
                 )
               }
               muted={segment.muted}
-              dimmed={
-                hoveredId != null &&
-                hoveredId !== segment.id &&
-                !(
-                  segment.id === "opportunity" &&
-                  (hoveredId === "seasonal" || hoveredId === "pdp")
-                )
-              }
+              dimmed={hoveredId != null && hoveredId !== segment.id}
               info={
                 <SegmentInfo label={segment.label} tooltip={segment.tooltip} />
               }

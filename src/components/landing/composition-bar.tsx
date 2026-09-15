@@ -3,7 +3,7 @@
 import type { ReactNode } from "react"
 import { motion, useReducedMotion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
-import { DURATION, EASE_OUT, fadeRiseTight } from "@/lib/motion"
+import { DURATION, EASE_OUT } from "@/lib/motion"
 
 /** Shared track chrome for opportunity composition bars (status + driver). */
 export function CompositionBarTrack({
@@ -137,10 +137,9 @@ export function CompositionBarLegendItem({
   className?: string
 }) {
   return (
-    <motion.li
-      variants={fadeRiseTight}
+    <li
       className={cn(
-        "flex min-w-0 flex-col gap-1.5 transition-opacity duration-200",
+        "flex min-w-0 w-full flex-col gap-1.5 transition-opacity duration-200",
         dimmed && "opacity-40",
         className,
       )}
@@ -167,6 +166,6 @@ export function CompositionBarLegendItem({
       >
         {amountLabel}
       </span>
-    </motion.li>
+    </li>
   )
 }

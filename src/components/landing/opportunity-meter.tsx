@@ -1,93 +1,157 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
+import { X } from "lucide-react"
 import { Card, CardContent } from "@ciq-dev/ciq-design-system"
-import { fadeRiseTight, staggerContainer } from "@/lib/motion"
-import type { OpportunityMeterData, OpportunityStatusSegment } from "./types"
-import { AnimatedFigure } from "./animated-figure"
-import { OpportunityStatusBar } from "./opportunity-status-bar"
+import { cn } from "@/lib/utils"
+import { DURATION, EASE_SWAP } from "@/lib/motion"
+import type {
+  OpportunityCalculationData,
+  OpportunityMeterData,
+  OpportunityStatusSegment,
+} from "./types"
+import { OpportunityCalculationPanel } from "./opportunity-calculation-panel"
+import { OpportunityMeterOverview } from "./opportunity-meter-overview"
+import { OpportunityMeterRail } from "./opportunity-meter-rail"
 import { RevealItem } from "./reveal"
+import { ViewCalculationIcon } from "./view-calculation-icon"
 import type { CaptureReveal } from "./use-capture-reveal"
+
+const swap = { duration: DURATION.base, ease: EASE_SWAP }
+const overviewFade = {
+  duration: DURATION.calm,
+  ease: EASE_SWAP,
+}
 
 interface OpportunityMeterProps {
   data: OpportunityMeterData
   statusSegments: OpportunityStatusSegment[]
   capture: CaptureReveal
+  calculation: OpportunityCalculationData
 }
 
 export function OpportunityMeter({
   data,
   statusSegments,
   capture,
+  calculation,
 }: OpportunityMeterProps) {
+  const [calcPanelOpen, setCalcPanelOpen] = useState(false)
+  /** Keeps overview full-bleed until the calc shell finish exiting. */
+  const [calcLayoutActive, setCalcLayoutActive] = useState(false)
+
   const capturedPct = Math.min(
     100,
     Math.round((data.realizedMillions / data.identifiedMillions) * 100),
   )
   const totalAmountLabel = `$${data.identifiedMillions.toFixed(2)}M`
 
+  const overviewOverlay = calcPanelOpen || calcLayoutActive
+
+  function openCalculation() {
+    setCalcLayoutActive(true)
+    setCalcPanelOpen(true)
+  }
+
+  function closeCalculation() {
+    setCalcPanelOpen(false)
+  }
+
+  function handleShellExitComplete() {
+    setCalcLayoutActive(false)
+  }
+
   return (
-    <RevealItem className="flex h-full min-h-0 min-w-0 flex-col">
-      <Card className="relative flex min-h-0 flex-1 w-full flex-col overflow-hidden rounded-3xl border-0 bg-white py-0 ring-1 ring-slate-900/6 !shadow-pane-lg">
-        {/* Light falling from the top-left corner onto the headline value. */}
+    <RevealItem className="flex min-w-0 flex-col">
+      <Card className="relative flex w-full flex-col overflow-hidden rounded-3xl border-0 bg-white py-0 ring-1 ring-slate-900/6 !shadow-pane-lg">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-[radial-gradient(70%_100%_at_15%_0%,var(--color-brand-50),transparent_72%)]"
         />
 
-        <CardContent className="relative flex min-h-0 flex-1 flex-col gap-6 p-7">
-          <motion.div
-            className="flex flex-col gap-2"
-            variants={staggerContainer(0.08, 0.12)}
+        <CardContent className="relative flex flex-col p-0">
+          <motion.div layout transition={swap} className="relative flex flex-col">
+          <button
+            type="button"
+            onClick={() =>
+              calcPanelOpen ? closeCalculation() : openCalculation()
+            }
+            aria-expanded={calcPanelOpen}
+            aria-controls="opportunity-calculation-panel"
+            className="absolute top-5 right-5 z-20 inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 hover:text-brand-700"
           >
-            <motion.p
-              variants={fadeRiseTight}
-              className="text-[13px] font-medium text-brand-600"
-            >
-              Total opportunity the agent has found for {data.yearLabel}
-            </motion.p>
+            {calcPanelOpen ? (
+              <>
+                <X className="size-3.5 shrink-0" strokeWidth={2} aria-hidden />
+                Close
+              </>
+            ) : (
+              <>
+                <ViewCalculationIcon />
+                View calculation
+              </>
+            )}
+          </button>
 
-            <motion.p
-              variants={fadeRiseTight}
-              className="flex items-start font-sans font-semibold leading-none text-brand-950"
-            >
-              <span className="mt-1 -mr-1 text-3xl text-slate-600 sm:mt-1.5 sm:text-4xl">
-                $
-              </span>
-              <AnimatedFigure
-                value={data.identifiedMillions}
-                delay={0.3}
-                className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
-              />
-              <span className="mt-1 ml-1 text-3xl text-slate-600 sm:mt-1.5 sm:text-4xl">
-                M
-              </span>
-            </motion.p>
-
-            <motion.p
-              variants={fadeRiseTight}
-              className="text-sm leading-relaxed text-slate-500"
-            >
-              <span className="font-semibold tabular-nums text-slate-900">
-                $
-                <AnimatedFigure value={data.realizedMillions} delay={0.45} />M
-              </span>{" "}
-              captured (
-              <span className="font-semibold tabular-nums text-slate-900">
-                <AnimatedFigure value={capturedPct} fractionDigits={0} delay={0.5} animateOnMount={false} />%
-              </span>{" "}
-              of this total).
-            </motion.p>
+          <motion.div
+            aria-hidden={calcPanelOpen}
+            className={cn(
+              "w-full p-7",
+              overviewOverlay &&
+                "pointer-events-none absolute inset-0 z-0 overflow-hidden",
+            )}
+            initial={false}
+            animate={{ opacity: calcPanelOpen ? 0 : 1 }}
+            transition={{
+              ...overviewFade,
+              delay: calcPanelOpen ? 0 : DURATION.base,
+            }}
+          >
+            <OpportunityMeterOverview
+              variant="full"
+              data={data}
+              statusSegments={statusSegments}
+              capture={capture}
+              capturedPct={capturedPct}
+              totalAmountLabel={totalAmountLabel}
+            />
           </motion.div>
 
-          <motion.div className="mt-auto" variants={fadeRiseTight}>
-            <OpportunityStatusBar
-              segments={statusSegments}
-              capturedPct={capturedPct}
-              capturedAmountLabel={`$${data.realizedMillions.toFixed(2)}M`}
-              totalAmountLabel={totalAmountLabel}
-              capture={capture}
-            />
+          <AnimatePresence initial={false} onExitComplete={handleShellExitComplete}>
+            {calcPanelOpen ? (
+              <motion.div
+                key="calc-shell"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={swap}
+                className="relative z-10 grid grid-cols-[88px_minmax(0,1fr)] overflow-hidden"
+              >
+                <div className="relative min-h-0 self-stretch border-r border-slate-200">
+                  <button
+                    type="button"
+                    onClick={closeCalculation}
+                    aria-label="Return to opportunity overview"
+                    className="absolute inset-0 flex cursor-pointer flex-col items-stretch text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-300"
+                  >
+                    <OpportunityMeterRail
+                      identifiedMillions={data.identifiedMillions}
+                      realizedMillions={data.realizedMillions}
+                      capturedPct={capturedPct}
+                    />
+                  </button>
+                </div>
+
+                <div
+                  id="opportunity-calculation-panel"
+                  className="min-w-0 overflow-hidden"
+                >
+                  <OpportunityCalculationPanel data={calculation} />
+                </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
           </motion.div>
         </CardContent>
       </Card>

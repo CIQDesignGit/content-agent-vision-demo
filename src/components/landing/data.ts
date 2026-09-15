@@ -2,6 +2,7 @@ import type {
   CalendarEvent,
   CalendarTimelineMarker,
   LostToInactionData,
+  OpportunityCalculationData,
   OpportunityMeterData,
   OpportunityStatusSegment,
   OpportunityStream,
@@ -14,7 +15,7 @@ import type {
 export const opportunityMeter: OpportunityMeterData = {
   /** Active opportunity only — forfeited / past windows are excluded. */
   identifiedMillions: 4.81,
-  realizedMillions: 1.5,
+  realizedMillions: 0.8,
   yearLabel: "2026",
 }
 
@@ -22,16 +23,16 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
   {
     id: "captured",
     label: "Captured",
-    amountLabel: "$1.50M",
-    millions: 1.5,
+    amountLabel: "$800K",
+    millions: 0.8,
     tooltip:
       "Opportunity already realized — content changes are live on retailer PDPs and contributing to incremental sales.",
   },
   {
     id: "seasonal",
     label: "Seasonal",
-    amountLabel: "$2.95M",
-    millions: 2.95,
+    amountLabel: "$3.65M",
+    millions: 3.65,
     tooltip:
       "Opportunity tied to an upcoming event window. Publish by the date to capture the lift before the moment passes.",
   },
@@ -53,6 +54,88 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
       "Past windows that closed before publish — excluded from your active opportunity total.",
   },
 ]
+
+export const opportunityCalculation: OpportunityCalculationData = {
+  annualized: {
+    id: "annualized",
+    tabLabel: "Annualized opportunity",
+    heading: "Annualized Opportunity Size",
+    periodBadge: "Aug 2026 – Jul 2027",
+    heroAmountLabel: "$3.95M",
+    foundationalLiftLabel: "Foundational lift",
+    foundationalLiftAmount: "$1.96M",
+    seasonalLiftLabel: "Seasonal lift",
+    seasonalLiftAmount: "$1.99M",
+    liftBarPct: { foundational: 50, seasonal: 50 },
+    kpis: [
+      { value: "42", label: "SKUs A/B tested in pilot" },
+      { value: "+3.0%", label: "Median sales lift" },
+      { value: "38 of 42", label: "Challenger won" },
+    ],
+    calcRows: [
+      {
+        label: "Annual revenue, SKUs not yet optimized",
+        value: "$65.3M",
+      },
+      { label: "× pilot lift rate", value: "3.0%" },
+      {
+        label: "Foundational lift",
+        value: "$1.96M",
+        variant: "subtotal",
+      },
+      {
+        label: "Revenue in the 2 weeks after each of 17 events",
+        value: "$66.2M",
+      },
+      { label: "× pilot lift rate", value: "3.0%" },
+      {
+        label: "Seasonal lift",
+        value: "$1.99M",
+        variant: "subtotal",
+      },
+    ],
+    calcSummary: {
+      label: "Opportunity ahead",
+      value: "$3.95M",
+      variant: "total",
+    },
+    methodology:
+      "Revenue figures come from your Vendor Central history, pulled at onboarding. As new tests run the rate updates, and every change keeps a dated audit trail.",
+  },
+  valueRealized: {
+    id: "value-realized",
+    tabLabel: "Value Realized",
+    heading: "Value realized",
+    periodBadge: "Aug 2026 – Sep 2026",
+    trendBadge: { label: "+$340K this month", positive: true },
+    heroAmountLabel: "$800K",
+    heroBordered: true,
+    foundationalLiftLabel: "Foundational lift",
+    foundationalLiftAmount: "$600K",
+    seasonalLiftLabel: "Seasonal lift",
+    seasonalLiftAmount: "$200K",
+    liftBarPct: { foundational: 75, seasonal: 25 },
+    kpis: [
+      { value: "128", label: "SKUs live" },
+      { value: "3.1 days", label: "Median approve-to-live" },
+      { value: "5 mo", label: "Accruing since Apr" },
+    ],
+    calcRows: [],
+    bodyCopy:
+      "Counts only the 128 SKUs acted on, accrued over the days their content was actually live — not the full-year value of a test that concluded last month. Each SKU's rate comes from its own A/B result where one exists, and from the demand-adjusted baseline model where Amazon won't test it.",
+    cta: {
+      label: "See SKU-level attribution in Agent Impact",
+      href: "/impact",
+    },
+    unrealized: {
+      title: "Identified but never published",
+      amountLabel: "$260K",
+      description:
+        "Prime Day, Jul 2026. 210 deal SKUs still had gaps when syndication cut off. Not part of the total above and not recoverable — shown so the gap between what was found and what shipped stays visible.",
+    },
+    methodology: "",
+  },
+}
 
 export const secondaryStats: SecondaryStat[] = [
   {

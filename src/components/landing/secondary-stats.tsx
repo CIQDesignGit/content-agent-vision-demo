@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { DURATION, EASE_SWAP, fadeRise, staggerContainer } from "@/lib/motion"
 import { SecondaryStatCalculationPanel } from "./secondary-stat-calculation-panel"
+import { ViewCalculationIcon } from "./view-calculation-icon"
 import type { SecondaryStat } from "./types"
 
 /** Panel slides out from under the tile by this much (matches wrapper -mt / pt). */
@@ -69,6 +70,7 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                   isExpanded
                     ? "rounded-t-2xl rounded-b-none border border-b-0 border-slate-200 ring-2 ring-brand-300 shadow-pane-hover"
                     : "rounded-2xl",
+                  stat.calculation && !isExpanded && "pr-9",
                   stat.accent && "border-l-[3px] border-l-brand-500",
                 )}
               >
@@ -94,6 +96,14 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                 </div>
                 {stat.footnote ? (
                   <p className="mt-2.5 text-xs leading-snug text-slate-500">{stat.footnote}</p>
+                ) : null}
+                {stat.calculation && !isExpanded ? (
+                  <span
+                    className="pointer-events-none absolute bottom-4 right-5 text-brand-600"
+                    aria-hidden
+                  >
+                    <ViewCalculationIcon />
+                  </span>
                 ) : null}
               </motion.button>
 

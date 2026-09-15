@@ -2,8 +2,8 @@
 
 import { useSyncExternalStore } from "react"
 
-const STORAGE_KEY = "ca:captured-opportunity"
-const CHANGE_EVENT = "ca:captured-opportunity"
+const STORAGE_KEY = "ca:captured-opportunity:v2"
+const CHANGE_EVENT = "ca:captured-opportunity:v2"
 
 /** Open buckets on the overview status bar that a publish can draw dollars out of. */
 export type CaptureBucket = "seasonal" | "pdp"

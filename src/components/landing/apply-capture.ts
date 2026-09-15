@@ -85,18 +85,9 @@ export function displayStatusSegments(
   )
 }
 
-const TRACK_SEGMENT_ORDER: OpportunityStatusSegment["id"][] = [
-  "captured",
-  "seasonal",
-  "pdp",
-  "expired",
-]
-
-/** Bar track shows open buckets as separate seasonal + PDP slices (driver palette). */
+/** Bar track matches the legend: captured, combined open opportunity, expired. */
 export function trackStatusSegments(
   segments: OpportunityStatusSegment[],
 ): OpportunityStatusSegment[] {
-  return TRACK_SEGMENT_ORDER.map((id) => segments.find((s) => s.id === id)).filter(
-    (s): s is OpportunityStatusSegment => s != null,
-  )
+  return displayStatusSegments(segments)
 }

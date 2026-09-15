@@ -18,6 +18,55 @@ export interface OpportunityMeterData {
   yearLabel: string
 }
 
+export type OpportunityCalculationTabId = "annualized" | "value-realized"
+
+export interface OpportunityCalculationKpi {
+  value: string
+  label: string
+}
+
+export interface OpportunityCalculationRow {
+  label: string
+  value: string
+  variant?: "default" | "subtotal" | "total"
+}
+
+export interface OpportunityCalculationUnrealized {
+  title: string
+  amountLabel: string
+  description: string
+}
+
+export interface OpportunityCalculationTabData {
+  id: OpportunityCalculationTabId
+  tabLabel: string
+  heading: string
+  periodBadge: string
+  /** e.g. "+$340K this month" on Value realized */
+  trendBadge?: { label: string; positive?: boolean }
+  heroAmountLabel: string
+  /** Value realized uses a bordered hero treatment */
+  heroBordered?: boolean
+  foundationalLiftLabel: string
+  foundationalLiftAmount: string
+  seasonalLiftLabel: string
+  seasonalLiftAmount: string
+  /** Share of the two-lift bar (foundational first) */
+  liftBarPct: { foundational: number; seasonal: number }
+  kpis: OpportunityCalculationKpi[]
+  calcRows: OpportunityCalculationRow[]
+  calcSummary?: OpportunityCalculationRow
+  bodyCopy?: string
+  cta?: { label: string; href: string }
+  unrealized?: OpportunityCalculationUnrealized
+  methodology: string
+}
+
+export interface OpportunityCalculationData {
+  annualized: OpportunityCalculationTabData
+  valueRealized: OpportunityCalculationTabData
+}
+
 export interface OpportunityStatusSegment {
   id: OpportunityStatusKind
   label: string
