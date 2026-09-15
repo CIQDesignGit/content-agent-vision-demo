@@ -9,6 +9,7 @@ import { SkuSidebar } from "@/components/home/sku-sidebar"
 import { ProductHeader, type PublishBarState } from "@/components/home/product-header"
 import { ProductTitleSection } from "@/components/home/title-section"
 import { PublishConfirmDialog } from "@/components/home/publish-confirm-dialog"
+import { showPublishSuccessToast } from "@/components/home/publish-success-toast"
 import { BulkPublishConfirmDialog, FIELD_LABELS, type BulkField } from "@/components/home/bulk-publish-confirm-dialog"
 import { UnpublishedChangesGuardDialog } from "@/components/home/unpublished-changes-guard-dialog"
 import { ItemHighlightsSection, type ItemHighlight } from "@/components/title-optimization/item-highlights-section"
@@ -22,7 +23,7 @@ import { toast } from "sonner"
 
 import { getFieldPublishQueue } from "@/lib/build-field-publish-queue"
 import { getActivePublishBatch, getPublishBatchForField } from "@/lib/publish-batch"
-import { getPublishSummary, revertUnpublishedAcceptedChanges } from "@/lib/publish-changes"
+import { getPublishSummary, groupPublishableLabels, revertUnpublishedAcceptedChanges } from "@/lib/publish-changes"
 import {
   activateDeferredBatch,
   applyPublishPhase,
@@ -37,6 +38,7 @@ import {
   passesFilter,
   passesSearch,
 } from "@/components/home/data"
+import { opportunityMeter } from "@/components/landing/data"
 import type { ContentState, SkuContent } from "@/components/home/types"
 
 const TITLE_CHAR_LIMIT = 75
@@ -146,7 +148,7 @@ export default function TitleOptimizationPage() {
   function handlePublishConfirm() {
     setPublishDialogOpen(false)
     const fieldKeys = publishSummary.publishable.map((f) => f.key)
-    const fieldNames = publishSummary.publishable.map((f) => f.label).join(", ")
+    const fieldLabels = groupPublishableLabels(publishSummary.publishable)
     const queuedFollowUp = Boolean(activeBatch)
     patch((prev) => {
       const next = applyPublishStart(prev, fieldKeys, queuedFollowUp)
@@ -154,7 +156,13 @@ export default function TitleOptimizationPage() {
       if (batch && !batch.queuedFollowUp) schedulePublishSimulation(selectedSkuId, batch.id)
       return next
     })
-    toast.success("Your changes are published", { description: `${fieldNames} sent to PIM & PDP.` })
+    showPublishSuccessToast({
+      fieldLabels,
+      capturedMillions:
+        opportunityMeter.realizedMillions + selectedSku.metrics.ops / 1_000_000,
+      identifiedMillions: opportunityMeter.identifiedMillions,
+      thisCaptureUsd: selectedSku.metrics.ops,
+    })
   }
 
   const titleOriginal = useMemo(

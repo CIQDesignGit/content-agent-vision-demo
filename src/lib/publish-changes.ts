@@ -13,6 +13,30 @@ export type PublishSummary = {
   queuedFollowUpCount: number
 }
 
+/** Collapse individual bullet slots into a single "Bullets" label for UI copy. */
+export function groupPublishableLabels(fields: PublishableField[]): string[] {
+  const labels: string[] = []
+  let sawBullets = false
+  for (const field of fields) {
+    if (field.key.startsWith("bullet:")) {
+      if (!sawBullets) {
+        labels.push("Bullets")
+        sawBullets = true
+      }
+      continue
+    }
+    labels.push(field.label)
+  }
+  return labels
+}
+
+export function formatPublishFieldList(labels: string[]): string {
+  if (labels.length === 0) return ""
+  if (labels.length === 1) return labels[0]
+  if (labels.length === 2) return `${labels[0]} and ${labels[1]}`
+  return `${labels.slice(0, -1).join(", ")}, and ${labels[labels.length - 1]}`
+}
+
 function isAcceptedStatus(status: TitleStatus): boolean {
   return status === "accepted"
 }

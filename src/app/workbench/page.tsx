@@ -13,7 +13,7 @@ import {
 } from "@/components/home/source-logos"
 import { AppHeader } from "@/components/home/app-header"
 import { LaunchpadTabs } from "@/components/landing/launchpad-tabs"
-import { opportunityStreams, upcomingMoments } from "@/components/landing/data"
+import { opportunityMeter, opportunityStreams, upcomingMoments } from "@/components/landing/data"
 import { FilterBar } from "@/components/home/filter-bar"
 import { SkuSidebar } from "@/components/home/sku-sidebar"
 import { ProductHeader, type PublishBarState } from "@/components/home/product-header"
@@ -22,6 +22,7 @@ import { ImageSection } from "@/components/home/image-section"
 import { BulletPointsSection } from "@/components/home/bullet-section"
 import { DescriptionSection } from "@/components/home/description-section"
 import { PublishConfirmDialog } from "@/components/home/publish-confirm-dialog"
+import { showPublishSuccessToast } from "@/components/home/publish-success-toast"
 import { BulkPublishConfirmDialog, FIELD_LABELS, type BulkField } from "@/components/home/bulk-publish-confirm-dialog"
 import { BRD_INPUT_KEY, BRD_OUTPUT_KEY, type BrdOutput } from "@/components/home/bulk-review-view"
 import { toast } from "sonner"
@@ -35,7 +36,11 @@ import {
 
 import { getFieldPublishQueue } from "@/lib/build-field-publish-queue"
 import { getActivePublishBatch, getPublishBatchForField } from "@/lib/publish-batch"
-import { getPublishSummary, revertUnpublishedAcceptedChanges } from "@/lib/publish-changes"
+import {
+  getPublishSummary,
+  groupPublishableLabels,
+  revertUnpublishedAcceptedChanges,
+} from "@/lib/publish-changes"
 import {
   activateDeferredBatch,
   applyPublishPhase,
@@ -353,9 +358,10 @@ function WorkbenchPage() {
   }
 
   function handlePublishConfirm() {
+    const publishedSkuId = selectedSkuId
     setPublishDialogOpen(false)
     const queuedFollowUp = Boolean(activeBatch)
-    const fieldNames = effectivePublishSummary.publishable.map((f) => f.label).join(", ")
+    const fieldLabels = groupPublishableLabels(effectivePublishSummary.publishable)
 
     patch((prev) => {
       // Auto-accept any still-pending recommendations so they get included in this publish.
@@ -383,21 +389,31 @@ function WorkbenchPage() {
       return next
     })
 
-    toast.success("Your changes are published", {
-      description: `${fieldNames} sent to PIM & PDP.`,
+    showPublishSuccessToast({
+      fieldLabels,
+      capturedMillions:
+        opportunityMeter.realizedMillions + selectedSku.metrics.ops / 1_000_000,
+      identifiedMillions: opportunityMeter.identifiedMillions,
+      thisCaptureUsd: selectedSku.metrics.ops,
     })
 
-    // Capture the next SKU now — filteredSkus still contains the current SKU at this point.
-    // After the status update below it will be removed from the list.
-    const currentIndex = filteredSkus.findIndex((s) => s.id === selectedSkuId)
+    const currentIndex = filteredSkus.findIndex((s) => s.id === publishedSkuId)
     const nextSkuId = filteredSkus[currentIndex + 1]?.id
 
-    // Delay sidebar removal until the confirm dialog has finished closing (~300ms)
-    // so the card exit animation starts after the popup is gone, then auto-advance.
-    setTimeout(() => {
-      setActionStatusMap((prev) => ({ ...prev, [selectedSkuId]: "in-progress" }))
-      if (nextSkuId) setSelectedSkuId(nextSkuId)
-    }, 300)
+    // Toast lands first (~400ms). Then a short beat, then the SKU card slides
+    // out. Advance the detail pane only after the card is already in motion.
+    const cardSlideAt = 500
+    const advanceAt = cardSlideAt + 280
+    publishTimersRef.current.push(
+      setTimeout(() => {
+        setActionStatusMap((prev) => ({ ...prev, [publishedSkuId]: "in-progress" }))
+      }, cardSlideAt),
+    )
+    if (nextSkuId) {
+      publishTimersRef.current.push(
+        setTimeout(() => setSelectedSkuId(nextSkuId), advanceAt),
+      )
+    }
   }
 
   function handleBookmarkToggle() {
@@ -532,18 +548,18 @@ function WorkbenchPage() {
     setIsSelectionMode(false)
     setSelectedSkuIds(new Set())
 
-    // Mark published SKUs as "in-progress" so they leave the sidebar list and
-    // trigger the staggered exit animation. Small delay lets the confirm dialog
-    // finish closing first (matches the single-SKU publish flow).
+    // Toast first, then the sidebar cards leave so the two motions don't stack.
     const publishedIds = batchesToSchedule.map(({ skuId }) => skuId)
     if (publishedIds.length > 0) {
-      setTimeout(() => {
-        setActionStatusMap((prev) => {
-          const next = { ...prev }
-          publishedIds.forEach((id) => { next[id] = "in-progress" })
-          return next
-        })
-      }, 300)
+      publishTimersRef.current.push(
+        setTimeout(() => {
+          setActionStatusMap((prev) => {
+            const next = { ...prev }
+            publishedIds.forEach((id) => { next[id] = "in-progress" })
+            return next
+          })
+        }, 500),
+      )
     }
   }
 

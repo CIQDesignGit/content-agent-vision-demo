@@ -10,7 +10,7 @@ import { PanelHeader } from "./shared"
 function ChangeMark({ change }: { change: number | null }) {
   if (change == null) {
     return (
-      <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-slate-50 text-slate-400">
+      <span className="inline-flex items-center text-slate-400">
         <Minus className="size-3.5" aria-hidden />
       </span>
     )
@@ -20,8 +20,8 @@ function ChangeMark({ change }: { change: number | null }) {
   return (
     <span
       className={cn(
-        "inline-flex size-7 shrink-0 items-center justify-center gap-0.5 rounded-full text-[11px] font-semibold tabular-nums",
-        up ? "bg-success-100 text-success-700" : "bg-error-100 text-error-700",
+        "inline-flex items-center gap-0.5 text-[11px] font-semibold tabular-nums",
+        up ? "text-success-700" : "text-error-700",
       )}
     >
       {up ? (
