@@ -5,18 +5,18 @@ import { cn } from "@ciq-dev/ciq-design-system"
 
 export const LAUNCHPAD_TABS = [
   { id: "glance", label: "Overview", href: "/" },
-  { id: "review", label: "Review", href: "/workbench" },
-  { id: "impact", label: "Impact", href: "/impact" },
-  { id: "settings", label: "Settings", href: "/settings" },
+  { id: "ai-tracking", label: "AI Tracking", href: "/ai-tracking" },
+  { id: "review", label: "Review SKUs", href: "/workbench" },
+  { id: "impact", label: "AI Impact", href: "/impact" },
 ] as const
 
 export type LaunchpadTabId = (typeof LAUNCHPAD_TABS)[number]["id"]
 
 function tabIdFromPath(pathname: string): LaunchpadTabId | null {
   if (pathname === "/") return "glance"
+  if (pathname.startsWith("/ai-tracking")) return "ai-tracking"
   if (pathname.startsWith("/workbench")) return "review"
   if (pathname.startsWith("/impact")) return "impact"
-  if (pathname.startsWith("/settings")) return "settings"
   return null
 }
 
