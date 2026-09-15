@@ -92,7 +92,7 @@ export function CompositionBarFrame({
   children: ReactNode
 }) {
   return (
-    <div className="relative pt-8">
+    <div className="relative pt-7">
       {annotation}
       {note}
       {children}

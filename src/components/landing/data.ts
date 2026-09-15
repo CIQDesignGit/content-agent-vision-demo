@@ -14,7 +14,7 @@ import type {
 export const opportunityMeter: OpportunityMeterData = {
   /** Active opportunity only — forfeited / past windows are excluded. */
   identifiedMillions: 4.81,
-  realizedMillions: 1.84,
+  realizedMillions: 1.5,
   yearLabel: "2026",
 }
 
@@ -22,16 +22,16 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
   {
     id: "captured",
     label: "Captured",
-    amountLabel: "$1.84M",
-    millions: 1.84,
+    amountLabel: "$1.50M",
+    millions: 1.5,
     tooltip:
       "Opportunity already realized — content changes are live on retailer PDPs and contributing to incremental sales.",
   },
   {
     id: "seasonal",
     label: "Seasonal",
-    amountLabel: "$2.61M",
-    millions: 2.61,
+    amountLabel: "$2.95M",
+    millions: 2.95,
     tooltip:
       "Opportunity tied to an upcoming event window. Publish by the date to capture the lift before the moment passes.",
   },
@@ -56,26 +56,65 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
 
 export const secondaryStats: SecondaryStat[] = [
   {
-    id: "changes-approved",
-    label: "Changes approved",
-    value: "128",
-    delta: "+14",
+    id: "working-days-saved",
+    label: "Working days saved",
+    value: "7.7",
+    delta: "8% productivity boost WoW",
+    deltaPositive: true,
+    footnote: "128 actions taken · 61.9 analyst hours",
+    calculation: {
+      title: "Working days saved",
+      rows: [
+        { label: "SKUs published, last 12 months", value: "128" },
+        { label: "Manual benchmark, per SKU", value: "30 min" },
+        { label: "Agent, per SKU", value: "1 min" },
+        { label: "Saved per SKU", value: "29 min" },
+        { label: "Total saved", value: "61.9 hrs" },
+      ],
+      summaryRow: { label: "At an 8-hour working day", value: "7.7 days" },
+      methodology:
+        "Time saved counts only SKUs actually published, not recommendations sitting in the queue. The 30-minute manual benchmark covers pulling the listing, researching keywords, drafting the title and bullets, and loading them back into Vendor Central.",
+    },
   },
   {
-    id: "time-saved",
-    label: "Analyst time saved",
-    value: "47 hrs",
-  },
-  {
-    id: "ai-share",
-    label: "Share of AI answers",
+    id: "ai-rank",
+    label: "AI rank",
     value: "#2",
-    delta: "+1",
+    delta: "▲ 1 place WoW",
+    deltaPositive: true,
+    live: true,
+    footnote: "Median position across 25 tracked prompts",
+    calculation: {
+      title: "AI rank",
+      rows: [
+        { label: "Tracked prompts", value: "25" },
+        { label: "Prompts where you appear", value: "18" },
+        { label: "Median position when cited", value: "#2" },
+      ],
+      summaryRow: { label: "Last week", value: "#3" },
+      methodology:
+        "A live snapshot, not a 12-month total — this is where you stand today, compared with last week's run against the same prompt set. Median position across prompts where your products are cited by Alexa AI. Prompts where you don't appear are excluded from the median and counted separately as coverage, so rank doesn't flatter itself by ignoring absences.",
+    },
   },
   {
-    id: "approve-to-live",
-    label: "Median approve-to-live",
-    value: "3.1 days",
+    id: "ai-share-of-voice",
+    label: "AI share of voice",
+    value: "34%",
+    delta: "▲ 1.4 pp WoW",
+    deltaPositive: true,
+    live: true,
+    footnote: "Weighted, up from 32.6% last week",
+    calculation: {
+      title: "AI share of voice",
+      rows: [
+        { label: "Your weighted share today", value: "34%" },
+        { label: "Last week", value: "32.6%" },
+        { label: "Closest competitor", value: "41%" },
+      ],
+      summaryRow: { label: "Prompts measured", value: "25" },
+      methodology:
+        "A live snapshot, not a 12-month total. Share of all brand citations across tracked prompts, weighted by position — being cited first counts more than being cited fifth. Re-measured every week against the same prompt set, so week-over-week movement is comparable.",
+    },
   },
 ]
 

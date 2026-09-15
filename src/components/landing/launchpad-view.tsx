@@ -9,7 +9,6 @@ import {
   opportunityStreams,
   secondaryStats,
   upNext,
-  valuePillars,
 } from "./data"
 import { OpportunityMeter } from "./opportunity-meter"
 import { OpportunityStreams } from "./opportunity-streams"
@@ -52,11 +51,10 @@ export function LaunchpadView() {
           delay={0.06}
           stagger={0.09}
         >
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:min-h-[420px]">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-stretch">
             <OpportunityMeter
               data={meter}
               statusSegments={statusSegments}
-              pillars={valuePillars}
               capture={capture}
             />
             <UpNextCard data={upNext} />

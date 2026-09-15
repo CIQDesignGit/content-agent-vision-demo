@@ -29,11 +29,33 @@ export interface OpportunityStatusSegment {
   muted?: boolean
 }
 
+export interface SecondaryStatCalcRow {
+  label: string
+  value: string
+}
+
+export interface SecondaryStatCalculation {
+  title: string
+  rows: SecondaryStatCalcRow[]
+  /** Emphasized row below the heavy divider */
+  summaryRow?: SecondaryStatCalcRow
+  methodology: string
+}
+
 export interface SecondaryStat {
   id: string
   label: string
   value: string
   delta?: string
+  /** Muted support line under the value row */
+  footnote?: string
+  /** Green "live" pill beside the label */
+  live?: boolean
+  /** Brand accent bar on the left edge */
+  accent?: boolean
+  /** Teal positive pill for delta (default when delta is set) */
+  deltaPositive?: boolean
+  calculation?: SecondaryStatCalculation
 }
 
 export interface LostToInactionData {

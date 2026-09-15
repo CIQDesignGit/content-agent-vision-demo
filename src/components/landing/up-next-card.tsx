@@ -17,8 +17,8 @@ export function UpNextCard({ data }: UpNextCardProps) {
   const [expandedId, setExpandedId] = useState(items[0]?.id ?? "")
 
   return (
-    <RevealItem className="flex w-full shrink-0 self-stretch lg:w-[340px]">
-      <Card className="relative flex w-full flex-col overflow-hidden rounded-3xl border-0 bg-brand-25 ring-1 ring-brand-200/70 !shadow-pane-lg">
+    <RevealItem className="flex h-full min-h-0 w-full min-w-0 flex-col">
+      <Card className="relative flex min-h-0 flex-1 w-full flex-col overflow-hidden rounded-3xl border-0 bg-brand-25 py-0 ring-1 ring-brand-200/70 !shadow-pane-lg">
         {/* Faint brand tint plus the page's only filled button is enough to mark
             this as the action pane — no inverted surface required. */}
         <div

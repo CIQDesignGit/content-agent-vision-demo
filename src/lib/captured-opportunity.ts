@@ -70,8 +70,8 @@ export function useCapturedOpportunity(): CaptureLedger {
  * unchanged. The prototype books each publish at an annualized value so a single
  * publish reads on the overview. Drop the scale to 1 to book raw OPS instead.
  */
-const DEMO_CAPTURE_SCALE = 16
-const DEMO_CAPTURE_FLOOR_USD = 40_000
+const DEMO_CAPTURE_SCALE = 11
+const DEMO_CAPTURE_FLOOR_USD = 35_000
 
 /** What one published SKU is worth to the overview meter. */
 export function captureValueForOps(ops: number): number {

@@ -73,7 +73,7 @@ export function displayStatusSegments(
 
   const opportunity: OpportunityStatusSegment = {
     id: "opportunity",
-    label: "Opportunity",
+    label: "Remaining Opportunity",
     millions: openMillions,
     amountLabel: formatMillions(openMillions),
     tooltip:
@@ -81,6 +81,22 @@ export function displayStatusSegments(
   }
 
   return [captured, opportunity, expired].filter(
+    (s): s is OpportunityStatusSegment => s != null,
+  )
+}
+
+const TRACK_SEGMENT_ORDER: OpportunityStatusSegment["id"][] = [
+  "captured",
+  "seasonal",
+  "pdp",
+  "expired",
+]
+
+/** Bar track shows open buckets as separate seasonal + PDP slices (driver palette). */
+export function trackStatusSegments(
+  segments: OpportunityStatusSegment[],
+): OpportunityStatusSegment[] {
+  return TRACK_SEGMENT_ORDER.map((id) => segments.find((s) => s.id === id)).filter(
     (s): s is OpportunityStatusSegment => s != null,
   )
 }
