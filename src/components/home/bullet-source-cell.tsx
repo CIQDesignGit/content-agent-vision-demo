@@ -77,6 +77,8 @@ interface BulletSourceCellProps {
   showLabel?: boolean
   /** When set, shows a character counter inside the source box. */
   charLimit?: number
+  /** Stretch the source text box to match a paired recommendation field. */
+  fillHeight?: boolean
 }
 
 /** Logo + source name shown above the compare text box. */
@@ -104,6 +106,7 @@ export function BulletSourceCell({
   emptyLabel = "—",
   showLabel = true,
   charLimit,
+  fillHeight = false,
 }: BulletSourceCellProps) {
   const [copied, setCopied] = useState(false)
   const display = value.trim() ? value : emptyLabel
@@ -131,11 +134,11 @@ export function BulletSourceCell({
       <div
         className={cn(
           "group relative flex w-full flex-col rounded-lg border border-slate-200 bg-slate-50",
-          "h-full min-h-18 flex-1",
+          fillHeight ? "min-h-18 h-full flex-1" : "h-full min-h-18 flex-1",
         )}
       >
         {value.trim() ? (
-          <SourceCompareText value={value} compareValue={compareValue} side={side} />
+          <SourceCompareText value={value} compareValue={compareValue} side={side} fillHeight={fillHeight} />
         ) : (
           <p className="flex-1 px-3 py-2 pr-10 text-sm leading-relaxed text-slate-400 italic">
             {display}

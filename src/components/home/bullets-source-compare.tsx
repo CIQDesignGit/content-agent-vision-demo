@@ -45,10 +45,12 @@ export function BulletsSourceCompare({
   bullets,
   compareBullets,
   side,
+  fillHeight = false,
 }: {
   bullets: string[]
   compareBullets: string[]
   side: "pim" | "pdp"
+  fillHeight?: boolean
 }) {
   // null = nothing copied; number = index of bullet just copied; "all" = full list copied
   const [copiedIndex, setCopiedIndex] = useState<number | "all" | null>(null)
@@ -75,8 +77,18 @@ export function BulletsSourceCompare({
   }
 
   return (
-    <div className="group/bullets relative flex flex-1 flex-col">
-      <ol className="flex flex-1 flex-col gap-2.5 px-3 py-2 pr-8">
+    <div
+      className={cn(
+        "group/bullets relative flex flex-1 flex-col",
+        fillHeight && "min-h-0 h-full",
+      )}
+    >
+      <ol
+        className={cn(
+          "flex flex-1 flex-col gap-2.5 px-3 py-2 pr-8",
+          fillHeight && "min-h-0 overflow-y-auto",
+        )}
+      >
         {bullets.map((text, index) => {
           const isCopied = copiedIndex === index
           return (

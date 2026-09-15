@@ -111,9 +111,9 @@ export type RecommendationLabels = {
 }
 
 const COMPARE_OPTIONS: { key: FieldCompareTarget; label: string }[] = [
-  { key: "final", label: "Text" },
-  { key: "pim", label: "vs. PIM" },
   { key: "pdp", label: "vs. PDP" },
+  { key: "pim", label: "vs. PIM" },
+  { key: "final", label: "Text" },
 ]
 
 export function CompareTabs({
@@ -287,6 +287,14 @@ interface ContentRecommendationBodyProps {
   hideActions?: boolean
   /** When true, suppresses inline expanded panels — parent is responsible for rendering them. */
   hideExpandedPanels?: boolean
+  /** When true, omits Reasoning / Alt Keywords toggles (parent renders full-width). */
+  hideReasoningAltKeywords?: boolean
+  /** When true, omits the header slot above the field (title compare grid). */
+  hideHeader?: boolean
+  /** Match recommendation field height to an adjacent source column. */
+  recommendationFieldFillHeight?: boolean
+  /** Title compare grid: render only the field or trailing action bar. */
+  compareGridPart?: "full" | "field" | "trailing"
   /** When true, the Reasoning panel starts open on mount (uncontrolled default). */
   defaultReasoningOpen?: boolean
   /** External controlled show-state for the Reasoning panel toggle. */
@@ -331,6 +339,10 @@ export function ContentRecommendationBody({
   charLimit,
   hideActions = false,
   hideExpandedPanels = false,
+  hideReasoningAltKeywords = false,
+  hideHeader = false,
+  recommendationFieldFillHeight = false,
+  compareGridPart = "full",
   defaultReasoningOpen = false,
   showReasoningPanel,
   showAltKeywordsPanel,
@@ -450,23 +462,12 @@ export function ContentRecommendationBody({
       exitEditKey={compareTarget}
       highlightedText={insertHighlight?.text}
       highlightKey={insertHighlight?.key}
+      fillHeight={recommendationFieldFillHeight}
     />
   )
 
-  return (
-    <div className="w-full min-w-0">
-      <div className={fieldLabelContentStack("w-full")}>
-        {header ? (
-          <div className={cn("flex w-full flex-col", FIELD_RECO_HEADER_GAP)}>
-            {header}
-            {recommendationField}
-          </div>
-        ) : (
-          recommendationField
-        )}
-
-        {/* Action bar — only rendered when there are actual actions or the Add New button */}
-          {(!hideActions || (isPublishedLocked && addNewLabel && onAddNew)) && (
+  const actionBar =
+    !hideActions || (isPublishedLocked && addNewLabel && onAddNew) ? (
           <div className="space-y-1 py-1.5">
             {/* Action bar: add-new on the left, Accept/Reject on the right */}
             <div className="flex items-center justify-between gap-3">
@@ -595,16 +596,41 @@ export function ContentRecommendationBody({
               </div>}
             </div>
           </div>
-          )}
+    ) : null
 
-          {/* Reasoning + Alt Keywords block */}
-          {!hideExpandedPanels && !isPublishedLocked && (
+  if (compareGridPart === "field") {
+    return (
+      <div className="flex h-full min-h-18 w-full items-stretch">{recommendationField}</div>
+    )
+  }
+
+  if (compareGridPart === "trailing") {
+    return <div className="w-full min-w-0">{actionBar}</div>
+  }
+
+  return (
+    <div className="w-full min-w-0">
+      <div className={fieldLabelContentStack("w-full")}>
+        {header && !hideHeader ? (
+          <div className={cn("flex w-full flex-col", FIELD_RECO_HEADER_GAP)}>
+            {header}
+            {recommendationField}
+          </div>
+        ) : (
+          recommendationField
+        )}
+
+        {actionBar}
+
+          {/* Reasoning + Alt Keywords — panels can be lifted full-width by the parent */}
+          {!hideReasoningAltKeywords && !isPublishedLocked && (
             <ReasoningAltKeywordsBlock
               reasoning={recommendation.reasoning}
               altKeywords={altKeywords}
               aeoPerformance={recommendation.aeoPerformance}
               hideReasoning={hideReasoning}
               hideAltKeywords={hideAltKeywords}
+              hideExpandedPanels={hideExpandedPanels}
               showReasoning={showReasoning}
               showAltKeywords={showAltKeywords}
               onReasoningToggle={(next) => onReasoningToggle ? onReasoningToggle(next) : setShowReasoningLocal(next)}

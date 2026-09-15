@@ -50,6 +50,8 @@ interface VerticalSourceCompareGridProps {
   defaultSourceCompareOpen?: boolean
   /** When set, shows a match pill beside the PIM/retailer toggle (PIM vs retailer). */
   matchPercent?: number
+  /** When true, omits the match pill from the PIM/retailer toggle row. */
+  hideMatchBadge?: boolean
 }
 
 function sourceColumnClass(showPim: boolean, showPdp: boolean) {
@@ -101,6 +103,7 @@ export function VerticalSourceCompareGrid({
   sourceCompareCollapsible = false,
   defaultSourceCompareOpen = true,
   matchPercent,
+  hideMatchBadge = false,
 }: VerticalSourceCompareGridProps) {
   const [sourceCompareOpen, setSourceCompareOpen] = useState(defaultSourceCompareOpen)
   const columnClass = sourceColumnClass(showPim, showPdp)
@@ -211,7 +214,7 @@ export function VerticalSourceCompareGrid({
           )}
           PIM and Retailer
         </button>
-        {matchPercent !== undefined ? (
+        {!hideMatchBadge && matchPercent !== undefined ? (
           <MatchPercentBadge percent={matchPercent} />
         ) : null}
       </div>

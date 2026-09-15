@@ -81,6 +81,8 @@ interface EditableRecommendationFieldProps {
    */
   highlightedText?: string
   highlightKey?: number
+  /** Stretch the field shell to fill a matched-height compare column. */
+  fillHeight?: boolean
 }
 
 /** Splits `text` into [before, match, after] for the first case-insensitive occurrence of `highlight`. */
@@ -105,6 +107,7 @@ export function EditableRecommendationField({
   exitEditKey,
   highlightedText,
   highlightKey,
+  fillHeight = false,
 }: EditableRecommendationFieldProps) {
   const [isEditing, setIsEditing] = useState(false)
   // Two-phase highlight: `lit` = instantly amber (no transition), `fading` = transition class added before color clears
@@ -174,13 +177,18 @@ export function EditableRecommendationField({
   return (
     <div
       data-recommendation-tone={tone}
-      className={cn("w-full min-w-0 rounded-lg px-0.5 py-0.5", TONE_OUTER_CLASS[tone])}
+      className={cn(
+        "w-full min-w-0 rounded-lg px-0.5 py-0.5",
+        TONE_OUTER_CLASS[tone],
+        fillHeight && "flex h-full min-h-18 flex-1 flex-col",
+      )}
     >
       <div
         className={cn(
           "flex w-full min-w-0 flex-col rounded-md border px-3 py-2",
           TONE_INNER_BG_CLASS[tone],
           TONE_INNER_BORDER_CLASS[tone],
+          fillHeight && "min-h-18 flex-1",
           isEditing &&
             (tone === "highlight" || tone === "accepted") &&
             "ring-2 ring-brand-200",

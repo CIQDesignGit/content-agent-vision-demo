@@ -281,15 +281,15 @@ export function ImageSection({
         <ImageIcon className="size-4 shrink-0 text-slate-400" aria-hidden />
         <span className="text-sm font-semibold text-slate-900">Image</span>
         {hasPimData ? <MatchPercentBadge percent={matchPercent} /> : null}
-        {!readOnly ? (
-          <button
-            type="button"
-            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-primary hover:bg-brand-50"
-          >
-            <ImagePlus className="size-4" /> Add image
-          </button>
-        ) : null}
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          {!readOnly ? (
+            <button
+              type="button"
+              className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 text-xs font-medium text-primary hover:bg-brand-50"
+            >
+              <ImagePlus className="size-4" /> Add image
+            </button>
+          ) : null}
           <SectionSelectToggle
             selected={isIncluded}
             onToggle={onToggleInclude ?? (() => {})}

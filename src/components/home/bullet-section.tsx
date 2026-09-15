@@ -10,16 +10,20 @@ import { titleMatchPercent } from "@/lib/title-match"
 import { resolvePublishedSourceDisplay } from "@/lib/published-source-display"
 import { resolveBulletSyncFootprint } from "@/lib/sync-footprint"
 import { BulletBulkActions } from "./bullet-bulk-actions"
-import { BulletsSourceCompare } from "./bullets-source-compare"
 import { CompareTabs, ContentRecommendationHeader } from "./content-recommendation-card"
 import { AiRecommendationSparklesIcon, SourceChannelLabel } from "./bullet-source-cell"
+import { BulletsCompareColumn } from "./bullets-compare-column"
+import { MatchPercentBadge } from "./match-percent-badge"
+import { BulletsReasoningAltKeywordsBlock } from "./bullets-reasoning-alt-keywords-block"
 import { ReasoningAltKeywordsBlock } from "./reasoning-alt-keywords-block"
 import {
+  buildGroupedBulletReasoning,
   BulletsCombinedRecommendationView,
+  GroupedReasoningPanel,
   type CombinedBulletItem,
 } from "./bullets-combined-recommendation"
+import { AltKeywordsPanel } from "./alt-keywords-panel"
 import type { FieldCompareTarget } from "./vertical-source-compare-grid"
-import { VerticalSourceCompareGrid } from "./vertical-source-compare-grid"
 import type { FieldPublishQueueItem } from "@/lib/build-field-publish-queue"
 import type { AltKeyword, BulletRecommendation, PublishBatch, ReasoningCategory } from "./types"
 
@@ -218,8 +222,11 @@ export function BulletPointsSection({
   onToggleInclude,
   hideActions = false,
 }: BulletPointsSectionProps) {
-  const [gridCompareTarget] = useState<FieldCompareTarget>("pim")
-  const [recoCompareTarget, setRecoCompareTarget] = useState<FieldCompareTarget>("final")
+  const [recoCompareTarget, setRecoCompareTarget] = useState<FieldCompareTarget>("pdp")
+  const [showReasoning, setShowReasoning] = useState(false)
+  const [showAltKeywords, setShowAltKeywords] = useState(false)
+  const [usedKeywordIds, setUsedKeywordIds] = useState<Set<string>>(new Set())
+  const [appliedSuffixes, setAppliedSuffixes] = useState<Map<string, string>>(new Map())
 
   const activeRecommendations = useMemo(
     () =>
@@ -285,16 +292,8 @@ export function BulletPointsSection({
     [activeRecommendations],
   )
 
-  const handlers = {
-    onRecommendationTextChange,
-    onAccept,
-    onReject,
-    onReset,
-    onUndoAccept,
-    onUndoReject,
-    onPushUpdate,
-    onAcceptNewDraft,
-  }
+  const compareKind: "pim" | "pdp" = effectiveRecoCompareTarget === "pim" ? "pim" : "pdp"
+  const showSectionCompareTabs = hasPendingRecommendations
 
   // PIM+PDP: build combined item array for the new single-box view
   const combinedBulletItems = useMemo<CombinedBulletItem[]>(
@@ -324,9 +323,75 @@ export function BulletPointsSection({
       />
     ) : null
 
-  const pdpCompareForPim = useMemo(
-    () => displayLists.pim.map((_, index) => displayLists.pdp[index] ?? ""),
-    [displayLists],
+  const compareBullets = compareKind === "pim" ? displayLists.pim : displayLists.pdp
+  const compareBulletsOther =
+    compareKind === "pim"
+      ? displayLists.pim.map((_, index) => displayLists.pdp[index] ?? "")
+      : displayLists.pim
+
+  function pendingBulletForKeywords() {
+    return activeRecommendations.find((reco) => reco.status === "pending")
+  }
+
+  function handleUseKeyword(kw: AltKeyword) {
+    const reco = pendingBulletForKeywords()
+    if (!reco) return
+    const cur = reco.recommendedText
+    const newText = kw.replacesWord
+      ? cur.replace(new RegExp(kw.replacesWord.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i"), kw.keyword)
+      : cur + `, ${kw.keyword}`
+    onRecommendationTextChange(reco.id, newText)
+    if (!kw.replacesWord) {
+      setAppliedSuffixes((prev) => new Map(prev).set(kw.id, `, ${kw.keyword}`))
+    }
+    setUsedKeywordIds((prev) => new Set(prev).add(kw.id))
+  }
+
+  function handleRemoveKeyword(kw: AltKeyword) {
+    const reco = pendingBulletForKeywords()
+    if (!reco) return
+    const suffix = appliedSuffixes.get(kw.id)
+    if (suffix) {
+      onRecommendationTextChange(reco.id, reco.recommendedText.replace(suffix, ""))
+      setAppliedSuffixes((prev) => {
+        const m = new Map(prev)
+        m.delete(kw.id)
+        return m
+      })
+    }
+    setUsedKeywordIds((prev) => {
+      const s = new Set(prev)
+      s.delete(kw.id)
+      return s
+    })
+  }
+
+  const groupedActiveReasoning = useMemo(
+    () => buildGroupedBulletReasoning(activeRecommendations),
+    [activeRecommendations],
+  )
+
+  const hasExpandedBulletPanels =
+    hasPimData &&
+    combinedBulletItems.length > 0 &&
+    (showReasoning || showAltKeywords)
+
+  const pimRecoHeader = (
+    <ContentRecommendationHeader
+      labels={{
+        pending: "AI Recommended Bullets",
+        accepted: "AI Recommended Bullets",
+        rejected: "AI Recommended Bullets",
+        queued: "Changes queued",
+      }}
+      status={hasPendingRecommendations ? "pending" : "accepted"}
+      compareTarget={effectiveRecoCompareTarget}
+      onCompareTargetChange={setRecoCompareTarget}
+      isOpen
+      collapsible={false}
+      onToggleOpen={() => undefined}
+      hideCompareTabs
+    />
   )
 
   return (
@@ -334,15 +399,17 @@ export function BulletPointsSection({
       <header className="flex flex-wrap items-center gap-2 pl-1 py-2">
         <ListChecks className="size-4 shrink-0 text-slate-400" aria-hidden />
         <span className="text-sm font-semibold text-slate-900">Bullet Points</span>
-        {/* CompareTabs only shown here for the no-PIM path; PIM path has tabs inside the combined box */}
-        {!hasPimData && hasPendingRecommendations && !hideActions && (
-          <CompareTabs
-            value={effectiveRecoCompareTarget}
-            onChange={setRecoCompareTarget}
-            exclude={["pim"]}
-          />
-        )}
-        <div className="ml-auto">
+        {hasPimData && activeRecommendations.length > 0 ? (
+          <MatchPercentBadge percent={matchPercent} />
+        ) : null}
+        <div className="ml-auto flex items-center gap-2">
+          {showSectionCompareTabs ? (
+            <CompareTabs
+              value={effectiveRecoCompareTarget}
+              onChange={setRecoCompareTarget}
+              exclude={hasPimData ? [] : ["pim"]}
+            />
+          ) : null}
           <SectionSelectToggle
             selected={isIncluded}
             onToggle={onToggleInclude ?? (() => {})}
@@ -350,65 +417,26 @@ export function BulletPointsSection({
         </div>
       </header>
 
-      <VerticalSourceCompareGrid
-        pimValue=""
-        pdpValue=""
-        compareTarget={gridCompareTarget}
-        recommendationFirst={hasPimData}
-        sourceCompareCollapsible={hasPimData}
-        defaultSourceCompareOpen={!hasPimData}
-        matchPercent={hasPimData ? matchPercent : undefined}
-        pimCell={
-          noPimBulletsCell ?? (
-            <BulletsSourceCompare
-              bullets={displayLists.pim}
-              compareBullets={pdpCompareForPim}
-              side="pim"
-            />
-          )
-        }
-        pimCellBare={!hasPimData}
-        pimColumnLabel={
-          !hasPimData ? (
-            <SourceChannelLabel
-              icon={<AiRecommendationSparklesIcon />}
-              label="AI Recommended Bullets"
-            />
-          ) : undefined
-        }
-        pdpCell={
-          <BulletsSourceCompare
-            bullets={displayLists.pdp}
-            compareBullets={hasPimData ? displayLists.pim : []}
-            side="pdp"
-          />
-        }
-        recommendationBody={
-          hasPimData && combinedBulletItems.length > 0 ? (
-            <div className="w-full min-w-0">
-              <div className="border-b border-slate-200 pb-3">
-                <ContentRecommendationHeader
-                  labels={{
-                    pending: "AI Recommended Bullets",
-                    accepted: "AI Recommended Bullets",
-                    rejected: "AI Recommended Bullets",
-                    queued: "Changes queued",
-                  }}
-                  status={hasPendingRecommendations ? "pending" : "accepted"}
-                  compareTarget={recoCompareTarget}
-                  onCompareTargetChange={setRecoCompareTarget}
-                  isOpen
-                  collapsible={false}
-                  onToggleOpen={() => undefined}
-                />
-              </div>
-              <div className="pt-3">
+      <div className="flex w-full flex-col gap-3">
+        {hasPimData && combinedBulletItems.length > 0 ? (
+          <>
+            <div className="grid grid-cols-2 items-stretch gap-x-3 gap-y-2">
+              <div className="flex min-h-[30px] items-center">{pimRecoHeader}</div>
+              <BulletsCompareColumn
+                part="label"
+                kind={compareKind}
+                bullets={compareBullets}
+                compareBullets={compareBulletsOther}
+              />
+              <div className="flex min-h-18 h-full items-stretch self-stretch">
                 <BulletsCombinedRecommendationView
                   items={combinedBulletItems}
                   hasPimData={hasPimData}
-                  compareTarget={recoCompareTarget}
+                  compareTarget={effectiveRecoCompareTarget}
                   altKeywords={mergedBulletAltKeywords}
                   hideActions={hideActions}
+                  fillHeight
+                  hideReasoningAltKeywords
                   onTextChange={onRecommendationTextChange}
                   onAccept={onAccept}
                   onReject={onReject}
@@ -417,27 +445,91 @@ export function BulletPointsSection({
                   onUndoReject={onUndoReject}
                 />
               </div>
-              {!hideActions && (
-                <BulletBulkActions
-                  recommendations={recommendations}
-                  originals={originals}
-                  onAcceptAll={onAcceptAll}
-                  onRejectAll={onRejectAll}
-                  onResetAll={onResetAll}
+              <div className="flex min-h-18 h-full items-stretch self-stretch">
+                <BulletsCompareColumn
+                  part="field"
+                  fillHeight
+                  kind={compareKind}
+                  bullets={compareBullets}
+                  compareBullets={compareBulletsOther}
                 />
-              )}
+              </div>
+              {!hideActions ? (
+                <div className="col-span-1">
+                  <BulletBulkActions
+                    recommendations={recommendations}
+                    originals={originals}
+                    onAcceptAll={onAcceptAll}
+                    onRejectAll={onRejectAll}
+                    onResetAll={onResetAll}
+                  />
+                </div>
+              ) : null}
             </div>
-          ) : undefined
-        }
-      />
+            <BulletsReasoningAltKeywordsBlock
+              bullets={activeRecommendations}
+              altKeywords={mergedBulletAltKeywords}
+              hideExpandedPanels
+              showReasoning={showReasoning}
+              showAltKeywords={showAltKeywords}
+              onReasoningToggle={setShowReasoning}
+              onAltKeywordsToggle={setShowAltKeywords}
+              usedKeywordIds={usedKeywordIds}
+              onUseKeyword={handleUseKeyword}
+              onRemoveKeyword={handleRemoveKeyword}
+            />
+            {hasExpandedBulletPanels ? (
+              <div className="flex w-full flex-col">
+                {showReasoning && groupedActiveReasoning.length > 0 ? (
+                  <div className="pb-2">
+                    <GroupedReasoningPanel grouped={groupedActiveReasoning} />
+                  </div>
+                ) : null}
+                {showAltKeywords && mergedBulletAltKeywords.length > 0 ? (
+                  <div className="pb-2">
+                    <AltKeywordsPanel
+                      keywords={mergedBulletAltKeywords}
+                      usedIds={usedKeywordIds}
+                      onUse={handleUseKeyword}
+                      onRemove={handleRemoveKeyword}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </>
+        ) : !hasPimData && activeRecommendations.length > 0 ? (
+          <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+            <div className="flex min-h-[30px] items-center">
+              <SourceChannelLabel
+                icon={<AiRecommendationSparklesIcon />}
+                label="AI Recommended Bullets"
+              />
+            </div>
+            <BulletsCompareColumn
+              part="label"
+              kind="pdp"
+              bullets={displayLists.pdp}
+              compareBullets={[]}
+            />
+            <div className="min-h-0">{noPimBulletsCell}</div>
+            <BulletsCompareColumn
+              part="field"
+              fillHeight
+              kind="pdp"
+              bullets={displayLists.pdp}
+              compareBullets={[]}
+            />
+          </div>
+        ) : null}
 
-      {/* No-PIM: full-width merged reasoning + alt keywords block below the combined bullet view */}
-      {!hasPimData && (mergedBulletReasoning.length > 0 || mergedBulletAltKeywords.length > 0) && (
-        <ReasoningAltKeywordsBlock
-          reasoning={mergedBulletReasoning}
-          altKeywords={mergedBulletAltKeywords}
-        />
-      )}
+        {!hasPimData && (mergedBulletReasoning.length > 0 || mergedBulletAltKeywords.length > 0) ? (
+          <ReasoningAltKeywordsBlock
+            reasoning={mergedBulletReasoning}
+            altKeywords={mergedBulletAltKeywords}
+          />
+        ) : null}
+      </div>
     </section>
   )
 }

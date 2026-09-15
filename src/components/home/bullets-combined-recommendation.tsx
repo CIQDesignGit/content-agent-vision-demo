@@ -20,7 +20,7 @@ const REASON_DOT: Record<string, string> = {
   REPLACED: "text-blue-600",
 }
 
-function buildGroupedReasoning(bullets: BulletRecommendation[]): GroupedCategory[] {
+export function buildGroupedBulletReasoning(bullets: BulletRecommendation[]): GroupedCategory[] {
   const order: string[] = []
   const meta: Record<string, string> = {}
   for (const b of bullets) {
@@ -42,7 +42,7 @@ function buildGroupedReasoning(bullets: BulletRecommendation[]): GroupedCategory
     .filter((c) => c.bulletGroups.length > 0)
 }
 
-function GroupedReasoningPanel({ grouped }: { grouped: GroupedCategory[] }) {
+export function GroupedReasoningPanel({ grouped }: { grouped: GroupedCategory[] }) {
   const [activeKey, setActiveKey] = useState(grouped[0]?.key ?? "")
   const active = grouped.find((c) => c.key === activeKey)
   return (
@@ -113,6 +113,10 @@ interface Props {
   onUndoAccept: (id: string) => void
   onUndoReject: (id: string) => void
   onAddBullet?: (text: string) => void
+  /** Stretch the bullet list box to match a paired compare column. */
+  fillHeight?: boolean
+  /** When true, reasoning / alt-keyword toggles render in the parent (full width). */
+  hideReasoningAltKeywords?: boolean
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -120,6 +124,8 @@ interface Props {
 export function BulletsCombinedRecommendationView({
   items, hasPimData = true, compareTarget = "final", altKeywords = [], hideActions = false,
   onTextChange, onAccept, onReject, onReset, onUndoAccept, onUndoReject, onAddBullet,
+  fillHeight = false,
+  hideReasoningAltKeywords = false,
 }: Props) {
   // Ordered flat list: existing bullets interleaved with locally-inserted ones
   const [flatList, setFlatList] = useState<FlatEntry[]>(() =>
@@ -152,7 +158,7 @@ export function BulletsCombinedRecommendationView({
   }
 
   const grouped = useMemo(
-    () => buildGroupedReasoning(items.map((i) => i.reco)),
+    () => buildGroupedBulletReasoning(items.map((i) => i.reco)),
     [items],
   )
 
@@ -339,11 +345,27 @@ export function BulletsCombinedRecommendationView({
   // ─── Render ─────────────────────────────────────────────────────────────────
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className={cn("w-full min-w-0 rounded-lg px-0.5 py-0.5", outerCls)}>
-        <div className={cn("rounded-md border bg-white px-3 py-2.5", borderCls,
-          editingId && "ring-2 ring-brand-200",
-        )}>
+    <div
+      className={cn(
+        "flex w-full min-w-0 flex-col",
+        fillHeight ? "h-full min-h-18 flex-1" : "gap-2",
+      )}
+    >
+      <div
+        className={cn(
+          "w-full min-w-0 rounded-lg px-0.5 py-0.5",
+          outerCls,
+          fillHeight && "flex min-h-0 flex-1 flex-col",
+        )}
+      >
+        <div
+          className={cn(
+            "rounded-md border bg-white px-3 py-2.5",
+            borderCls,
+            editingId && "ring-2 ring-brand-200",
+            fillHeight && "flex min-h-0 flex-1 flex-col overflow-y-auto",
+          )}
+        >
           <ul className="space-y-2">
             {flatList.map((entry, flatIdx) => {
               const isEditing = editingId === entry.id
@@ -536,7 +558,7 @@ export function BulletsCombinedRecommendationView({
         </div>
       </div>
 
-      {(grouped.length > 0 || altKeywords.length > 0) && (
+      {!hideReasoningAltKeywords && (grouped.length > 0 || altKeywords.length > 0) && (
         <div className="flex flex-col">
           <div className="flex items-center gap-3 py-1.5">
             {grouped.length > 0 && (

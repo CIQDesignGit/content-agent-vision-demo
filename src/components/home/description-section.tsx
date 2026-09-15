@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react"
 import { AlignLeft } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { SectionSelectToggle } from "./section-controls"
 import { titleMatchPercent } from "@/lib/title-match"
 import { resolvePublishedSourceDisplay } from "@/lib/published-source-display"
@@ -13,10 +12,12 @@ import {
 } from "./content-recommendation-card"
 import { AiRecommendationSparklesIcon, SourceChannelLabel } from "./bullet-source-cell"
 import { fieldLabelContentStack } from "./field-layout"
+import { MatchPercentBadge } from "./match-percent-badge"
+import { ReasoningAltKeywordsBlock } from "./reasoning-alt-keywords-block"
 import { ReasoningPanel } from "./reasoning-ui"
 import { AltKeywordsPanel } from "./alt-keywords-panel"
+import { TitleCompareColumn } from "./title-compare-column"
 import type { FieldCompareTarget } from "./vertical-source-compare-grid"
-import { VerticalSourceCompareGrid } from "./vertical-source-compare-grid"
 import type { PublishBatch, TitleRecommendation, TitleStatus, SyncFootprint } from "./types"
 
 interface DescriptionSectionProps {
@@ -27,7 +28,6 @@ interface DescriptionSectionProps {
   syncFootprint?: SyncFootprint
   hasUnpublishedEdits?: boolean
   activeBatch?: PublishBatch
-  /** When false, no PIM catalog entry exists — recommendation goes into the PIM column. */
   hasPimData?: boolean
   onRecommendationChange: (text: string) => void
   onAccept: () => void
@@ -38,7 +38,6 @@ interface DescriptionSectionProps {
   onAcceptNewDraft?: (text: string) => void
   isIncluded?: boolean
   onToggleInclude?: () => void
-  /** When true, hides Accept/Reject action buttons — section toggle handles inclusion instead. */
   hideActions?: boolean
 }
 
@@ -62,24 +61,19 @@ export function DescriptionSection({
   onToggleInclude,
   hideActions = false,
 }: DescriptionSectionProps) {
-  const [compareTarget, setCompareTarget] = useState<FieldCompareTarget>("final")
-  const [draftCompareTarget, setDraftCompareTarget] = useState<FieldCompareTarget>("final")
-
-  // No PIM to compare against — "vs. PIM" falls back to "vs. PDP"; "Text" is still allowed.
-  const effectiveCompareTarget: FieldCompareTarget =
-    !hasPimData && compareTarget === "pim" ? "pdp" : compareTarget
+  const [compareTarget, setCompareTarget] = useState<FieldCompareTarget>("pdp")
+  const [draftCompareTarget, setDraftCompareTarget] = useState<FieldCompareTarget>("pdp")
   const [isOpen, setIsOpen] = useState(true)
   const [isAddingNew, setIsAddingNew] = useState(false)
   const [draftText, setDraftText] = useState("")
   const [draftOriginalText, setDraftOriginalText] = useState("")
   const [originalText] = useState(() => recommendation?.recommendedText ?? "")
+  const [showReasoning, setShowReasoning] = useState(false)
+  const [showAltKeywords, setShowAltKeywords] = useState(false)
 
-  // No-PIM layout: panel state lifted out of the grid column so they render full-width
-  const [noPimShowReasoning, setNoPimShowReasoning] = useState(false)
-  const [noPimShowAltKeywords, setNoPimShowAltKeywords] = useState(false)
-  const noPimAltKeywords = recommendation?.altKeywords ?? []
-  const noPimHasExpandedPanels =
-    !hasPimData && recommendation != null && (noPimShowReasoning || noPimShowAltKeywords)
+  const effectiveCompareTarget: FieldCompareTarget =
+    !hasPimData && compareTarget === "pim" ? "pdp" : compareTarget
+  const compareKind: "pim" | "pdp" = effectiveCompareTarget === "pim" ? "pim" : "pdp"
 
   const publishedText = recommendation?.recommendedText
   const { pim: displayPim, pdp: displayPdp } = useMemo(
@@ -102,6 +96,10 @@ export function DescriptionSection({
   const showReco = Boolean(recommendation)
   const showRecoBody = showReco && isOpen
   const isFullySynced = status === "accepted" && syncFootprint === "synced"
+  const showSectionCompareTabs = showReco && status === "pending" && isOpen && !isFullySynced
+  const altKeywords = recommendation?.altKeywords ?? []
+  const hasExpandedPanels =
+    showRecoBody && recommendation && (showReasoning || showAltKeywords)
 
   const recommendationHeaderEl =
     showReco && !isFullySynced ? (
@@ -122,43 +120,6 @@ export function DescriptionSection({
       />
     ) : null
 
-  const showHeaderInGrid = Boolean(hasPimData && recommendationHeaderEl && !showRecoBody)
-
-  // When no PIM data: recommendation lives in the left column.
-  // Expanded panels are suppressed here and rendered full-width below the grid instead.
-  const noPimRecoCell =
-    !hasPimData && recommendation ? (
-      <div className="flex h-full flex-col gap-3 pb-3">
-        <ContentRecommendationBody
-          recommendation={recommendation}
-          pimBaseline=""
-          pdpBaseline={displayPdp}
-          originalText={originalText}
-          compareTarget={effectiveCompareTarget}
-          status={status}
-          syncFootprint={syncFootprint}
-          hasUnpublishedEdits={hasUnpublishedEdits}
-          activeBatch={activeBatch}
-          fieldKey="description"
-          onRecommendedTextChange={onRecommendationChange}
-          onAccept={onAccept}
-          onReject={onReject}
-          onReset={() => onRecommendationChange(originalText)}
-          onUndoAccept={onUndoAccept}
-          onUndoReject={onUndoReject}
-          onPushUpdate={onPushUpdate}
-          editAriaLabel="Edit AI recommended description"
-          editRows={5}
-          hideActions={hideActions}
-          hideExpandedPanels
-          showReasoningPanel={noPimShowReasoning}
-          showAltKeywordsPanel={noPimShowAltKeywords}
-          onReasoningToggle={setNoPimShowReasoning}
-          onAltKeywordsToggle={setNoPimShowAltKeywords}
-        />
-      </div>
-    ) : null
-
   function handleAddNewDescription() {
     setDraftText(pimDescription)
     setDraftOriginalText(pimDescription)
@@ -176,6 +137,70 @@ export function DescriptionSection({
     ? { ...recommendation, recommendedText: draftText }
     : null
 
+  const draftBlock =
+    isAddingNew && draftRecommendation ? (
+      <div className="border-t border-slate-200 pt-3">
+        <ContentRecommendationBody
+          header={
+            <ContentRecommendationHeader
+              labels={{
+                pending: "Add new description",
+                accepted: "Accepted",
+                rejected: "Rejected",
+              }}
+              status="pending"
+              compareTarget={draftCompareTarget}
+              onCompareTargetChange={setDraftCompareTarget}
+              isOpen
+              collapsible={false}
+              onToggleOpen={() => undefined}
+              isAiRecommendation={false}
+            />
+          }
+          recommendation={draftRecommendation}
+          pimBaseline={hasPimData ? displayPim : ""}
+          pdpBaseline={displayPdp}
+          originalText={draftOriginalText}
+          compareTarget={hasPimData ? draftCompareTarget : "pdp"}
+          status="pending"
+          syncFootprint="none"
+          onRecommendedTextChange={setDraftText}
+          onAccept={handleAcceptDraft}
+          onReject={() => setIsAddingNew(false)}
+          onReset={() => setDraftText(draftOriginalText)}
+          onUndoAccept={() => setIsAddingNew(false)}
+          hideReasoning
+          hideActions={hideActions}
+          rejectLabel="Cancel"
+          editAriaLabel="Edit new description"
+          editRows={5}
+        />
+      </div>
+    ) : null
+
+  const recoBodyProps = {
+    recommendation: recommendation!,
+    pimBaseline: hasPimData ? displayPim : "",
+    pdpBaseline: displayPdp,
+    originalText,
+    compareTarget: effectiveCompareTarget,
+    status,
+    syncFootprint,
+    hasUnpublishedEdits,
+    activeBatch,
+    fieldKey: "description" as const,
+    onRecommendedTextChange: onRecommendationChange,
+    onAccept,
+    onReject,
+    onReset: () => onRecommendationChange(originalText),
+    onUndoAccept,
+    onUndoReject,
+    onPushUpdate,
+    editAriaLabel: "Edit AI recommended description",
+    editRows: 5,
+    hideActions,
+  }
+
   return (
     <section className="rounded-xl border border-slate-200 bg-white p-3 shadow-field">
       <header className="flex flex-wrap items-center gap-2 pl-1 py-2">
@@ -184,195 +209,155 @@ export function DescriptionSection({
         <span className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-xs font-medium text-slate-500">
           Optional
         </span>
-        {showReco && status === "pending" && isOpen && !hideActions && (
-          <CompareTabs
-            value={effectiveCompareTarget}
-            onChange={setCompareTarget}
-            exclude={hasPimData ? [] : ["pim"]}
-          />
+        {hasPimData && showReco ? <MatchPercentBadge percent={matchPercent} /> : null}
+        {showReco && (
+          <div className="ml-auto flex items-center gap-2">
+            {showSectionCompareTabs ? (
+              <CompareTabs
+                value={effectiveCompareTarget}
+                onChange={setCompareTarget}
+                exclude={hasPimData ? [] : ["pim"]}
+              />
+            ) : null}
+            <SectionSelectToggle
+              selected={isIncluded}
+              onToggle={onToggleInclude ?? (() => {})}
+            />
+          </div>
         )}
-        <div className="ml-auto">
-          <SectionSelectToggle
-            selected={isIncluded}
-            onToggle={onToggleInclude ?? (() => {})}
-          />
-        </div>
       </header>
 
-      <VerticalSourceCompareGrid
-        pimValue={hasPimData ? displayPim : ""}
-        pdpValue={displayPdp}
-        compareTarget={effectiveCompareTarget}
-        recommendationFirst={hasPimData}
-        sourceCompareCollapsible={hasPimData}
-        defaultSourceCompareOpen={!hasPimData}
-        matchPercent={hasPimData ? matchPercent : undefined}
-        pimCell={noPimRecoCell ?? undefined}
-        pimCellBare={!hasPimData}
-        pimColumnLabel={
-          !hasPimData ? (
-            <SourceChannelLabel
-              icon={<AiRecommendationSparklesIcon />}
-              label="AI Recommended Description"
-            />
-          ) : undefined
-        }
-        recommendationHeader={showHeaderInGrid ? recommendationHeaderEl : undefined}
-        recommendationBody={
-          !hasPimData || !recommendation ? undefined : isFullySynced ? (
-            <div className={fieldLabelContentStack("w-full")}>
-              {!isAddingNew ? (
-                <>
-                  <p className="text-xs text-slate-500">No AI recommendation</p>
-                  <button
-                    type="button"
-                    onClick={handleAddNewDescription}
-                    className="self-start text-xs font-medium text-primary hover:underline"
-                  >
-                    Edit Description
-                  </button>
-                </>
-              ) : null}
-              {isAddingNew && draftRecommendation ? (
-                <div className="border-t border-slate-200 pt-3">
-                  <ContentRecommendationBody
-                    header={
-                      <ContentRecommendationHeader
-                        labels={{
-                          pending: "Add new description",
-                          accepted: "Accepted",
-                          rejected: "Rejected",
-                        }}
-                        status="pending"
-                        compareTarget={draftCompareTarget}
-                        onCompareTargetChange={setDraftCompareTarget}
-                        isOpen
-                        collapsible={false}
-                        onToggleOpen={() => undefined}
-                        isAiRecommendation={false}
-                      />
-                    }
-                    recommendation={draftRecommendation}
-                    pimBaseline={hasPimData ? displayPim : ""}
-                    pdpBaseline={displayPdp}
-                    originalText={draftOriginalText}
-                    compareTarget={hasPimData ? draftCompareTarget : "pdp"}
-                    status="pending"
-                    syncFootprint="none"
-                    onRecommendedTextChange={setDraftText}
-                    onAccept={handleAcceptDraft}
-                    onReject={() => setIsAddingNew(false)}
-                    onReset={() => setDraftText(draftOriginalText)}
-                    onUndoAccept={() => setIsAddingNew(false)}
-                    hideReasoning
-                    rejectLabel="Cancel"
-                    editAriaLabel="Edit new description"
-                    editRows={5}
-                  />
-                </div>
-              ) : null}
+      <div className="flex w-full flex-col gap-3">
+        {showRecoBody && recommendation && !isFullySynced ? (
+          <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+            <div className="flex min-h-[30px] items-center">
+              {hasPimData ? (
+                recommendationHeaderEl
+              ) : (
+                <SourceChannelLabel
+                  icon={<AiRecommendationSparklesIcon />}
+                  label="AI Recommended Description"
+                />
+              )}
             </div>
-          ) : showRecoBody ? (
-            <div className={fieldLabelContentStack("w-full")}>
+            <TitleCompareColumn
+              part="label"
+              kind={compareKind}
+              value={compareKind === "pim" ? displayPim : displayPdp}
+              compareValue={compareKind === "pim" ? displayPdp : displayPim}
+            />
+            <ContentRecommendationBody
+              key={`${pimDescription}|${pdpDescription}|field`}
+              {...recoBodyProps}
+              compareGridPart="field"
+              hideHeader
+              hideReasoningAltKeywords
+              hideExpandedPanels
+              recommendationFieldFillHeight
+              showReasoningPanel={showReasoning}
+              showAltKeywordsPanel={showAltKeywords}
+              onReasoningToggle={setShowReasoning}
+              onAltKeywordsToggle={setShowAltKeywords}
+              addNewLabel={isAddingNew ? undefined : "Add New Description"}
+              onAddNew={isAddingNew ? undefined : handleAddNewDescription}
+            />
+            <TitleCompareColumn
+              part="field"
+              fillHeight
+              kind={compareKind}
+              value={compareKind === "pim" ? displayPim : displayPdp}
+              compareValue={compareKind === "pim" ? displayPdp : displayPim}
+            />
+            <div className="col-span-1">
               <ContentRecommendationBody
-                key={`${pimDescription}|${pdpDescription}|locked`}
-                header={recommendationHeaderEl ?? undefined}
-                recommendation={recommendation}
-                pimBaseline={hasPimData ? displayPim : ""}
-                pdpBaseline={displayPdp}
-                originalText={originalText}
-                compareTarget={effectiveCompareTarget}
-                status={status}
-                syncFootprint={syncFootprint}
-                hasUnpublishedEdits={hasUnpublishedEdits}
-                activeBatch={activeBatch}
-                fieldKey="description"
-                onRecommendedTextChange={onRecommendationChange}
-                onAccept={onAccept}
-                onReject={onReject}
-                onReset={() => onRecommendationChange(originalText)}
-                onUndoAccept={onUndoAccept}
-                onUndoReject={onUndoReject}
-                onPushUpdate={onPushUpdate}
+                key={`${pimDescription}|${pdpDescription}|trailing`}
+                {...recoBodyProps}
+                compareGridPart="trailing"
                 addNewLabel={isAddingNew ? undefined : "Add New Description"}
                 onAddNew={isAddingNew ? undefined : handleAddNewDescription}
-                editAriaLabel="Edit AI recommended description"
-                editRows={5}
-                hideActions={hideActions}
               />
-              {isAddingNew && draftRecommendation ? (
-                <div className="border-t border-slate-200 pt-3">
-                  <ContentRecommendationBody
-                    header={
-                      <ContentRecommendationHeader
-                        labels={{
-                          pending: "Add new description",
-                          accepted: "Accepted",
-                          rejected: "Rejected",
-                        }}
-                        status="pending"
-                        compareTarget={draftCompareTarget}
-                        onCompareTargetChange={setDraftCompareTarget}
-                        isOpen
-                        collapsible={false}
-                        onToggleOpen={() => undefined}
-                        isAiRecommendation={false}
-                      />
-                    }
-                    recommendation={draftRecommendation}
-                    pimBaseline={displayPim}
-                    pdpBaseline={displayPdp}
-                    originalText={draftOriginalText}
-                    compareTarget={draftCompareTarget}
-                    status="pending"
-                    syncFootprint="none"
-                    onRecommendedTextChange={setDraftText}
-                    onAccept={handleAcceptDraft}
-                    onReject={() => setIsAddingNew(false)}
-                    onReset={() => setDraftText(draftOriginalText)}
-                    onUndoAccept={() => setIsAddingNew(false)}
-                    hideReasoning
-                    rejectLabel="Cancel"
-                    editAriaLabel="Edit new description"
-                    editRows={5}
-                  />
+            </div>
+            {draftBlock ? <div className="col-span-2">{draftBlock}</div> : null}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 items-start gap-x-3">
+            <div className={fieldLabelContentStack("min-h-0 min-w-0")}>
+              {isFullySynced ? (
+                <div className={fieldLabelContentStack("w-full")}>
+                  {!isAddingNew ? (
+                    <>
+                      <p className="text-xs text-slate-500">No AI recommendation</p>
+                      <button
+                        type="button"
+                        onClick={handleAddNewDescription}
+                        className="self-start text-xs font-medium text-primary hover:underline"
+                      >
+                        Edit Description
+                      </button>
+                    </>
+                  ) : null}
+                  {draftBlock}
                 </div>
-              ) : null}
+              ) : showRecoBody && recommendation ? (
+                <ContentRecommendationBody
+                  key={`${pimDescription}|${pdpDescription}|fallback`}
+                  header={recommendationHeaderEl ?? undefined}
+                  {...recoBodyProps}
+                  hideExpandedPanels
+                  showReasoningPanel={showReasoning}
+                  showAltKeywordsPanel={showAltKeywords}
+                  onReasoningToggle={setShowReasoning}
+                  onAltKeywordsToggle={setShowAltKeywords}
+                />
+              ) : recommendationHeaderEl}
             </div>
-          ) : undefined
-        }
-      />
+            <TitleCompareColumn
+              kind={compareKind}
+              value={compareKind === "pim" ? displayPim : displayPdp}
+              compareValue={compareKind === "pim" ? displayPdp : displayPim}
+            />
+          </div>
+        )}
 
-      {/* Full-width expanded panels for no-PIM layout — escaped from the left column */}
-      {noPimHasExpandedPanels && (
-        <div className="flex flex-col border-t border-slate-100 pt-3">
-          {noPimShowReasoning && recommendation!.reasoning.length > 0 && (
-            <div className="pb-2">
-              <ReasoningPanel
-                reasoning={recommendation!.reasoning}
-                aeoPerformance={recommendation!.aeoPerformance}
-              />
-            </div>
-          )}
-          {noPimShowAltKeywords && noPimAltKeywords.length > 0 && (
-            <div
-              className={cn(
-                "pb-2",
-                noPimShowReasoning && recommendation!.reasoning.length > 0
-                  ? "border-t border-slate-100 pt-2"
-                  : undefined,
-              )}
-            >
-              <AltKeywordsPanel
-                keywords={noPimAltKeywords}
-                usedIds={new Set()}
-                onUse={() => {}}
-                onRemove={() => {}}
-              />
-            </div>
-          )}
-        </div>
-      )}
+        {recommendation && showRecoBody && !isFullySynced ? (
+          <ReasoningAltKeywordsBlock
+            reasoning={recommendation.reasoning}
+            altKeywords={altKeywords}
+            aeoPerformance={recommendation.aeoPerformance}
+            hideExpandedPanels
+            showReasoning={showReasoning}
+            showAltKeywords={showAltKeywords}
+            onReasoningToggle={setShowReasoning}
+            onAltKeywordsToggle={setShowAltKeywords}
+            usedKeywordIds={new Set()}
+            onUseKeyword={() => {}}
+            onRemoveKeyword={() => {}}
+          />
+        ) : null}
+
+        {hasExpandedPanels && recommendation ? (
+          <div className="flex w-full flex-col">
+            {showReasoning && recommendation.reasoning.length > 0 ? (
+              <div className="pb-2">
+                <ReasoningPanel
+                  reasoning={recommendation.reasoning}
+                  aeoPerformance={recommendation.aeoPerformance}
+                />
+              </div>
+            ) : null}
+            {showAltKeywords && altKeywords.length > 0 ? (
+              <div className="pb-2">
+                <AltKeywordsPanel
+                  keywords={altKeywords}
+                  usedIds={new Set()}
+                  onUse={() => {}}
+                  onRemove={() => {}}
+                />
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
     </section>
   )
 }
