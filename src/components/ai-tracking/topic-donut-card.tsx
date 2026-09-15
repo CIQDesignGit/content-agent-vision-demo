@@ -18,7 +18,7 @@ export function TopicDonutCard({ topic, onViewPrompts }: TopicDonutCardProps) {
   const losing = topic.change < 0
 
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-border-default bg-surface p-4">
+    <div className="flex flex-col gap-3 rounded-2xl bg-slate-50 p-4">
       <div className="flex items-start gap-3">
         <svg viewBox="0 0 40 40" className="size-10 shrink-0" aria-hidden>
           <circle
@@ -26,7 +26,7 @@ export function TopicDonutCard({ topic, onViewPrompts }: TopicDonutCardProps) {
             cy="20"
             r={RADIUS}
             fill="none"
-            className="stroke-slate-100"
+            className="stroke-slate-300"
             strokeWidth="5"
           />
           <circle

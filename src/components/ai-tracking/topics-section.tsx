@@ -4,7 +4,7 @@ import { Plus } from "lucide-react"
 import { Card } from "@ciq-dev/ciq-design-system"
 import { topicCoverage, topicHeadlines, topicShares, topicsRead } from "./data"
 import { SegmentedControl } from "./segmented-control"
-import { InsightRead, SectionKicker } from "./shared"
+import { BandHeading, InsightRead, PanelHeader } from "./shared"
 import { TopicDonutCard } from "./topic-donut-card"
 import type { TopicSort } from "./types"
 
@@ -26,26 +26,29 @@ export function TopicsSection({
   )
 
   return (
-    <section className="flex flex-col gap-4">
-      <SectionKicker>Topics — where you&apos;re strong, where there&apos;s room</SectionKicker>
+    <section className="flex flex-col gap-5">
+      <BandHeading
+        title="Topics"
+        description="Where you own the answer, and where share is slipping."
+      />
 
-      <Card className="overflow-hidden rounded-2xl border border-border-default bg-surface !shadow-brand-soft">
-        <div className="flex flex-wrap items-start justify-between gap-3 px-5 pt-5">
-          <div>
-            <h3 className="text-sm font-semibold text-fg-primary">Share by topic</h3>
-            <p className="mt-1 text-xs text-fg-tertiary">
-              Your share of each tracked topic · click a topic to see its prompts
-            </p>
-          </div>
-          <SegmentedControl
-            value={sort}
-            onChange={onSortChange}
-            ariaLabel="Sort topics"
-            layoutId="topic-sort-thumb"
-            options={[
-              { id: "movement", label: "By movement" },
-              { id: "share", label: "By share" },
-            ]}
+      <Card className="overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+        <div className="px-5 pt-5">
+          <PanelHeader
+            title="Share by topic"
+            description="Click a topic to see the prompts behind it."
+            action={
+              <SegmentedControl
+                value={sort}
+                onChange={onSortChange}
+                ariaLabel="Sort topics"
+                layoutId="topic-sort-thumb"
+                options={[
+                  { id: "movement", label: "By movement" },
+                  { id: "share", label: "By share" },
+                ]}
+              />
+            }
           />
         </div>
 
@@ -57,7 +60,7 @@ export function TopicsSection({
               onViewPrompts={onViewPrompts}
             />
           ))}
-          <div className="flex flex-col items-start justify-center gap-2 rounded-2xl border border-dashed border-slate-200 bg-slate-50/70 p-4">
+          <div className="flex flex-col items-start justify-center gap-2 rounded-2xl border border-dashed border-slate-200 bg-white p-4">
             <p className="text-sm font-medium text-fg-primary">
               {topicCoverage.tracked} of {topicCoverage.total} prompts tracked
             </p>
@@ -74,8 +77,10 @@ export function TopicsSection({
         <div className="grid gap-0 border-t border-slate-100 lg:grid-cols-[1fr_1.1fr]">
           <div className="flex flex-col gap-3 px-5 py-5">
             <div>
-              <h4 className="text-sm font-semibold text-fg-primary">Topic headlines</h4>
-              <p className="mt-1 text-xs text-fg-tertiary">
+              <h4 className="text-base font-semibold tracking-tight text-slate-900">
+                Topic headlines
+              </h4>
+              <p className="mt-1 text-sm text-slate-500">
                 The extremes across these themes this period
               </p>
             </div>
@@ -91,8 +96,8 @@ export function TopicsSection({
               ))}
             </dl>
           </div>
-          <div className="border-t border-slate-100 bg-brand-50/40 px-5 py-5 lg:border-t-0 lg:border-l">
-            <InsightRead markdown={topicsRead} />
+          <div className="border-t border-slate-100 px-5 py-5 lg:border-t-0 lg:border-l lg:border-slate-100">
+            <InsightRead className="h-full" markdown={topicsRead} />
           </div>
         </div>
       </Card>

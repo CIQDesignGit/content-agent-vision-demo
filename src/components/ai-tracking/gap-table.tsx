@@ -19,10 +19,10 @@ export function GapTable({ competitorName, rows }: GapTableProps) {
     <div className="overflow-x-auto border-t border-slate-100">
       <table className="w-full min-w-[720px] border-collapse text-left">
         <thead>
-          <tr className="border-b border-border-default">
+          <tr className="border-b border-slate-100 bg-slate-50/80">
             {["Topic", "You", competitorName, "Gap", "Gap trend", "Change"].map(
               (heading) => (
-                <th key={heading} className="px-5 py-3 text-xs font-medium text-brand-500">
+                <th key={heading} className="px-5 py-3 text-xs font-medium text-slate-500">
                   {heading}
                 </th>
               ),

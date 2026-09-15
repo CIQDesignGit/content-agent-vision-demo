@@ -6,7 +6,7 @@ import { DURATION, EASE_OUT } from "@/lib/motion"
 import { promptRows, promptsRead } from "./data"
 import { MiniSparkline } from "./mini-sparkline"
 import { SegmentedControl } from "./segmented-control"
-import { InsightRead, SectionKicker } from "./shared"
+import { BandHeading, InsightRead, PanelHeader } from "./shared"
 import type { PromptFilter } from "./types"
 
 interface PromptPerformanceProps {
@@ -32,43 +32,46 @@ export function PromptPerformance({
   })
 
   return (
-    <section id="prompt-performance" className="flex scroll-mt-6 flex-col gap-4">
-      <SectionKicker>Prompts — every question Alexa AI was asked</SectionKicker>
+    <section id="prompt-performance" className="flex scroll-mt-8 flex-col gap-5">
+      <BandHeading
+        title="Prompts"
+        description="Every shopper question Alexa AI was asked this period."
+      />
 
-      <Card className="overflow-hidden rounded-2xl border border-border-default bg-surface !shadow-brand-soft">
-        <div className="flex flex-wrap items-start justify-between gap-3 px-5 pt-5 pb-4">
-          <div>
-            <h3 className="text-sm font-semibold text-fg-primary">Prompt performance</h3>
-            <p className="mt-1 text-xs text-fg-tertiary">
-              Appearance rate — share of weeks in the period where the brand surfaced
-            </p>
-          </div>
-          <SegmentedControl
-            value={filter}
-            onChange={onFilterChange}
-            ariaLabel="Filter prompts"
-            layoutId="prompt-filter-thumb"
-            options={[
-              { id: "losing", label: "Losing" },
-              { id: "all", label: "All" },
-              { id: "winning", label: "Winning" },
-            ]}
+      <Card className="overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+        <div className="px-5 pt-5 pb-4">
+          <PanelHeader
+            title="Prompt performance"
+            description="Appearance rate is the share of weeks the brand surfaced."
+            action={
+              <SegmentedControl
+                value={filter}
+                onChange={onFilterChange}
+                ariaLabel="Filter prompts"
+                layoutId="prompt-filter-thumb"
+                options={[
+                  { id: "losing", label: "Losing" },
+                  { id: "all", label: "All" },
+                  { id: "winning", label: "Winning" },
+                ]}
+              />
+            }
           />
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse text-left">
             <thead>
-              <tr className="border-y border-border-default">
-                <th className="px-5 py-3 text-xs font-medium text-brand-500">
+              <tr className="border-y border-slate-100 bg-slate-50/80">
+                <th className="px-5 py-3 text-xs font-medium text-slate-500">
                   Shopper question
                 </th>
-                <th className="px-5 py-3 text-xs font-medium text-brand-500">Topic</th>
-                <th className="px-5 py-3 text-xs font-medium text-brand-500">
+                <th className="px-5 py-3 text-xs font-medium text-slate-500">Topic</th>
+                <th className="px-5 py-3 text-xs font-medium text-slate-500">
                   Appearance rate
                 </th>
-                <th className="px-5 py-3 text-xs font-medium text-brand-500">Trend</th>
-                <th className="px-5 py-3 text-right text-xs font-medium text-brand-500">
+                <th className="px-5 py-3 text-xs font-medium text-slate-500">Trend</th>
+                <th className="px-5 py-3 text-right text-xs font-medium text-slate-500">
                   Change
                 </th>
               </tr>
@@ -131,7 +134,7 @@ export function PromptPerformance({
           </table>
         </div>
 
-        <div className="border-t border-slate-100 px-5 py-4">
+        <div className="px-5 py-5">
           <InsightRead markdown={promptsRead} />
         </div>
       </Card>

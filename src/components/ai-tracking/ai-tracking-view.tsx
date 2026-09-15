@@ -5,7 +5,7 @@ import { AlexaLeaderboard } from "./alexa-leaderboard"
 import { CompetitorCompare } from "./competitor-compare"
 import { PerformanceChart } from "./performance-chart"
 import { PromptPerformance } from "./prompt-performance"
-import { SectionKicker } from "./shared"
+import { BandHeading } from "./shared"
 import { StandingMetrics } from "./standing-metrics"
 import { TopicsSection } from "./topics-section"
 import { TrackingHeader } from "./tracking-header"
@@ -37,15 +37,24 @@ export function AiTrackingView() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-8 px-6 py-8">
-      <TrackingHeader period={period} onPeriodChange={setPeriod} />
+    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-8 pb-16">
+      <div className="flex flex-col gap-8">
+        <TrackingHeader period={period} onPeriodChange={setPeriod} />
 
-      <section className="flex flex-col gap-4">
-        <SectionKicker>Brand — overall standing</SectionKicker>
-        <StandingMetrics />
-        <PerformanceChart />
-        <AlexaLeaderboard />
-      </section>
+        <section className="flex flex-col gap-5">
+          <BandHeading
+            title="Brand standing"
+            description="Where you sit across tracked shopper questions this period."
+          />
+          <StandingMetrics />
+          <div className="grid gap-5 lg:grid-cols-3">
+            <div className="h-full min-w-0 lg:col-span-2">
+              <PerformanceChart />
+            </div>
+            <AlexaLeaderboard />
+          </div>
+        </section>
+      </div>
 
       <TopicsSection
         sort={topicSort}

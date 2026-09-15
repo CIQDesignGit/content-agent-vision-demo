@@ -5,7 +5,7 @@ import { Card, cn } from "@ciq-dev/ciq-design-system"
 import { DURATION, EASE_OUT } from "@/lib/motion"
 import { competitorComparisons, competitorOptions, youScore } from "./data"
 import { GapTable } from "./gap-table"
-import { InsightRead, SectionKicker } from "./shared"
+import { BandHeading, InsightRead, PanelHeader } from "./shared"
 
 interface CompetitorCompareProps {
   competitorId: string
@@ -25,17 +25,18 @@ export function CompetitorCompare({
   const ahead = comparison.gapPts > 0
 
   return (
-    <section className="flex flex-col gap-4">
-      <SectionKicker>Competitors — how you compare, head to head</SectionKicker>
+    <section className="flex flex-col gap-5">
+      <BandHeading
+        title="Competitors"
+        description="Head-to-head against a named brand on the same topics."
+      />
 
-      <Card className="overflow-hidden rounded-2xl border border-border-default bg-surface !shadow-brand-soft">
+      <Card className="overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
         <div className="px-5 pt-5">
-          <h3 className="text-sm font-semibold text-fg-primary">
-            Named competitor comparison
-          </h3>
-          <p className="mt-1 text-xs text-fg-tertiary">
-            Pick a competitor to see exactly where you&apos;re ahead or behind
-          </p>
+          <PanelHeader
+            title="Named competitor comparison"
+            description="Pick a competitor to see where you are ahead or behind."
+          />
           <div className="mt-4 flex flex-wrap gap-2">
             {competitorOptions.map((option) => {
               const active = option.id === competitorId
@@ -59,7 +60,7 @@ export function CompetitorCompare({
         </div>
 
         <div className="flex flex-col gap-3 px-5 py-5">
-          <p className="text-sm font-semibold text-fg-primary">Overall AI-shelf score</p>
+          <p className="text-sm font-semibold text-slate-900">Overall AI-shelf score</p>
           <ScoreRow label="Acme Pet Co." score={youScore} highlight />
           <ScoreRow label={competitor.name} score={comparison.themScore} />
           <p className="text-sm text-fg-secondary">
@@ -73,7 +74,7 @@ export function CompetitorCompare({
 
         <GapTable competitorName={competitor.name} rows={comparison.rows} />
 
-        <div className="border-t border-slate-100 px-5 py-4">
+        <div className="px-5 py-5">
           <InsightRead markdown={comparison.read} />
         </div>
       </Card>

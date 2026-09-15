@@ -14,7 +14,7 @@ import { Card } from "@ciq-dev/ciq-design-system"
 import { performanceRead, performanceSeries } from "./data"
 import { PerformanceTooltip } from "./performance-tooltip"
 import { SeriesLegend, type SeriesKey } from "./series-legend"
-import { InsightRead } from "./shared"
+import { InsightRead, PanelHeader } from "./shared"
 
 export function PerformanceChart() {
   const [ready, setReady] = useState(false)
@@ -29,16 +29,18 @@ export function PerformanceChart() {
   }, [])
 
   return (
-    <Card className="overflow-hidden rounded-2xl border border-border-default bg-surface !shadow-brand-soft">
-      <div className="flex flex-wrap items-start justify-between gap-4 px-5 pt-5">
-        <div>
-          <h3 className="text-sm font-semibold text-fg-primary">Performance over time</h3>
-          <p className="mt-1 text-xs leading-relaxed text-fg-tertiary">
-            Weekly, Mon–Sun — left axis brand visibility % · right axis AI rank
-            (inverted — lower is better)
-          </p>
-        </div>
-        <SeriesLegend visible={visible} onToggle={(key) => setVisible((prev) => ({ ...prev, [key]: !prev[key] }))} />
+    <Card className="flex h-full flex-col overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+      <div className="px-5 pt-5">
+        <PanelHeader
+          title="Performance over time"
+          description="Weekly visibility % and inverted AI rank. Lower rank is better."
+          action={
+            <SeriesLegend
+              visible={visible}
+              onToggle={(key) => setVisible((prev) => ({ ...prev, [key]: !prev[key] }))}
+            />
+          }
+        />
       </div>
 
       <div className="h-72 w-full min-w-0 px-2 pt-2">
@@ -122,7 +124,7 @@ export function PerformanceChart() {
         ) : null}
       </div>
 
-      <div className="border-t border-slate-100 px-5 py-4">
+      <div className="mt-auto px-5 pb-5">
         <InsightRead markdown={performanceRead} />
       </div>
     </Card>
