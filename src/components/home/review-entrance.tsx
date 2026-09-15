@@ -2,14 +2,16 @@
 
 import type { ReactNode } from "react"
 import { MotionConfig, motion } from "framer-motion"
-import { enterTransition } from "@/lib/motion"
+import { DURATION, EASE_IN_OUT } from "@/lib/motion"
 
 /** Sidebar pane starts immediately; cards follow as a short wave. */
 export const REVIEW_SIDEBAR_CARD_STAGGER = 0.055
 export const REVIEW_SIDEBAR_CARD_DELAY = 0.1
 
 const DETAIL_START = 0.36
-const DETAIL_STEP = 0.12
+/** Hold long enough to read, short enough that the next card is already arriving. */
+const DETAIL_STEP = 0.22
+const DETAIL_DURATION = DURATION.draw
 
 /** Right-pane beats — header first, then each section card. */
 export const REVIEW_DETAIL_DELAY = {
@@ -39,7 +41,7 @@ export function ReviewDetailItem({
       className={className}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ ...enterTransition, delay }}
+      transition={{ duration: DETAIL_DURATION, ease: EASE_IN_OUT, delay }}
     >
       {children}
     </motion.div>

@@ -6,6 +6,9 @@ export const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1]
 /** Symmetric curve for swaps and accordions, where nothing is "arriving". */
 export const EASE_SWAP: [number, number, number, number] = [0.4, 0, 0.2, 1]
 
+/** Starts gently and settles gently — for staged reveals the eye is meant to follow. */
+export const EASE_IN_OUT: [number, number, number, number] = [0.42, 0, 0.58, 1]
+
 export const DURATION = {
   quick: 0.16,
   base: 0.28,
