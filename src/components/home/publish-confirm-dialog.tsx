@@ -1,9 +1,10 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { AlertCircle, ClockArrowUp, Info, Send } from "lucide-react"
+import { AlertCircle, ClockArrowUp, Info, Send, X } from "lucide-react"
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -51,22 +52,29 @@ export function PublishConfirmDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="gap-0 overflow-hidden p-0 shadow-xl ring-1 ring-slate-200 sm:max-w-md"
+        showCloseButton={false}
+        className="gap-0 overflow-hidden p-0 shadow-xl ring-1 ring-slate-200 sm:max-w-xl"
         overlayClassName="bg-slate-900/25 supports-backdrop-filter:backdrop-blur-sm"
       >
-        <DialogHeader className="gap-3 border-b border-slate-200 px-5 pt-5 pb-4">
-          <div className="flex items-start gap-3 pr-6">
+        <DialogClose
+          render={
+            <button
+              type="button"
+              aria-label="Close"
+              className="absolute top-3 right-3 grid size-7 place-items-center text-slate-400 transition-colors hover:text-slate-700"
+            />
+          }
+        >
+          <X className="size-4" aria-hidden />
+        </DialogClose>
+        <DialogHeader className="gap-3 border-b border-slate-200 p-3">
+          <div className="flex items-center gap-3 pr-6">
             <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
               <Send className="size-4" aria-hidden />
             </span>
-            <div className="min-w-0 space-y-1">
-              <DialogTitle className="text-base font-semibold text-slate-900">
-                Publish to PIM &amp; PDP
-              </DialogTitle>
-              <p className="text-sm leading-relaxed text-slate-500">
-                {fieldList} will be sent to PIM and the retailer PDP.
-              </p>
-            </div>
+            <DialogTitle className="text-base font-semibold text-slate-900">
+              Publish to PIM &amp; PDP
+            </DialogTitle>
           </div>
           <DialogDescription className="sr-only">
             Publishing {fieldList}.
@@ -76,7 +84,7 @@ export function PublishConfirmDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4 px-5 pt-4 pb-4">
+        <div className="space-y-4 p-3">
           <div className="flex items-center gap-2.5">
             <p className="shrink-0 text-xs font-medium uppercase tracking-wide text-slate-400">
               Publishing:
@@ -119,7 +127,7 @@ export function PublishConfirmDialog({
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50/80 px-5 py-3.5">
+        <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50/80 p-3">
           <label className="flex cursor-pointer items-center gap-2 select-none">
             <Checkbox
               id="skip-publish-confirm"
@@ -134,7 +142,7 @@ export function PublishConfirmDialog({
             </Button>
             <Button
               type="button"
-              className="bg-brand-500 text-white hover:bg-brand-600"
+              className="bg-brand-700 text-white hover:bg-brand-800"
               onClick={onConfirm}
             >
               Publish

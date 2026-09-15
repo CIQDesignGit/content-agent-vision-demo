@@ -6,10 +6,10 @@ import type {
   TitleStatus,
 } from "./types"
 
-/** Per-SKU seed data; description AI fields default in makeInitialContent. */
+/** Per-SKU seed data. Every SKU must include an AI description recommendation. */
 export type SkuContentBundle = Omit<SkuContent, "descriptionStatus" | "descriptionRecommendation"> & {
   descriptionStatus?: TitleStatus
-  descriptionRecommendation?: TitleRecommendation | null
+  descriptionRecommendation: TitleRecommendation
 }
 
 // ─── Shared image helper ──────────────────────────────────────────────────────
@@ -562,6 +562,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "Replace vague superlative",
       "'Powerful Suction' is a compliance risk; measurable specs like '185 AW' remove ambiguity and meet marketplace standards.",
     ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Maya",
+      "Engineered for homes with pets, the Dyson V11 Animal cordless vacuum delivers up to 185 AW of fade-free suction. The High Torque cleaner head adapts between carpet and hard floors, whole-machine HEPA filtration captures 99.97% of particles as small as 0.3 microns, and runtime lasts up to 60 minutes in Eco mode. An anti-tangle hair screw tool and LCD performance screen keep pet hair and fine dust under control.",
+      "The Dyson V11 Animal is engineered for homes with pets. Its powerful digital motor generates up to 185 AW of suction, and the High Torque cleaner head intelligently adapts between carpet and hard floors to remove ground-in pet hair and fine dust.",
+      "",
+      "",
+      "Lead with suction, runtime, and HEPA specs",
+      "Shoppers filter cordless vacuums by AW rating, runtime, and HEPA; opening with 185 AW, 60 minutes, and 0.3-micron capture matches top description queries.",
+      "Quantify filtration instead of vague power claims",
+      "Citing the certified HEPA 0.3-micron threshold and Eco-mode runtime replaces unsubstantiated 'powerful' language and meets marketplace standards.",
+    ),
     bulletRecommendations: [
       { id: "sku3-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
         recommendedText: "185 AW SUCTION — Dyson's most powerful cord-free motor penetrates deep carpet pile and lifts fine dust from hard floors in a single pass.",
@@ -618,6 +630,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "Remove function word from title",
       "'with Wide Slots' is a weak connector; restructuring to an em-dash feature list aligns with marketplace title best practices.",
     ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Jessica",
+      "Start every morning with the Proctor Silex 2-Slice Toaster. Extra-wide 1.5-inch slots fit bagels, artisan loaves, and thick Texas toast, while six browning settings take you from light golden to deep brown. Toast Boost lifts finished slices safely, a cancel button stops any cycle instantly, and the slide-out crumb tray makes cleanup fast.",
+      "Start your morning right with the Proctor Silex 2-Slice Toaster. Wide slots accommodate everything from standard sandwich bread to thick-cut bagels, and six browning settings give you precise control over your perfect toast.",
+      "",
+      "",
+      "Name slot width and everyday bread types",
+      "1.5-inch slots plus bagels, artisan bread, and Texas toast match high-intent toaster description searches and set clear fit expectations.",
+      "Surface safety and cleanup controls",
+      "Toast Boost, cancel, and removable crumb tray are expected kitchen-appliance disclosures that reduce returns and policy flags.",
+    ),
     bulletRecommendations: [
       { id: "sku4-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
         recommendedText: "EXTRA-WIDE 1.5\" SLOTS — Fits bagels, thick-cut Texas toast, and artisan loaves that standard toasters can't accommodate.",
@@ -673,6 +697,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "Remove vague qualifier",
       "'Commercial Grade' without a spec is a compliance gray area; replacing with measurable specs reduces policy-flag risk.",
     ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Maya",
+      "Mill wheat, corn, oats, rice, spices, and coffee at home with the Vevor Electric Grain Mill Grinder. A 3000 RPM stainless steel blade set reduces whole grains to 50–200 mesh flour in under two minutes. The food-grade stainless chamber, thermal overload protection, and easy-clean removable container support home baking and small-batch commercial use.",
+      "The Vevor Electric Grain Mill Grinder brings commercial-grade milling capability to your home or small business. With a powerful high-torque motor and a stainless steel grinding chamber, this machine transforms whole grains into fine flour in minutes.",
+      "",
+      "",
+      "Lead with RPM, grain types, and mesh output",
+      "Buyers search grain mills by RPM and grain name; 3000 RPM plus wheat, oats, and 50–200 mesh matches high-intent description queries.",
+      "Replace unverifiable commercial-grade wording",
+      "Food-grade stainless, thermal cut-off, and measurable output replace a vague 'commercial grade' claim that can trigger a policy review.",
+    ),
     bulletRecommendations: [
       { id: "sku5-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
         recommendedText: "3000 RPM MOTOR — High-speed stainless blades pulverize wheat, corn, oats, and dried spices to fine powder in under 2 minutes.",
@@ -727,6 +763,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "'Anti-Allergen Seal' and 'Pet Brush' match top search filters; replacing the model number with features lifts organic CTR.",
       "Model numbers in consumer titles",
       "Marketplace guidelines recommend benefits over part numbers in the primary title — NV356E can stay in the detail section.",
+    ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Jessica",
+      "The Shark Navigator Lift-Away Professional combines upright suction with a detachable canister for stairs, upholstery, and under furniture. Anti-Allergen Complete Seal traps 99.9% of dust and dander, the motorized pet power brush lifts embedded hair, and the 12.5 lb body with swivel steering navigates tight rooms. A 2.2-liter dust cup keeps longer cleaning sessions going.",
+      "The Shark Navigator Lift-Away Professional combines the power of an upright vacuum with the versatility of a portable canister. Its Lift-Away design lets you remove the dust pod with one press and tackle above-floor cleaning without switching machines.",
+      "",
+      "",
+      "Name Lift-Away, pet brush, and allergen seal first",
+      "Detachable canister, pet hair, and anti-allergen are the top upright-vacuum description intents; leading with them lifts relevance versus a generic dual-mode intro.",
+      "Substantiate 99.9% capture and weight",
+      "Specifying dust and dander plus 12.5 lbs supports the seal claim and answers mobility questions without overpromising.",
     ),
     bulletRecommendations: [
       { id: "sku6-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
@@ -784,6 +832,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "Move model number out of title",
       "KSM150PS is a model number, not a consumer-facing feature; removing it reduces title length and shifts focus to benefits.",
     ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Maya",
+      "The KitchenAid Artisan 5-quart tilt-head stand mixer pairs a 325-watt motor with 10 speeds and 67-point planetary mixing. The polished stainless bowl holds batter for 9 dozen cookies, the Power Hub drives 59 optional attachments, and the tilt-head design makes bowl access and cleanup simple — a kitchen staple available in 30+ colors.",
+      "The KitchenAid Artisan Stand Mixer is the cornerstone of countless home kitchens and professional bakeries alike. With its 325-watt motor, 10 mixing speeds, and a tilt-head design, it handles everything from delicate meringues to stiff bread doughs with consistent precision.",
+      "",
+      "",
+      "Lead with wattage, bowl size, and attachment hub",
+      "Shoppers compare mixers by 325W, 5-quart capacity, and attachment count; naming those in the first two sentences matches top description queries.",
+      "Keep heritage and color claims specific",
+      "30+ colors and recipe-scale capacity (9 dozen cookies) are substantiated attributes; they replace vague 'professional bakery' positioning.",
+    ),
     bulletRecommendations: [
       { id: "sku7-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
         recommendedText: "67-POINT PLANETARY MIXING — Beater traces 67 touch points per rotation, coating every part of the bowl for lump-free, even results.",
@@ -839,6 +899,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "'Up to 70% Faster' and '13 Programs' are high-conversion claims that drive clicks from comparison shoppers.",
       "No compliance issues found",
       "Speed claim is substantiated in listing; recommend keeping it consistent across all placements.",
+    ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Jessica",
+      "The Instant Pot Duo 7-in-1 6-quart multi-cooker replaces a pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker, and warmer. Cook up to 70% faster with 13 one-touch programs and 10 safety mechanisms. The dishwasher-safe stainless inner pot, delay start, and auto keep-warm feed families of up to six.",
+      "The Instant Pot Duo 7-in-1 is the best-selling multi-cooker trusted by millions of home cooks worldwide. It combines the functions of seven kitchen appliances into one compact device, saving counter space while expanding your cooking repertoire.",
+      "",
+      "",
+      "List all seven functions and program count",
+      "Naming each replaced appliance plus 13 programs captures long-tail searches for rice cooker, yogurt maker, and pressure cooker in one description.",
+      "Keep the 70% faster claim tied to safety count",
+      "Pairing the substantiated speed claim with 10 safety mechanisms matches Instant Pot documentation and reduces policy-flag risk.",
     ),
     bulletRecommendations: [
       { id: "sku8-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
@@ -963,6 +1035,18 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "'Smart Mapping' and 'Alexa Compatible' are top filter terms in the robot vacuum category and improve discoverability on app-connected device searches.",
       "No compliance issues found",
       "All claims match verified product specs; no changes needed for compliance.",
+    ),
+    descriptionStatus: "pending",
+    descriptionRecommendation: rec(
+      "Jessica",
+      "The iRobot Roomba i3+ EVO self-emptying robot vacuum maps your home, cleans room by room, and empties itself into the Clean Base for up to 60 days. Dual multi-surface rubber brushes handle carpet and hard floors, a high-efficiency filter captures 99% of cat and dog allergens, and Alexa or Google Assistant lets you start, pause, or dock hands-free.",
+      "The iRobot Roomba i3+ EVO takes the hassle out of daily floor cleaning with its powerful self-emptying Clean Base and smart room-by-room mapping. Set a schedule, walk away, and come back to floors that have been cleaned, the bin emptied, and the robot back on its dock.",
+      "",
+      "",
+      "Lead with self-empty, mapping, and 60-day hold",
+      "Clean Base, room-by-room mapping, and 60-day debris storage are the top robot-vacuum description intents and lift discoverability on app-connected searches.",
+      "Specify allergen types and voice platforms",
+      "Naming cat and dog allergens plus Alexa and Google Assistant keeps the 99% claim substantiated and matches both smart-speaker ecosystems.",
     ),
     bulletRecommendations: [
       { id: "sku10-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",

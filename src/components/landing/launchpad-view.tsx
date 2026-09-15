@@ -1,6 +1,8 @@
 "use client"
 
+import { useMemo } from "react"
 import { MotionConfig } from "framer-motion"
+import { applyCapture } from "./apply-capture"
 import {
   opportunityByStatus,
   opportunityMeter,
@@ -14,8 +16,27 @@ import { OpportunityStreams } from "./opportunity-streams"
 import { RevealGroup } from "./reveal"
 import { SecondaryStats } from "./secondary-stats"
 import { UpNextCard } from "./up-next-card"
+import { useCaptureReveal } from "./use-capture-reveal"
 
 export function LaunchpadView() {
+  // Publishes from the workbench land here: the meter holds its pre-publish
+  // numbers through the entrance, then rises to the new totals.
+  const capture = useCaptureReveal()
+
+  const meter = useMemo(
+    () => ({
+      ...opportunityMeter,
+      realizedMillions:
+        opportunityMeter.realizedMillions + capture.capturedUsd / 1_000_000,
+    }),
+    [capture.capturedUsd],
+  )
+
+  const statusSegments = useMemo(
+    () => applyCapture(opportunityByStatus, capture.capturedUsd, capture.bucket),
+    [capture.capturedUsd, capture.bucket],
+  )
+
   return (
     // reducedMotion="user" drops every transform and layout animation for
     // anyone who has asked the OS to reduce motion — opacity still resolves,
@@ -33,9 +54,10 @@ export function LaunchpadView() {
         >
           <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:min-h-[420px]">
             <OpportunityMeter
-              data={opportunityMeter}
-              statusSegments={opportunityByStatus}
+              data={meter}
+              statusSegments={statusSegments}
               pillars={valuePillars}
+              capture={capture}
             />
             <UpNextCard data={upNext} />
           </div>

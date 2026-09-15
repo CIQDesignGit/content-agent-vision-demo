@@ -1,18 +1,18 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { Info } from "lucide-react"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@ciq-dev/ciq-design-system"
+import { useState } from "react"
+import { TooltipProvider } from "@ciq-dev/ciq-design-system"
+import { cn } from "@/lib/utils"
+import { AnimatedFigure } from "./animated-figure"
+import { displayStatusSegments, formatMillions } from "./apply-capture"
+import { CaptureNote } from "./capture-note"
 import {
   CompositionBarLegendItem,
   CompositionBarScale,
 } from "./composition-bar"
 import { OpportunityStatusTrack } from "./opportunity-status-track"
+import { SegmentInfo } from "./segment-info"
+import type { CaptureReveal } from "./use-capture-reveal"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
 /** Brand → cool → soft brand → expired hatch. */
@@ -20,6 +20,7 @@ const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-brand-500",
   seasonal: "bg-data-1",
   pdp: "bg-brand-200",
+  opportunity: "bg-data-1",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-300),var(--color-slate-300)_1.5px,var(--color-slate-100),var(--color-slate-100)_5px)]",
 }
@@ -28,6 +29,7 @@ const DOT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-brand-500",
   seasonal: "bg-data-1",
   pdp: "bg-brand-200",
+  opportunity: "bg-data-1",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-400),var(--color-slate-400)_1px,var(--color-slate-200),var(--color-slate-200)_3px)]",
 }
@@ -37,51 +39,7 @@ interface OpportunityStatusBarProps {
   capturedPct: number
   capturedAmountLabel: string
   totalAmountLabel: string
-}
-
-function SegmentInfo({
-  label,
-  tooltip,
-}: {
-  label: string
-  tooltip: string
-}) {
-  // Radix tooltip IDs differ between server and client — mount before wiring.
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => {
-    queueMicrotask(() => setMounted(true))
-  }, [])
-
-  if (!mounted) {
-    return (
-      <button
-        type="button"
-        aria-label={`About ${label}`}
-        className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
-      >
-        <Info className="size-3.5" aria-hidden />
-      </button>
-    )
-  }
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <button
-          type="button"
-          aria-label={`About ${label}`}
-          className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
-          onClick={(e) => e.stopPropagation()}
-          onKeyDown={(e) => e.stopPropagation()}
-        >
-          <Info className="size-3.5" aria-hidden />
-        </button>
-      </TooltipTrigger>
-      <TooltipContent side="bottom" className="max-w-xs type-caption">
-        <p>{tooltip}</p>
-      </TooltipContent>
-    </Tooltip>
-  )
+  capture: CaptureReveal
 }
 
 export function OpportunityStatusBar({
@@ -89,13 +47,15 @@ export function OpportunityStatusBar({
   capturedPct,
   capturedAmountLabel,
   totalAmountLabel,
+  capture,
 }: OpportunityStatusBarProps) {
   const [hoveredId, setHoveredId] = useState<OpportunityStatusKind | null>(null)
-  const total = segments.reduce((sum, s) => sum + s.millions, 0)
+  const view = displayStatusSegments(segments)
+  const total = view.reduce((sum, s) => sum + s.millions, 0)
 
-  const layouts = segments.map((segment, index) => {
+  const layouts = view.map((segment, index) => {
     const share = total > 0 ? (segment.millions / total) * 100 : 0
-    const cursor = segments
+    const cursor = view
       .slice(0, index)
       .reduce(
         (sum, item) => sum + (total > 0 ? (item.millions / total) * 100 : 0),
@@ -120,24 +80,64 @@ export function OpportunityStatusBar({
           hoveredId={hoveredId}
           onHoverChange={setHoveredId}
           markerPct={markerPct}
-          markerLabel={`${markerShare}% · ${capturedAmountLabel}`}
+          markerLabel={
+            <>
+              <AnimatedFigure
+                value={markerShare}
+                fractionDigits={0}
+                animateOnMount={false}
+              />
+              % ·{" "}
+              <AnimatedFigure
+                value={captured?.segment.millions ?? 0}
+                format={formatMillions}
+                animateOnMount={false}
+              />
+            </>
+          }
+          markerPulse={capture.justCaptured}
           ariaLabel={`Opportunity breakdown by status. ${markerShare}% captured (${capturedAmountLabel} of ${trackTotalLabel})`}
+          note={
+            <CaptureNote
+              deltaUsd={capture.deltaUsd}
+              skuCount={capture.skuCount}
+              show={capture.justCaptured}
+              dimmed={hoveredId != null}
+            />
+          }
         />
         <CompositionBarScale end={trackTotalLabel} />
       </div>
 
       <TooltipProvider delayDuration={200}>
-        <ul className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4 sm:grid-cols-4">
-          {segments.map((segment) => (
+        <ul className="grid grid-cols-2 gap-3 border-t border-slate-100 pt-4 sm:grid-cols-3">
+          {view.map((segment) => (
             <CompositionBarLegendItem
               key={segment.id}
-              className="rounded-xl border border-slate-200 bg-white px-3 py-3"
+              className={cn(
+                "rounded-xl border border-slate-200 bg-white px-3 py-3 transition-[box-shadow,border-color] duration-500",
+                // Points at the one figure that just moved, without recolouring it.
+                capture.justCaptured &&
+                  segment.id === "captured" &&
+                  "border-success-500/40 ring-2 ring-success-100",
+              )}
               swatchClassName={DOT_FILL[segment.id]}
               swatchRingClassName={
                 segment.id === "expired" ? "ring-1 ring-slate-300" : undefined
               }
               label={segment.label}
-              amountLabel={segment.amountLabel}
+              amountLabel={
+                // Expired never moves, so leave it as plain text.
+                segment.muted ? (
+                  segment.amountLabel
+                ) : (
+                  <AnimatedFigure
+                    value={segment.millions}
+                    format={formatMillions}
+                    animateOnMount={false}
+                  />
+                )
+              }
               muted={segment.muted}
               dimmed={hoveredId != null && hoveredId !== segment.id}
               info={

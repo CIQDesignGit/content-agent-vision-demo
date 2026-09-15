@@ -34,6 +34,11 @@ import {
   ReviewEntrance,
 } from "@/components/home/review-entrance"
 
+import {
+  captureValueForOps,
+  recordCapture,
+  type CaptureBucket,
+} from "@/lib/captured-opportunity"
 import { getFieldPublishQueue } from "@/lib/build-field-publish-queue"
 import { getActivePublishBatch, getPublishBatchForField } from "@/lib/publish-batch"
 import {
@@ -57,7 +62,13 @@ import {
   passesFilter,
   passesSearch,
 } from "@/components/home/data"
-import type { ActionStatus, BulletRecommendation, ContentState, SkuContent } from "@/components/home/types"
+import {
+  showsOptimizationScore,
+  type ActionStatus,
+  type BulletRecommendation,
+  type ContentState,
+  type SkuContent,
+} from "@/components/home/types"
 
 type PendingNavigation =
   | { kind: "sku"; skuId: string }
@@ -85,6 +96,12 @@ function WorkbenchPage() {
     }
     return null
   }, [momentId, streamId])
+  // Publishing a moment queue draws the overview meter's seasonal bucket down;
+  // every other entry point comes out of always-on PDP optimization.
+  const captureBucket: CaptureBucket = useMemo(
+    () => (momentId || streamId === "seasonal" ? "seasonal" : "pdp"),
+    [momentId, streamId],
+  )
   const catalogSkus = useMemo(
     () => (activeQueue ? buildMomentSkuQueue(activeQueue) : MOCK_SKUS),
     [activeQueue],
@@ -389,12 +406,16 @@ function WorkbenchPage() {
       return next
     })
 
+    // Same figure in the toast and on the overview meter.
+    const capturedUsd = captureValueForOps(selectedSku.metrics.ops)
+    recordCapture(capturedUsd, captureBucket)
+
     showPublishSuccessToast({
       fieldLabels,
       capturedMillions:
-        opportunityMeter.realizedMillions + selectedSku.metrics.ops / 1_000_000,
+        opportunityMeter.realizedMillions + capturedUsd / 1_000_000,
       identifiedMillions: opportunityMeter.identifiedMillions,
-      thisCaptureUsd: selectedSku.metrics.ops,
+      thisCaptureUsd: capturedUsd,
     })
 
     const currentIndex = filteredSkus.findIndex((s) => s.id === publishedSkuId)
@@ -536,6 +557,12 @@ function WorkbenchPage() {
 
     setContentState(newState)
     batchesToSchedule.forEach(({ skuId, batchId }) => schedulePublishSimulation(skuId, batchId))
+
+    const capturedUsd = batchesToSchedule.reduce((sum, { skuId }) => {
+      const sku = catalogSkus.find((s) => s.id === skuId)
+      return sum + captureValueForOps(sku?.metrics.ops ?? 0)
+    }, 0)
+    recordCapture(capturedUsd, captureBucket, batchesToSchedule.length)
 
     // Show success toast (bottom-left, slides in)
     const skuCount = batchesToSchedule.length || skuIds.length
@@ -1012,6 +1039,7 @@ function WorkbenchPage() {
           skus={filteredSkus}
           selectedSkuId={selectedSkuId}
           onSelect={(skuId) => requestNavigation({ kind: "sku", skuId })}
+          showOptimizationScore={showsOptimizationScore(filter)}
           totalCount={catalogSkus.length}
           queueEmpty={queueEmpty}
           onOpenFilterPanel={() => setFilterPopoverOpen(true)}
@@ -1084,6 +1112,7 @@ function WorkbenchPage() {
             isBookmarked={selectedSku.isBookmarked ?? false}
             onBookmarkClick={handleBookmarkToggle}
             lastUpdated={selectedSku.lastUpdated}
+            showOptimizationScore={showsOptimizationScore(filter)}
             onPublishClick={() => {
               if (includedCount > 0) setPublishDialogOpen(true)
             }}
@@ -1092,10 +1121,10 @@ function WorkbenchPage() {
 
           <div className="flex min-h-0 flex-1">
             <section className="flex min-w-0 flex-1 flex-col">
-              <div className="flex-1 space-y-4 overflow-y-auto bg-slate-50 px-5 pb-5">
+              <div className="flex-1 overflow-y-auto bg-slate-50 px-5 pb-5">
                 {/* Toolbar: sync info (left) + bulk select (right) */}
                 <ReviewDetailItem
-                  className="flex items-center justify-between pt-3 pb-1"
+                  className="flex items-center justify-between py-2"
                   delay={REVIEW_DETAIL_DELAY.toolbar}
                 >
                   {/* PIM sync + AI sync chips — icons match SourceLogoBadge styling */}
@@ -1120,6 +1149,9 @@ function WorkbenchPage() {
                     onDeselectAll={() => { setTitleIncluded(false); setImageIncluded(false); setBulletsIncluded(false); setDescriptionIncluded(false) }}
                   />
                 </ReviewDetailItem>
+                {/* Cards keep their own rhythm — the toolbar sits tighter above
+                    them than they do between each other. */}
+                <div className="space-y-4">
                 <ReviewDetailItem delay={REVIEW_DETAIL_DELAY.title}>
                 <ProductTitleSection
                   key={selectedSkuId}
@@ -1210,6 +1242,7 @@ function WorkbenchPage() {
                   hideActions
                 />
                 </ReviewDetailItem>
+                </div>
               </div>
             </section>
           </div>

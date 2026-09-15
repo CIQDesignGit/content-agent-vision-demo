@@ -1,8 +1,9 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useEffect, type ReactNode } from "react"
+import { motion, useAnimationControls } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
-import { DURATION, EASE_SWAP, swapTransition } from "@/lib/motion"
+import { DURATION, EASE_OUT, EASE_SWAP, swapTransition } from "@/lib/motion"
 import {
   CompositionBarFrame,
   CompositionBarSegment,
@@ -26,11 +27,26 @@ function BarMarker({
   leftPct,
   label,
   emphasis,
+  pulse,
 }: {
   leftPct: number
-  label: string
+  label: ReactNode
   emphasis: boolean
+  /** Pop once, as the figure inside counts to its new value. */
+  pulse?: boolean
 }) {
+  // Driven imperatively rather than by a variant: this pill sits inside the
+  // meter's variant tree, where declarative child animations get swallowed.
+  const pop = useAnimationControls()
+
+  useEffect(() => {
+    if (!pulse) return
+    void pop.start({
+      scale: [1, 1.18, 1],
+      transition: { duration: 0.6, ease: EASE_OUT, times: [0, 0.35, 1], delay: 0.1 },
+    })
+  }, [pulse, pop])
+
   return (
     <motion.div
       className={cn(
@@ -44,14 +60,15 @@ function BarMarker({
         opacity: { duration: DURATION.base, ease: EASE_SWAP, delay: 0.3 },
       }}
     >
-      <span
+      <motion.span
         className={cn(
           "whitespace-nowrap rounded-full px-2.5 py-1 text-[11px] font-semibold tabular-nums text-white shadow-sm transition-colors duration-200",
           emphasis ? "bg-slate-900" : "bg-slate-700",
         )}
+        animate={pop}
       >
         {label}
-      </span>
+      </motion.span>
       <span
         className={cn(
           "h-2 w-px transition-colors duration-200",
@@ -103,8 +120,12 @@ interface OpportunityStatusTrackProps {
   onHoverChange: (id: OpportunityStatusKind | null) => void
   /** Needle position along the track, 0–100 */
   markerPct: number
-  markerLabel: string
+  markerLabel: ReactNode
   ariaLabel: string
+  /** Right-hand annotation — the "captured more revenue" note. */
+  note?: ReactNode
+  /** Pop the readout — set while a fresh capture is being called out. */
+  markerPulse?: boolean
 }
 
 export function OpportunityStatusTrack({
@@ -115,6 +136,8 @@ export function OpportunityStatusTrack({
   markerPct,
   markerLabel,
   ariaLabel,
+  note,
+  markerPulse: pulse,
 }: OpportunityStatusTrackProps) {
   const markerLeft = Math.min(Math.max(markerPct, 0), 100)
   const hovered = layouts.find((s) => s.segment.id === hoveredId)
@@ -130,8 +153,12 @@ export function OpportunityStatusTrack({
               : markerLabel
           }
           emphasis={Boolean(hovered)}
+          // Hovering swaps the label for the segment readout — popping that
+          // would read as a hover effect rather than a change.
+          pulse={pulse && !hovered}
         />
       }
+      note={note}
     >
       <div className="relative">
         <CompositionBarTrack ariaLabel={ariaLabel}>

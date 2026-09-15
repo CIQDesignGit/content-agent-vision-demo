@@ -15,17 +15,20 @@ import { OpportunityBreakdown } from "./opportunity-breakdown"
 import { OpportunityStatusBar } from "./opportunity-status-bar"
 import { OpportunityViewToggle } from "./opportunity-view-toggle"
 import { RevealItem } from "./reveal"
+import type { CaptureReveal } from "./use-capture-reveal"
 
 interface OpportunityMeterProps {
   data: OpportunityMeterData
   statusSegments: OpportunityStatusSegment[]
   pillars: ValuePillar[]
+  capture: CaptureReveal
 }
 
 export function OpportunityMeter({
   data,
   statusSegments,
   pillars,
+  capture,
 }: OpportunityMeterProps) {
   const [view, setView] = useState<OpportunityViewMode>("status")
   const capturedPct = Math.min(
@@ -80,8 +83,9 @@ export function OpportunityMeter({
               className="text-sm leading-relaxed text-slate-500"
             >
               You&apos;ve captured{" "}
-              <span className="font-semibold text-slate-900">
-                ${data.realizedMillions.toFixed(2)}M
+              <span className="font-semibold tabular-nums text-slate-900">
+                $
+                <AnimatedFigure value={data.realizedMillions} delay={0.45} />M
               </span>{" "}
               of it so far, just under a third of the year.
             </motion.p>
@@ -111,6 +115,7 @@ export function OpportunityMeter({
                     capturedPct={capturedPct}
                     capturedAmountLabel={`$${data.realizedMillions.toFixed(2)}M`}
                     totalAmountLabel={totalAmountLabel}
+                    capture={capture}
                   />
                 ) : (
                   <OpportunityBreakdown

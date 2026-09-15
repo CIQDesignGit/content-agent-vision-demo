@@ -5,20 +5,19 @@ import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { ActionStatusBadge } from "./action-status-badge"
-import type { Sku } from "./types"
+import { optimizationScore, type Sku } from "./types"
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-const METRIC_FULL_LABELS: Record<"C" | "S" | "A", string> = {
+const METRIC_FULL_LABELS: Record<"C" | "O", string> = {
   C: "Compliance",
-  S: "Search engine optimisation",
-  A: "Answer engine optimisation",
+  O: "Optimization score",
 }
 
-function MetricSegment({ letter, value }: { letter: "C" | "S" | "A"; value: number }) {
+function MetricSegment({ letter, value }: { letter: "C" | "O"; value: number }) {
   return (
     <span className="inline-flex items-baseline gap-px text-xs leading-none">
-      <span className="font-medium text-slate-400">{letter}</span>
+      <span className="font-medium text-slate-400">{letter === "O" ? "Opt" : letter}</span>
       <span className="font-medium tabular-nums text-slate-800">{value}%</span>
     </span>
   )
@@ -28,15 +27,18 @@ function CardMetrics({
   compliance,
   seo,
   aeo,
+  showOptimizationScore,
 }: {
   compliance: number
   seo: number
   aeo: number
+  showOptimizationScore: boolean
 }) {
-  const rows: { letter: "C" | "S" | "A"; value: number }[] = [
+  const rows: { letter: "C" | "O"; value: number }[] = [
     { letter: "C", value: compliance },
-    { letter: "S", value: seo },
-    { letter: "A", value: aeo },
+    ...(showOptimizationScore
+      ? [{ letter: "O" as const, value: optimizationScore(seo, aeo) }]
+      : []),
   ]
 
   return (
@@ -114,6 +116,8 @@ export interface SkuCardProps {
   isSelectionMode: boolean
   /** When true the quality-score chips are hidden — used by Title Optimization page */
   hideMetrics: boolean
+  /** When false, cards show Compliance only. */
+  showOptimizationScore?: boolean
   onSelect: () => void
   onToggle: () => void
 }
@@ -158,7 +162,7 @@ function PdpOnlyTag({ isActive }: { isActive: boolean }) {
 
 // ─── Base card ────────────────────────────────────────────────────────────────
 
-export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetrics, onSelect, onToggle }: SkuCardProps) {
+export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetrics, showOptimizationScore = false, onSelect, onToggle }: SkuCardProps) {
   return (
     <button
       type="button"
@@ -204,6 +208,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
                 compliance={sku.metrics.compliance}
                 seo={sku.metrics.seo}
                 aeo={sku.metrics.aeo}
+                showOptimizationScore={showOptimizationScore}
               />
               <OpsTag value={sku.metrics.ops} />
             </div>
@@ -244,6 +249,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
               compliance={sku.metrics.compliance}
               seo={sku.metrics.seo}
               aeo={sku.metrics.aeo}
+              showOptimizationScore={showOptimizationScore}
             />
             <OpsTag value={sku.metrics.ops} />
           </div>

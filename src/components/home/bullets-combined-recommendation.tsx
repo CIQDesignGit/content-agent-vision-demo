@@ -5,6 +5,7 @@ import { Check, Circle, GripVertical, RotateCcw, ToggleLeft, ToggleRight, Trash2
 import { cn } from "@/lib/utils"
 import { buildTitleDiff } from "@/lib/build-title-diff"
 import { AltKeywordsPanel } from "./alt-keywords-panel"
+import { RecommendationFeedback } from "./recommendation-feedback"
 import type { AltKeyword, BulletRecommendation, Reason } from "./types"
 import type { FieldCompareTarget } from "./vertical-source-compare-grid"
 
@@ -557,6 +558,7 @@ export function BulletsCombinedRecommendationView({
                 <span className="rounded-full bg-slate-100 px-1.5 py-0.5 text-xs text-slate-500">{altKeywords.length}</span>
               </button>
             )}
+            <RecommendationFeedback />
           </div>
           {showReasoning && grouped.length > 0 && <div className="pb-2"><GroupedReasoningPanel grouped={grouped} /></div>}
           {showAltKeywords && altKeywords.length > 0 && (

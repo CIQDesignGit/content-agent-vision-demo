@@ -5,7 +5,7 @@ import { SkuGradientThumbnail } from "@/components/sku-gradient-thumbnail"
 import { cn } from "@/lib/utils"
 import { MetricChip } from "./metric-chip"
 import { OpsTag } from "./sku-card"
-import type { ActionStatus } from "./types"
+import { optimizationScore, type ActionStatus } from "./types"
 
 export type PublishBarState = "disabled" | "ready" | "publishing" | "syncing" | "complete"
 
@@ -27,6 +27,8 @@ interface ProductHeaderProps {
   totalSections?: number
   ops?: number
   hideMetrics?: boolean
+  /** When false, hide Optimization Score — Compliance task type shows C only. */
+  showOptimizationScore?: boolean
   actionStatus?: ActionStatus
   isBookmarked?: boolean
   onBookmarkClick?: () => void
@@ -49,6 +51,7 @@ export function ProductHeader({
   totalSections,
   ops,
   hideMetrics = false,
+  showOptimizationScore = false,
   actionStatus,
   isBookmarked = false,
   onBookmarkClick,
@@ -92,8 +95,9 @@ export function ProductHeader({
             {!hideMetrics && (
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
                 <MetricChip label="Compliance" value={compliance} />
-                <MetricChip label="SEO" value={seo} />
-                <MetricChip label="AEO" value={aeo} />
+                {showOptimizationScore && (
+                  <MetricChip label="Optimization Score" value={optimizationScore(seo, aeo)} />
+                )}
                 {ops !== undefined && <OpsTag value={ops} />}
               </div>
             )}

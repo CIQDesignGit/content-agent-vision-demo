@@ -6,68 +6,72 @@ import { Confetti, type ConfettiRef } from "@/components/ui/confetti"
 const COLORS = ["#a78bfa", "#875bf7", "#38bdf8", "#fcd34d", "#2dd4bf", "#c4b5fd"]
 const GLOBAL = { resize: true, useWorker: false } as const
 
+/** Centre of the canvas, which is itself centred on the popper icon. */
+const ORIGIN = { x: 0.5, y: 0.5 }
+
+/**
+ * Burst that leaves the popper icon it is nested inside. The canvas is sized in
+ * absolute terms and centred on its parent, so the origin stays pinned to the
+ * icon no matter how tall the toast grows.
+ */
 export function PublishConfetti() {
-  const behindRef = useRef<ConfettiRef>(null)
-  const frontRef = useRef<ConfettiRef>(null)
+  const canvasRef = useRef<ConfettiRef>(null)
 
   useEffect(() => {
     let cancelled = false
-    let fallId = 0
+    let secondId = 0
 
-    const riseId = window.setTimeout(() => {
+    const firstId = window.setTimeout(() => {
       if (cancelled) return
-      void behindRef.current?.fire({
-        particleCount: 48,
-        spread: 62,
-        startVelocity: 30,
-        gravity: 0.9,
-        ticks: 220,
-        origin: { x: 0.5, y: 0.7 },
-        scalar: 0.7,
+
+      // The popper's cone points up and to the right; the burst follows it.
+      void canvasRef.current?.fire({
+        particleCount: 44,
+        angle: 65,
+        spread: 58,
+        startVelocity: 26,
+        gravity: 1,
+        decay: 0.91,
+        ticks: 180,
+        origin: ORIGIN,
+        scalar: 0.55,
         colors: COLORS,
         disableForReducedMotion: false,
       })
-      fallId = window.setTimeout(() => {
+
+      secondId = window.setTimeout(() => {
         if (cancelled) return
-        void frontRef.current?.fire({
-          particleCount: 24,
-          spread: 55,
-          startVelocity: 12,
-          gravity: 1.15,
-          ticks: 200,
-          origin: { x: 0.5, y: 0.18 },
-          scalar: 0.7,
+        void canvasRef.current?.fire({
+          particleCount: 18,
+          angle: 80,
+          spread: 74,
+          startVelocity: 17,
+          gravity: 1.1,
+          decay: 0.9,
+          ticks: 160,
+          origin: ORIGIN,
+          scalar: 0.45,
           colors: COLORS,
           disableForReducedMotion: false,
         })
-      }, 480)
-    }, 380)
+      }, 260)
+    }, 320)
 
     return () => {
       cancelled = true
-      window.clearTimeout(riseId)
-      window.clearTimeout(fallId)
+      window.clearTimeout(firstId)
+      window.clearTimeout(secondId)
     }
   }, [])
 
   return (
-    <>
-      <div className="pointer-events-none absolute -inset-x-16 -top-36 -bottom-10 z-0">
-        <Confetti
-          ref={behindRef}
-          manualstart
-          globalOptions={GLOBAL}
-          className="block size-full"
-        />
-      </div>
-      <div className="pointer-events-none absolute -inset-x-16 -top-36 -bottom-10 z-20">
-        <Confetti
-          ref={frontRef}
-          manualstart
-          globalOptions={GLOBAL}
-          className="block size-full"
-        />
-      </div>
-    </>
+    <div className="pointer-events-none absolute top-1/2 left-1/2 z-20 size-64 -translate-x-1/2 -translate-y-1/2">
+      <Confetti
+        ref={canvasRef}
+        manualstart
+        globalOptions={GLOBAL}
+        className="block size-full"
+      />
+    </div>
   )
 }

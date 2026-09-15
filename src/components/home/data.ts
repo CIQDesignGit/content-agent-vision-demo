@@ -176,7 +176,7 @@ export function makeInitialContent(sku: Sku): SkuContent {
     ...bundle,
     pdpContent: { ...bundle.pdpContent, images: pdpImages },
     descriptionStatus: bundle.descriptionStatus ?? "pending",
-    descriptionRecommendation: bundle.descriptionRecommendation ?? null,
+    descriptionRecommendation: bundle.descriptionRecommendation,
   }
 }
 

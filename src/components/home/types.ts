@@ -2,6 +2,18 @@ import type { PdpStatus, PimStatus, RetailerStatus } from "@/components/actions-
 
 export type Metrics = { compliance: number; seo: number; aeo: number; ops: number }
 
+/** Combined SEO + AEO readout shown as Optimization Score. */
+export function optimizationScore(seo: number, aeo: number): number {
+  return Math.round((seo + aeo) / 2)
+}
+
+/** PDP Optimization task type — the only filter that surfaces the combined score. */
+export const PDP_OPTIMIZATION_TASK = "compliance-seo-aeo"
+
+export function showsOptimizationScore(taskType: string): boolean {
+  return taskType === PDP_OPTIMIZATION_TASK
+}
+
 export type ActionStatus = "to-do" | "in-progress" | "success"
 
 export type SalsifyIssue = {

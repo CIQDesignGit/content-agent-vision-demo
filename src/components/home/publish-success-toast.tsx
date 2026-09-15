@@ -1,6 +1,6 @@
 "use client"
 
-import { CircleCheck, X } from "lucide-react"
+import { PartyPopper, X } from "lucide-react"
 import { toast } from "sonner"
 import { PublishConfetti } from "./publish-confetti"
 
@@ -31,7 +31,6 @@ function PublishSuccessToast({
 
   return (
     <div className="relative w-80 overflow-visible">
-      <PublishConfetti />
       <div className="relative z-10 rounded-xl border border-slate-200 bg-white px-4 py-3.5 shadow-2xl ring-1 ring-slate-900/10">
         <button
           type="button"
@@ -43,7 +42,10 @@ function PublishSuccessToast({
         </button>
 
         <div className="flex items-center gap-2.5 pr-5">
-          <CircleCheck className="size-5 shrink-0 text-success-700" aria-hidden />
+          <span className="relative grid size-5 shrink-0 place-items-center">
+            <PartyPopper className="size-5 text-success-600" aria-hidden />
+            <PublishConfetti />
+          </span>
           <p className="text-sm font-semibold tracking-tight text-slate-900">
             Your changes are published
           </p>

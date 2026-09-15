@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ToggleLeft, ToggleRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ReasoningPanel } from "./reasoning-ui"
+import { RecommendationFeedback } from "./recommendation-feedback"
 import { AltKeywordsPanel } from "./alt-keywords-panel"
 import type { AeoPerformance, AltKeyword, ReasoningCategory } from "./types"
 
@@ -109,6 +110,7 @@ export function ReasoningAltKeywordsBlock({
             </span>
           </button>
         )}
+        <RecommendationFeedback />
       </div>
 
       {/* Expanded panels — suppressed when hideExpandedPanels=true (parent renders them separately) */}

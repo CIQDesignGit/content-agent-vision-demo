@@ -83,14 +83,18 @@ export function CompositionBarSegment({
 /** Fixed annotation slot so status/driver bars stay vertically aligned. */
 export function CompositionBarFrame({
   annotation,
+  note,
   children,
 }: {
   annotation?: ReactNode
+  /** Right-hand side of the annotation band — opposite the marker pill. */
+  note?: ReactNode
   children: ReactNode
 }) {
   return (
     <div className="relative pt-8">
       {annotation}
+      {note}
       {children}
     </div>
   )
@@ -125,7 +129,7 @@ export function CompositionBarLegendItem({
   swatchClassName: string
   swatchRingClassName?: string
   label: string
-  amountLabel: string
+  amountLabel: ReactNode
   info?: ReactNode
   dimmed?: boolean
   /** Soften the amount — expired / out-of-total buckets */

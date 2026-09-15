@@ -6,6 +6,7 @@ export type OpportunityStatusKind =
   | "captured"
   | "seasonal"
   | "pdp"
+  | "opportunity"
   | "expired"
 
 export type OpportunityViewMode = "status" | "driver"

@@ -124,6 +124,8 @@ interface SkuSidebarProps {
   onOpenFilterPanel?: () => void
   /** When true, renders TitleOptimizationSkuCard (no quality-score chips). Defaults to false. */
   hideMetrics?: boolean
+  /** When true, SKU cards also show Optimization Score. */
+  showOptimizationScore?: boolean
   isSelectionMode?: boolean
   selectedSkuIds?: Set<string>
   onToggleSelectionMode?: () => void
@@ -147,6 +149,7 @@ export function SkuSidebar({
   queueEmpty = false,
   onOpenFilterPanel,
   hideMetrics = false,
+  showOptimizationScore = false,
   isSelectionMode = false,
   selectedSkuIds = new Set(),
   onToggleSelectionMode = () => {},
@@ -330,6 +333,7 @@ export function SkuSidebar({
                       isActive={sku.id === selectedSkuId}
                       isSelected={selectedSkuIds.has(sku.id)}
                       isSelectionMode={isSelectionMode}
+                      showOptimizationScore={showOptimizationScore}
                       onSelect={() => onSelect(sku.id)}
                       onToggle={() => onToggleSkuSelection(sku.id)}
                     />
