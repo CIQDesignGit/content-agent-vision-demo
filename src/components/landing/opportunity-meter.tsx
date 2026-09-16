@@ -27,6 +27,7 @@ interface OpportunityMeterProps {
   statusSegments: OpportunityStatusSegment[]
   capture: CaptureReveal
   calculation: OpportunityCalculationData
+  windowClosed?: boolean
 }
 
 export function OpportunityMeter({
@@ -34,6 +35,7 @@ export function OpportunityMeter({
   statusSegments,
   capture,
   calculation,
+  windowClosed = false,
 }: OpportunityMeterProps) {
   const [calcPanelOpen, setCalcPanelOpen] = useState(false)
   const [calcLayoutActive, setCalcLayoutActive] = useState(false)
@@ -115,6 +117,7 @@ export function OpportunityMeter({
                 capture={capture}
                 capturedPct={capturedPct}
                 totalAmountLabel={totalAmountLabel}
+                windowClosed={windowClosed}
               />
             </motion.div>
 

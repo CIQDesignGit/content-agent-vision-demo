@@ -68,6 +68,7 @@ export function LaunchpadView() {
               statusSegments={statusSegments}
               capture={capture}
               calculation={calculation}
+              windowClosed={overview.windowClosed}
             />
             <UpNextCard key={rangeId ?? "this-year"} data={overview.upNext} />
           </div>

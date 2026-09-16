@@ -1,7 +1,7 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Sparkles, UserRound } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type {
   OpportunityStreamBucket,
@@ -47,10 +47,11 @@ function BucketCard({
   const router = useRouter()
   const needsInput = bucket.fillMode === "input"
   const blocked = valueKind === "blocked"
-  const agentLabel =
-    streamId === "seasonal" ? "Agent drafts it" : "Agent fills it"
-
-  const valueLabel = blocked ? "Blocked" : "Potential lift"
+  const chipLabel = needsInput
+    ? "Needs you"
+    : streamId === "seasonal"
+      ? "Agent drafts"
+      : "Agent fills"
 
   function openBucketReview() {
     const params = new URLSearchParams({ stream: streamId, bucket: bucket.id })
@@ -74,20 +75,18 @@ function BucketCard({
         <div className="flex w-full items-start justify-between gap-3">
           <span
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
-              blocked
+              "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
+              needsInput
                 ? "bg-warning-100 text-warning-700"
                 : "bg-brand-100 text-brand-700",
             )}
           >
-            <span
-              className={cn(
-                "size-1.5 rounded-full",
-                blocked ? "bg-warning-500" : "bg-brand-500",
-              )}
-              aria-hidden
-            />
-            {valueLabel}
+            {needsInput ? (
+              <UserRound className="size-2.5" aria-hidden />
+            ) : (
+              <Sparkles className="size-2.5" aria-hidden />
+            )}
+            {chipLabel}
           </span>
           <ArrowRight
             className={cn(
@@ -115,14 +114,7 @@ function BucketCard({
           <span className="text-slate-300" aria-hidden>
             ·
           </span>
-          <span
-            className={cn(
-              "font-medium",
-              needsInput ? "text-warning-700" : "text-slate-500",
-            )}
-          >
-            {needsInput ? "Needs your input" : agentLabel} · {bucket.fillTime}
-          </span>
+          <span className="font-medium text-slate-500">{bucket.fillTime}</span>
         </div>
       </div>
 

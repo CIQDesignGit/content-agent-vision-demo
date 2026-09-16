@@ -44,6 +44,7 @@ interface OpportunityStatusBarProps {
   capturedAmountLabel: string
   totalAmountLabel: string
   capture: CaptureReveal
+  windowClosed?: boolean
 }
 
 export function OpportunityStatusBar({
@@ -52,10 +53,17 @@ export function OpportunityStatusBar({
   capturedAmountLabel,
   totalAmountLabel,
   capture,
+  windowClosed = false,
 }: OpportunityStatusBarProps) {
   const [hoveredId, setHoveredId] = useState<OpportunityStatusKind | null>(null)
-  const legend = displayStatusSegments(segments)
-  const track = trackStatusSegments(segments)
+  const legend = displayStatusSegments(segments, windowClosed)
+  const track = trackStatusSegments(segments, windowClosed)
+  const segmentFill = windowClosed
+    ? { ...SEGMENT_FILL, opportunity: SEGMENT_FILL.expired }
+    : SEGMENT_FILL
+  const dotFill = windowClosed
+    ? { ...DOT_FILL, opportunity: DOT_FILL.expired }
+    : DOT_FILL
   const total = track.reduce((sum, s) => sum + s.millions, 0)
 
   const layouts = track.map((segment, index) => {
@@ -81,7 +89,7 @@ export function OpportunityStatusBar({
       <div className="flex w-full min-w-0 flex-col gap-1.5">
         <OpportunityStatusTrack
           layouts={layouts}
-          segmentFill={SEGMENT_FILL}
+          segmentFill={segmentFill}
           hoveredId={hoveredId}
           onHoverChange={setHoveredId}
           markerPct={markerPct}
@@ -126,9 +134,12 @@ export function OpportunityStatusBar({
                   segment.id === "captured" &&
                   "border-success-500/40 ring-2 ring-success-100",
               )}
-              swatchClassName={DOT_FILL[segment.id]}
+              swatchClassName={dotFill[segment.id]}
               swatchRingClassName={
-                segment.id === "expired" ? "ring-1 ring-slate-300" : undefined
+                segment.id === "expired" ||
+                (windowClosed && segment.id === "opportunity")
+                  ? "ring-1 ring-slate-300"
+                  : undefined
               }
               label={segment.label}
               amountLabel={

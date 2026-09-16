@@ -6,7 +6,11 @@ import {
   secondaryStats,
   upNext,
 } from "./data"
-import { dateRangesForYear, resolveDateRange } from "./date-range"
+import {
+  dateRangeHasPassed,
+  dateRangesForYear,
+  resolveDateRange,
+} from "./date-range"
 import type { CapturedLiftSplit } from "./with-overview-figures"
 import type {
   OpportunityCalculationData,
@@ -30,6 +34,8 @@ export interface OverviewSnapshot {
   upNext: UpNextData
   streams: OpportunityStream[]
   capturedSplit: CapturedLiftSplit
+  /** True when the selected window's last day is already over. */
+  windowClosed?: boolean
 }
 
 /** Existing year seed. Dollar figures stay as authored in data.ts. */
@@ -75,5 +81,8 @@ export function overviewForRange(
   const span =
     dateRangesForYear(year).find((option) => option.id === range.id)?.span ??
     range.span
-  return stampSpan(snapshot, span)
+  return {
+    ...stampSpan(snapshot, span),
+    windowClosed: dateRangeHasPassed(range),
+  }
 }

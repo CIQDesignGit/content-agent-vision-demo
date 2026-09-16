@@ -14,6 +14,7 @@ interface OpportunityMeterOverviewProps {
   capture: CaptureReveal
   capturedPct: number
   totalAmountLabel: string
+  windowClosed?: boolean
   variant: "full" | "rail"
   className?: string
 }
@@ -24,6 +25,7 @@ export function OpportunityMeterOverview({
   capture,
   capturedPct,
   totalAmountLabel,
+  windowClosed = false,
   variant,
   className,
 }: OpportunityMeterOverviewProps) {
@@ -90,6 +92,7 @@ export function OpportunityMeterOverview({
           capturedAmountLabel={formatMillions(data.realizedMillions)}
           totalAmountLabel={totalAmountLabel}
           capture={capture}
+          windowClosed={windowClosed}
         />
       </div>
     </div>

@@ -59,11 +59,12 @@ export function applyCapture(
 }
 
 /**
- * Status bar / legend collapse Seasonal + PDP into one "still open" bucket.
- * Capture still drains the source buckets; this is display-only.
+ * Status bar / legend collapse Seasonal + PDP into one bucket.
+ * A closed window labels that bucket expired. Capture still drains the source buckets; this is display-only.
  */
 export function displayStatusSegments(
   segments: OpportunityStatusSegment[],
+  windowClosed = false,
 ): OpportunityStatusSegment[] {
   const captured = segments.find((s) => s.id === "captured")
   const expired = segments.find((s) => s.id === "expired")
@@ -73,11 +74,13 @@ export function displayStatusSegments(
 
   const opportunity: OpportunityStatusSegment = {
     id: "opportunity",
-    label: "Remaining Opportunity",
+    label: windowClosed ? "Expired Opportunity" : "Remaining Opportunity",
     millions: openMillions,
     amountLabel: formatMillions(openMillions),
-    tooltip:
-      "Uncaptured lift still available — seasonal windows and always-on PDP optimization.",
+    muted: windowClosed,
+    tooltip: windowClosed
+      ? "This window has closed, so this lift can no longer be captured."
+      : "Uncaptured lift still available — seasonal windows and always-on PDP optimization.",
   }
 
   return [captured, opportunity, expired].filter(
@@ -88,6 +91,7 @@ export function displayStatusSegments(
 /** Bar track matches the legend: captured, combined open opportunity, expired. */
 export function trackStatusSegments(
   segments: OpportunityStatusSegment[],
+  windowClosed = false,
 ): OpportunityStatusSegment[] {
-  return displayStatusSegments(segments)
+  return displayStatusSegments(segments, windowClosed)
 }
