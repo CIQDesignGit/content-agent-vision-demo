@@ -17,9 +17,10 @@ interface TrackingHeaderProps {
 
 export function TrackingHeader({ period, onPeriodChange }: TrackingHeaderProps) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+    <div className="border-b border-slate-200 bg-white">
+    <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-2 px-6 py-3">
       <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5">
-        <h1 className="font-sans text-lg font-semibold leading-7 tracking-tight text-slate-900">
+        <h1 className="font-sans text-2xl font-semibold tracking-tight text-slate-900">
           {trackingMeta.brand}
         </h1>
         <p className="flex flex-wrap items-center gap-x-2 text-sm text-slate-500">
@@ -48,6 +49,7 @@ export function TrackingHeader({ period, onPeriodChange }: TrackingHeaderProps) 
           ))}
         </SelectContent>
       </Select>
+    </div>
     </div>
   )
 }

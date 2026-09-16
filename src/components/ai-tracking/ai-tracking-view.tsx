@@ -17,7 +17,7 @@ export function AiTrackingView() {
   const [topicSort, setTopicSort] = useState<TopicSort>("share")
   const [promptFilter, setPromptFilter] = useState<PromptFilter>("losing")
   const [topicId, setTopicId] = useState<string | null>(null)
-  const [competitorId, setCompetitorId] = useState("purina")
+  const [competitorId, setCompetitorId] = useState("bbw")
 
   useEffect(() => {
     setMounted(true)
@@ -37,14 +37,14 @@ export function AiTrackingView() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pb-16">
+    <div className="flex flex-col">
+      <TrackingHeader period={period} onPeriodChange={setPeriod} />
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-6 pb-16">
       <div className="flex flex-col gap-3">
-        <TrackingHeader period={period} onPeriodChange={setPeriod} />
-
         <section className="flex flex-col gap-5">
           <BandHeading
             title="Brand standing"
-            description="Where you sit across tracked shopper questions this period."
+            description="Where Aurelle Candles sits across tracked candle questions this period."
           />
           <StandingMetrics />
           <div className="grid gap-5 lg:grid-cols-3">
@@ -75,6 +75,7 @@ export function AiTrackingView() {
         competitorId={competitorId}
         onCompetitorChange={setCompetitorId}
       />
+      </div>
     </div>
   )
 }

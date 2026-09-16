@@ -7,6 +7,10 @@ import type { DeltaTone } from "./types"
 
 const BOLD = /\*\*([^*]+)\*\*/g
 
+/** Resting surface on the slate canvas — same pane rung as other launchpad cards. */
+export const trackingCardClass =
+  "overflow-hidden rounded-2xl border-0 bg-white ring-1 ring-slate-900/8 !shadow-pane"
+
 export function BandHeading({
   title,
   description,
@@ -18,7 +22,7 @@ export function BandHeading({
     <div className="flex items-start gap-3">
       <span
         aria-hidden
-        className="mt-1.5 h-8 w-1 shrink-0 rounded-full bg-brand-400"
+        className="mt-1.5 h-8 w-1 shrink-0 rounded-full bg-brand-500"
       />
       <div className="min-w-0">
         <h2 className="font-sans text-xl font-semibold tracking-tight text-slate-900">

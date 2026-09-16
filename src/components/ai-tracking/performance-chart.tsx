@@ -14,7 +14,7 @@ import { Card } from "@ciq-dev/ciq-design-system"
 import { performanceRead, performanceSeries } from "./data"
 import { PerformanceTooltip } from "./performance-tooltip"
 import { SeriesLegend, type SeriesKey } from "./series-legend"
-import { InsightRead, PanelHeader } from "./shared"
+import { InsightRead, PanelHeader, trackingCardClass } from "./shared"
 
 export function PerformanceChart() {
   const [ready, setReady] = useState(false)
@@ -29,7 +29,7 @@ export function PerformanceChart() {
   }, [])
 
   return (
-    <Card className="flex h-full flex-col overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+    <Card className={`${trackingCardClass} flex h-full flex-col`}>
       <div className="px-5 pt-5">
         <PanelHeader
           title="Performance over time"

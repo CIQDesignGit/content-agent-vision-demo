@@ -116,7 +116,7 @@ export function OpportunityCalculationTabPane({
           className={buttonVariants({
             variant: "outline",
             className:
-              "h-9 w-full rounded-xl border-brand-300 bg-white text-xs font-semibold text-brand-700 shadow-none hover:border-brand-400 hover:bg-brand-50 hover:text-brand-800",
+              "h-9 w-full rounded-xl border-brand-800 bg-white text-xs font-semibold text-brand-700 shadow-none hover:border-brand-800 hover:bg-brand-50 hover:text-brand-800",
           })}
         >
           {tab.cta.label}

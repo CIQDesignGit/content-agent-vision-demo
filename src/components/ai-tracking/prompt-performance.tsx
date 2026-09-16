@@ -6,7 +6,7 @@ import { DURATION, EASE_OUT } from "@/lib/motion"
 import { promptRows, promptsRead } from "./data"
 import { MiniSparkline } from "./mini-sparkline"
 import { SegmentedControl } from "./segmented-control"
-import { BandHeading, InsightRead, PanelHeader } from "./shared"
+import { BandHeading, InsightRead, PanelHeader, trackingCardClass } from "./shared"
 import type { PromptFilter } from "./types"
 
 interface PromptPerformanceProps {
@@ -35,10 +35,10 @@ export function PromptPerformance({
     <section id="prompt-performance" className="flex scroll-mt-8 flex-col gap-5">
       <BandHeading
         title="Prompts"
-        description="Every shopper question Alexa AI was asked this period."
+        description="Every candle question Alexa AI was asked this period."
       />
 
-      <Card className="overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+      <Card className={trackingCardClass}>
         <div className="px-5 pt-5 pb-4">
           <PanelHeader
             title="Prompt performance"

@@ -4,7 +4,7 @@ import { Plus } from "lucide-react"
 import { Card } from "@ciq-dev/ciq-design-system"
 import { topicCoverage, topicHeadlines, topicShares, topicsRead } from "./data"
 import { SegmentedControl } from "./segmented-control"
-import { BandHeading, InsightRead, PanelHeader } from "./shared"
+import { BandHeading, InsightRead, PanelHeader, trackingCardClass } from "./shared"
 import { TopicDonutCard } from "./topic-donut-card"
 import type { TopicSort } from "./types"
 
@@ -32,7 +32,7 @@ export function TopicsSection({
         description="Where you own the answer, and where share is slipping."
       />
 
-      <Card className="overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+      <Card className={trackingCardClass}>
         <div className="px-5 pt-5">
           <PanelHeader
             title="Share by topic"

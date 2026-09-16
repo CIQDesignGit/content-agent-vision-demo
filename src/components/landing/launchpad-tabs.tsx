@@ -45,7 +45,7 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
       aria-label="Launchpad sections"
       className={cn("flex shrink-0 items-center px-6 py-1.5", className)}
     >
-      <div className="relative inline-flex items-center rounded-lg bg-slate-100/80 p-1">
+      <div className="relative inline-flex items-center rounded-lg bg-slate-100 p-1">
         {LAUNCHPAD_TABS.map((item) => {
           const isActive = active === item.id
           return (
@@ -66,7 +66,7 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
               {isActive ? (
                 <span
                   aria-hidden
-                  className="absolute inset-0 rounded-lg bg-white shadow-sm ring-1 ring-slate-200/80"
+                  className="absolute inset-0 rounded-lg bg-white shadow-sm ring-1 ring-slate-900/10"
                 />
               ) : null}
               <span className="relative">{item.label}</span>

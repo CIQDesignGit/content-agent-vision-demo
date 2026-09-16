@@ -9,10 +9,10 @@ import { PageShell } from "@/components/layout/page-shell"
 
 export default function AiTrackingPage() {
   return (
-    <PageShell className="bg-slate-50">
+    <PageShell className="bg-slate-100">
       <div className="flex min-h-screen flex-col">
         <AppHeader />
-        <LaunchpadTabs />
+        <LaunchpadTabs className="bg-white" />
         <main className="flex-1">
           <AiTrackingView />
         </main>

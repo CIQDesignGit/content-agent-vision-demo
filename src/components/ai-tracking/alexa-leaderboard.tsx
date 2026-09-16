@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { ArrowDownRight, ArrowUpRight, Minus } from "lucide-react"
 import { DURATION, EASE_OUT } from "@/lib/motion"
 import { leaderboardRows } from "./data"
-import { PanelHeader } from "./shared"
+import { PanelHeader, trackingCardClass } from "./shared"
 
 function ChangeMark({ change }: { change: number | null }) {
   if (change == null) {
@@ -36,7 +36,7 @@ function ChangeMark({ change }: { change: number | null }) {
 
 export function AlexaLeaderboard() {
   return (
-    <Card className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+    <Card className={`${trackingCardClass} flex h-full min-w-0 flex-col`}>
       <div className="px-4 pt-5 pb-3">
         <PanelHeader
           title="Alexa AI top 10"

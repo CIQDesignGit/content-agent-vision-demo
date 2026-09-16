@@ -5,7 +5,7 @@ import { Card, cn } from "@ciq-dev/ciq-design-system"
 import { DURATION, EASE_OUT } from "@/lib/motion"
 import { competitorComparisons, competitorOptions, youScore } from "./data"
 import { GapTable } from "./gap-table"
-import { BandHeading, InsightRead, PanelHeader } from "./shared"
+import { BandHeading, InsightRead, PanelHeader, trackingCardClass } from "./shared"
 
 interface CompetitorCompareProps {
   competitorId: string
@@ -31,7 +31,7 @@ export function CompetitorCompare({
         description="Head-to-head against a named brand on the same topics."
       />
 
-      <Card className="overflow-hidden rounded-2xl border border-border-default bg-white !shadow-brand-soft">
+      <Card className={trackingCardClass}>
         <div className="px-5 pt-5">
           <PanelHeader
             title="Named competitor comparison"
@@ -61,7 +61,7 @@ export function CompetitorCompare({
 
         <div className="flex flex-col gap-3 px-5 py-5">
           <p className="text-sm font-semibold text-slate-900">Overall AI-shelf score</p>
-          <ScoreRow label="Acme Pet Co." score={youScore} highlight />
+          <ScoreRow label="Aurelle Candles" score={youScore} highlight />
           <ScoreRow label={competitor.name} score={comparison.themScore} />
           <p className="text-sm text-fg-secondary">
             {comparison.summary}
