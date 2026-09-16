@@ -39,6 +39,7 @@ import {
   recordCapture,
   type CaptureBucket,
 } from "@/lib/captured-opportunity"
+import { recordQueueProgress } from "@/lib/queue-progress"
 import { getFieldPublishQueue } from "@/lib/build-field-publish-queue"
 import { getActivePublishBatch, getPublishBatchForField } from "@/lib/publish-batch"
 import {
@@ -324,7 +325,7 @@ function WorkbenchPage() {
       setContentState((prev) => ({
         ...prev,
         [skuId]: revertUnpublishedAcceptedChanges(
-          prev[skuId],
+          prev[skuId] ?? makeInitialContent(sku),
           makeInitialContent(sku),
           bulletOriginals,
         ),
@@ -334,12 +335,27 @@ function WorkbenchPage() {
     if (nav) applyNavigation(nav)
   }
 
+  // Moment queues start with an empty content map and seed a SKU on first edit.
+  // Callers that only need to display content already fall back; updaters do not.
+  function resolveSkuContent(state: ContentState, skuId: string): SkuContent {
+    const existing = state[skuId]
+    if (existing) return existing
+    const sku = catalogSkus.find((s) => s.id === skuId) ?? catalogSkus[0] ?? MOCK_SKUS[0]
+    return makeInitialContent(sku)
+  }
+
   function patch(updater: (prev: SkuContent) => SkuContent) {
-    setContentState((prev) => ({ ...prev, [selectedSkuId]: updater(prev[selectedSkuId]) }))
+    setContentState((prev) => ({
+      ...prev,
+      [selectedSkuId]: updater(resolveSkuContent(prev, selectedSkuId)),
+    }))
   }
 
   function patchSku(skuId: string, updater: (prev: SkuContent) => SkuContent) {
-    setContentState((prev) => ({ ...prev, [skuId]: updater(prev[skuId]) }))
+    setContentState((prev) => ({
+      ...prev,
+      [skuId]: updater(resolveSkuContent(prev, skuId)),
+    }))
   }
 
   const clearPublishTimers = useCallback(() => {
@@ -425,6 +441,7 @@ function WorkbenchPage() {
     // Same figure in the toast and on the overview meter.
     const capturedUsd = captureValueForOps(selectedSku.metrics.ops)
     recordCapture(capturedUsd, captureBucket)
+    if (activeQueue) recordQueueProgress(activeQueue.id, [selectedSkuId])
 
     showPublishSuccessToast({
       fieldLabels,
@@ -579,6 +596,12 @@ function WorkbenchPage() {
       return sum + captureValueForOps(sku?.metrics.ops ?? 0)
     }, 0)
     recordCapture(capturedUsd, captureBucket, batchesToSchedule.length)
+    if (activeQueue) {
+      recordQueueProgress(
+        activeQueue.id,
+        batchesToSchedule.map(({ skuId }) => skuId),
+      )
+    }
 
     // Show success toast (bottom-left, slides in)
     const skuCount = batchesToSchedule.length || skuIds.length

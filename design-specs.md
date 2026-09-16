@@ -110,14 +110,17 @@ These values were extracted directly from the Figma variable library:
 | `--color-warning-800` | `bg-warning-800`      | `#923009` | —                                |
 | `--color-warning-900` | `bg-warning-900`      | `#78270a` | —                                |
 
-### Success — Green
+### Success — Emerald
+> shadcn emerald scale, not Tailwind `green`.
+
 | Token                 | Tailwind Class        | Hex       |
 | --------------------- | --------------------- | --------- |
-| `--color-success-50`  | `bg-success-50`       | `#f0fdf4` |
-| `--color-success-100` | `bg-success-100`      | `#dcfce7` |
-| `--color-success-500` | `bg-success-500`      | `#22c55e` |
-| `--color-success-600` | `bg-success-600`      | `#16a34a` |
-| `--color-success-700` | `bg-success-700`      | `#15803d` |
+| `--color-success-50`  | `bg-success-50`       | `#ecfdf5` |
+| `--color-success-100` | `bg-success-100`      | `#d1fae5` |
+| `--color-success-200` | `bg-success-200`      | `#a7f3d0` |
+| `--color-success-500` | `bg-success-500`      | `#10b981` |
+| `--color-success-600` | `bg-success-600`      | `#059669` |
+| `--color-success-700` | `bg-success-700`      | `#047857` |
 
 ### Error — Red
 | Token               | Tailwind Class      | Hex       |

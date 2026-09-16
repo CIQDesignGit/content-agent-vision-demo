@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@ciq-dev/ciq-design-system"
 import { DURATION, EASE_SWAP, fadeRiseTight, swapTransition } from "@/lib/motion"
+import { useQueueActedCount } from "@/lib/queue-progress"
 import type { UpNextActionItem as UpNextActionItemData } from "./types"
+import { UpNextProgress } from "./up-next-progress"
 
 interface UpNextActionItemProps {
   item: UpNextActionItemData
@@ -25,6 +27,12 @@ export function UpNextActionItem({
   onSelect,
 }: UpNextActionItemProps) {
   const router = useRouter()
+  const actedCount = useQueueActedCount(item.id)
+  const remaining = Math.max(item.skuCount - actedCount, 0)
+  const hasProgress = actedCount > 0
+  const specRow = hasProgress
+    ? "flex items-center justify-between py-1.5"
+    : SPEC_ROW
 
   if (!expanded) {
     return (
@@ -87,35 +95,49 @@ export function UpNextActionItem({
           <p className="text-base font-semibold leading-snug text-slate-900">
             {item.name}
           </p>
-          <p className="mt-2 font-sans text-4xl font-semibold leading-none tracking-[-0.03em] text-brand-950 tabular-nums">
+          <p
+            className={`font-sans text-4xl font-semibold leading-none tracking-[-0.03em] text-brand-950 tabular-nums ${hasProgress ? "mt-1" : "mt-2"}`}
+          >
             {item.valueLabel}
           </p>
         </button>
 
         {/* Spec list rather than a 3-up grid — each label/value pair gets its
-            own baseline. my-auto splits the leftover height evenly above and
-            below so the pane reads as composed rather than bottom-weighted. */}
+            own baseline. Rows tighten when progress is present so the pane
+            doesn't grow to fit the new line. */}
         <dl className="my-auto flex flex-col divide-y divide-brand-200/60 border-y border-brand-200/60">
-          <div className={SPEC_ROW}>
+          <div className={specRow}>
             <dt className={SPEC_LABEL}>Publish by</dt>
             <dd className={`${SPEC_VALUE} tabular-nums`}>{item.publishBy}</dd>
           </div>
-          <div className={SPEC_ROW}>
+          <div className={specRow}>
             <dt className={SPEC_LABEL}>SKUs</dt>
             <dd className={`${SPEC_VALUE} tabular-nums`}>{item.skuCount}</dd>
           </div>
-          <div className={SPEC_ROW}>
+          <div className={specRow}>
             <dt className={SPEC_LABEL}>Goes live</dt>
             <dd className={SPEC_VALUE}>{item.goesLiveNote}</dd>
           </div>
         </dl>
+
+        {hasProgress ? (
+          <div className="pt-2">
+            <UpNextProgress
+              actedCount={actedCount}
+              totalCount={item.skuCount}
+              valueLabel={item.valueLabel}
+            />
+          </div>
+        ) : null}
 
         <div className="pt-2">
           <Button
             className="group h-11 w-full rounded-xl bg-brand-700 text-sm font-semibold text-white transition-colors hover:bg-brand-800 focus:outline-brand-700"
             onClick={() => router.push(`/workbench?moment=${item.id}`)}
           >
-            Review {item.skuCount} SKUs
+            {actedCount > 0
+              ? `Continue Reviewing ${remaining} SKUs`
+              : `Review ${item.skuCount} SKUs`}
             <ArrowRight
               className="size-4 transition-transform group-hover:translate-x-0.5"
               aria-hidden

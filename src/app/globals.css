@@ -149,12 +149,17 @@
   --color-warning-800: #923009;
   --color-warning-900: #78270a;
 
-  /* ── Success — Green (aligned with CIQ feedback-success / green-600) ── */
-  --color-success-50:  #f0fdf4;
-  --color-success-100: #dcfce7;
-  --color-success-500: #22c55e;
-  --color-success-600: #16a34a;
-  --color-success-700: #15803d;
+  /* ── Success — shadcn emerald (not Tailwind green) ── */
+  --color-success-50:  #ecfdf5;
+  --color-success-100: #d1fae5;
+  --color-success-200: #a7f3d0;
+  --color-success-300: #6ee7b7;
+  --color-success-400: #34d399;
+  --color-success-500: #10b981;
+  --color-success-600: #059669;
+  --color-success-700: #047857;
+  --color-success-800: #065f46;
+  --color-success-900: #064e3b;
 
   /* ── Error — Red ────────────────────────── */
   --color-error-50:  #fef2f2;
