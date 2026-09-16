@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 import type { DiffSegment } from "./types"
 
@@ -95,7 +95,6 @@ function splitHighlight(text: string, highlight: string): [string, string, strin
 export function EditableRecommendationField({
   value,
   diff,
-  originalValue,
   onChange,
   tone = "highlight",
   showDiff = true,
@@ -109,6 +108,7 @@ export function EditableRecommendationField({
   highlightKey,
   fillHeight = false,
 }: EditableRecommendationFieldProps) {
+  const rootRef = useRef<HTMLDivElement>(null)
   const [isEditing, setIsEditing] = useState(false)
   // Two-phase highlight: `lit` = instantly amber (no transition), `fading` = transition class added before color clears
   const [highlightPhase, setHighlightPhase] = useState<"off" | "lit" | "fading">("off")
@@ -119,9 +119,19 @@ export function EditableRecommendationField({
     setEditEpoch(exitEditKey)
     setIsEditing(false)
   }
-  if (isEditing && (value === originalValue || readOnly)) {
+  if (isEditing && readOnly) {
     setIsEditing(false)
   }
+
+  useEffect(() => {
+    if (!isEditing) return
+    function onPointerDown(event: PointerEvent) {
+      if (rootRef.current?.contains(event.target as Node)) return
+      setIsEditing(false)
+    }
+    document.addEventListener("pointerdown", onPointerDown)
+    return () => document.removeEventListener("pointerdown", onPointerDown)
+  }, [isEditing])
 
   // Trigger a flash highlight when a keyword is inserted.
   // Phase 1 — "lit": instantly amber, no transition class (pop in).
@@ -176,6 +186,7 @@ export function EditableRecommendationField({
 
   return (
     <div
+      ref={rootRef}
       data-recommendation-tone={tone}
       className={cn(
         "w-full min-w-0 rounded-lg px-0.5 py-0.5",
