@@ -21,8 +21,8 @@ export function SourceCompareText({
     <p
       className={
         fillHeight
-          ? "flex min-h-18 flex-1 px-3 py-2 pr-10 text-sm leading-relaxed text-slate-800"
-          : "flex-1 px-3 py-2 pr-10 text-sm leading-relaxed text-slate-800"
+          ? "min-h-18 min-w-0 flex-1 px-3 py-2 pr-10 text-sm leading-relaxed text-slate-800"
+          : "min-w-0 flex-1 px-3 py-2 pr-10 text-sm leading-relaxed text-slate-800"
       }
     >
       {segments.map((seg, idx) => {

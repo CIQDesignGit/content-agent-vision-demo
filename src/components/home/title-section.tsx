@@ -153,6 +153,7 @@ export function ProductTitleSection({
   const effectiveCompareTarget: FieldCompareTarget =
     !hasPimData && compareTarget === "pim" ? "pdp" : compareTarget
   const compareKind: "pim" | "pdp" = effectiveCompareTarget === "pim" ? "pim" : "pdp"
+  const isTextView = effectiveCompareTarget === "final"
 
   const showReco = Boolean(recommendation)
   const hasPublishQueue = publishQueue.length > 0
@@ -331,8 +332,9 @@ export function ProductTitleSection({
 
       <div className="flex w-full flex-col gap-3">
         {showRecoBody && recommendation && !isFullySynced && !hasPublishQueue ? (
-          <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+          <div className={isTextView ? "grid grid-cols-1 gap-y-2" : "grid grid-cols-2 gap-x-3 gap-y-2"}>
             <div className="flex min-h-[30px] items-center">{recommendationHeaderEl}</div>
+            {isTextView ? null : (
             <TitleCompareColumn
               part="label"
               kind={compareKind}
@@ -340,6 +342,7 @@ export function ProductTitleSection({
               compareValue={compareKind === "pim" ? displayPdp : displayPim}
               charLimit={charLimit}
             />
+            )}
             <ContentRecommendationBody
                 key={`${pimTitle}|${pdpTitle}|${hasPimData ? "pim" : "nopim"}|field`}
                 compareGridPart="field"
@@ -375,6 +378,7 @@ export function ProductTitleSection({
                 onReasoningToggle={setShowReasoning}
                 onAltKeywordsToggle={setShowAltKeywords}
               />
+            {isTextView ? null : (
             <TitleCompareColumn
               part="field"
               fillHeight
@@ -383,6 +387,7 @@ export function ProductTitleSection({
               compareValue={compareKind === "pim" ? displayPdp : displayPim}
               charLimit={charLimit}
             />
+            )}
             <div className="col-span-1">
               <ContentRecommendationBody
                 key={`${pimTitle}|${pdpTitle}|${hasPimData ? "pim" : "nopim"}|trailing`}
@@ -411,10 +416,10 @@ export function ProductTitleSection({
                 charLimit={charLimit}
               />
             </div>
-            {hasPimData ? <div className="col-span-2">{draftBlock}</div> : null}
+            {hasPimData ? <div className={isTextView ? "col-span-1" : "col-span-2"}>{draftBlock}</div> : null}
           </div>
         ) : (
-          <div className="grid grid-cols-2 items-start gap-x-3">
+          <div className={isTextView ? "grid grid-cols-1 items-start" : "grid grid-cols-2 items-start gap-x-3"}>
             <div className={fieldLabelContentStack("min-h-0 min-w-0")}>
               {isFullySynced ? (
                 <div className={fieldLabelContentStack("w-full")}>
@@ -471,12 +476,14 @@ export function ProductTitleSection({
                 recommendationHeaderEl
               ) : null}
             </div>
+            {isTextView ? null : (
             <TitleCompareColumn
               kind={compareKind}
               value={compareKind === "pim" ? displayPim : displayPdp}
               compareValue={compareKind === "pim" ? displayPdp : displayPim}
               charLimit={charLimit}
             />
+            )}
           </div>
         )}
 

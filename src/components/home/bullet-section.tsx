@@ -293,6 +293,7 @@ export function BulletPointsSection({
   )
 
   const compareKind: "pim" | "pdp" = effectiveRecoCompareTarget === "pim" ? "pim" : "pdp"
+  const isTextView = effectiveRecoCompareTarget === "final"
   const showSectionCompareTabs = hasPendingRecommendations
 
   // PIM+PDP: build combined item array for the new single-box view
@@ -420,14 +421,16 @@ export function BulletPointsSection({
       <div className="flex w-full flex-col gap-3">
         {hasPimData && combinedBulletItems.length > 0 ? (
           <>
-            <div className="grid grid-cols-2 items-stretch gap-x-3 gap-y-2">
+            <div className={isTextView ? "grid grid-cols-1 items-stretch gap-y-2" : "grid grid-cols-2 items-stretch gap-x-3 gap-y-2"}>
               <div className="flex min-h-[30px] items-center">{pimRecoHeader}</div>
+              {isTextView ? null : (
               <BulletsCompareColumn
                 part="label"
                 kind={compareKind}
                 bullets={compareBullets}
                 compareBullets={compareBulletsOther}
               />
+              )}
               <div className="flex min-h-18 h-full items-stretch self-stretch">
                 <BulletsCombinedRecommendationView
                   items={combinedBulletItems}
@@ -445,6 +448,7 @@ export function BulletPointsSection({
                   onUndoReject={onUndoReject}
                 />
               </div>
+              {isTextView ? null : (
               <div className="flex min-h-18 h-full items-stretch self-stretch">
                 <BulletsCompareColumn
                   part="field"
@@ -454,6 +458,7 @@ export function BulletPointsSection({
                   compareBullets={compareBulletsOther}
                 />
               </div>
+              )}
               {!hideActions ? (
                 <div className="col-span-1">
                   <BulletBulkActions
@@ -499,20 +504,23 @@ export function BulletPointsSection({
             ) : null}
           </>
         ) : !hasPimData && activeRecommendations.length > 0 ? (
-          <div className="grid grid-cols-2 gap-x-3 gap-y-2">
+          <div className={isTextView ? "grid grid-cols-1 gap-y-2" : "grid grid-cols-2 gap-x-3 gap-y-2"}>
             <div className="flex min-h-[30px] items-center">
               <SourceChannelLabel
                 icon={<AiRecommendationSparklesIcon />}
                 label="AI Recommended Bullets"
               />
             </div>
+            {isTextView ? null : (
             <BulletsCompareColumn
               part="label"
               kind="pdp"
               bullets={displayLists.pdp}
               compareBullets={[]}
             />
+            )}
             <div className="min-h-0">{noPimBulletsCell}</div>
+            {isTextView ? null : (
             <BulletsCompareColumn
               part="field"
               fillHeight
@@ -520,6 +528,7 @@ export function BulletPointsSection({
               bullets={displayLists.pdp}
               compareBullets={[]}
             />
+            )}
           </div>
         ) : null}
 
