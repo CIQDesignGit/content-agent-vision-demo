@@ -107,7 +107,7 @@ export function ImpactView() {
   }, [contextRows])
 
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-5 px-6 py-6">
+    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-3 px-6 pb-6">
       {activeEvent ? (
         <ImpactContextTitle
           opportunityName={activeEvent.name}
@@ -126,8 +126,10 @@ export function ImpactView() {
         selectedBrand={selectedBrand}
         onBrandChange={setSelectedBrand}
       />
-      <ImpactMetricCards metrics={metrics} />
-      <ImpactTable rows={filteredRows} />
+      <div className="flex flex-col gap-5">
+        <ImpactMetricCards metrics={metrics} />
+        <ImpactTable rows={filteredRows} />
+      </div>
     </div>
   )
 }

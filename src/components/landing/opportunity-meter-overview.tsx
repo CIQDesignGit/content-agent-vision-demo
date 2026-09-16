@@ -41,11 +41,8 @@ export function OpportunityMeterOverview({
   return (
     <div className={cn("flex w-full flex-col gap-4", className)}>
       <div className="flex flex-col gap-2">
-        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 pr-36 text-[13px] font-medium text-brand-600">
-          <span>Total opportunity the agent has found</span>
-          <span className="inline-flex items-center rounded-full bg-slate-50 px-2 py-0.5 text-[11px] font-medium tabular-nums text-slate-500 ring-1 ring-slate-200/70">
-            {data.periodLabel}
-          </span>
+        <p className="pr-36 text-[13px] font-medium text-brand-600">
+          Total opportunity the agent has found
         </p>
 
         <p className="flex items-start font-sans font-semibold leading-none text-brand-950">

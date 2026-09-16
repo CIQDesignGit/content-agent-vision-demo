@@ -10,7 +10,7 @@ import { PageShell } from "@/components/layout/page-shell"
 
 function ImpactFallback() {
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-6 py-6">
+    <div className="mx-auto w-full max-w-[1200px] px-6 pb-6">
       <div className="h-40 animate-pulse rounded-2xl bg-slate-100" />
     </div>
   )

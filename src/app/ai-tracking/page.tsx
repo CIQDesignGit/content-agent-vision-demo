@@ -12,7 +12,7 @@ export default function AiTrackingPage() {
     <PageShell className="bg-slate-50">
       <div className="flex min-h-screen flex-col">
         <AppHeader />
-        <LaunchpadTabs className="border-slate-200/70 bg-white/60 backdrop-blur-xl" />
+        <LaunchpadTabs />
         <main className="flex-1">
           <AiTrackingView />
         </main>

@@ -322,7 +322,7 @@ export function FilterBar({
   const totalColumnFilters = Object.values(columnFilters).filter((v) => v.length > 0).length
 
   return (
-    <div className="flex min-h-12 shrink-0 items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-2">
+    <div className="flex h-12 shrink-0 items-center justify-between gap-3 border-y border-slate-200 bg-white px-6">
       <div className="flex flex-1 flex-wrap items-center gap-2">
         {searchOpen ? (
           <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1">

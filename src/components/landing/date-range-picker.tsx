@@ -70,7 +70,7 @@ export function DateRangePicker({ className }: { className?: string }) {
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "ml-auto inline-flex items-center gap-1.5 py-2 text-sm font-medium text-slate-600 hover:text-slate-900",
+          "ml-auto inline-flex items-center gap-1.5 py-1 text-sm font-medium text-slate-600 hover:text-slate-900",
           className,
         )}
       >

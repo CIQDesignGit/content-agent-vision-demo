@@ -53,7 +53,7 @@ export function LaunchpadView() {
     // anyone who has asked the OS to reduce motion — opacity still resolves,
     // so nothing ends up invisible.
     <MotionConfig reducedMotion="user">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-10 pb-16">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-2 pb-16">
         {/* Above the fold: reveal on mount. The two panes land together,
             then the stat row follows. */}
         <RevealGroup

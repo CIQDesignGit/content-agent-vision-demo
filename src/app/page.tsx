@@ -21,7 +21,7 @@ export default function LandingPage() {
         </div>
 
         <AppHeader />
-        <LaunchpadTabs className="border-slate-200/70 bg-white/60 backdrop-blur-xl" />
+        <LaunchpadTabs />
         <main className="flex-1">
           <LaunchpadView />
         </main>

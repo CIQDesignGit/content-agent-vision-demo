@@ -37,8 +37,8 @@ export function AiTrackingView() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-8 pb-16">
-      <div className="flex flex-col gap-8">
+    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pb-16">
+      <div className="flex flex-col gap-3">
         <TrackingHeader period={period} onPeriodChange={setPeriod} />
 
         <section className="flex flex-col gap-5">
