@@ -8,7 +8,6 @@ import { resolvePublishedSourceDisplay } from "@/lib/published-source-display"
 import type { FieldPublishQueueItem } from "@/lib/build-field-publish-queue"
 import { fieldLabelContentStack } from "./field-layout"
 import {
-  CompareTabs,
   ContentRecommendationBody,
   ContentRecommendationHeader,
 } from "./content-recommendation-card"
@@ -19,7 +18,10 @@ import { AltKeywordsPanel } from "./alt-keywords-panel"
 import type { AltKeyword } from "./types"
 import { PublishQueueList } from "./publish-queue-list"
 import { TitleCompareColumn } from "./title-compare-column"
-import type { FieldCompareTarget } from "./vertical-source-compare-grid"
+import {
+  VerticalSourceCompareGrid,
+  type FieldCompareTarget,
+} from "./vertical-source-compare-grid"
 import type {
   PublishBatch,
   TitleEditSource,
@@ -277,15 +279,12 @@ export function ProductTitleSection({
         syncFootprint={syncFootprint}
         compareTarget={effectiveCompareTarget}
         onCompareTargetChange={setCompareTarget}
-        hideCompareTabs
+        compareTabsExclude={hasPimData ? [] : ["pim"]}
         isOpen={isOpen}
         onToggleOpen={() => setIsOpen((v) => !v)}
         isAiRecommendation={!isManualTitleEdit}
       />
     ) : null
-
-  const showSectionCompareTabs =
-    showReco && status === "pending" && isOpen && !isFullySynced
 
   // Don't show the grid header when stagedAcceptedBlock already renders it inside queueBody
   const showHeaderInGrid = Boolean(
@@ -315,13 +314,6 @@ export function ProductTitleSection({
         {hasPimData && showReco ? <MatchPercentBadge percent={matchPercent} /> : null}
         {showReco && (
           <div className="ml-auto flex items-center gap-2">
-            {showSectionCompareTabs ? (
-              <CompareTabs
-                value={effectiveCompareTarget}
-                onChange={setCompareTarget}
-                exclude={hasPimData ? [] : ["pim"]}
-              />
-            ) : null}
             <SectionSelectToggle
               selected={isIncluded}
               onToggle={onToggleInclude ?? (() => {})}
@@ -332,91 +324,52 @@ export function ProductTitleSection({
 
       <div className="flex w-full flex-col gap-3">
         {showRecoBody && recommendation && !isFullySynced && !hasPublishQueue ? (
-          <div className={isTextView ? "grid grid-cols-1 gap-y-2" : "grid grid-cols-2 gap-x-3 gap-y-2"}>
-            <div className="flex min-h-[30px] items-center">{recommendationHeaderEl}</div>
-            {isTextView ? null : (
-            <TitleCompareColumn
-              part="label"
-              kind={compareKind}
-              value={compareKind === "pim" ? displayPim : displayPdp}
-              compareValue={compareKind === "pim" ? displayPdp : displayPim}
+          <div className="flex w-full flex-col gap-3">
+            <VerticalSourceCompareGrid
+              pimValue={displayPim}
+              pdpValue={displayPdp}
+              compareTarget={effectiveCompareTarget}
+              showPim={hasPimData}
+              reverseColumns
               charLimit={charLimit}
+              recommendationHeader={recommendationHeaderEl}
+              recommendationBody={
+                <ContentRecommendationBody
+                  key={`${pimTitle}|${pdpTitle}|${hasPimData ? "pim" : "nopim"}|field`}
+                  recommendation={recommendation}
+                  pimBaseline={hasPimData ? displayPim : ""}
+                  pdpBaseline={displayPdp}
+                  originalText={originalText}
+                  compareTarget={effectiveCompareTarget}
+                  status={status}
+                  syncFootprint={syncFootprint}
+                  hasUnpublishedEdits={hasUnpublishedEdits}
+                  activeBatch={activeBatch}
+                  fieldKey="title"
+                  onRecommendedTextChange={onRecommendationChange}
+                  onAccept={onAccept}
+                  onReject={onReject}
+                  onReset={() => onRecommendationChange(originalText)}
+                  onUndoAccept={onUndoAccept}
+                  onUndoReject={onUndoReject}
+                  onPushUpdate={onPushUpdate}
+                  hideReasoning={isManualTitleEdit}
+                  hideActions={hideActions}
+                  addNewLabel={hasPimData && !isAddingNew ? "Add New Title" : undefined}
+                  onAddNew={hasPimData && !isAddingNew ? handleAddNewTitle : undefined}
+                  editAriaLabel={isManualTitleEdit ? "Edit title" : "Edit AI recommended title"}
+                  charLimit={charLimit}
+                  hideHeader
+                  hideReasoningAltKeywords
+                  hideExpandedPanels
+                  showReasoningPanel={showReasoning}
+                  showAltKeywordsPanel={showAltKeywords}
+                  onReasoningToggle={setShowReasoning}
+                  onAltKeywordsToggle={setShowAltKeywords}
+                />
+              }
             />
-            )}
-            <ContentRecommendationBody
-                key={`${pimTitle}|${pdpTitle}|${hasPimData ? "pim" : "nopim"}|field`}
-                compareGridPart="field"
-                recommendation={recommendation}
-                pimBaseline={hasPimData ? displayPim : ""}
-                pdpBaseline={displayPdp}
-                originalText={originalText}
-                compareTarget={effectiveCompareTarget}
-                status={status}
-                syncFootprint={syncFootprint}
-                hasUnpublishedEdits={hasUnpublishedEdits}
-                activeBatch={activeBatch}
-                fieldKey="title"
-                onRecommendedTextChange={onRecommendationChange}
-                onAccept={onAccept}
-                onReject={onReject}
-                onReset={() => onRecommendationChange(originalText)}
-                onUndoAccept={onUndoAccept}
-                onUndoReject={onUndoReject}
-                onPushUpdate={onPushUpdate}
-                hideReasoning={isManualTitleEdit}
-                hideActions={hideActions}
-                addNewLabel={hasPimData && !isAddingNew ? "Add New Title" : undefined}
-                onAddNew={hasPimData && !isAddingNew ? handleAddNewTitle : undefined}
-                editAriaLabel={isManualTitleEdit ? "Edit title" : "Edit AI recommended title"}
-                charLimit={charLimit}
-                hideHeader
-                hideReasoningAltKeywords
-                hideExpandedPanels
-                recommendationFieldFillHeight
-                showReasoningPanel={showReasoning}
-                showAltKeywordsPanel={showAltKeywords}
-                onReasoningToggle={setShowReasoning}
-                onAltKeywordsToggle={setShowAltKeywords}
-              />
-            {isTextView ? null : (
-            <TitleCompareColumn
-              part="field"
-              fillHeight
-              kind={compareKind}
-              value={compareKind === "pim" ? displayPim : displayPdp}
-              compareValue={compareKind === "pim" ? displayPdp : displayPim}
-              charLimit={charLimit}
-            />
-            )}
-            <div className="col-span-1">
-              <ContentRecommendationBody
-                key={`${pimTitle}|${pdpTitle}|${hasPimData ? "pim" : "nopim"}|trailing`}
-                compareGridPart="trailing"
-                recommendation={recommendation}
-                pimBaseline={hasPimData ? displayPim : ""}
-                pdpBaseline={displayPdp}
-                originalText={originalText}
-                compareTarget={effectiveCompareTarget}
-                status={status}
-                syncFootprint={syncFootprint}
-                hasUnpublishedEdits={hasUnpublishedEdits}
-                activeBatch={activeBatch}
-                fieldKey="title"
-                onRecommendedTextChange={onRecommendationChange}
-                onAccept={onAccept}
-                onReject={onReject}
-                onReset={() => onRecommendationChange(originalText)}
-                onUndoAccept={onUndoAccept}
-                onUndoReject={onUndoReject}
-                onPushUpdate={onPushUpdate}
-                hideActions={hideActions}
-                addNewLabel={hasPimData && !isAddingNew ? "Add New Title" : undefined}
-                onAddNew={hasPimData && !isAddingNew ? handleAddNewTitle : undefined}
-                editAriaLabel={isManualTitleEdit ? "Edit title" : "Edit AI recommended title"}
-                charLimit={charLimit}
-              />
-            </div>
-            {hasPimData ? <div className={isTextView ? "col-span-1" : "col-span-2"}>{draftBlock}</div> : null}
+            {hasPimData ? draftBlock : null}
           </div>
         ) : (
           <div className={isTextView ? "grid grid-cols-1 items-start" : "grid grid-cols-2 items-start gap-x-3"}>

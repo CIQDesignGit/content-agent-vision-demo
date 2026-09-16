@@ -6,18 +6,19 @@ import { SectionSelectToggle } from "./section-controls"
 import { titleMatchPercent } from "@/lib/title-match"
 import { resolvePublishedSourceDisplay } from "@/lib/published-source-display"
 import {
-  CompareTabs,
   ContentRecommendationBody,
   ContentRecommendationHeader,
 } from "./content-recommendation-card"
-import { AiRecommendationSparklesIcon, SourceChannelLabel } from "./bullet-source-cell"
 import { fieldLabelContentStack } from "./field-layout"
 import { MatchPercentBadge } from "./match-percent-badge"
 import { ReasoningAltKeywordsBlock } from "./reasoning-alt-keywords-block"
 import { ReasoningPanel } from "./reasoning-ui"
 import { AltKeywordsPanel } from "./alt-keywords-panel"
 import { TitleCompareColumn } from "./title-compare-column"
-import type { FieldCompareTarget } from "./vertical-source-compare-grid"
+import {
+  VerticalSourceCompareGrid,
+  type FieldCompareTarget,
+} from "./vertical-source-compare-grid"
 import type { PublishBatch, TitleRecommendation, TitleStatus, SyncFootprint } from "./types"
 
 interface DescriptionSectionProps {
@@ -97,7 +98,6 @@ export function DescriptionSection({
   const showReco = Boolean(recommendation)
   const showRecoBody = showReco && isOpen
   const isFullySynced = status === "accepted" && syncFootprint === "synced"
-  const showSectionCompareTabs = showReco && status === "pending" && isOpen && !isFullySynced
   const altKeywords = recommendation?.altKeywords ?? []
   const hasExpandedPanels =
     showRecoBody && recommendation && (showReasoning || showAltKeywords)
@@ -115,9 +115,9 @@ export function DescriptionSection({
         syncFootprint={syncFootprint}
         compareTarget={effectiveCompareTarget}
         onCompareTargetChange={setCompareTarget}
+        compareTabsExclude={hasPimData ? [] : ["pim"]}
         isOpen={isOpen}
         onToggleOpen={() => setIsOpen((v) => !v)}
-        hideCompareTabs
       />
     ) : null
 
@@ -213,13 +213,6 @@ export function DescriptionSection({
         {hasPimData && showReco ? <MatchPercentBadge percent={matchPercent} /> : null}
         {showReco && (
           <div className="ml-auto flex items-center gap-2">
-            {showSectionCompareTabs ? (
-              <CompareTabs
-                value={effectiveCompareTarget}
-                onChange={setCompareTarget}
-                exclude={hasPimData ? [] : ["pim"]}
-              />
-            ) : null}
             <SectionSelectToggle
               selected={isIncluded}
               onToggle={onToggleInclude ?? (() => {})}
@@ -230,59 +223,31 @@ export function DescriptionSection({
 
       <div className="flex w-full flex-col gap-3">
         {showRecoBody && recommendation && !isFullySynced ? (
-          <div className={isTextView ? "grid grid-cols-1 gap-y-2" : "grid grid-cols-2 gap-x-3 gap-y-2"}>
-            <div className="flex min-h-[30px] items-center">
-              {hasPimData ? (
-                recommendationHeaderEl
-              ) : (
-                <SourceChannelLabel
-                  icon={<AiRecommendationSparklesIcon />}
-                  label="AI Recommended Description"
+          <div className="flex w-full flex-col gap-3">
+            <VerticalSourceCompareGrid
+              pimValue={displayPim}
+              pdpValue={displayPdp}
+              compareTarget={effectiveCompareTarget}
+              showPim={hasPimData}
+              reverseColumns
+              recommendationHeader={recommendationHeaderEl}
+              recommendationBody={
+                <ContentRecommendationBody
+                  key={`${pimDescription}|${pdpDescription}|field`}
+                  {...recoBodyProps}
+                  hideHeader
+                  hideReasoningAltKeywords
+                  hideExpandedPanels
+                  showReasoningPanel={showReasoning}
+                  showAltKeywordsPanel={showAltKeywords}
+                  onReasoningToggle={setShowReasoning}
+                  onAltKeywordsToggle={setShowAltKeywords}
+                  addNewLabel={isAddingNew ? undefined : "Add New Description"}
+                  onAddNew={isAddingNew ? undefined : handleAddNewDescription}
                 />
-              )}
-            </div>
-            {isTextView ? null : (
-            <TitleCompareColumn
-              part="label"
-              kind={compareKind}
-              value={compareKind === "pim" ? displayPim : displayPdp}
-              compareValue={compareKind === "pim" ? displayPdp : displayPim}
+              }
             />
-            )}
-            <ContentRecommendationBody
-              key={`${pimDescription}|${pdpDescription}|field`}
-              {...recoBodyProps}
-              compareGridPart="field"
-              hideHeader
-              hideReasoningAltKeywords
-              hideExpandedPanels
-              recommendationFieldFillHeight
-              showReasoningPanel={showReasoning}
-              showAltKeywordsPanel={showAltKeywords}
-              onReasoningToggle={setShowReasoning}
-              onAltKeywordsToggle={setShowAltKeywords}
-              addNewLabel={isAddingNew ? undefined : "Add New Description"}
-              onAddNew={isAddingNew ? undefined : handleAddNewDescription}
-            />
-            {isTextView ? null : (
-            <TitleCompareColumn
-              part="field"
-              fillHeight
-              kind={compareKind}
-              value={compareKind === "pim" ? displayPim : displayPdp}
-              compareValue={compareKind === "pim" ? displayPdp : displayPim}
-            />
-            )}
-            <div className="col-span-1">
-              <ContentRecommendationBody
-                key={`${pimDescription}|${pdpDescription}|trailing`}
-                {...recoBodyProps}
-                compareGridPart="trailing"
-                addNewLabel={isAddingNew ? undefined : "Add New Description"}
-                onAddNew={isAddingNew ? undefined : handleAddNewDescription}
-              />
-            </div>
-            {draftBlock ? <div className={isTextView ? "col-span-1" : "col-span-2"}>{draftBlock}</div> : null}
+            {draftBlock}
           </div>
         ) : (
           <div className={isTextView ? "grid grid-cols-1 items-start" : "grid grid-cols-2 items-start gap-x-3"}>

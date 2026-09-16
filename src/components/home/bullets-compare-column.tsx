@@ -41,7 +41,7 @@ export function BulletsCompareColumn({
     <div
       className={cn(
         "flex w-full min-w-0 flex-col rounded-lg border border-slate-200 bg-slate-50",
-        fillHeight ? "min-h-18 h-full flex-1 self-stretch" : "min-h-18 flex-1",
+        fillHeight ? "h-auto min-h-18 flex-1 self-stretch" : "min-h-18 flex-1",
       )}
     >
       <BulletsSourceCompare
@@ -57,7 +57,7 @@ export function BulletsCompareColumn({
   if (part === "field") return fieldRow
 
   return (
-    <div className={fieldLabelContentStack("min-h-0 min-w-0")}>
+    <div className={fieldLabelContentStack("h-full min-h-0 min-w-0")}>
       {labelRow}
       {fieldRow}
     </div>

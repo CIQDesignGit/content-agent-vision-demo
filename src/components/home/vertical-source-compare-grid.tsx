@@ -69,7 +69,7 @@ function SourceCompareColumn({
   children: ReactNode
 }) {
   if (!showLabel) {
-    return <div className="flex min-h-0 min-w-0 flex-1 flex-col">{children}</div>
+    return <div className="flex h-full min-h-0 min-w-0 flex-1 flex-col">{children}</div>
   }
 
   return (
@@ -127,7 +127,7 @@ export function VerticalSourceCompareGrid({
     )
 
   const sourceGrid = (
-    <div className={cn("grid gap-x-3", (pimCellBare || pdpCellBare) ? "items-start" : "items-stretch", columnClass)}>
+    <div className={cn("grid items-stretch gap-x-3", columnClass)}>
         {(() => {
           const pimColumn = showPim ? (
             <SourceCompareColumn

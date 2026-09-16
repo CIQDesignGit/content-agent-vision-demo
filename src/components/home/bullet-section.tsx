@@ -10,8 +10,7 @@ import { titleMatchPercent } from "@/lib/title-match"
 import { resolvePublishedSourceDisplay } from "@/lib/published-source-display"
 import { resolveBulletSyncFootprint } from "@/lib/sync-footprint"
 import { BulletBulkActions } from "./bullet-bulk-actions"
-import { CompareTabs, ContentRecommendationHeader } from "./content-recommendation-card"
-import { AiRecommendationSparklesIcon, SourceChannelLabel } from "./bullet-source-cell"
+import { ContentRecommendationHeader } from "./content-recommendation-card"
 import { BulletsCompareColumn } from "./bullets-compare-column"
 import { MatchPercentBadge } from "./match-percent-badge"
 import { BulletsReasoningAltKeywordsBlock } from "./bullets-reasoning-alt-keywords-block"
@@ -23,7 +22,10 @@ import {
   type CombinedBulletItem,
 } from "./bullets-combined-recommendation"
 import { AltKeywordsPanel } from "./alt-keywords-panel"
-import type { FieldCompareTarget } from "./vertical-source-compare-grid"
+import {
+  VerticalSourceCompareGrid,
+  type FieldCompareTarget,
+} from "./vertical-source-compare-grid"
 import type { FieldPublishQueueItem } from "@/lib/build-field-publish-queue"
 import type { AltKeyword, BulletRecommendation, PublishBatch, ReasoningCategory } from "./types"
 
@@ -292,10 +294,6 @@ export function BulletPointsSection({
     [activeRecommendations],
   )
 
-  const compareKind: "pim" | "pdp" = effectiveRecoCompareTarget === "pim" ? "pim" : "pdp"
-  const isTextView = effectiveRecoCompareTarget === "final"
-  const showSectionCompareTabs = hasPendingRecommendations
-
   // PIM+PDP: build combined item array for the new single-box view
   const combinedBulletItems = useMemo<CombinedBulletItem[]>(
     () =>
@@ -323,12 +321,6 @@ export function BulletPointsSection({
         hideActions={hideActions}
       />
     ) : null
-
-  const compareBullets = compareKind === "pim" ? displayLists.pim : displayLists.pdp
-  const compareBulletsOther =
-    compareKind === "pim"
-      ? displayLists.pim.map((_, index) => displayLists.pdp[index] ?? "")
-      : displayLists.pim
 
   function pendingBulletForKeywords() {
     return activeRecommendations.find((reco) => reco.status === "pending")
@@ -388,10 +380,10 @@ export function BulletPointsSection({
       status={hasPendingRecommendations ? "pending" : "accepted"}
       compareTarget={effectiveRecoCompareTarget}
       onCompareTargetChange={setRecoCompareTarget}
+      compareTabsExclude={hasPimData ? [] : ["pim"]}
       isOpen
       collapsible={false}
       onToggleOpen={() => undefined}
-      hideCompareTabs
     />
   )
 
@@ -404,13 +396,6 @@ export function BulletPointsSection({
           <MatchPercentBadge percent={matchPercent} />
         ) : null}
         <div className="ml-auto flex items-center gap-2">
-          {showSectionCompareTabs ? (
-            <CompareTabs
-              value={effectiveRecoCompareTarget}
-              onChange={setRecoCompareTarget}
-              exclude={hasPimData ? [] : ["pim"]}
-            />
-          ) : null}
           <SectionSelectToggle
             selected={isIncluded}
             onToggle={onToggleInclude ?? (() => {})}
@@ -421,56 +406,59 @@ export function BulletPointsSection({
       <div className="flex w-full flex-col gap-3">
         {hasPimData && combinedBulletItems.length > 0 ? (
           <>
-            <div className={isTextView ? "grid grid-cols-1 items-stretch gap-y-2" : "grid grid-cols-2 items-stretch gap-x-3 gap-y-2"}>
-              <div className="flex min-h-[30px] items-center">{pimRecoHeader}</div>
-              {isTextView ? null : (
-              <BulletsCompareColumn
-                part="label"
-                kind={compareKind}
-                bullets={compareBullets}
-                compareBullets={compareBulletsOther}
-              />
-              )}
-              <div className="flex min-h-18 h-full items-stretch self-stretch">
-                <BulletsCombinedRecommendationView
-                  items={combinedBulletItems}
-                  hasPimData={hasPimData}
-                  compareTarget={effectiveRecoCompareTarget}
-                  altKeywords={mergedBulletAltKeywords}
-                  hideActions={hideActions}
-                  fillHeight
-                  hideReasoningAltKeywords
-                  onTextChange={onRecommendationTextChange}
-                  onAccept={onAccept}
-                  onReject={onReject}
-                  onReset={onReset}
-                  onUndoAccept={onUndoAccept}
-                  onUndoReject={onUndoReject}
-                />
-              </div>
-              {isTextView ? null : (
-              <div className="flex min-h-18 h-full items-stretch self-stretch">
+            <VerticalSourceCompareGrid
+              pimValue={displayLists.pim.join("\n")}
+              pdpValue={displayLists.pdp.join("\n")}
+              compareTarget={effectiveRecoCompareTarget}
+              showColumnLabels={false}
+              reverseColumns
+              pimCellBare
+              pdpCellBare
+              pimCell={
                 <BulletsCompareColumn
-                  part="field"
+                  kind="pim"
+                  bullets={displayLists.pim}
+                  compareBullets={displayLists.pdp}
                   fillHeight
-                  kind={compareKind}
-                  bullets={compareBullets}
-                  compareBullets={compareBulletsOther}
                 />
-              </div>
-              )}
-              {!hideActions ? (
-                <div className="col-span-1">
-                  <BulletBulkActions
-                    recommendations={recommendations}
-                    originals={originals}
-                    onAcceptAll={onAcceptAll}
-                    onRejectAll={onRejectAll}
-                    onResetAll={onResetAll}
+              }
+              pdpCell={
+                <BulletsCompareColumn
+                  kind="pdp"
+                  bullets={displayLists.pdp}
+                  compareBullets={displayLists.pim}
+                  fillHeight
+                />
+              }
+              recommendationHeader={pimRecoHeader}
+              recommendationBody={
+                <div className="flex w-full flex-col gap-3">
+                  <BulletsCombinedRecommendationView
+                    items={combinedBulletItems}
+                    hasPimData={hasPimData}
+                    compareTarget={effectiveRecoCompareTarget}
+                    altKeywords={mergedBulletAltKeywords}
+                    hideActions={hideActions}
+                    hideReasoningAltKeywords
+                    onTextChange={onRecommendationTextChange}
+                    onAccept={onAccept}
+                    onReject={onReject}
+                    onReset={onReset}
+                    onUndoAccept={onUndoAccept}
+                    onUndoReject={onUndoReject}
                   />
+                  {!hideActions ? (
+                    <BulletBulkActions
+                      recommendations={recommendations}
+                      originals={originals}
+                      onAcceptAll={onAcceptAll}
+                      onRejectAll={onRejectAll}
+                      onResetAll={onResetAll}
+                    />
+                  ) : null}
                 </div>
-              ) : null}
-            </div>
+              }
+            />
             <BulletsReasoningAltKeywordsBlock
               bullets={activeRecommendations}
               altKeywords={mergedBulletAltKeywords}
@@ -504,32 +492,23 @@ export function BulletPointsSection({
             ) : null}
           </>
         ) : !hasPimData && activeRecommendations.length > 0 ? (
-          <div className={isTextView ? "grid grid-cols-1 gap-y-2" : "grid grid-cols-2 gap-x-3 gap-y-2"}>
-            <div className="flex min-h-[30px] items-center">
-              <SourceChannelLabel
-                icon={<AiRecommendationSparklesIcon />}
-                label="AI Recommended Bullets"
+          <VerticalSourceCompareGrid
+            pimValue=""
+            pdpValue={displayLists.pdp.join("\n")}
+            compareTarget={effectiveRecoCompareTarget}
+            showPim={false}
+            showColumnLabels={false}
+            pdpCellBare
+            pdpCell={
+              <BulletsCompareColumn
+                kind="pdp"
+                bullets={displayLists.pdp}
+                compareBullets={[]}
               />
-            </div>
-            {isTextView ? null : (
-            <BulletsCompareColumn
-              part="label"
-              kind="pdp"
-              bullets={displayLists.pdp}
-              compareBullets={[]}
-            />
-            )}
-            <div className="min-h-0">{noPimBulletsCell}</div>
-            {isTextView ? null : (
-            <BulletsCompareColumn
-              part="field"
-              fillHeight
-              kind="pdp"
-              bullets={displayLists.pdp}
-              compareBullets={[]}
-            />
-            )}
-          </div>
+            }
+            recommendationHeader={pimRecoHeader}
+            recommendationBody={noPimBulletsCell}
+          />
         ) : null}
 
         {!hasPimData && (mergedBulletReasoning.length > 0 || mergedBulletAltKeywords.length > 0) ? (

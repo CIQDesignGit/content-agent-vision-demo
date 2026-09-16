@@ -1177,16 +1177,16 @@ function WorkbenchPage() {
                 >
                   {/* PIM sync + AI sync chips — icons match SourceLogoBadge styling */}
                   <div className="flex items-center gap-3">
-                    {selectedSku.pimSyncedOn && (
-                      <span className="flex items-center gap-1.5 text-xs text-slate-500">
-                        <SourceLogoBadge src={SALSIFY_LOGO_SRC} alt="PIM" />
-                        Synced on {selectedSku.pimSyncedOn}
-                      </span>
-                    )}
                     {selectedSku.aiSyncedOn && (
                       <span className="flex items-center gap-1.5 text-xs text-slate-500">
                         <SourceLogoBadge src={RETAILER_LOGO_SRC} alt="Amazon" />
                         Synced on {selectedSku.aiSyncedOn}
+                      </span>
+                    )}
+                    {selectedSku.pimSyncedOn && (
+                      <span className="flex items-center gap-1.5 text-xs text-slate-500">
+                        <SourceLogoBadge src={SALSIFY_LOGO_SRC} alt="PIM" />
+                        Synced on {selectedSku.pimSyncedOn}
                       </span>
                     )}
                   </div>
