@@ -1,24 +1,27 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { ArrowRight, Sparkles, UserRound } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type {
   OpportunityStreamBucket,
   OpportunityStreamKind,
 } from "./types"
+import { bucketCardTone } from "./bucket-card-tone"
 import { formatStreamValue } from "./opportunity-stream-format"
 
 interface OpportunityStreamBucketsProps {
   buckets: OpportunityStreamBucket[]
   valueKind: "blocked" | "potential"
   streamId: OpportunityStreamKind
+  windowClosed?: boolean
 }
 
 export function OpportunityStreamBuckets({
   buckets,
   valueKind,
   streamId,
+  windowClosed = false,
 }: OpportunityStreamBucketsProps) {
   return (
     <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
@@ -28,6 +31,7 @@ export function OpportunityStreamBuckets({
             bucket={bucket}
             valueKind={valueKind}
             streamId={streamId}
+            windowClosed={windowClosed}
           />
         </li>
       ))}
@@ -39,19 +43,17 @@ function BucketCard({
   bucket,
   valueKind,
   streamId,
+  windowClosed,
 }: {
   bucket: OpportunityStreamBucket
   valueKind: "blocked" | "potential"
   streamId: OpportunityStreamKind
+  windowClosed: boolean
 }) {
   const router = useRouter()
-  const needsInput = bucket.fillMode === "input"
   const blocked = valueKind === "blocked"
-  const chipLabel = needsInput
-    ? "Needs you"
-    : streamId === "seasonal"
-      ? "Agent drafts"
-      : "Agent fills"
+  const tone = bucketCardTone({ bucket, streamId, blocked, windowClosed })
+  const { ChipIcon } = tone
 
   function openBucketReview() {
     const params = new URLSearchParams({ stream: streamId, bucket: bucket.id })
@@ -62,73 +64,69 @@ function BucketCard({
     <button
       type="button"
       onClick={openBucketReview}
-      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-slate-50 text-left transition-colors duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+      className={cn(
+        "group flex h-full w-full flex-col overflow-hidden rounded-2xl text-left transition-colors duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
+        tone.surface,
+      )}
     >
       <div
         className={cn(
           "flex flex-1 flex-col p-5 transition-colors duration-200 ease-out",
-          blocked
-            ? "group-hover:bg-warning-50"
-            : "group-hover:bg-brand-25",
+          tone.hover,
         )}
       >
         <div className="flex w-full items-start justify-between gap-3">
           <span
             className={cn(
               "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
-              needsInput
-                ? "bg-warning-100 text-warning-700"
-                : "bg-brand-100 text-brand-700",
+              tone.chip,
             )}
           >
-            {needsInput ? (
-              <UserRound className="size-2.5" aria-hidden />
-            ) : (
-              <Sparkles className="size-2.5" aria-hidden />
-            )}
-            {chipLabel}
+            <ChipIcon className="size-2.5" aria-hidden />
+            {tone.chipLabel}
           </span>
           <ArrowRight
             className={cn(
               "mt-0.5 size-4 shrink-0 text-slate-400 transition-[transform,color] duration-200 group-hover:translate-x-0.5",
-              blocked
-                ? "group-hover:text-warning-600"
-                : "group-hover:text-brand-600",
+              tone.arrowHover,
             )}
             aria-hidden
           />
         </div>
 
-        <p className="mt-3.5 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em] text-slate-950">
+        <p
+          className={cn(
+            "mt-3.5 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em]",
+            tone.value,
+          )}
+        >
           {formatStreamValue(bucket.valueThousands)}
         </p>
 
-        <p className="mt-1.5 text-sm font-medium leading-snug text-slate-700">
+        <p className={cn("mt-1.5 text-sm font-medium leading-snug", tone.title)}>
           {bucket.title}
         </p>
 
         <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
-          <span className="font-semibold tabular-nums text-slate-900">
+          <span className={cn("font-semibold tabular-nums", tone.skuCount)}>
             {bucket.skuCount.toLocaleString()} SKUs
           </span>
           <span className="text-slate-300" aria-hidden>
             ·
           </span>
-          <span className="font-medium text-slate-500">{bucket.fillTime}</span>
+          <span className="font-medium text-slate-500">{tone.metaLabel}</span>
         </div>
       </div>
 
       <p
         className={cn(
-          "bg-slate-100/70 px-5 py-3 text-xs leading-relaxed text-slate-500 transition-colors duration-200 ease-out",
-          blocked
-            ? "group-hover:bg-warning-100 group-hover:text-slate-600"
-            : "group-hover:bg-brand-50 group-hover:text-brand-950",
+          "px-5 py-3 text-xs leading-relaxed text-slate-500 transition-colors duration-200 ease-out",
+          tone.footer,
         )}
       >
         {blocked && bucket.releasesThousands != null ? (
           <>
-            Also releases{" "}
+            {windowClosed ? "Also released " : "Also releases "}
             <span className="font-semibold text-slate-700">
               {formatStreamValue(bucket.releasesThousands)}
             </span>{" "}

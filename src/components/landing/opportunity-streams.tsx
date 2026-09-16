@@ -9,9 +9,13 @@ import { SectionHeading } from "./section-heading"
 
 interface OpportunityStreamsProps {
   streams: OpportunityStream[]
+  windowClosed?: boolean
 }
 
-export function OpportunityStreams({ streams }: OpportunityStreamsProps) {
+export function OpportunityStreams({
+  streams,
+  windowClosed = false,
+}: OpportunityStreamsProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   if (streams.length === 0) return null
@@ -26,7 +30,11 @@ export function OpportunityStreams({ streams }: OpportunityStreamsProps) {
     >
       <SectionHeading
         title="Opportunity streams"
-        description="Where the range comes from, and what's blocking it."
+        description={
+          windowClosed
+            ? "Where the range came from, and what was captured before it closed."
+            : "Where the range comes from, and what's blocking it."
+        }
       />
 
       <RevealItem variants={fadeRiseOnScroll}>
@@ -41,6 +49,7 @@ export function OpportunityStreams({ streams }: OpportunityStreamsProps) {
               <li key={stream.id}>
                 <OpportunityStreamCard
                   stream={stream}
+                  windowClosed={windowClosed}
                   expanded={expandedId === stream.id}
                   onToggle={() =>
                     setExpandedId((prev) =>

@@ -184,6 +184,28 @@ export const lastYearOverview: OverviewSnapshot = {
       },
     ],
   },
+  retrospective: {
+    heading: "2025 recap",
+    highlights: [
+      {
+        id: "ly-h1",
+        title: "$2.15M captured across the year",
+        amountLabel: "$2.15M",
+      },
+      {
+        id: "ly-h2",
+        title: "Retail-readiness climbed to 91% of catalog",
+        amountLabel: "+9 pts",
+      },
+    ],
+    lowlights: [
+      {
+        id: "ly-l1",
+        title: "Holiday 2025 closed with 210 SKUs unpublished",
+        amountLabel: "$900K",
+      },
+    ],
+  },
   streams: [
     {
       id: "retail-readiness",
@@ -206,6 +228,7 @@ export const lastYearOverview: OverviewSnapshot = {
           valueThousands: 80,
           releasesThousands: 16,
           alsoNote: "48 also had thin holiday bullets",
+          outcome: "captured",
         },
         {
           id: "ly-rr-2",
@@ -215,6 +238,7 @@ export const lastYearOverview: OverviewSnapshot = {
           valueThousands: 62,
           releasesThousands: 11,
           alsoNote: "34 also missing burn-time specs",
+          outcome: "captured",
         },
         {
           id: "ly-rr-3",
@@ -234,6 +258,7 @@ export const lastYearOverview: OverviewSnapshot = {
           valueThousands: 34,
           releasesThousands: 5,
           alsoNote: "16 also had thin bullets",
+          outcome: "captured",
         },
         {
           id: "ly-rr-5",
@@ -296,6 +321,7 @@ export const lastYearOverview: OverviewSnapshot = {
           fillTime: "~3 min",
           valueThousands: 300,
           alsoNote: "Publish by Nov 12 · 44 also needed gift notes in bullets",
+          outcome: "captured",
         },
         {
           id: "ly-sea-2",
@@ -304,6 +330,7 @@ export const lastYearOverview: OverviewSnapshot = {
           fillTime: "~2 min",
           valueThousands: 220,
           alsoNote: "Holiday window · 31 also missing urgency language",
+          outcome: "captured",
         },
         {
           id: "ly-sea-3",

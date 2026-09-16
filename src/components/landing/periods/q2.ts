@@ -165,6 +165,28 @@ export const q2Overview: OverviewSnapshot = {
       },
     ],
   },
+  retrospective: {
+    heading: "Q2 recap",
+    highlights: [
+      {
+        id: "q2-h1",
+        title: "Mother's Day copy shipped on the top 36 SKUs",
+        amountLabel: "$50K",
+      },
+      {
+        id: "q2-h2",
+        title: "Unit price and item weight backfilled on 48 SKUs",
+        amountLabel: "$100K",
+      },
+    ],
+    lowlights: [
+      {
+        id: "q2-l1",
+        title: "112 Mother's Day SKUs never published",
+        amountLabel: "$610K",
+      },
+    ],
+  },
   streams: [
     {
       id: "retail-readiness",
@@ -187,6 +209,7 @@ export const q2Overview: OverviewSnapshot = {
           valueThousands: 36,
           releasesThousands: 8,
           alsoNote: "22 also have thin Mother's Day bullets",
+          outcome: "captured",
         },
         {
           id: "q2-rr-2",
@@ -196,6 +219,7 @@ export const q2Overview: OverviewSnapshot = {
           valueThousands: 28,
           releasesThousands: 5,
           alsoNote: "15 also missing burn-time specs",
+          outcome: "captured",
         },
         {
           id: "q2-rr-3",
@@ -206,6 +230,7 @@ export const q2Overview: OverviewSnapshot = {
           valueThousands: 18,
           releasesThousands: 3,
           alsoNote: "10 also have title gaps",
+          outcome: "missed",
         },
         {
           id: "q2-rr-4",
@@ -215,6 +240,7 @@ export const q2Overview: OverviewSnapshot = {
           valueThousands: 14,
           releasesThousands: 2,
           alsoNote: "8 also have thin bullets",
+          outcome: "missed",
         },
         {
           id: "q2-rr-5",
@@ -224,6 +250,7 @@ export const q2Overview: OverviewSnapshot = {
           valueThousands: 8,
           releasesThousands: 1,
           alsoNote: "5 also have title gaps",
+          outcome: "missed",
         },
       ],
       rows: [
@@ -277,6 +304,7 @@ export const q2Overview: OverviewSnapshot = {
           fillTime: "~3 min",
           valueThousands: 220,
           alsoNote: "Publish by Apr 28 · 31 also need gift notes in bullets",
+          outcome: "captured",
         },
         {
           id: "q2-sea-2",
@@ -285,6 +313,7 @@ export const q2Overview: OverviewSnapshot = {
           fillTime: "~2 min",
           valueThousands: 170,
           alsoNote: "Mother's Day window · 24 also missing a floral note",
+          outcome: "missed",
         },
         {
           id: "q2-sea-3",
@@ -293,6 +322,7 @@ export const q2Overview: OverviewSnapshot = {
           fillTime: "~2 min",
           valueThousands: 130,
           alsoNote: "Gift sets · 16 also missing an occasion keyword",
+          outcome: "missed",
         },
         {
           id: "q2-sea-4",
@@ -302,6 +332,7 @@ export const q2Overview: OverviewSnapshot = {
           fillTime: "~15 min",
           valueThousands: 80,
           alsoNote: "Seasonal copy can't publish until attributes are backfilled",
+          outcome: "missed",
         },
         {
           id: "q2-sea-5",
@@ -310,6 +341,7 @@ export const q2Overview: OverviewSnapshot = {
           fillTime: "~2 min",
           valueThousands: 60,
           alsoNote: "Floral jars · 8 also have thin bullets",
+          outcome: "missed",
         },
       ],
       rows: [

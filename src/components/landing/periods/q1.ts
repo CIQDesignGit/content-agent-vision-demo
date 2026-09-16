@@ -165,6 +165,28 @@ export const q1Overview: OverviewSnapshot = {
       },
     ],
   },
+  retrospective: {
+    heading: "Q1 recap",
+    highlights: [
+      {
+        id: "q1-h1",
+        title: "Valentine's copy live on the top 24 SKUs",
+        amountLabel: "$30K",
+      },
+      {
+        id: "q1-h2",
+        title: "Unit price backfilled on 22 SKUs",
+        amountLabel: "$28K",
+      },
+    ],
+    lowlights: [
+      {
+        id: "q1-l1",
+        title: "72 Valentine's SKUs never published",
+        amountLabel: "$350K",
+      },
+    ],
+  },
   streams: [
     {
       id: "retail-readiness",
@@ -187,6 +209,7 @@ export const q1Overview: OverviewSnapshot = {
           valueThousands: 28,
           releasesThousands: 6,
           alsoNote: "18 also have thin Valentine's bullets",
+          outcome: "captured",
         },
         {
           id: "q1-rr-2",
@@ -277,6 +300,7 @@ export const q1Overview: OverviewSnapshot = {
           fillTime: "~3 min",
           valueThousands: 140,
           alsoNote: "Publish by Feb 1 · 22 also need gift notes in bullets",
+          outcome: "captured",
         },
         {
           id: "q1-sea-2",

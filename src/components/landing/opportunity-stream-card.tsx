@@ -11,12 +11,14 @@ interface OpportunityStreamCardProps {
   stream: OpportunityStream
   expanded: boolean
   onToggle: () => void
+  windowClosed?: boolean
 }
 
 export function OpportunityStreamCard({
   stream,
   expanded,
   onToggle,
+  windowClosed = false,
 }: OpportunityStreamCardProps) {
   const warning = stream.tone === "warning"
 
@@ -122,7 +124,10 @@ export function OpportunityStreamCard({
             }}
             className="overflow-hidden"
           >
-            <OpportunityStreamDetail stream={stream} />
+            <OpportunityStreamDetail
+              stream={stream}
+              windowClosed={windowClosed}
+            />
           </motion.div>
         ) : null}
       </AnimatePresence>

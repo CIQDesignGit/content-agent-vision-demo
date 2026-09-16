@@ -11,10 +11,14 @@ import { OpportunityStreamInsight } from "./opportunity-stream-insight"
 
 interface OpportunityStreamDetailProps {
   stream: OpportunityStream
+  windowClosed?: boolean
 }
 
 /** Expanded body shared by every opportunity-stream accordion. */
-export function OpportunityStreamDetail({ stream }: OpportunityStreamDetailProps) {
+export function OpportunityStreamDetail({
+  stream,
+  windowClosed = false,
+}: OpportunityStreamDetailProps) {
   const router = useRouter()
   const warning = stream.tone === "warning"
 
@@ -48,6 +52,7 @@ export function OpportunityStreamDetail({ stream }: OpportunityStreamDetailProps
             buckets={stream.buckets}
             valueKind={stream.valueKind}
             streamId={stream.id}
+            windowClosed={windowClosed}
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-slate-500">

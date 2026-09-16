@@ -59,8 +59,9 @@ export function applyCapture(
 }
 
 /**
- * Status bar / legend collapse Seasonal + PDP into one bucket.
- * A closed window labels that bucket expired. Capture still drains the source buckets; this is display-only.
+ * Status bar / legend collapse Seasonal + PDP into one bucket. Once the window
+ * has closed nothing is still open, so that bucket absorbs the already-expired
+ * one rather than showing two shades of the same thing.
  */
 export function displayStatusSegments(
   segments: OpportunityStatusSegment[],
@@ -72,15 +73,29 @@ export function displayStatusSegments(
     .filter((s) => s.id === "seasonal" || s.id === "pdp")
     .reduce((sum, s) => sum + s.millions, 0)
 
+  if (windowClosed) {
+    const closedMillions = openMillions + (expired?.millions ?? 0)
+    const closedBucket: OpportunityStatusSegment = {
+      id: "opportunity",
+      label: "Expired Opportunity",
+      millions: closedMillions,
+      amountLabel: formatMillions(closedMillions),
+      muted: true,
+      tooltip:
+        "Lift the agent found in this window that never went live. The window has closed, so it can no longer be captured.",
+    }
+    return [captured, closedBucket].filter(
+      (s): s is OpportunityStatusSegment => s != null,
+    )
+  }
+
   const opportunity: OpportunityStatusSegment = {
     id: "opportunity",
-    label: windowClosed ? "Expired Opportunity" : "Remaining Opportunity",
+    label: "Remaining Opportunity",
     millions: openMillions,
     amountLabel: formatMillions(openMillions),
-    muted: windowClosed,
-    tooltip: windowClosed
-      ? "This window has closed, so this lift can no longer be captured."
-      : "Uncaptured lift still available — seasonal windows and always-on PDP optimization.",
+    tooltip:
+      "Uncaptured lift still available — seasonal windows and always-on PDP optimization.",
   }
 
   return [captured, opportunity, expired].filter(

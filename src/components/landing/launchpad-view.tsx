@@ -8,6 +8,7 @@ import { overviewForRange } from "./overview-for-range"
 import { withOverviewFigures } from "./with-overview-figures"
 import { OpportunityMeter } from "./opportunity-meter"
 import { OpportunityStreams } from "./opportunity-streams"
+import { PeriodRetrospectiveCard } from "./period-retrospective-card"
 import { RevealGroup } from "./reveal"
 import { SecondaryStats } from "./secondary-stats"
 import { UpNextCard } from "./up-next-card"
@@ -70,12 +71,23 @@ export function LaunchpadView() {
               calculation={calculation}
               windowClosed={overview.windowClosed}
             />
-            <UpNextCard key={rangeId ?? "this-year"} data={overview.upNext} />
+            {overview.windowClosed && overview.retrospective ? (
+              <PeriodRetrospectiveCard
+                key={rangeId ?? "this-year"}
+                data={overview.retrospective}
+              />
+            ) : (
+              <UpNextCard key={rangeId ?? "this-year"} data={overview.upNext} />
+            )}
           </div>
           <SecondaryStats stats={overview.secondaryStats} />
         </RevealGroup>
 
-        <OpportunityStreams key={rangeId ?? "this-year"} streams={overview.streams} />
+        <OpportunityStreams
+          key={rangeId ?? "this-year"}
+          streams={overview.streams}
+          windowClosed={overview.windowClosed}
+        />
       </div>
     </MotionConfig>
   )
