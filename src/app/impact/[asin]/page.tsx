@@ -1,4 +1,3 @@
-import { DM_Sans } from "next/font/google"
 import { AppHeader } from "@/components/home/app-header"
 import { buildAsinDetail } from "@/components/impact/asin-detail/build-detail"
 import { AsinDetailView } from "@/components/impact/asin-detail/asin-detail-view"
@@ -12,8 +11,6 @@ import { LaunchpadTabs } from "@/components/landing/launchpad-tabs"
 import { PageShell } from "@/components/layout/page-shell"
 import type { AidDetail } from "@/components/impact/asin-detail/types"
 import type { ImpactRow } from "@/components/impact/types"
-
-const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"] })
 
 function findRow(asin: string): ImpactRow {
   const match = impactSummary.rows.find((row) => row.asin === asin)
@@ -53,7 +50,7 @@ export default async function AsinDetailPage({
       <div className="flex min-h-screen flex-col bg-canvas">
         <AppHeader />
         <LaunchpadTabs className="border-slate-200/70 bg-white/60 backdrop-blur-xl" />
-        <main className={`min-w-0 flex-1 ${dmSans.className}`}>
+        <main className="min-w-0 flex-1">
           <AsinDetailView detail={detail} />
         </main>
       </div>

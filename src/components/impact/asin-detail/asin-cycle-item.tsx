@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { ChevronRight, Info } from "lucide-react"
 import { formatCompactUsd } from "./format"
 import type { AidCycle } from "./types"
 
@@ -19,7 +20,9 @@ export function AsinCycleItem({ cycle, defaultOpen = false }: AsinCycleItemProps
       className={`aid-cycle ${cycle.status === "active" ? "aid-active" : "aid-ended"} ${open ? "aid-open" : ""}`}
     >
       <div className="aid-cycle-head" onClick={() => setOpen((v) => !v)}>
-        <span className="aid-cyc-chevron">›</span>
+        <span className="aid-cyc-chevron">
+          <ChevronRight aria-hidden />
+        </span>
         <div className="aid-cyc-when">
           <div className="aid-cyc-label">{cycle.label}</div>
           <div className="aid-cyc-period">{cycle.periodLabel}</div>
@@ -116,7 +119,7 @@ export function AsinCycleItem({ cycle, defaultOpen = false }: AsinCycleItemProps
               </div>
               {cycle.ab.footnote.variant === "method" ? (
                 <div className="aid-method-line aid-ab">
-                  <span>ⓘ</span>
+                  <Info aria-hidden />
                   <div>{cycle.ab.footnote.text}</div>
                 </div>
               ) : (
@@ -129,7 +132,7 @@ export function AsinCycleItem({ cycle, defaultOpen = false }: AsinCycleItemProps
         {cycle.model ? (
           <>
             <div className="aid-method-line aid-model" style={{ marginTop: 16 }}>
-              <span>ⓘ</span>
+              <Info aria-hidden />
               <div>{cycle.model.methodLineText}</div>
             </div>
 
@@ -228,7 +231,7 @@ export function AsinCycleItem({ cycle, defaultOpen = false }: AsinCycleItemProps
                 <span className="aid-v">{cycle.resumed.incrementalUnits.toLocaleString("en-US")}</span>
               </div>
               <div className="aid-method-line aid-resumed">
-                <span>ⓘ</span>
+                <Info aria-hidden />
                 <div>{cycle.resumed.methodLineText}</div>
               </div>
             </div>

@@ -160,7 +160,7 @@ export function AsinChart({ cycles }: AsinChartProps) {
       <div className="aid-section-head">
         <div>
           <div className="aid-section-title">Value accrued over time</div>
-          <div className="aid-section-note" style={{ marginTop: 3 }}>
+          <div className="aid-section-note" style={{ marginTop: 4 }}>
             Each band is one measurement cycle, A/B or modelled. The dollars a cycle earns while active stay in the
             total.
           </div>
@@ -209,16 +209,29 @@ export function AsinChart({ cycles }: AsinChartProps) {
 
         <svg viewBox="0 0 1080 284" width="100%" height={284} style={{ overflow: "visible" }}>
           <defs>
-            <pattern id="aid-model-hatch" width={7} height={7} patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
-              <rect width={7} height={7} fill="#1F22B2" fillOpacity={0.22} />
-              <line x1={0} y1={0} x2={0} y2={7} stroke="#1F22B2" strokeWidth={2.4} strokeOpacity={0.55} />
-            </pattern>
+            {/* One hatch per modelled cycle, so a modelled band keeps its own
+                colour instead of collapsing to a single shared blue. */}
+            {series
+              .filter((c) => c.method === "model")
+              .map((c) => (
+                <pattern
+                  key={c.key}
+                  id={`aid-model-hatch-${c.key}`}
+                  width={7}
+                  height={7}
+                  patternTransform="rotate(45)"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <rect width={7} height={7} fill={c.color} fillOpacity={0.16} />
+                  <line x1={0} y1={0} x2={0} y2={7} stroke={c.color} strokeWidth={2.4} strokeOpacity={0.5} />
+                </pattern>
+              ))}
           </defs>
 
           {gridVals.map((v) => (
             <g key={v}>
-              <line x1={X0} y1={yOf(v)} x2={X1} y2={yOf(v)} stroke="#F0EEF6" strokeWidth={1} />
-              <text x={X0 - 10} y={yOf(v) + 3.5} textAnchor="end" fontSize={10} fill="#9992A6" fontFamily="DM Sans">
+              <line x1={X0} y1={yOf(v)} x2={X1} y2={yOf(v)} stroke="#E2E8F0" strokeWidth={1} />
+              <text x={X0 - 10} y={yOf(v) + 3.5} textAnchor="end" fontSize={10} fontWeight={500} fill="#94A3B8">
                 {v === 0 ? "$0" : `$${Math.round(v / 1000)}K`}
               </text>
             </g>
@@ -231,10 +244,10 @@ export function AsinChart({ cycles }: AsinChartProps) {
                 let fillOpacity = isoKey === b.key ? 0.42 : 0.3
                 const strokeDash = b.method === "resumed" ? "5 4" : "0"
                 if (b.method === "model") {
-                  fill = "url(#aid-model-hatch)"
+                  fill = `url(#aid-model-hatch-${b.key})`
                   fillOpacity = 1
                 } else if (b.method === "resumed") {
-                  fillOpacity = isoKey === b.key ? 0.3 : 0.16
+                  fillOpacity = isoKey === b.key ? 0.34 : 0.22
                 }
                 return (
                   <path
@@ -253,8 +266,8 @@ export function AsinChart({ cycles }: AsinChartProps) {
               })
             : (
                 <>
-                  <path d={pathArea(new Array(domain.days).fill(0), totalLine)} fill="#C231FF" fillOpacity={0.16} stroke="none" />
-                  <path d={pathLine(totalLine)} fill="none" stroke="#C231FF" strokeWidth={2.6} strokeLinejoin="round" />
+                  <path d={pathArea(new Array(domain.days).fill(0), totalLine)} fill="#875BF7" fillOpacity={0.14} stroke="none" />
+                  <path d={pathLine(totalLine)} fill="none" stroke="#875BF7" strokeWidth={2.6} strokeLinejoin="round" />
                 </>
               )}
 
@@ -273,7 +286,7 @@ export function AsinChart({ cycles }: AsinChartProps) {
                   strokeDasharray={c.method === "resumed" ? "2 1.5" : undefined}
                 />
                 <line x1={cx} y1={Y1 - 4} x2={cx} y2={labelY + 9} stroke={c.color} strokeWidth={1} opacity={0.35} />
-                <text x={cx} y={labelY} textAnchor="middle" fontSize={9.5} fontWeight={600} fill="#6B6478" fontFamily="DM Sans">
+                <text x={cx} y={labelY} textAnchor="middle" fontSize={9.5} fontWeight={600} fill="#64748B">
                   {c.label}
                 </text>
               </g>
@@ -281,12 +294,12 @@ export function AsinChart({ cycles }: AsinChartProps) {
           })}
 
           {dateTicks.map((t) => (
-            <text key={t.i} x={xOf(t.i)} y={Y0 + 18} textAnchor="middle" fontSize={10} fill="#9992A6" fontFamily="DM Sans">
+            <text key={t.i} x={xOf(t.i)} y={Y0 + 18} textAnchor="middle" fontSize={10} fontWeight={500} fill="#94A3B8">
               {t.label}
             </text>
           ))}
 
-          {hover ? <line x1={hover.x} y1={Y1 - 6} x2={hover.x} y2={Y0} stroke="#210235" strokeWidth={1} opacity={0.25} /> : null}
+          {hover ? <line x1={hover.x} y1={Y1 - 6} x2={hover.x} y2={Y0} stroke="#0F172A" strokeWidth={1} opacity={0.22} /> : null}
 
           <rect
             x={X0}
@@ -314,13 +327,13 @@ export function AsinChart({ cycles }: AsinChartProps) {
           const tagText = c.method === "model" ? "MODEL" : c.method === "resumed" ? "RESUMED" : "A/B"
           const swatchStyle: CSSProperties =
             c.method === "model"
-              ? { background: "repeating-linear-gradient(115deg,#1F22B2 0 3px,#AEB9EF 3px 6px)", border: "none" }
+              ? { background: `repeating-linear-gradient(115deg,${c.color} 0 3px,#DBEAFE 3px 6px)`, border: "none" }
               : c.method === "resumed"
-                ? { background: "transparent", border: `1.5px dashed ${c.color}`, opacity: 0.75 }
+                ? { background: "transparent", border: `1.5px dashed ${c.color}`, opacity: 0.85 }
                 : { background: c.color, border: "none" }
           return (
             <span key={c.key} className={`aid-li ${cls}`} onClick={() => isolate(c.key)}>
-              <span className="aid-swatch" style={{ ...swatchStyle, height: 9, width: 14, borderRadius: 2, flex: "none" }} />
+              <span className="aid-swatch" style={swatchStyle} />
               <span className="aid-lbl">{c.label}</span>
               <span className="aid-lm">{tagText}</span>
               <span className="aid-amt">{money(c.lifetimeCents / 100)}</span>

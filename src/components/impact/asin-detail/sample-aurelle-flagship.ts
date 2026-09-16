@@ -52,7 +52,7 @@ export const AURELLE_FLAGSHIP_DETAIL: AidDetail = {
       status: "active",
       startDate: "2026-11-20",
       endDate: "2026-11-30",
-      color: "#5AAFFE",
+      color: "#875BF7",
       ab: {
         originalVisitors: 1850,
         originalRate: 6.87,
@@ -113,7 +113,7 @@ export const AURELLE_FLAGSHIP_DETAIL: AidDetail = {
       status: "ended",
       startDate: "2026-08-23",
       endDate: "2026-11-19",
-      color: "#7B3FE4",
+      color: "#A78BFA",
       resumed: {
         whyText:
           "When the Back-to-School window closed on 22 Aug, this ASIN reverted to the content that won the New Year 2026 cycle. No new test ran — there was nothing new to test, since the content is identical to what Amazon already measured. It resumed accruing at that test's proven +6.0% rate rather than starting over.",
@@ -142,7 +142,7 @@ export const AURELLE_FLAGSHIP_DETAIL: AidDetail = {
       status: "ended",
       startDate: "2026-07-26",
       endDate: "2026-08-22",
-      color: "#1F22B2",
+      color: "#1D4FD8",
       model: {
         methodLineText:
           "Measured by CommerceIQ's model — not A/B tested. This window fell inside your Back-to-School push, where there wasn't time to hold out a control group without losing the moment. Impact is measured against a pre-period baseline over a 28-day post window, adjusted for category demand and price.",
@@ -214,7 +214,7 @@ export const AURELLE_FLAGSHIP_DETAIL: AidDetail = {
       status: "ended",
       startDate: "2026-01-05",
       endDate: "2026-07-25",
-      color: "#7B3FE4",
+      color: "#0B93D5",
       ab: {
         originalVisitors: 12_300,
         originalRate: 6.04,

@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { CalendarDays, Download } from "lucide-react"
+import { ArrowLeft, CalendarDays, ChevronRight, Download } from "lucide-react"
 import { AsinChart } from "./asin-chart"
 import { AsinCycleItem } from "./asin-cycle-item"
 import { formatCompactUsd } from "./format"
@@ -31,8 +31,13 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
     <div className="aid-root">
       <div className="aid-topbar">
         <div className="aid-topbar-lead">
-          <button type="button" className="aid-back-btn" onClick={() => router.push("/impact")}>
-            ←
+          <button
+            type="button"
+            className="aid-back-btn"
+            aria-label="Back to Impact"
+            onClick={() => router.push("/impact")}
+          >
+            <ArrowLeft aria-hidden />
           </button>
           <div className="aid-crumbs">
             <span className="aid-link">Agents</span>
@@ -134,16 +139,31 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
         <AsinChart cycles={detail.cycles} />
 
         <div className="aid-section">
-          <div className="aid-section-head" style={{ marginBottom: 16 }}>
+          <div className="aid-section-head">
             <div className="aid-section-title">
               Test &amp; measurement history — {detail.cycles.length} {detail.cycles.length === 1 ? "cycle" : "cycles"}
             </div>
             <div className="aid-section-note">Lifetime earned per cycle, regardless of method</div>
           </div>
 
-          {detail.cycles.map((cycle) => (
-            <AsinCycleItem key={cycle.key} cycle={cycle} defaultOpen={cycle.status === "active"} />
-          ))}
+          <div className="aid-cycles">
+            <div className="aid-cyc-headrow" aria-hidden>
+              <span className="aid-cyc-chevron">
+                <ChevronRight aria-hidden />
+              </span>
+              <div className="aid-cyc-when">Cycle</div>
+              <div className="aid-cyc-field">Changed</div>
+              <div className="aid-cyc-method">Method</div>
+              <div className="aid-cyc-verdict">Result</div>
+              <div className="aid-cyc-rate">Rate</div>
+              <div className="aid-cyc-money">Earned</div>
+              <div className="aid-cyc-status">Status</div>
+            </div>
+
+            {detail.cycles.map((cycle) => (
+              <AsinCycleItem key={cycle.key} cycle={cycle} defaultOpen={cycle.status === "active"} />
+            ))}
+          </div>
         </div>
 
         <div className="aid-next-strip">
