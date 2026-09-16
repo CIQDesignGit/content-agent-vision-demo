@@ -602,7 +602,7 @@ export const opportunityStreams: OpportunityStream[] = [
         title: "Package dimensions are incorrect",
         skuCount: 88,
         fillTime: "~2 min",
-        blockedThousands: 150,
+        valueThousands: 150,
         releasesThousands: 24,
         alsoNote: "81 of these also have title gaps",
       },
@@ -611,7 +611,7 @@ export const opportunityStreams: OpportunityStream[] = [
         title: "Unit price missing",
         skuCount: 104,
         fillTime: "~1 min",
-        blockedThousands: 80,
+        valueThousands: 80,
         releasesThousands: 18,
         alsoNote: "96 also have thin bullets",
       },
@@ -620,7 +620,7 @@ export const opportunityStreams: OpportunityStream[] = [
         title: "Item weight missing",
         skuCount: 71,
         fillTime: "~1 min",
-        blockedThousands: 75,
+        valueThousands: 75,
         releasesThousands: 12,
         alsoNote: "64 also missing answer-ready specs",
       },
@@ -630,7 +630,7 @@ export const opportunityStreams: OpportunityStream[] = [
         skuCount: 42,
         fillMode: "input",
         fillTime: "~15 min",
-        blockedThousands: 58,
+        valueThousands: 58,
         releasesThousands: 9,
         alsoNote: "38 also have title gaps",
       },
@@ -639,7 +639,7 @@ export const opportunityStreams: OpportunityStream[] = [
         title: "Material composition missing",
         skuCount: 27,
         fillTime: "~1 min",
-        blockedThousands: 32,
+        valueThousands: 32,
         releasesThousands: 5,
         alsoNote: "24 also have thin bullets",
       },
@@ -648,7 +648,7 @@ export const opportunityStreams: OpportunityStream[] = [
         title: "Country of origin missing",
         skuCount: 10,
         fillTime: "~1 min",
-        blockedThousands: 15,
+        valueThousands: 15,
         releasesThousands: 2,
         alsoNote: "9 also have title gaps",
       },
@@ -698,6 +698,35 @@ export const opportunityStreams: OpportunityStream[] = [
     queueNote:
       "Cyber Monday ($860K) and Holiday Gift Guide ($510K) are queued next — they’ll open here once this window closes.",
     remainingLabel: "378 more SKUs worth $882K, ranked by impact.",
+    buckets: [
+      {
+        id: "sea-b1",
+        title: "Promo keywords missing in title",
+        skuCount: 142,
+        fillTime: "~3 min",
+        valueThousands: 420,
+        alsoNote:
+          "Publish by Sep 15 · 98 of these also need deal terms in bullets",
+      },
+      {
+        id: "sea-b2",
+        title: "Deal terms not in bullets",
+        skuCount: 118,
+        fillTime: "~2 min",
+        valueThousands: 380,
+        alsoNote:
+          "Black Friday window · 76 also missing bundle or gift-ready language",
+      },
+      {
+        id: "sea-b3",
+        title: "Bundle contents not described",
+        skuCount: 89,
+        fillTime: "~2 min",
+        valueThousands: 290,
+        alsoNote:
+          "5 days to act · 64 also lack event urgency in the title",
+      },
+    ],
     rows: [
       {
         id: "bf-1",
@@ -745,7 +774,7 @@ export const opportunityStreams: OpportunityStream[] = [
   },
   {
     id: "pdp",
-    title: "PDP optimization",
+    title: "Always on optimization",
     context: "Always on · SEO & AEO · No deadline",
     skuCount: 612,
     valueLabel: "$2.50M",
@@ -754,6 +783,35 @@ export const opportunityStreams: OpportunityStream[] = [
     insight:
       "**612 SKUs** are missing category-standard keywords, competitor-matched terms, or the structured specs that let an **AI answer engine** cite the listing directly.",
     remainingLabel: "607 more SKUs worth $2.20M, ranked by impact.",
+    buckets: [
+      {
+        id: "pdp-b1",
+        title: "Category keywords missing in copy",
+        skuCount: 248,
+        fillTime: "~2 min",
+        valueThousands: 980,
+        alsoNote:
+          "SEO lift · 186 also missing a key search term in the title",
+      },
+      {
+        id: "pdp-b2",
+        title: "Answer-ready specs for AI prompts",
+        skuCount: 196,
+        fillTime: "~3 min",
+        valueThousands: 820,
+        alsoNote:
+          "AEO lift · 142 also have thin bullets for comparison queries",
+      },
+      {
+        id: "pdp-b3",
+        title: "Competitor-matched terms absent",
+        skuCount: 168,
+        fillTime: "~2 min",
+        valueThousands: 700,
+        alsoNote:
+          "Always on · 119 overlap with missing category keywords above",
+      },
+    ],
     rows: [
       {
         id: "pdp-1",

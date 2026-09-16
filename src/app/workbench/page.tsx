@@ -54,7 +54,11 @@ import {
   PUBLISH_PHASE_DELAYS_MS,
 } from "@/lib/simulate-publish"
 import { resolveBulletSyncFootprint } from "@/lib/sync-footprint"
-import { buildMomentSkuQueue, type SkuQueueSource } from "@/lib/moment-sku-queue"
+import {
+  buildBucketSkuQueue,
+  buildMomentSkuQueue,
+  type SkuQueueSource,
+} from "@/lib/moment-sku-queue"
 import {
   MOCK_SKUS,
   buildInitialState,
@@ -79,6 +83,7 @@ function WorkbenchPage() {
   const searchParams = useSearchParams()
   const momentId = searchParams.get("moment")
   const streamId = searchParams.get("stream")
+  const bucketId = searchParams.get("bucket")
   // Both entry points land here: a moment from Up next, or an opportunity
   // stream from the landing accordion.
   const activeQueue = useMemo<SkuQueueSource | null>(() => {
@@ -96,16 +101,27 @@ function WorkbenchPage() {
     }
     return null
   }, [momentId, streamId])
+
+  const activeBucket = useMemo(() => {
+    if (!streamId || !bucketId) return null
+    const stream = opportunityStreams.find((s) => s.id === streamId)
+    return stream?.buckets?.find((b) => b.id === bucketId) ?? null
+  }, [streamId, bucketId])
   // Publishing a moment queue draws the overview meter's seasonal bucket down;
   // every other entry point comes out of always-on PDP optimization.
   const captureBucket: CaptureBucket = useMemo(
     () => (momentId || streamId === "seasonal" ? "seasonal" : "pdp"),
     [momentId, streamId],
   )
-  const catalogSkus = useMemo(
-    () => (activeQueue ? buildMomentSkuQueue(activeQueue) : MOCK_SKUS),
-    [activeQueue],
-  )
+  const catalogSkus = useMemo(() => {
+    if (activeQueue && activeBucket) {
+      return buildBucketSkuQueue(activeQueue, activeBucket)
+    }
+    if (activeQueue) {
+      return buildMomentSkuQueue(activeQueue)
+    }
+    return MOCK_SKUS
+  }, [activeQueue, activeBucket])
 
   const [selectedSkuId, setSelectedSkuId] = useState(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
   const [search, setSearch] = useState("")
@@ -1028,8 +1044,17 @@ function WorkbenchPage() {
       {activeQueue ? (
         <div className="shrink-0 border-b border-border-default bg-surface-muted px-6 py-2">
           <p className="type-caption text-fg-secondary">
-            {activeQueue.name} queue · {activeQueue.skuCount.toLocaleString()} SKUs need
-            review
+            {activeBucket ? (
+              <>
+                {activeQueue.name} · {activeBucket.title} ·{" "}
+                {activeBucket.skuCount.toLocaleString()} SKUs need review
+              </>
+            ) : (
+              <>
+                {activeQueue.name} queue · {activeQueue.skuCount.toLocaleString()}{" "}
+                SKUs need review
+              </>
+            )}
           </p>
         </div>
       ) : null}

@@ -1,23 +1,34 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+import { ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
-import type { OpportunityStreamBucket } from "./types"
+import type {
+  OpportunityStreamBucket,
+  OpportunityStreamKind,
+} from "./types"
 import { formatStreamValue } from "./opportunity-stream-format"
 
 interface OpportunityStreamBucketsProps {
   buckets: OpportunityStreamBucket[]
-  onOpen?: () => void
+  valueKind: "blocked" | "potential"
+  streamId: OpportunityStreamKind
 }
 
 export function OpportunityStreamBuckets({
   buckets,
-  onOpen,
+  valueKind,
+  streamId,
 }: OpportunityStreamBucketsProps) {
   return (
     <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        {buckets.map((bucket) => (
+      {buckets.map((bucket) => (
         <li key={bucket.id} className="min-w-0">
-          <BucketCard bucket={bucket} onOpen={onOpen} />
+          <BucketCard
+            bucket={bucket}
+            valueKind={valueKind}
+            streamId={streamId}
+          />
         </li>
       ))}
     </ul>
@@ -26,53 +37,114 @@ export function OpportunityStreamBuckets({
 
 function BucketCard({
   bucket,
-  onOpen,
+  valueKind,
+  streamId,
 }: {
   bucket: OpportunityStreamBucket
-  onOpen?: () => void
+  valueKind: "blocked" | "potential"
+  streamId: OpportunityStreamKind
 }) {
+  const router = useRouter()
   const needsInput = bucket.fillMode === "input"
+  const blocked = valueKind === "blocked"
+  const agentLabel =
+    streamId === "seasonal" ? "Agent drafts it" : "Agent fills it"
+
+  const valueLabel = blocked ? "Blocked" : "Potential lift"
+
+  function openBucketReview() {
+    const params = new URLSearchParams({ stream: streamId, bucket: bucket.id })
+    router.push(`/workbench?${params.toString()}`)
+  }
 
   return (
     <button
       type="button"
-      onClick={onOpen}
-      className="group flex h-full w-full flex-col rounded-2xl border border-warning-400 bg-white p-4 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+      onClick={openBucketReview}
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-slate-50 text-left transition-colors duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
     >
-      
-
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Blocked
-          </p>
-          <p className="mt-1 font-sans text-2xl font-semibold tabular-nums tracking-[-0.03em] text-slate-950">
-            {formatStreamValue(bucket.blockedThousands)}
-          </p>
-        </div>
-        <div className="flex flex-col items-end gap-1.5 pb-0.5">
-          <p className="text-xs font-medium tabular-nums text-slate-600">
-            {bucket.skuCount} SKUs
-          </p>
+      <div
+        className={cn(
+          "flex flex-1 flex-col p-5 transition-colors duration-200 ease-out",
+          blocked
+            ? "group-hover:bg-warning-50"
+            : "group-hover:bg-brand-25",
+        )}
+      >
+        <div className="flex w-full items-start justify-between gap-3">
           <span
             className={cn(
-              "rounded-full px-2 py-0.5 text-[11px] font-medium",
-              needsInput
+              "inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
+              blocked
                 ? "bg-warning-100 text-warning-700"
-                : "bg-success-100 text-success-700",
+                : "bg-brand-100 text-brand-700",
             )}
           >
-            {needsInput ? "Needs your input" : "Agent fills it"} · {bucket.fillTime}
+            <span
+              className={cn(
+                "size-1.5 rounded-full",
+                blocked ? "bg-warning-500" : "bg-brand-500",
+              )}
+              aria-hidden
+            />
+            {valueLabel}
+          </span>
+          <ArrowRight
+            className={cn(
+              "mt-0.5 size-4 shrink-0 text-slate-400 transition-[transform,color] duration-200 group-hover:translate-x-0.5",
+              blocked
+                ? "group-hover:text-warning-600"
+                : "group-hover:text-brand-600",
+            )}
+            aria-hidden
+          />
+        </div>
+
+        <p className="mt-3.5 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em] text-slate-950">
+          {formatStreamValue(bucket.valueThousands)}
+        </p>
+
+        <p className="mt-1.5 text-sm font-medium leading-snug text-slate-700">
+          {bucket.title}
+        </p>
+
+        <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
+          <span className="font-semibold tabular-nums text-slate-900">
+            {bucket.skuCount.toLocaleString()} SKUs
+          </span>
+          <span className="text-slate-300" aria-hidden>
+            ·
+          </span>
+          <span
+            className={cn(
+              "font-medium",
+              needsInput ? "text-warning-700" : "text-slate-500",
+            )}
+          >
+            {needsInput ? "Needs your input" : agentLabel} · {bucket.fillTime}
           </span>
         </div>
       </div>
 
-      <p className="-mx-4 mt-3 border-t border-slate-100 px-4 pt-3 text-xs leading-relaxed text-slate-500">
-        Also releases{" "}
-        <span className="font-semibold text-slate-700">
-          {formatStreamValue(bucket.releasesThousands)}
-        </span>{" "}
-        of queued content — {bucket.alsoNote}
+      <p
+        className={cn(
+          "bg-slate-100/70 px-5 py-3 text-xs leading-relaxed text-slate-500 transition-colors duration-200 ease-out",
+          blocked
+            ? "group-hover:bg-warning-100 group-hover:text-slate-600"
+            : "group-hover:bg-brand-50 group-hover:text-brand-950",
+        )}
+      >
+        {blocked && bucket.releasesThousands != null ? (
+          <>
+            Also releases{" "}
+            <span className="font-semibold text-slate-700">
+              {formatStreamValue(bucket.releasesThousands)}
+            </span>{" "}
+            of queued content — {bucket.alsoNote}
+          </>
+        ) : (
+          bucket.alsoNote
+        )}
       </p>
     </button>
   )

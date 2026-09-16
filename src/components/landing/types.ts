@@ -218,20 +218,21 @@ export interface OpportunityStreamSku {
   findingType?: StreamFindingType
 }
 
-/** Aggregated SKU job — one missing-attribute pattern across many SKUs. */
+/** Aggregated SKU job — one recurring gap pattern across many SKUs. */
 export interface OpportunityStreamBucket {
   id: string
+  /** Job pattern label (used in card footer when set). */
   title: string
   skuCount: number
   /** Who fills the gap. Input jobs ask the user; everything else the agent fills. */
   fillMode?: "agent" | "input"
   /** Fill time, e.g. "~2 min" or "~15 min" */
   fillTime: string
-  /** Blocked dollars in thousands */
-  blockedThousands: number
-  /** Queued content this job also unblocks, in thousands */
-  releasesThousands: number
-  /** Tail of the release line, after the em dash */
+  /** Dollar value in thousands — blocked for retail-readiness, potential lift for others */
+  valueThousands: number
+  /** Retail-readiness only — queued content this job also unblocks, in thousands */
+  releasesThousands?: number
+  /** Blocked: tail after em dash on release line. Potential: full footer line. */
   alsoNote: string
 }
 

@@ -1,6 +1,5 @@
 "use client"
 
-import { useRouter } from "next/navigation"
 import { AnimatePresence, motion } from "framer-motion"
 import { AlertTriangle, ChevronRight } from "lucide-react"
 import { cn } from "@ciq-dev/ciq-design-system"
@@ -19,16 +18,14 @@ export function OpportunityStreamCard({
   expanded,
   onToggle,
 }: OpportunityStreamCardProps) {
-  const router = useRouter()
   const warning = stream.tone === "warning"
 
   return (
     <div
       className={cn(
         "relative transition-colors duration-200",
-        warning && "bg-warning-50/50",
-        expanded && !warning && "bg-brand-25/40",
-        expanded && warning && "bg-warning-50/80",
+        !expanded && warning && "bg-warning-50/50",
+        expanded && "bg-white",
         !expanded && !warning && "hover:bg-brand-25/30",
       )}
     >
@@ -125,10 +122,7 @@ export function OpportunityStreamCard({
             }}
             className="overflow-hidden"
           >
-            <OpportunityStreamDetail
-              stream={stream}
-              onReview={() => router.push(`/workbench?stream=${stream.id}`)}
-            />
+            <OpportunityStreamDetail stream={stream} />
           </motion.div>
         ) : null}
       </AnimatePresence>
