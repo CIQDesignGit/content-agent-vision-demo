@@ -3,6 +3,7 @@
 import { useMemo } from "react"
 import { MotionConfig } from "framer-motion"
 import { applyCapture } from "./apply-capture"
+import { withOverviewFigures } from "./with-overview-figures"
 import {
   opportunityByStatus,
   opportunityCalculation,
@@ -37,6 +38,16 @@ export function LaunchpadView() {
     [capture.capturedUsd, capture.bucket],
   )
 
+  const calculation = useMemo(
+    () =>
+      withOverviewFigures(
+        opportunityCalculation,
+        meter.identifiedMillions,
+        meter.realizedMillions,
+      ),
+    [meter],
+  )
+
   return (
     // reducedMotion="user" drops every transform and layout animation for
     // anyone who has asked the OS to reduce motion — opacity still resolves,
@@ -57,7 +68,7 @@ export function LaunchpadView() {
               data={meter}
               statusSegments={statusSegments}
               capture={capture}
-              calculation={opportunityCalculation}
+              calculation={calculation}
             />
             <UpNextCard data={upNext} />
           </div>

@@ -1,7 +1,9 @@
 "use client"
 
+import { Suspense } from "react"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { DateRangePicker } from "./date-range-picker"
 
 export const LAUNCHPAD_TABS = [
   { id: "glance", label: "Overview", href: "/" },
@@ -30,6 +32,14 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
   const router = useRouter()
   const active = tabIdFromPath(pathname)
 
+  function openTab(href: string) {
+    const range = new URLSearchParams(window.location.search).get("range")
+    const params = new URLSearchParams()
+    if (range) params.set("range", range)
+    const query = params.toString()
+    router.push(query ? `${href}?${query}` : href)
+  }
+
   return (
     <nav
       aria-label="Launchpad sections"
@@ -45,7 +55,7 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
             key={item.id}
             type="button"
             onClick={() => {
-              if (pathname !== item.href) router.push(item.href)
+              if (pathname !== item.href) openTab(item.href)
             }}
             className={cn(
               "relative py-3 type-label transition-colors",
@@ -64,6 +74,9 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
           </button>
         )
       })}
+      <Suspense fallback={null}>
+        <DateRangePicker />
+      </Suspense>
     </nav>
   )
 }

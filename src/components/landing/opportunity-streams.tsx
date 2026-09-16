@@ -21,8 +21,8 @@ export function OpportunityStreams({ streams }: OpportunityStreamsProps) {
       as="section"
       aria-label="Opportunity streams"
       className="flex flex-col gap-5"
+      delay={0.12}
       stagger={0.1}
-      onScroll
     >
       <SectionHeading
         title="Opportunity streams"

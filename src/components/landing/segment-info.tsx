@@ -27,7 +27,9 @@ export function SegmentInfo({
       <button
         type="button"
         aria-label={`About ${label}`}
-        className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
+        className="relative z-20 shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
+        onClick={(e) => e.stopPropagation()}
+        onKeyDown={(e) => e.stopPropagation()}
       >
         <Info className="size-3.5" aria-hidden />
       </button>
@@ -40,7 +42,7 @@ export function SegmentInfo({
         <button
           type="button"
           aria-label={`About ${label}`}
-          className="shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
+          className="relative z-20 shrink-0 rounded-full text-slate-300 transition-colors hover:text-slate-500"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >

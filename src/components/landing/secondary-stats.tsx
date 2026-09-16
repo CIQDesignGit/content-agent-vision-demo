@@ -70,7 +70,7 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                   isExpanded
                     ? "rounded-t-2xl rounded-b-none border border-b-0 border-slate-200 ring-2 ring-brand-300 shadow-pane-hover"
                     : "rounded-2xl",
-                  stat.calculation && !isExpanded && "pr-9",
+                  stat.calculation && !isExpanded && "pr-5",
                   stat.accent && "border-l-[3px] border-l-brand-500",
                 )}
               >
@@ -95,7 +95,14 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                   ) : null}
                 </div>
                 {stat.footnote ? (
-                  <p className="mt-2.5 text-xs leading-snug text-slate-500">{stat.footnote}</p>
+                  <p
+                    className={cn(
+                      "mt-2.5 text-xs leading-snug text-slate-500",
+                      stat.calculation && !isExpanded && "pr-6",
+                    )}
+                  >
+                    {stat.footnote}
+                  </p>
                 ) : null}
                 {stat.calculation && !isExpanded ? (
                   <span

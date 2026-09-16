@@ -12,11 +12,14 @@ import type {
   ValuePillar,
 } from "./types"
 
+/** Customer contract window. Not a calendar year. */
+export const contractPeriodLabel = "Aug 2026 – Jul 2027"
+
 export const opportunityMeter: OpportunityMeterData = {
   /** Active opportunity only — forfeited / past windows are excluded. */
   identifiedMillions: 4.81,
   realizedMillions: 0.8,
-  yearLabel: "2026",
+  periodLabel: contractPeriodLabel,
 }
 
 export const opportunityByStatus: OpportunityStatusSegment[] = [
@@ -60,13 +63,13 @@ export const opportunityCalculation: OpportunityCalculationData = {
     id: "annualized",
     tabLabel: "Annualized opportunity",
     heading: "Annualized Opportunity Size",
-    periodBadge: "Aug 2026 – Jul 2027",
-    heroAmountLabel: "$3.95M",
+    periodBadge: contractPeriodLabel,
+    heroAmountLabel: "$4.81M",
     foundationalLiftLabel: "Foundational lift",
-    foundationalLiftAmount: "$1.96M",
+    foundationalLiftAmount: "$1.45M",
     seasonalLiftLabel: "Seasonal lift",
-    seasonalLiftAmount: "$1.99M",
-    liftBarPct: { foundational: 50, seasonal: 50 },
+    seasonalLiftAmount: "$3.36M",
+    liftBarPct: { foundational: 30, seasonal: 70 },
     kpis: [
       { value: "42", label: "SKUs A/B tested in pilot" },
       { value: "+3.0%", label: "Median sales lift" },
@@ -75,28 +78,28 @@ export const opportunityCalculation: OpportunityCalculationData = {
     calcRows: [
       {
         label: "Annual revenue, SKUs not yet optimized",
-        value: "$65.3M",
+        value: "$48.3M",
       },
       { label: "× pilot lift rate", value: "3.0%" },
       {
         label: "Foundational lift",
-        value: "$1.96M",
+        value: "$1.45M",
         variant: "subtotal",
       },
       {
         label: "Revenue in the 2 weeks after each of 17 events",
-        value: "$66.2M",
+        value: "$112M",
       },
       { label: "× pilot lift rate", value: "3.0%" },
       {
         label: "Seasonal lift",
-        value: "$1.99M",
+        value: "$3.36M",
         variant: "subtotal",
       },
     ],
     calcSummary: {
       label: "Opportunity ahead",
-      value: "$3.95M",
+      value: "$4.81M",
       variant: "total",
     },
     methodology:

@@ -1,16 +1,90 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
-import { swapTransition } from "@/lib/motion"
 import type {
   OpportunityCalculationData,
+  OpportunityCalculationTabData,
   OpportunityCalculationTabId,
 } from "./types"
 import { OpportunityCalculationTabPane } from "./opportunity-calculation-tab-pane"
 
 const TAB_ORDER: OpportunityCalculationTabId[] = ["annualized", "value-realized"]
+
+function CalculationFigure({
+  tab,
+  selected,
+  onSelect,
+  className,
+}: {
+  tab: OpportunityCalculationTabData
+  selected: boolean
+  onSelect: () => void
+  className?: string
+}) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={selected}
+      onClick={onSelect}
+      className={cn(
+        "flex min-w-0 cursor-pointer flex-col gap-1 py-1 text-left",
+        !selected && "group/figure",
+        className,
+      )}
+    >
+      <span className="flex items-baseline justify-between gap-3">
+        <span
+          className={cn(
+            "min-w-0 text-xs font-medium",
+            selected
+              ? "text-slate-700"
+              : "text-slate-500 underline decoration-transparent underline-offset-4 group-hover/figure:text-slate-800 group-hover/figure:decoration-slate-300",
+          )}
+        >
+          {tab.tabLabel}
+        </span>
+        <span className="shrink-0 text-[11px] tabular-nums text-slate-400">
+          {tab.periodBadge}
+        </span>
+      </span>
+      <span className="flex items-baseline gap-2">
+        <span
+          className={cn(
+            "font-sans text-3xl font-semibold tracking-tight tabular-nums",
+            selected
+              ? "text-brand-950"
+              : "text-slate-500 group-hover/figure:text-slate-900",
+          )}
+        >
+          {tab.heroAmountLabel}
+        </span>
+        {tab.trendBadge ? (
+          <span
+            className={cn(
+              "text-[11px] font-semibold tabular-nums",
+              selected && tab.trendBadge.positive
+                ? "text-success-700"
+                : "text-slate-400",
+            )}
+          >
+            {tab.trendBadge.label}
+          </span>
+        ) : null}
+      </span>
+      <span
+        className={cn(
+          "h-0.5 w-8 rounded-full",
+          selected
+            ? "bg-slate-900"
+            : "bg-transparent group-hover/figure:bg-slate-300",
+        )}
+        aria-hidden
+      />
+    </button>
+  )
+}
 
 interface OpportunityCalculationPanelProps {
   data: OpportunityCalculationData
@@ -28,39 +102,21 @@ export function OpportunityCalculationPanel({
   } as const
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-2.5 px-6 pb-5 pt-5">
+    <div className="flex w-full min-w-0 flex-col gap-4 px-6 pt-14 pb-6">
       <div
         role="tablist"
         aria-label="Opportunity calculation views"
-        className="inline-flex w-fit max-w-full rounded-lg bg-slate-100/80 p-0.5 ring-1 ring-slate-900/5"
+        className="grid grid-cols-1 sm:grid-cols-2 sm:divide-x sm:divide-slate-200"
       >
-        {TAB_ORDER.map((id) => {
-          const tab = tabById[id]
-          const selected = activeTab === id
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              onClick={() => setActiveTab(id)}
-              className={cn(
-                "relative whitespace-nowrap rounded-md px-3 py-1 text-[11px] font-semibold leading-tight transition-colors sm:text-xs",
-                selected ? "text-slate-900" : "text-slate-500 hover:text-slate-700",
-              )}
-            >
-              {selected ? (
-                <motion.span
-                  layoutId="opportunity-calc-tab-thumb"
-                  aria-hidden
-                  className="absolute inset-0 rounded-md bg-white shadow-sm ring-1 ring-slate-900/5"
-                  transition={swapTransition}
-                />
-              ) : null}
-              <span className="relative">{tab.tabLabel}</span>
-            </button>
-          )
-        })}
+        {TAB_ORDER.map((id, index) => (
+          <CalculationFigure
+            key={id}
+            tab={tabById[id]}
+            selected={activeTab === id}
+            onSelect={() => setActiveTab(id)}
+            className={index === 0 ? "sm:pr-6" : "sm:pl-6"}
+          />
+        ))}
       </div>
 
       <div role="tabpanel" className="grid min-w-0">

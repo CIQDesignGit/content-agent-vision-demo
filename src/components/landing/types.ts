@@ -14,8 +14,8 @@ export type OpportunityViewMode = "status" | "driver"
 export interface OpportunityMeterData {
   identifiedMillions: number
   realizedMillions: number
-  /** Year / period shown in the overview headline */
-  yearLabel: string
+  /** Contract window for this total — not necessarily a calendar year */
+  periodLabel: string
 }
 
 export type OpportunityCalculationTabId = "annualized" | "value-realized"
