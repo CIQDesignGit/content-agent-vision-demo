@@ -10,9 +10,10 @@ import {
   buildImpactRowsFromEvent,
 } from "./build-impact-rows"
 import { impactSummary } from "./data"
+import { ImpactBreakdown } from "./impact-breakdown"
 import { ImpactContextTitle } from "./impact-context-title"
 import { ImpactMetricCard } from "./impact-metric-cards"
-import { ImpactTable } from "./impact-table"
+import type { ImpactMode } from "./impact-mode-toggle"
 import { ImpactToolbar } from "./impact-toolbar"
 import type { ImpactMetricCard as ImpactMetricCardData, ImpactRow } from "./types"
 
@@ -52,7 +53,9 @@ function buildScopedMetrics(
 export function ImpactView() {
   const searchParams = useSearchParams()
   const momentId = searchParams.get("moment")
+  const batchParam = searchParams.get("batch")
   const [selectedBrand, setSelectedBrand] = useState("All Brands")
+  const [impactMode, setImpactMode] = useState<ImpactMode>("ab-test")
   const [brandMomentId, setBrandMomentId] = useState(momentId)
   if (momentId !== brandMomentId) {
     setBrandMomentId(momentId)
@@ -71,10 +74,16 @@ export function ImpactView() {
 
   const sourceRows = contextRows ?? impactSummary.rows
 
+  // Metrics stay scoped to brand only — the A/B-test/ASIN toggle affects just the table below.
   const filteredRows = useMemo(() => {
     if (selectedBrand === "All Brands") return sourceRows
     return sourceRows.filter((row) => row.brand === selectedBrand)
   }, [selectedBrand, sourceRows])
+
+  const tableRows = useMemo(() => {
+    if (impactMode === "asin") return filteredRows
+    return filteredRows.filter((row) => row.attributionApproach === "A/B test")
+  }, [filteredRows, impactMode])
 
   const metrics = useMemo(() => {
     if (!activeEvent && filteredRows.length === impactSummary.rows.length) {
@@ -146,11 +155,13 @@ export function ImpactView() {
             ))}
           </RevealGroup>
 
-          <RevealGroup delay={tableRevealDelay} stagger={0.06} className="flex flex-col">
-            <RevealItem>
-              <ImpactTable rows={filteredRows} />
-            </RevealItem>
-          </RevealGroup>
+          <ImpactBreakdown
+            rows={tableRows}
+            mode={impactMode}
+            onModeChange={setImpactMode}
+            initialOpenBatchId={batchParam}
+            baseDelay={tableRevealDelay}
+          />
         </div>
       </div>
     </MotionConfig>

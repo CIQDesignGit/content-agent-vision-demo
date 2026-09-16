@@ -82,15 +82,6 @@ export function ImpactTable({ rows }: ImpactTableProps) {
 
   return (
     <div className="overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md">
-      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-6 py-4">
-        <h2 className="font-sans text-base font-semibold tracking-tight text-slate-900">
-          Impact by SKU
-        </h2>
-        <p className="text-xs text-slate-400">
-          Ranked by attributed impact over the selected period
-        </p>
-      </div>
-
       <div className="overflow-x-auto">
         <table className="w-full min-w-[880px] border-collapse text-left">
           <thead>

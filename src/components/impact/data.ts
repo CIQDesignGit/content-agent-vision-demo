@@ -1,8 +1,9 @@
 import type { ImpactSummary } from "./types"
 
 /**
- * This-year captured opportunity from the launchpad ($800K, 128 SKUs live).
- * The table is a ranked sample of 6 SKUs — row impacts do not sum to $800K.
+ * All 4 hero metrics are derived from the 6 ASINs in the table below, so the
+ * "By ASIN" breakdown and the headline numbers always tell the same story —
+ * no larger, un-reconciled catalog-wide total sitting above the table.
  *
  * All rows belong to Aurelle — a trending, Gen Z-focused brand of cozy,
  * eco-friendly candles and home fragrance.
@@ -14,15 +15,15 @@ export const impactSummary: ImpactSummary = {
     {
       id: "incremental-sales-lift",
       label: "Incremental sales lift",
-      value: "$800K",
+      value: "$272K",
       valueTone: "success",
-      support: "128 SKUs live · table is a 6-SKU sample, not this total",
+      support: "Sum of all 6 ASINs shown below",
     },
     {
       id: "conversion-rate-lift",
       label: "Conversion rate lift",
       value: "3.0%",
-      support: "Median pilot lift, 42 SKUs",
+      support: "Median pilot lift, these 6 ASINs",
     },
     {
       id: "ai-visibility-lift",
@@ -33,8 +34,8 @@ export const impactSummary: ImpactSummary = {
     {
       id: "time-saved",
       label: "Time saved",
-      value: "61.9 hrs",
-      support: "128 SKUs · 29 min saved each",
+      value: "2.9 hrs",
+      support: "6 ASINs · 29 min saved each",
     },
   ],
   rows: [

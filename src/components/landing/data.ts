@@ -103,6 +103,10 @@ export const opportunityCalculation: OpportunityCalculationData = {
       value: "$4.81M",
       variant: "total",
     },
+    cta: {
+      label: "View pilot results",
+      href: "/impact?batch=b1",
+    },
     methodology:
       "Revenue figures come from your Vendor Central history, pulled at onboarding. As new tests run the rate updates, and every change keeps a dated audit trail.",
   },
