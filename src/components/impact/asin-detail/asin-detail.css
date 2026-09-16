@@ -76,13 +76,9 @@
 .aid-back-btn:hover{color:var(--aid-brand-700);box-shadow:0 0 0 1px var(--aid-brand-200),var(--aid-pane-hover);}
 .aid-back-btn svg{width:15px;height:15px;}
 
-.aid-head-right{display:flex;gap:8px;align-items:center;flex:none;}
-.aid-ctrl{display:inline-flex;align-items:center;gap:6px;background:var(--aid-card);border:none;box-shadow:var(--aid-ring),var(--aid-pane);border-radius:9999px;padding:6px 13px;font-size:12px;font-weight:500;color:var(--aid-ink);cursor:pointer;white-space:nowrap;transition:box-shadow .15s,color .15s;}
-.aid-ctrl:hover{box-shadow:0 0 0 1px var(--aid-brand-200),var(--aid-pane-hover);}
-.aid-ctrl svg{width:14px;height:14px;color:var(--aid-muted-2);}
-.aid-ctrl-caret{color:var(--aid-muted-2);}
-.aid-ctrl.text-brand-800{background:var(--aid-brand-25);color:var(--aid-brand-700);box-shadow:0 0 0 1px var(--aid-brand-200),var(--aid-pane);}
-.aid-ctrl.text-brand-800 svg{color:var(--aid-brand-500);}
+/* The date range and Export controls are the app's shared components, so they
+   opt out of the `aid-` type scale and inherit the global button styling. */
+.aid-head-right{display:flex;gap:10px;align-items:center;flex:none;font-size:14px;}
 
 /* ── Page frame ──────────────────────────────────────────────────────── */
 .aid-page{max-width:1200px;margin:0 auto;padding:24px 24px 72px;display:flex;flex-direction:column;gap:16px;}

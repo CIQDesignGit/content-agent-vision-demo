@@ -3,7 +3,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, CalendarDays, ChevronRight, Download } from "lucide-react"
+import { ArrowLeft, ChevronRight, Download } from "lucide-react"
+import { Button } from "@ciq-dev/ciq-design-system"
 import { AsinChart } from "./asin-chart"
 import { AsinCycleItem } from "./asin-cycle-item"
 import { formatCompactUsd } from "./format"
@@ -54,14 +55,14 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
           </div>
         </div>
         <div className="aid-head-right">
-          <div className="aid-ctrl">
-            <CalendarDays aria-hidden />
-            {detail.dateRangeLabel} <span className="aid-ctrl-caret">▾</span>
-          </div>
-          <div className="aid-ctrl border-brand-800 bg-transparent text-brand-800">
-            <Download aria-hidden />
+          <Button
+            type="button"
+            variant="outline"
+            className="h-8 gap-1.5 rounded-lg border-slate-200 bg-white px-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            <Download className="text-slate-400" aria-hidden />
             Export
-          </div>
+          </Button>
         </div>
       </div>
 
