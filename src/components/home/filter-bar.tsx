@@ -11,14 +11,14 @@ import { COLUMNS, ColumnFilterPanel, type ColumnFilters } from "./column-filter-
 
 const TASK_TYPE_FILTERS = [
   {
-    key: "compliance",
-    label: "Compliance",
-    description: "Checks content against retailer policy requirements",
-  },
-  {
     key: "compliance-seo-aeo",
     label: "PDP Optimization",
     description: "Ensures content is compliant, SEO & AEO optimized",
+  },
+  {
+    key: "compliance",
+    label: "Compliance",
+    description: "Checks content against retailer policy requirements",
   },
 ] as const
 

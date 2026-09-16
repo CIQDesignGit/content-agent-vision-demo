@@ -47,18 +47,14 @@ export function OpportunityMeterOverview({
           Total opportunity the agent has found
         </p>
 
-        <p className="flex items-start font-sans font-semibold leading-none text-brand-950">
-          <span className="mt-1 -mr-1 text-3xl sm:mt-1.5 sm:text-4xl">
-            $
-          </span>
+        <p className="flex items-baseline font-sans font-semibold leading-none text-brand-950">
+          <span className="text-6xl tracking-[-0.045em] sm:text-7xl">$</span>
           <AnimatedFigure
             value={data.identifiedMillions}
             delay={0.3}
             className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
           />
-          <span className="mt-1 ml-1 text-3xl sm:mt-1.5 sm:text-4xl">
-            M
-          </span>
+          <span className="text-6xl tracking-[-0.045em] sm:text-7xl">M</span>
         </p>
 
         <p className="text-sm leading-relaxed text-slate-500">

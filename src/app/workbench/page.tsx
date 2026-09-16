@@ -68,6 +68,7 @@ import {
   passesSearch,
 } from "@/components/home/data"
 import {
+  PDP_OPTIMIZATION_TASK,
   showsOptimizationScore,
   type ActionStatus,
   type BulletRecommendation,
@@ -126,7 +127,7 @@ function WorkbenchPage() {
 
   const [selectedSkuId, setSelectedSkuId] = useState(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
   const [search, setSearch] = useState("")
-  const [filter, setFilter] = useState("compliance")
+  const [filter, setFilter] = useState(PDP_OPTIMIZATION_TASK)
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [contentState, setContentState] = useState<ContentState>(() =>
