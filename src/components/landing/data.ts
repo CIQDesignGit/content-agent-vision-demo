@@ -38,7 +38,7 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
     amountLabel: "$3.65M",
     millions: 3.65,
     tooltip:
-      "Opportunity tied to an upcoming event window. Publish by the date to capture the lift before the moment passes.",
+      "Open windows: Black Friday $1.24M, Cyber Monday $860K, Holiday Gift Guide $510K, and Winter peak $1.04M. Together $3.65M.",
   },
   {
     id: "pdp",
@@ -46,7 +46,7 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
     amountLabel: "$360K",
     millions: 0.36,
     tooltip:
-      "Always-on SEO and AEO lifts with no hard event deadline. Still available to capture through review and publish.",
+      "The $360K slice of the $2.50M always-on stream that can be captured now. A subset, not a second total.",
   },
   {
     id: "expired",
@@ -55,7 +55,7 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
     millions: 0.89,
     muted: true,
     tooltip:
-      "Past windows that closed before publish — excluded from your active opportunity total.",
+      "Prime Day, Jul 12. $890K and 210 deal SKUs closed before publish — excluded from the active total.",
   },
 ]
 
@@ -110,7 +110,7 @@ export const opportunityCalculation: OpportunityCalculationData = {
     id: "value-realized",
     tabLabel: "Value Realized",
     heading: "Value realized",
-    periodBadge: "Aug 2026 – Sep 2026",
+    periodBadge: "Jan 1 – Dec 31, 2026",
     trendBadge: { label: "+$340K this month", positive: true },
     heroAmountLabel: "$800K",
     heroBordered: true,
@@ -122,7 +122,7 @@ export const opportunityCalculation: OpportunityCalculationData = {
     kpis: [
       { value: "128", label: "SKUs live" },
       { value: "3.1 days", label: "Median approve-to-live" },
-      { value: "5 mo", label: "Accruing since Apr" },
+      { value: "2 mo", label: "Accruing since Aug" },
     ],
     calcRows: [],
     bodyCopy:
@@ -133,9 +133,9 @@ export const opportunityCalculation: OpportunityCalculationData = {
     },
     unrealized: {
       title: "Identified but never published",
-      amountLabel: "$260K",
+      amountLabel: "$890K",
       description:
-        "Prime Day, Jul 2026. 210 deal SKUs still had gaps when syndication cut off. Not part of the total above and not recoverable — shown so the gap between what was found and what shipped stays visible.",
+        "Prime Day, Jul 12. 210 deal SKUs still had gaps when syndication cut off. Not part of the total above and not recoverable — shown so the gap between what was found and what shipped stays visible.",
     },
     methodology: "",
   },
@@ -221,7 +221,7 @@ export const upNext: UpNextData = {
 export const lostToInaction: LostToInactionData = {
   amountLabel: "$890K",
   eventName: "Prime Day",
-  eventDateLabel: "Jul 2025",
+  eventDateLabel: "Jul 12",
   support:
     "210 deal SKUs still had title and bullet gaps when the event window closed.",
 }
@@ -231,36 +231,25 @@ export const valuePillars: ValuePillar[] = [
     id: "foundational",
     kind: "foundational",
     title: "Foundational lift",
-    displayValue: "$1.1M",
+    displayValue: "$1.45M",
     tag: { label: "one-time", tone: "neutral" },
     support: "Title and bullet coverage gaps closed across the core catalog.",
     confidence: "high",
     methodology:
-      "Based on a 20-SKU pilot, 2.1% conversion lift, scaled to 1,200 SKUs.",
+      "Annual revenue on SKUs not yet optimized ($48.3M) × 3.0% pilot lift from 42 SKUs.",
     benchmark: "1.4× category median title completeness",
   },
   {
     id: "seasonal",
     kind: "seasonal",
     title: "Seasonal lift",
-    displayValue: "$2.31M",
+    displayValue: "$3.36M",
     tag: { label: "recurring", tone: "recurring" },
     support: "Event-tied copy ready for Black Friday through gift guides.",
     confidence: "med",
     methodology:
-      "Modeled from last year’s seasonal attach rate on 340 event SKUs.",
+      "Revenue in the 2 weeks after each of 17 events ($112M) × 3.0% pilot lift.",
     benchmark: "vs. prior Black Friday content window",
-  },
-  {
-    id: "aeo",
-    kind: "aeo",
-    title: "AI driven sales",
-    displayValue: "$1.4M",
-    support: "Share of voice in AI answers tracking up over the last 10 weeks.",
-    confidence: "med",
-    methodology:
-      "Attributed share-of-voice gains across tracked prompts × category AOV.",
-    sparkline: [18, 19, 21, 20, 23, 24, 26, 25, 28, 31],
   },
 ]
 
@@ -502,6 +491,37 @@ export const calendarEvents: CalendarEvent[] = [
     remainingValueLabel: "$416K",
   },
   {
+    id: "wp",
+    name: "Winter peak",
+    valueLabel: "$1.04M",
+    skuCount: 296,
+    status: "open",
+    dateLabel: "Nov 20",
+    daysToAct: 71,
+    insightSummary:
+      "296 SKUs still need winter-gifting language after the gift-guide window. This is the rest of the seasonal segment — with Black Friday, Cyber Monday, and Holiday Gift Guide it makes $3.65M.",
+    dimensions: [
+      {
+        kind: "seasonal",
+        label: "Seasonal lift",
+        potential: "$620K",
+        potentialMillions: 0.62,
+      },
+      {
+        kind: "aeo",
+        label: "AI visibility",
+        potential: "$260K",
+        potentialMillions: 0.26,
+      },
+      {
+        kind: "foundational",
+        label: "Foundational lift",
+        potential: "$160K",
+        potentialMillions: 0.16,
+      },
+    ],
+  },
+  {
     id: "pd",
     name: "Prime Day",
     valueLabel: "$890K",
@@ -513,11 +533,11 @@ export const calendarEvents: CalendarEvent[] = [
     id: "bts",
     name: "Back to School",
     valueLabel: "$640K",
-    skuCount: 128,
+    skuCount: 84,
     status: "captured",
     dateLabel: "Aug 4",
     insightSummary:
-      "You published fixes on 128 SKUs before the window closed — titles, bullets, and AEO attributes for the highest-impact assortment.",
+      "You published fixes on 84 of the 128 SKUs now live. This event is $640K of the $800K captured; the other $160K is always-on publishes, not this window.",
     dimensions: [
       {
         kind: "seasonal",
@@ -592,14 +612,14 @@ export const opportunityStreams: OpportunityStream[] = [
     id: "retail-readiness",
     title: "Retail-readiness",
     context: "of catalog is retail-ready",
-    skuCount: 342,
-    valueLabel: "$410K",
+    skuCount: 254,
+    valueLabel: "$260K",
     valueKind: "blocked",
     tone: "warning",
     readyPercent: 94,
     insight:
-      "**342 SKUs** are missing required **Amazon attributes** — item weight, safety details, technical specs. Amazon won’t accept a content push until these are backfilled, so **$410K** of **PDP fixes** already queued are stuck behind this, not in addition to it.",
-    remainingLabel: "338 more SKUs, $389K blocked in total.",
+      "**254 SKUs** are missing required **Amazon attributes** — item weight, safety details, technical specs. Amazon won’t accept a content push until these are backfilled, so **$260K** of the **$360K** PDP segment is stuck behind this, not in addition to it.",
+    remainingLabel: "250 more SKUs, $239K blocked in total.",
     buckets: [
       {
         id: "rr-b2",
@@ -691,7 +711,7 @@ export const opportunityStreams: OpportunityStream[] = [
     insight:
       "**384 SKUs** are missing event-ready titles, deal framing, or bundle language for **Black Friday**. I ranked them by revenue each fix is worth, so the **top 20** carry about **a third of the total**.",
     queueNote:
-      "Cyber Monday ($860K) and Holiday Gift Guide ($510K) are queued next — they’ll open here once this window closes.",
+      "Cyber Monday ($860K), Holiday Gift Guide ($510K), and Winter peak ($1.04M) are queued next. With this window they are the $3.65M seasonal segment.",
     remainingLabel: "378 more SKUs worth $882K, ranked by impact.",
     buckets: [
       {
@@ -795,7 +815,7 @@ export const opportunityStreams: OpportunityStream[] = [
     valueKind: "potential",
     tone: "default",
     insight:
-      "**612 SKUs** are missing category-standard keywords, competitor-matched terms, or the structured specs that let an **AI answer engine** cite the listing directly.",
+      "**612 SKUs** are missing category-standard keywords, competitor-matched terms, or the structured specs that let an **AI answer engine** cite the listing directly. The meter’s **$360K** PDP segment is the slice of this **$2.50M** ready to capture now — not a second total.",
     remainingLabel: "607 more SKUs worth $2.20M, ranked by impact.",
     buckets: [
       {
@@ -805,7 +825,7 @@ export const opportunityStreams: OpportunityStream[] = [
         fillTime: "~2 min",
         valueThousands: 980,
         alsoNote:
-          "SEO lift · 186 also missing a key search term in the title",
+          "SEO lift · 119 also missing a key search term in the title",
       },
       {
         id: "pdp-b2",
@@ -814,7 +834,7 @@ export const opportunityStreams: OpportunityStream[] = [
         fillTime: "~3 min",
         valueThousands: 820,
         alsoNote:
-          "AEO lift · 142 also have thin bullets for comparison queries",
+          "AEO lift · 88 also have thin bullets for comparison queries",
       },
       {
         id: "pdp-b3",
@@ -836,8 +856,8 @@ export const opportunityStreams: OpportunityStream[] = [
       },
       {
         id: "pdp-b5",
-        title: "Blocked — attributes missing first",
-        skuCount: 74,
+        title: "Blocked — catalog attributes missing first",
+        skuCount: 41,
         fillMode: "input",
         fillTime: "~15 min",
         valueThousands: 150,

@@ -1,7 +1,7 @@
 import type { CaptureBucket } from "@/lib/captured-opportunity"
 import type { OpportunityStatusSegment } from "./types"
 
-/** `$1.84M` above a million, `$360K` below it — matches the seeded labels. */
+/** `$4.81M` at or above a million, `$360K` below it — matches the seeded labels. */
 export function formatMillions(millions: number): string {
   if (millions >= 1) return `$${millions.toFixed(2)}M`
   return `$${Math.round(millions * 1000)}K`

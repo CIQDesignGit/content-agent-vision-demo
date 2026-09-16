@@ -230,12 +230,12 @@ export function buildAsinDetail(row: ImpactRow): AidDetail {
     category: row.category,
     thumbnailEmoji: categoryEmoji(row.category),
     thumbnailUrl: row.thumbnailUrl.startsWith("/") ? row.thumbnailUrl : undefined,
-    dateRangeLabel: "Jan 1, 2025 – Sep 9, 2026",
+    dateRangeLabel: "Jan 1 – Dec 31, 2026",
     currentMethod: method,
     allTimeSalesCents: totalCents,
     inPeriodSalesLine: [
       { text: formatUsd(totalCents), bold: true },
-      { text: " in Jan 1, 2025 – Sep 9, 2026" },
+      { text: " in Jan 1 – Dec 31, 2026" },
     ],
     dailyRunRateLabel: `↑ earning ~$${runRatePerDay.toLocaleString("en-US")}/day at current sales`,
     cyclesFootnote: `Since ${formatShort(changedOn)} · 1 ${method === "ab" ? "A/B test" : "modelled cycle"}`,
@@ -253,7 +253,7 @@ export function buildAsinDetail(row: ImpactRow): AidDetail {
     allTimeUnits: incrementalUnits,
     inPeriodUnitsLine: [
       { text: incrementalUnits.toLocaleString("en-US"), bold: true },
-      { text: " in Jan 1, 2025 – Sep 9, 2026" },
+      { text: " in Jan 1 – Dec 31, 2026" },
     ],
     cycles: [cycle],
     nextQueuedText: `A ${categorySegment.toLowerCase()} content refresh is in the candidate queue awaiting batch sign-off. Nothing changes on this ASIN until it ships and concludes.`,

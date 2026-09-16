@@ -1,31 +1,28 @@
 import type { ImpactSummary } from "./types"
 
 /**
- * Period slice of launchpad “captured” opportunity ($1.84M YTD).
- * Row impacts are kept in a similar $19K–$80K range so the table reads as a
- * coherent ranked list rather than one outlier next to much smaller values.
+ * This-year captured opportunity from the launchpad ($800K, 128 SKUs live).
+ * The table is a ranked sample of 6 SKUs — row impacts do not sum to $800K.
  *
  * All rows belong to Aurelle — a trending, Gen Z-focused brand of cozy,
  * eco-friendly candles and home fragrance.
  */
 export const impactSummary: ImpactSummary = {
-  dateRangeLabel: "Jan 1, 2025 - Sep 9, 2026",
+  dateRangeLabel: "Jan 1 – Dec 31, 2026",
   brands: ["All Brands", "Aurelle"],
   metrics: [
     {
       id: "incremental-sales-lift",
       label: "Incremental sales lift",
-      value: "$76,394",
+      value: "$800K",
       valueTone: "success",
-      supportLead: "-1.5%",
-      supportLeadTone: "down",
-      support: "vs prior period",
+      support: "128 SKUs live · table is a 6-SKU sample, not this total",
     },
     {
       id: "conversion-rate-lift",
       label: "Conversion rate lift",
-      value: "2.1%",
-      support: "vs. incumbent content",
+      value: "3.0%",
+      support: "Median pilot lift, 42 SKUs",
     },
     {
       id: "ai-visibility-lift",
@@ -36,8 +33,8 @@ export const impactSummary: ImpactSummary = {
     {
       id: "time-saved",
       label: "Time saved",
-      value: "132 hrs",
-      support: "vs. manual Vendor Central exports",
+      value: "61.9 hrs",
+      support: "128 SKUs · 29 min saved each",
     },
   ],
   rows: [
