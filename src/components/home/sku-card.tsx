@@ -78,19 +78,19 @@ export function OpsTag({ value }: { value: number }) {
             <span className="font-bold tabular-nums text-slate-700">${formatted}</span>
           </span>
         </TooltipTrigger>
-        <TooltipContent>Orders per session over the last 3 months</TooltipContent>
+        <TooltipContent>Ordered Product Sales - Last 3 months</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )
 }
 
-function SkuThumb({ sku }: { sku: Sku }) {
+function SkuThumb({ sku, className }: { sku: Sku; className?: string }) {
   return (
     <SkuGradientThumbnail
       src={sku.thumbnailUrl}
       seed={sku.asin}
       alt=""
-      className="size-11 border border-slate-100"
+      className={cn("border border-slate-100", className ?? "size-11")}
     />
   )
 }
@@ -201,25 +201,26 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
                 )}
               </div>
             </div>
-            <div className="flex items-start gap-2.5">
-              <SkuThumb sku={sku} />
-              <p className="line-clamp-2 flex-1 text-sm font-semibold leading-snug text-slate-700">
-                {sku.title}
-              </p>
+            <div className="flex items-stretch gap-3">
+              <SkuThumb sku={sku} className="size-16" />
+              <div className="flex min-w-0 flex-1 flex-col justify-between gap-2">
+                <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-700">
+                  {sku.title}
+                </p>
+                {!hideMetrics && (
+                  <div className="flex items-center justify-between gap-2">
+                    <CardMetrics
+                      compliance={sku.metrics.compliance}
+                      seo={sku.metrics.seo}
+                      aeo={sku.metrics.aeo}
+                      showOptimizationScore={showOptimizationScore}
+                    />
+                    <OpsTag value={sku.metrics.ops} />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-          {/* Content Agent: keep metric tags visible in selection mode */}
-          {!hideMetrics && (
-            <div className="flex w-full items-center justify-between gap-y-1.5 px-3 pt-0 pb-3">
-              <CardMetrics
-                compliance={sku.metrics.compliance}
-                seo={sku.metrics.seo}
-                aeo={sku.metrics.aeo}
-                showOptimizationScore={showOptimizationScore}
-              />
-              <OpsTag value={sku.metrics.ops} />
-            </div>
-          )}
         </>
       ) : hideMetrics ? (
         /* Title Optimization layout: square image + [title / OPS] column side-by-side */
@@ -244,27 +245,27 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
           </div>
         </div>
       ) : (
-        /* Content Agent layout: MetaRow + [img + title] + metrics row */
-        <>
-          <div className="flex flex-col gap-2 px-3 pb-2.5 pt-3">
-            <MetaRow sku={sku} isActive={isActive} />
-            <div className="flex gap-3">
-              <SkuThumb sku={sku} />
-              <p className="line-clamp-2 flex-1 text-sm font-semibold leading-snug text-slate-700">
+        /* Content Agent: image beside title + metrics */
+        <div className="flex flex-col gap-2 px-3 py-3">
+          <MetaRow sku={sku} isActive={isActive} />
+          <div className="flex items-stretch gap-3">
+            <SkuThumb sku={sku} className="size-20" />
+            <div className="flex min-w-0 flex-1 flex-col justify-between gap-2">
+              <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-700">
                 {sku.title}
               </p>
+              <div className="flex items-center justify-between gap-2">
+                <CardMetrics
+                  compliance={sku.metrics.compliance}
+                  seo={sku.metrics.seo}
+                  aeo={sku.metrics.aeo}
+                  showOptimizationScore={showOptimizationScore}
+                />
+                <OpsTag value={sku.metrics.ops} />
+              </div>
             </div>
           </div>
-          <div className="flex w-full items-center justify-between gap-y-1.5 px-3 pt-2 pb-3">
-            <CardMetrics
-              compliance={sku.metrics.compliance}
-              seo={sku.metrics.seo}
-              aeo={sku.metrics.aeo}
-              showOptimizationScore={showOptimizationScore}
-            />
-            <OpsTag value={sku.metrics.ops} />
-          </div>
-        </>
+        </div>
       )}
     </button>
   )

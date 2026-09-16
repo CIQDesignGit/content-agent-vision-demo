@@ -365,7 +365,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
   // sku-2 — Citrus Zest: PIM catalog + retailer PDP (content gaps drive AI recs)
   "sku-2": {
     titleStatus: "pending",
-    title: "Aurelle Candles Citrus Zest Soy Jar, 14 oz",
+    title: "Citrus Zest Soy Jar, 14 oz",
     bullets: [
       "500W MOTOR — Handles everyday chopping, slicing, and shredding tasks.",
       "8-CUP CAPACITY — Room for family-sized recipes without multiple batches.",
@@ -538,7 +538,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-3": {
     titleStatus: "pending",
-    title: "Aurelle Candles Amber Floral Soy Candle, 16 oz",
+    title: "Amber Floral Soy Candle, 16 oz",
     bullets: [
       "HIGH-TORQUE CLEANER HEAD — Automatically adapts between carpet and hard floors for optimal suction on every surface.",
       "INTELLIGENT SUCTION — Three auto-adjusted modes continuously sense floor type and adjust power to maintain performance.",
@@ -673,7 +673,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-5": {
     titleStatus: "pending",
-    title: "Aurelle Candles Spiced Cedar 3-Wick, 21 oz",
+    title: "Spiced Cedar 3-Wick, 21 oz",
     bullets: [
       "HIGH-SPEED MOTOR — 3000 RPM stainless steel grinding blades reduce grains to fine powder in under 2 minutes.",
       "COMMERCIAL-GRADE BUILD — Heavy-duty stainless steel grinding chamber withstands continuous operation in commercial kitchens.",
@@ -808,7 +808,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-7": {
     titleStatus: "pending",
-    title: "Aurelle Candles Bergamot Grove Pillar Set",
+    title: "Bergamot Grove Pillar Set",
     bullets: [
       "67-POINT PLANETARY MIXING — The beater moves in 67 touch points per rotation, reaching every part of the bowl for thorough, even mixing.",
       "59 VERSATILE ATTACHMENTS — Power Hub fits optional attachments including pasta maker, food grinder, ice cream maker, and more.",
@@ -944,7 +944,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-9": {
     titleStatus: "pending",
-    title: "Aurelle Candles Hearthwood Cedar Jar, 18 oz",
+    title: "Hearthwood Cedar Jar, 18 oz",
     bullets: [
       "AIRCRAFT-GRADE STAINLESS BLADES — Hardened stainless steel blades pulverize the toughest ingredients including ice, nuts, and fibrous greens.",
       "48 OZ CONTAINER — The low-profile 48 oz container fits under most kitchen cabinets and works great for medium-to-large batches.",
@@ -1012,7 +1012,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-10": {
     titleStatus: "pending",
-    title: "Aurelle Candles Rasa Decorative Candle Duo",
+    title: "Rasa Decorative Candle Duo",
     bullets: [
       "SELF-EMPTYING BASE — The Clean Base Automatic Dirt Disposal holds up to 60 days of debris so you don't have to touch the bin for months.",
       "GIFT-READY PAIR — Two hand-poured candles, one floral and one woody, packed as a set for tables and gift boxes.",
