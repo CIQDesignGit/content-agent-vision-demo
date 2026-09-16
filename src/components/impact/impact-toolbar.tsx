@@ -1,13 +1,11 @@
 "use client"
 
 import { useState } from "react"
-import { CalendarDays, Check, ChevronDown, FunnelPlus } from "lucide-react"
-import { Button } from "@ciq-dev/ciq-design-system"
+import { Check, ChevronDown, FunnelPlus } from "lucide-react"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 
 interface ImpactToolbarProps {
-  dateRangeLabel: string
   brands: string[]
   selectedBrand: string
   onBrandChange: (brand: string) => void
@@ -17,7 +15,7 @@ function BrandFilter({
   brands,
   selectedBrand,
   onBrandChange,
-}: Omit<ImpactToolbarProps, "dateRangeLabel">) {
+}: ImpactToolbarProps) {
   const [open, setOpen] = useState(false)
   const brandValue = selectedBrand === "All Brands" ? undefined : selectedBrand
 
@@ -66,38 +64,26 @@ function BrandFilter({
 }
 
 export function ImpactToolbar({
-  dateRangeLabel,
   brands,
   selectedBrand,
   onBrandChange,
 }: ImpactToolbarProps) {
   return (
-    <div className="flex w-full items-center justify-between gap-3">
-      <div className="flex min-w-0 items-center gap-2">
-        <BrandFilter
-          brands={brands}
-          selectedBrand={selectedBrand}
-          onBrandChange={onBrandChange}
-        />
+    <div className="flex w-full min-w-0 items-center gap-2">
+      <BrandFilter
+        brands={brands}
+        selectedBrand={selectedBrand}
+        onBrandChange={onBrandChange}
+      />
 
-        <button
-          type="button"
-          aria-label="Filter"
-          title="View filters"
-          className="grid place-items-center rounded-lg border border-slate-200 px-2 py-1 text-slate-500 transition-colors hover:bg-slate-50"
-        >
-          <FunnelPlus className="size-3.5" />
-        </button>
-      </div>
-
-      <Button
+      <button
         type="button"
-        variant="outline"
-        className="h-8 gap-1.5 rounded-lg border-slate-200 bg-white px-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+        aria-label="Filter"
+        title="View filters"
+        className="grid place-items-center rounded-lg border border-slate-200 px-2 py-1 text-slate-500 transition-colors hover:bg-slate-50"
       >
-        <CalendarDays className="size-3.5 text-slate-400" aria-hidden />
-        {dateRangeLabel}
-      </Button>
+        <FunnelPlus className="size-3.5" />
+      </button>
     </div>
   )
 }

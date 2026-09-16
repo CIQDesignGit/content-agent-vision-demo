@@ -31,9 +31,10 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
   const pathname = usePathname()
   const router = useRouter()
   const active = tabIdFromPath(pathname)
-  // ASIN detail pages have no toolbar of their own, so the range picker sits in
-  // this nav as it does on Overview. The /impact list keeps its own in-toolbar copy.
-  const showDateRange = pathname === "/" || /^\/impact\/.+/.test(pathname)
+  const showDateRange =
+    pathname === "/" ||
+    pathname.startsWith("/impact") ||
+    pathname.startsWith("/ai-tracking")
 
   function openTab(href: string) {
     const range = new URLSearchParams(window.location.search).get("range")

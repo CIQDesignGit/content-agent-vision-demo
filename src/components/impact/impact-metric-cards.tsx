@@ -31,6 +31,28 @@ function DeltaPill({ metric }: { metric: ImpactMetricCard }) {
   )
 }
 
+export function ImpactMetricCard({ metric }: { metric: ImpactMetricCard }) {
+  return (
+    <div
+      className="flex min-w-0 flex-col rounded-2xl bg-white/70 px-5 py-4 ring-1 ring-slate-900/5 shadow-pane backdrop-blur-md"
+    >
+      <p className="text-xs font-medium text-slate-500">{metric.label}</p>
+      <div className="mt-2 flex flex-wrap items-baseline gap-2">
+        <p
+          className={cn(
+            "font-sans text-2xl font-semibold tracking-tight tabular-nums",
+            metric.valueTone === "success" ? "text-teal-700" : "text-slate-900",
+          )}
+        >
+          {metric.value}
+        </p>
+        {metric.supportLead ? <DeltaPill metric={metric} /> : null}
+      </div>
+      <p className="mt-2.5 text-xs leading-snug text-slate-500">{metric.support}</p>
+    </div>
+  )
+}
+
 export function ImpactMetricCards({ metrics }: ImpactMetricCardsProps) {
   return (
     <div
@@ -38,28 +60,7 @@ export function ImpactMetricCards({ metrics }: ImpactMetricCardsProps) {
       className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
     >
       {metrics.map((metric) => (
-        <div
-          key={metric.id}
-          className="flex min-w-0 flex-col rounded-2xl bg-white/70 px-5 py-4 ring-1 ring-slate-900/5 shadow-pane backdrop-blur-md"
-        >
-          <p className="text-xs font-medium text-slate-500">{metric.label}</p>
-          <div className="mt-2 flex flex-wrap items-baseline gap-2">
-            <p
-              className={cn(
-                "font-sans text-2xl font-semibold tracking-tight tabular-nums",
-                metric.valueTone === "success"
-                  ? "text-teal-700"
-                  : "text-slate-900",
-              )}
-            >
-              {metric.value}
-            </p>
-            {metric.supportLead ? <DeltaPill metric={metric} /> : null}
-          </div>
-          <p className="mt-2.5 text-xs leading-snug text-slate-500">
-            {metric.support}
-          </p>
-        </div>
+        <ImpactMetricCard key={metric.id} metric={metric} />
       ))}
     </div>
   )

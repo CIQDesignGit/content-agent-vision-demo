@@ -1,18 +1,20 @@
 "use client"
 
 import { useMemo, useState } from "react"
+import { MotionConfig } from "framer-motion"
 import { useSearchParams } from "next/navigation"
 import { calendarEvents } from "@/components/landing/data"
+import { RevealGroup, RevealItem } from "@/components/landing/reveal"
 import {
   IMPACT_ACTIONED_SKU_COUNT,
   buildImpactRowsFromEvent,
 } from "./build-impact-rows"
 import { impactSummary } from "./data"
 import { ImpactContextTitle } from "./impact-context-title"
-import { ImpactMetricCards } from "./impact-metric-cards"
+import { ImpactMetricCard } from "./impact-metric-cards"
 import { ImpactTable } from "./impact-table"
 import { ImpactToolbar } from "./impact-toolbar"
-import type { ImpactMetricCard, ImpactRow } from "./types"
+import type { ImpactMetricCard as ImpactMetricCardData, ImpactRow } from "./types"
 
 function formatUsd(cents: number): string {
   return new Intl.NumberFormat("en-US", {
@@ -23,10 +25,10 @@ function formatUsd(cents: number): string {
 }
 
 function buildScopedMetrics(
-  base: ImpactMetricCard[],
+  base: ImpactMetricCardData[],
   rows: ImpactRow[],
   opportunityValueLabel?: string,
-): ImpactMetricCard[] {
+): ImpactMetricCardData[] {
   const salesCents = rows.reduce((sum, row) => sum + row.impactCents, 0)
   const asinCount = rows.length
 
@@ -93,33 +95,64 @@ export function ImpactView() {
     return ["All Brands", ...brands]
   }, [contextRows])
 
+  const metricsRevealDelay = activeEvent ? 0.46 : 0.28
+  const metricStagger = 0.14
+  // Table follows the last metric card in the entrance sequence (not scroll).
+  const tableRevealDelay =
+    metricsRevealDelay + Math.max(0, metrics.length - 1) * metricStagger + 0.18
+
   return (
-    <div className="flex w-full flex-col">
-      <div className="flex h-12 shrink-0 items-center border-t border-slate-200 px-6">
-        <ImpactToolbar
-          dateRangeLabel={impactSummary.dateRangeLabel}
-          brands={brandOptions}
-          selectedBrand={selectedBrand}
-          onBrandChange={setSelectedBrand}
-        />
-      </div>
+    <MotionConfig reducedMotion="user">
+      <div className="flex w-full flex-col">
+        <RevealGroup delay={0.06} stagger={0.06}>
+          <RevealItem>
+            <div className="flex h-12 shrink-0 items-center border-t border-slate-200 px-6">
+              <ImpactToolbar
+                brands={brandOptions}
+                selectedBrand={selectedBrand}
+                onBrandChange={setSelectedBrand}
+              />
+            </div>
+          </RevealItem>
+        </RevealGroup>
 
-      <div className="flex flex-1 flex-col gap-4 bg-slate-100 px-6 pb-6">
-        {activeEvent ? (
-          <ImpactContextTitle
-            opportunityName={activeEvent.name}
-            valueLabel={activeEvent.valueLabel}
-            skuCount={
-              selectedBrand === "All Brands"
-                ? IMPACT_ACTIONED_SKU_COUNT
-                : filteredRows.length
-            }
-          />
-        ) : null}
+        <div className="flex flex-1 flex-col gap-4 bg-slate-100 px-6 pb-6">
+          {activeEvent ? (
+            <RevealGroup delay={0.28} stagger={0.06}>
+              <RevealItem>
+                <ImpactContextTitle
+                  opportunityName={activeEvent.name}
+                  valueLabel={activeEvent.valueLabel}
+                  skuCount={
+                    selectedBrand === "All Brands"
+                      ? IMPACT_ACTIONED_SKU_COUNT
+                      : filteredRows.length
+                  }
+                />
+              </RevealItem>
+            </RevealGroup>
+          ) : null}
 
-        <ImpactMetricCards metrics={metrics} />
-        <ImpactTable rows={filteredRows} />
+          <RevealGroup
+            aria-label="Impact metrics"
+            className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            delay={metricsRevealDelay}
+            stagger={metricStagger}
+          >
+            {metrics.map((metric) => (
+              <RevealItem key={metric.id} className="min-w-0">
+                <ImpactMetricCard metric={metric} />
+              </RevealItem>
+            ))}
+          </RevealGroup>
+
+          <RevealGroup delay={tableRevealDelay} stagger={0.06} className="flex flex-col">
+            <RevealItem>
+              <ImpactTable rows={filteredRows} />
+            </RevealItem>
+          </RevealGroup>
+        </div>
       </div>
-    </div>
+    </MotionConfig>
   )
 }

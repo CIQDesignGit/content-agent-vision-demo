@@ -1,26 +1,12 @@
 "use client"
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@ciq-dev/ciq-design-system"
-import { periodOptions, trackingMeta } from "./data"
-import type { PeriodId } from "./types"
+import { trackingMeta } from "./data"
 
-interface TrackingHeaderProps {
-  period: PeriodId
-  onPeriodChange: (period: PeriodId) => void
-}
-
-export function TrackingHeader({ period, onPeriodChange }: TrackingHeaderProps) {
+export function TrackingHeader() {
   return (
     <div className="border-y border-slate-200 bg-white">
-    <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-x-6 gap-y-2 px-6 py-3">
-      <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5">
-        <h1 className="font-sans text-2xl font-semibold tracking-tight text-slate-900">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-baseline gap-x-3 gap-y-0.5 px-6 py-3">
+        <h1 className="font-sans text-xl font-semibold tracking-tight text-slate-900">
           {trackingMeta.brand}
         </h1>
         <p className="flex flex-wrap items-center gap-x-2 text-sm text-slate-500">
@@ -31,25 +17,6 @@ export function TrackingHeader({ period, onPeriodChange }: TrackingHeaderProps) 
           <span>{trackingMeta.refreshLabel}</span>
         </p>
       </div>
-
-      <Select
-        value={period}
-        onValueChange={(value) => {
-          if (value === "12w" || value === "4w") onPeriodChange(value)
-        }}
-      >
-        <SelectTrigger className="h-8 w-auto min-w-64 rounded-lg border-border-default bg-white text-sm font-medium text-fg-primary">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {periodOptions.map((option) => (
-            <SelectItem key={option.id} value={option.id}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
     </div>
   )
 }

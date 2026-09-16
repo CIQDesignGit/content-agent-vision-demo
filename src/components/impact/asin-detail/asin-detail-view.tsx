@@ -3,8 +3,11 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { motion, MotionConfig } from "framer-motion"
 import { ArrowLeft, ChevronRight, Download } from "lucide-react"
 import { Button } from "@ciq-dev/ciq-design-system"
+import { RevealGroup, RevealItem } from "@/components/landing/reveal"
+import { staggerContainer } from "@/lib/motion"
 import { AsinChart } from "./asin-chart"
 import { AsinCycleItem } from "./asin-cycle-item"
 import { formatCompactUsd } from "./format"
@@ -29,6 +32,7 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
   const currentCycle = detail.cycles[0]
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="aid-root">
       <div className="aid-topbar">
         <div className="aid-topbar-lead">
@@ -66,8 +70,8 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
         </div>
       </div>
 
-      <div className="aid-page">
-        <div className="aid-asin-head">
+      <RevealGroup className="aid-page" delay={0.06} stagger={0.09}>
+        <RevealItem className="aid-asin-head">
           <div className="aid-asin-thumb">
             {detail.thumbnailUrl ? (
               <Image
@@ -96,10 +100,10 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
               </span>
             </div>
           </div>
-        </div>
+        </RevealItem>
 
-        <div className="aid-heroes">
-          <div className="aid-hero aid-primary">
+        <motion.div className="aid-heroes" variants={staggerContainer(0.07)}>
+          <RevealItem className="aid-hero aid-primary">
             <div className="aid-h-label">Incremental sales · all time</div>
             <div className="aid-h-value">{money(detail.allTimeSalesCents)}</div>
             <div className="aid-h-sub">
@@ -107,39 +111,41 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
             </div>
             <div className="aid-run-rate">{detail.dailyRunRateLabel}</div>
             <div className="aid-h-foot">{detail.cyclesFootnote}</div>
-          </div>
+          </RevealItem>
 
-          <div className="aid-hero">
+          <RevealItem className="aid-hero">
             <div className="aid-h-label">
               Current attribution <span className={`aid-method-chip aid-${currentCycle.method}`}>{currentCycle.method === "model" ? "Model" : "A/B"}</span>
             </div>
             <div className="aid-h-value">{detail.currentLiftLabel}</div>
             <div className="aid-h-sub">{detail.currentRateFromToLabel}</div>
             <div className="aid-h-foot">{detail.currentCycleSourceLabel}</div>
-          </div>
+          </RevealItem>
 
-          <div className="aid-hero">
+          <RevealItem className="aid-hero">
             <div className="aid-h-label">AI visibility · Alexa AI</div>
             <div className="aid-h-value">{detail.aiVisibilityDeltaLabel}</div>
             <div className="aid-h-sub">
               <TextLine segments={detail.aiVisibilityRangeLine} />
             </div>
             <div className="aid-h-foot">{detail.aiVisibilityFootnote}</div>
-          </div>
+          </RevealItem>
 
-          <div className="aid-hero">
+          <RevealItem className="aid-hero">
             <div className="aid-h-label">Incremental units · all time</div>
             <div className="aid-h-value">{detail.allTimeUnits.toLocaleString("en-US")}</div>
             <div className="aid-h-sub">
               <TextLine segments={detail.inPeriodUnitsLine} />
             </div>
             <div className="aid-h-foot">Unaffected by price or promotion movement</div>
-          </div>
-        </div>
+          </RevealItem>
+        </motion.div>
 
-        <AsinChart cycles={detail.cycles} />
+        <RevealItem>
+          <AsinChart cycles={detail.cycles} />
+        </RevealItem>
 
-        <div className="aid-section">
+        <RevealItem className="aid-section">
           <div className="aid-section-head">
             <div className="aid-section-title">
               Test &amp; measurement history — {detail.cycles.length} {detail.cycles.length === 1 ? "cycle" : "cycles"}
@@ -165,15 +171,16 @@ export function AsinDetailView({ detail }: AsinDetailViewProps) {
               <AsinCycleItem key={cycle.key} cycle={cycle} defaultOpen={cycle.status === "active"} />
             ))}
           </div>
-        </div>
+        </RevealItem>
 
-        <div className="aid-next-strip">
+        <RevealItem className="aid-next-strip">
           <span className="aid-next-dot" />
           <div>
             <b>Next cycle queued</b> — {detail.nextQueuedText}
           </div>
-        </div>
-      </div>
+        </RevealItem>
+      </RevealGroup>
     </div>
+    </MotionConfig>
   )
 }

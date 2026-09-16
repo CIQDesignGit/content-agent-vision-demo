@@ -4,9 +4,9 @@ import type { ReactNode } from "react"
 import { MotionConfig, motion } from "framer-motion"
 import { DURATION, EASE_IN_OUT } from "@/lib/motion"
 
-/** Sidebar pane starts immediately; cards follow as a short wave. */
-export const REVIEW_SIDEBAR_CARD_STAGGER = 0.055
-export const REVIEW_SIDEBAR_CARD_DELAY = 0.1
+/** Sidebar pane starts immediately; cards follow as a readable wave. */
+export const REVIEW_SIDEBAR_CARD_STAGGER = 0.12
+export const REVIEW_SIDEBAR_CARD_DELAY = 0.12
 
 const DETAIL_START = 0.36
 /** Hold long enough to read, short enough that the next card is already arriving. */

@@ -25,7 +25,7 @@ export function BandHeading({
         className="mt-1.5 h-8 w-1 shrink-0 rounded-full bg-brand-500"
       />
       <div className="min-w-0">
-        <h2 className="font-sans text-xl font-semibold tracking-tight text-slate-900">
+        <h2 className="font-sans text-lg font-semibold tracking-tight text-slate-900">
           {title}
         </h2>
         {description ? (
