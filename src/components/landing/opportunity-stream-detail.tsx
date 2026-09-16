@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { Button, cn } from "@ciq-dev/ciq-design-system"
 import type { OpportunityStream } from "./types"
 import { OpportunityStreamTable } from "./opportunity-stream-table"
+import { OpportunityStreamBuckets } from "./opportunity-stream-buckets"
 import { OpportunityStreamInsight } from "./opportunity-stream-insight"
 
 interface OpportunityStreamDetailProps {
@@ -44,15 +45,21 @@ export function OpportunityStreamDetail({
         <p className="text-xs leading-relaxed text-slate-400">{stream.queueNote}</p>
       ) : null}
 
-      <div className="-mx-6">
-        <OpportunityStreamTable kind={stream.id} rows={stream.rows} />
-      </div>
+      {stream.buckets ? (
+        <OpportunityStreamBuckets buckets={stream.buckets} onOpen={onReview} />
+      ) : (
+        <div className="-mx-6">
+          <OpportunityStreamTable kind={stream.id} rows={stream.rows} />
+        </div>
+      )}
 
       <div className="flex flex-wrap items-center justify-between gap-3 px-1">
-        <p className="text-xs text-slate-700">{stream.remainingLabel}</p>
+        {stream.buckets ? null : (
+          <p className="text-xs text-slate-700">{stream.remainingLabel}</p>
+        )}
         <Button
           size="sm"
-          className="group shrink-0 rounded-xl bg-brand-700 font-semibold text-white hover:bg-brand-800 focus:outline-brand-700"
+          className="group ml-auto shrink-0 rounded-xl bg-brand-700 font-semibold text-white hover:bg-brand-800 focus:outline-brand-700"
           onClick={onReview}
         >
           Review {stream.skuCount} SKUs

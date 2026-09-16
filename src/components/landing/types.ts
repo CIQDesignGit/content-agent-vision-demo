@@ -218,6 +218,23 @@ export interface OpportunityStreamSku {
   findingType?: StreamFindingType
 }
 
+/** Aggregated SKU job — one missing-attribute pattern across many SKUs. */
+export interface OpportunityStreamBucket {
+  id: string
+  title: string
+  skuCount: number
+  /** Who fills the gap. Input jobs ask the user; everything else the agent fills. */
+  fillMode?: "agent" | "input"
+  /** Fill time, e.g. "~2 min" or "~15 min" */
+  fillTime: string
+  /** Blocked dollars in thousands */
+  blockedThousands: number
+  /** Queued content this job also unblocks, in thousands */
+  releasesThousands: number
+  /** Tail of the release line, after the em dash */
+  alsoNote: string
+}
+
 export interface OpportunityStream {
   id: OpportunityStreamKind
   title: string
@@ -234,6 +251,8 @@ export interface OpportunityStream {
   queueNote?: string
   remainingLabel: string
   rows: OpportunityStreamSku[]
+  /** Ranked attribute jobs. When set, the stream shows these instead of SKU rows. */
+  buckets?: OpportunityStreamBucket[]
   /** Retail-readiness only — catalog % that is already ready */
   readyPercent?: number
 }
