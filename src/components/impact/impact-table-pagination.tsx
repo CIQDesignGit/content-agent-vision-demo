@@ -49,14 +49,14 @@ export function ImpactTablePagination({
   const pageItems = getPageItems(page, totalPages)
 
   return (
-    <div className="flex flex-col gap-3 border-t border-border-default px-5 py-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-sm text-fg-tertiary">
+    <div className="flex flex-col gap-3 border-t border-slate-100 px-6 py-3 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs text-slate-400">
         Showing{" "}
-        <span className="font-medium tabular-nums text-fg-secondary">
+        <span className="font-medium tabular-nums text-slate-600">
           {rangeStart}–{rangeEnd}
         </span>{" "}
         of{" "}
-        <span className="font-medium tabular-nums text-fg-secondary">
+        <span className="font-medium tabular-nums text-slate-600">
           {totalRows}
         </span>
       </p>

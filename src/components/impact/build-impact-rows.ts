@@ -1,4 +1,3 @@
-import { candleThumbnail } from "@/lib/candle-thumbnails"
 import { MOCK_SKUS } from "@/components/home/data"
 import type { CalendarEvent, CalendarSkuFinding } from "@/components/landing/types"
 import type { ImpactRow } from "./types"
@@ -57,9 +56,11 @@ function findingToRow(
     productName: finding.name,
     asin: finding.asin,
     brand,
+    category: "—",
     thumbnailUrl: finding.imageUrl,
     impactLabel,
     impactCents: cents,
+    attributionApproach: "Modelled",
     whatChanged: finding.finding,
     changedOn,
   }
@@ -111,9 +112,12 @@ export function buildImpactRowsFromEvent(event: CalendarEvent): ImpactRow[] {
         productName: `${template.title.replace(/ · .*$/, "")} · ${event.name} #${n}`,
         asin: `B${String(8100000000 + n).slice(0, 10)}`,
         brand: template.brand,
-        thumbnailUrl: template.thumbnailUrl ?? candleThumbnail(String(n)),
+        category: template.category,
+        thumbnailUrl:
+          template.thumbnailUrl ?? "https://placehold.co/64x64?text=SKU",
         impactLabel: formatImpactCents(cents),
         impactCents: cents,
+        attributionApproach: index % 3 === 0 ? "Modelled" : "A/B test",
         whatChanged,
         changedOn,
       }

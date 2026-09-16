@@ -29,34 +29,21 @@ function buildScopedMetrics(
 ): ImpactMetricCard[] {
   const salesCents = rows.reduce((sum, row) => sum + row.impactCents, 0)
   const asinCount = rows.length
-  const avgCents = asinCount > 0 ? Math.round(salesCents / asinCount) : 0
-  const units = Math.max(120, asinCount * 38)
 
   return [
     {
       ...base[0],
       value: opportunityValueLabel ?? formatUsd(salesCents),
       supportLead: undefined,
+      supportLeadTone: undefined,
       support:
         opportunityValueLabel != null
           ? "Opportunity impact"
           : `${asinCount} ASINs in selection`,
     },
-    {
-      ...base[1],
-      value: units.toLocaleString("en-US"),
-      support: "Across measurable events",
-    },
-    {
-      ...base[2],
-      value: formatUsd(avgCents),
-      support: `${asinCount}/${asinCount} ASINs measurable`,
-    },
-    {
-      ...base[3],
-      value: String(asinCount),
-      support: `Actioned on ${asinCount} ASINs`,
-    },
+    base[1],
+    base[2],
+    base[3],
   ]
 }
 
@@ -107,26 +94,29 @@ export function ImpactView() {
   }, [contextRows])
 
   return (
-    <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-3 px-6 pb-6">
-      {activeEvent ? (
-        <ImpactContextTitle
-          opportunityName={activeEvent.name}
-          valueLabel={activeEvent.valueLabel}
-          skuCount={
-            selectedBrand === "All Brands"
-              ? IMPACT_ACTIONED_SKU_COUNT
-              : filteredRows.length
-          }
+    <div className="flex w-full flex-col">
+      <div className="flex h-12 shrink-0 items-center border-t border-slate-200 px-6">
+        <ImpactToolbar
+          dateRangeLabel={impactSummary.dateRangeLabel}
+          brands={brandOptions}
+          selectedBrand={selectedBrand}
+          onBrandChange={setSelectedBrand}
         />
-      ) : null}
+      </div>
 
-      <ImpactToolbar
-        dateRangeLabel={impactSummary.dateRangeLabel}
-        brands={brandOptions}
-        selectedBrand={selectedBrand}
-        onBrandChange={setSelectedBrand}
-      />
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-1 flex-col gap-4 bg-slate-100 px-6 pb-6">
+        {activeEvent ? (
+          <ImpactContextTitle
+            opportunityName={activeEvent.name}
+            valueLabel={activeEvent.valueLabel}
+            skuCount={
+              selectedBrand === "All Brands"
+                ? IMPACT_ACTIONED_SKU_COUNT
+                : filteredRows.length
+            }
+          />
+        ) : null}
+
         <ImpactMetricCards metrics={metrics} />
         <ImpactTable rows={filteredRows} />
       </div>

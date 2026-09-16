@@ -10,7 +10,7 @@ import { PageShell } from "@/components/layout/page-shell"
 
 function ImpactFallback() {
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-6 pb-6">
+    <div className="w-full px-6 py-6">
       <div className="h-40 animate-pulse rounded-2xl bg-slate-100" />
     </div>
   )
@@ -18,11 +18,11 @@ function ImpactFallback() {
 
 export default function ImpactPage() {
   return (
-    <PageShell>
-      <div className="flex min-h-screen flex-col bg-canvas">
+    <PageShell className="bg-slate-100">
+      <div className="flex min-h-screen flex-col">
         <AppHeader />
-        <LaunchpadTabs />
-        <main className="flex-1 bg-canvas">
+        <LaunchpadTabs className="border-slate-200/70 bg-white/60 backdrop-blur-xl" />
+        <main className="flex-1">
           <Suspense fallback={<ImpactFallback />}>
             <ImpactView />
           </Suspense>

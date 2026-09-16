@@ -1,20 +1,68 @@
 "use client"
 
-import { CalendarDays, ListFilter } from "lucide-react"
-import {
-  Button,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@ciq-dev/ciq-design-system"
+import { useState } from "react"
+import { CalendarDays, Check, ChevronDown, FunnelPlus } from "lucide-react"
+import { Button } from "@ciq-dev/ciq-design-system"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { cn } from "@/lib/utils"
 
 interface ImpactToolbarProps {
   dateRangeLabel: string
   brands: string[]
   selectedBrand: string
   onBrandChange: (brand: string) => void
+}
+
+function BrandFilter({
+  brands,
+  selectedBrand,
+  onBrandChange,
+}: Omit<ImpactToolbarProps, "dateRangeLabel">) {
+  const [open, setOpen] = useState(false)
+  const brandValue = selectedBrand === "All Brands" ? undefined : selectedBrand
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white py-1 pl-2.5 pr-1 text-xs whitespace-nowrap transition-colors outline-none select-none hover:bg-slate-50 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50">
+        <span className="font-normal text-slate-400">Brand</span>
+        {brandValue ? (
+          <span className="font-semibold text-slate-800">{brandValue}</span>
+        ) : null}
+        <ChevronDown className="size-3.5 shrink-0 text-slate-400" />
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-44 p-1">
+        <ul>
+          {brands.map((brand) => {
+            const checked = brand === selectedBrand
+            return (
+              <li key={brand}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onBrandChange(brand)
+                    setOpen(false)
+                  }}
+                  className="flex w-full items-center gap-2.5 rounded-md px-2 py-1.5 text-sm text-slate-700 hover:bg-slate-50"
+                >
+                  <span
+                    className={cn(
+                      "grid size-4 shrink-0 place-items-center rounded border",
+                      checked
+                        ? "border-primary bg-primary text-white"
+                        : "border-slate-300 bg-transparent",
+                    )}
+                  >
+                    {checked ? <Check className="size-3" /> : null}
+                  </span>
+                  {brand}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </PopoverContent>
+    </Popover>
+  )
 }
 
 export function ImpactToolbar({
@@ -24,48 +72,32 @@ export function ImpactToolbar({
   onBrandChange,
 }: ImpactToolbarProps) {
   return (
-    <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
-      <h1 className="font-sans text-lg font-semibold leading-7 tracking-tight text-slate-900">
-        AI Impact
-      </h1>
-      <div className="flex flex-wrap items-center gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          className="h-8 gap-2 rounded-lg border-border-default bg-surface px-3 text-sm font-medium text-fg-primary hover:bg-surface-muted"
-        >
-          <CalendarDays className="size-4 text-fg-tertiary" aria-hidden />
-          {dateRangeLabel}
-        </Button>
+    <div className="flex w-full items-center justify-between gap-3">
+      <div className="flex min-w-0 items-center gap-2">
+        <BrandFilter
+          brands={brands}
+          selectedBrand={selectedBrand}
+          onBrandChange={onBrandChange}
+        />
 
-        <Select
-          value={selectedBrand}
-          onValueChange={(value) => {
-            if (value) onBrandChange(value)
-          }}
-        >
-          <SelectTrigger className="h-8 w-auto min-w-36 rounded-lg border-border-default bg-surface text-sm font-medium text-fg-primary">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {brands.map((brand) => (
-              <SelectItem key={brand} value={brand}>
-                {brand}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <Button
+        <button
           type="button"
-          variant="outline"
-          size="icon"
-          aria-label="More filters"
-          className="size-8 rounded-lg border-border-default bg-surface text-fg-secondary hover:bg-surface-muted"
+          aria-label="Filter"
+          title="View filters"
+          className="grid place-items-center rounded-lg border border-slate-200 px-2 py-1 text-slate-500 transition-colors hover:bg-slate-50"
         >
-          <ListFilter className="size-4" />
-        </Button>
+          <FunnelPlus className="size-3.5" />
+        </button>
       </div>
+
+      <Button
+        type="button"
+        variant="outline"
+        className="h-8 gap-1.5 rounded-lg border-slate-200 bg-white px-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50"
+      >
+        <CalendarDays className="size-3.5 text-slate-400" aria-hidden />
+        {dateRangeLabel}
+      </Button>
     </div>
   )
 }
