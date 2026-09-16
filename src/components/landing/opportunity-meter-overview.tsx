@@ -46,7 +46,7 @@ export function OpportunityMeterOverview({
         </p>
 
         <p className="flex items-start font-sans font-semibold leading-none text-brand-950">
-          <span className="mt-1 -mr-1 text-3xl text-slate-600 sm:mt-1.5 sm:text-4xl">
+          <span className="mt-1 -mr-1 text-3xl sm:mt-1.5 sm:text-4xl">
             $
           </span>
           <AnimatedFigure
@@ -54,7 +54,7 @@ export function OpportunityMeterOverview({
             delay={0.3}
             className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
           />
-          <span className="mt-1 ml-1 text-3xl text-slate-600 sm:mt-1.5 sm:text-4xl">
+          <span className="mt-1 ml-1 text-3xl sm:mt-1.5 sm:text-4xl">
             M
           </span>
         </p>

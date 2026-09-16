@@ -38,7 +38,7 @@ export function CalculationToggle({
       ) : (
         <>
           <ViewCalculationIcon />
-          View calculation
+          How is this calculated?
         </>
       )}
     </button>

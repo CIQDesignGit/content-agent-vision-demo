@@ -19,21 +19,21 @@ import { SegmentInfo } from "./segment-info"
 import type { CaptureReveal } from "./use-capture-reveal"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
-/** Chart blues — captured deepest; remaining opportunity mid-light (data-3). */
+/** Captured is azure; remaining opportunity is a saturated cyan so the two stay distinct. */
 const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
-  captured: "bg-data-1",
-  seasonal: "bg-data-3",
-  pdp: "bg-data-3",
-  opportunity: "bg-data-3",
+  captured: "bg-sky-600",
+  seasonal: "bg-cyan-500",
+  pdp: "bg-cyan-500",
+  opportunity: "bg-cyan-500",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-300),var(--color-slate-300)_1.5px,var(--color-slate-100),var(--color-slate-100)_5px)]",
 }
 
 const DOT_FILL: Record<OpportunityStatusKind, string> = {
-  captured: "bg-data-1",
-  seasonal: "bg-data-3",
-  pdp: "bg-data-3",
-  opportunity: "bg-data-3",
+  captured: "bg-sky-600",
+  seasonal: "bg-cyan-500",
+  pdp: "bg-cyan-500",
+  opportunity: "bg-cyan-500",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-400),var(--color-slate-400)_1px,var(--color-slate-200),var(--color-slate-200)_3px)]",
 }

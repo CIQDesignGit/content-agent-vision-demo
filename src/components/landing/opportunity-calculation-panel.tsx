@@ -15,12 +15,10 @@ function CalculationFigure({
   tab,
   selected,
   onSelect,
-  className,
 }: {
   tab: OpportunityCalculationTabData
   selected: boolean
   onSelect: () => void
-  className?: string
 }) {
   return (
     <button
@@ -29,18 +27,16 @@ function CalculationFigure({
       aria-selected={selected}
       onClick={onSelect}
       className={cn(
-        "flex min-w-0 cursor-pointer flex-col gap-1 py-1 text-left",
-        !selected && "group/figure",
-        className,
+        "flex min-w-0 cursor-pointer flex-col gap-1 rounded-xl px-3.5 py-3 text-left transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2",
+        selected ? "bg-brand-50" : "bg-transparent hover:bg-slate-50",
       )}
     >
       <span className="flex items-baseline justify-between gap-3">
         <span
           className={cn(
             "min-w-0 text-xs font-medium",
-            selected
-              ? "text-slate-700"
-              : "text-slate-500 underline decoration-transparent underline-offset-4 group-hover/figure:text-slate-800 group-hover/figure:decoration-slate-300",
+            selected ? "text-brand-800" : "text-slate-700",
           )}
         >
           {tab.tabLabel}
@@ -53,9 +49,7 @@ function CalculationFigure({
         <span
           className={cn(
             "font-sans text-3xl font-semibold tracking-tight tabular-nums",
-            selected
-              ? "text-brand-950"
-              : "text-slate-500 group-hover/figure:text-slate-900",
+            selected ? "text-brand-950" : "text-slate-800",
           )}
         >
           {tab.heroAmountLabel}
@@ -64,24 +58,13 @@ function CalculationFigure({
           <span
             className={cn(
               "text-[11px] font-semibold tabular-nums",
-              selected && tab.trendBadge.positive
-                ? "text-success-700"
-                : "text-slate-400",
+              tab.trendBadge.positive ? "text-success-700" : "text-slate-500",
             )}
           >
             {tab.trendBadge.label}
           </span>
         ) : null}
       </span>
-      <span
-        className={cn(
-          "h-0.5 w-8 rounded-full",
-          selected
-            ? "bg-slate-900"
-            : "bg-transparent group-hover/figure:bg-slate-300",
-        )}
-        aria-hidden
-      />
     </button>
   )
 }
@@ -106,15 +89,14 @@ export function OpportunityCalculationPanel({
       <div
         role="tablist"
         aria-label="Opportunity calculation views"
-        className="grid grid-cols-1 sm:grid-cols-2 sm:divide-x sm:divide-slate-200"
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
       >
-        {TAB_ORDER.map((id, index) => (
+        {TAB_ORDER.map((id) => (
           <CalculationFigure
             key={id}
             tab={tabById[id]}
             selected={activeTab === id}
             onSelect={() => setActiveTab(id)}
-            className={index === 0 ? "sm:pr-6" : "sm:pl-6"}
           />
         ))}
       </div>
