@@ -64,24 +64,24 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-1": {
     titleStatus: "pending",
-    title: "Yankee Candle Black Cherry Large Jar Candle, 22 oz",
+    title: "Aurelle Candles Noir Cherry Large Jar, 22 oz",
     bullets: [
       "RICH BLACK CHERRY FRAGRANCE — Deep, dark cherry blended with warming spice fills any room with an indulgent, fruity-sweet aroma.",
       "LONG BURN TIME — Up to 110–150 hours of fragrance from a single 22 oz jar, making it one of the best-value candles available.",
       "CLEAN BURN TECHNOLOGY — Natural paraffin blend with a lead-free cotton wick delivers a consistent, soot-minimizing flame.",
-      "IDEAL GIFT — Presented in Yankee Candle's signature glass jar with a classic label, perfect for birthdays, holidays, and housewarmings.",
+      "IDEAL GIFT — Presented in Aurelle Candles' signature glass jar with a classic label, perfect for birthdays, holidays, and housewarmings.",
       "HAND-POURED — Crafted in small batches to ensure even fragrance distribution and a smooth, polished surface.",
       "REUSABLE JAR — The wide-mouth glass jar is easy to clean and can be repurposed as a decorative storage container.",
-      "AUTHENTIC YANKEE CANDLE — Only genuine Yankee Candle products are backed by their satisfaction guarantee and quality standards.",
+      "AUTHENTIC AURELLE CANDLES — Only genuine Aurelle Candles products are backed by their satisfaction guarantee and quality standards.",
     ],
     description:
-      "Transport yourself to a lush summer orchard with the Yankee Candle Black Cherry Large Jar Candle. This iconic 22 oz jar is filled with a bold, sweet-meets-spicy cherry fragrance that evolves from top notes of fresh cherry to warm, velvety base notes of musk and sandalwood.",
+      "Transport yourself to a lush summer orchard with the Aurelle Candles Noir Cherry Large Jar. This iconic 22 oz jar is filled with a bold, sweet-meets-spicy cherry fragrance that evolves from top notes of fresh cherry to warm, velvety base notes of musk and sandalwood.",
     images: makeImages([340, 350, 10, 355, 5, 345, 0, 360]),
     titleRecommendation: {
       ...rec(
         "Jessica",
-        "Yankee Candle Black Cherry 22 oz — 150-Hr Burn, Premium Scented Candle",
-        "Yankee Candle Black Cherry",
+        "Aurelle Candles Noir Cherry 22 oz — 150-Hr Burn, Premium Scented Candle",
+        "Aurelle Candles Noir Cherry",
         "Large Jar Candle, 22 oz",
         "22 oz — 150-Hr Burn, Premium Scented Candle",
         "Add high-intent gift keywords",
@@ -92,7 +92,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       altKeywords: [
         // Ordered left-right per row for the 2-column grid
         { id: "kw-1", keyword: "scented candles large jar", rank: 4,  volume: "90.5K" },
-        { id: "kw-2", keyword: "yankee candle gift",        rank: 2,  volume: "165K"  },
+        { id: "kw-2", keyword: "aurelle candles gift",        rank: 2,  volume: "165K"  },
         { id: "kw-3", keyword: "long burn time candle",     rank: 7,  volume: "27K"   },
         { id: "kw-4", keyword: "sage citrus candle",        rank: 3,  volume: "14.8K" },
         { id: "kw-5", keyword: "birthday candle gift",      rank: 11, volume: "8.2K"  },
@@ -126,8 +126,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionRecommendation: {
       ...rec(
         "Jessica",
-        "Indulge in Yankee Candle Black Cherry Large Jar Candle (22 oz)—a bold black cherry fragrance with warm spice and vanilla notes. Enjoy up to 150 hours of room-filling aroma with a premium paraffin blend and lead-free cotton wick for a clean, soot-minimizing burn. Perfect for gifting and everyday home fragrance.",
-        "Transport yourself to a lush summer orchard with the Yankee Candle Black Cherry Large Jar Candle. This iconic 22 oz jar is filled with a bold, sweet-meets-spicy cherry fragrance that evolves from top notes of fresh cherry to warm, velvety base notes of musk and sandalwood.",
+        "Indulge in Aurelle Candles Noir Cherry Large Jar (22 oz)—a bold black cherry fragrance with warm spice and vanilla notes. Enjoy up to 150 hours of room-filling aroma with a premium paraffin blend and lead-free cotton wick for a clean, soot-minimizing burn. Perfect for gifting and everyday home fragrance.",
+        "Transport yourself to a lush summer orchard with the Aurelle Candles Noir Cherry Large Jar. This iconic 22 oz jar is filled with a bold, sweet-meets-spicy cherry fragrance that evolves from top notes of fresh cherry to warm, velvety base notes of musk and sandalwood.",
         "",
         "",
         "Front-load retailer scent keywords",
@@ -137,7 +137,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       ),
       altKeywords: [
         { id: "desc-kw-1", keyword: "black cherry scented candle", rank: 3,  volume: "74K"   },
-        { id: "desc-kw-2", keyword: "yankee candle large jar",     rank: 1,  volume: "210K"  },
+        { id: "desc-kw-2", keyword: "aurelle candles large jar",     rank: 1,  volume: "210K"  },
         { id: "desc-kw-3", keyword: "vanilla spice candle",        rank: 6,  volume: "31K"   },
         { id: "desc-kw-4", keyword: "room filling fragrance",      rank: 9,  volume: "12.5K" },
       ],
@@ -145,7 +145,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         sources: ["Rufus", "ChatGPT"],
         questions: [
           {
-            question: "How long does a Yankee Candle Black Cherry last?",
+            question: "How long does a Aurelle Candles Noir Cherry last?",
             answer: "Up to 150 hours of room-filling aroma from a 22 oz jar",
             isNew: true,
           },
@@ -237,7 +237,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
               isNew: true,
             },
             {
-              question: "Are Yankee Candles non-toxic?",
+              question: "Are Aurelle Candles non-toxic?",
               answer: "Premium paraffin blend with no lead in the wick",
             },
           ],
@@ -250,7 +250,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         pimIndex: 3,
         status: "pending",
         recommendedText:
-          "IDEAL GIFT — Signature Yankee Candle glass jar presentation perfect for birthdays, holidays, and housewarmings.",
+          "IDEAL GIFT — Signature Aurelle Candles glass jar presentation perfect for birthdays, holidays, and housewarmings.",
         reasoning: [
           {
             key: "compliance",
@@ -273,7 +273,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
               isNew: true,
             },
             {
-              question: "Does Yankee Candle come gift-ready?",
+              question: "Does Aurelle Candles come gift-ready?",
               answer: "Iconic jar presentation suitable for gifting without extra packaging",
             },
           ],
@@ -330,7 +330,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         pimIndex: 6,
         status: "pending",
         recommendedText:
-          "AUTHENTIC YANKEE CANDLE — Genuine product backed by Yankee Candle quality standards and satisfaction guarantee.",
+          "AUTHENTIC AURELLE CANDLES — Genuine product backed by Aurelle Candles quality standards and satisfaction guarantee.",
         reasoning: [
           {
             key: "compliance",
@@ -347,7 +347,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       },
     ] satisfies BulletRecommendation[],
     pdpContent: {
-      title: "Yankee Candle Black Cherry Scented Candle | Large 2-Wick Tumbler Candle, 12 oz",
+      title: "Aurelle Candles Noir Cherry | Large 2-Wick Jar Candle, 12 oz",
       bullets: [
         "BOLD CHERRY SCENT: Rich black cherry fragrance with warm spice undertones.",
         "BURN TIME: Up to 65–75 hours per candle.",
@@ -356,16 +356,16 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "SIZE: 12 oz tumbler — ideal for smaller rooms.",
       ],
       description:
-        "Yankee Candle Black Cherry is a rich, indulgent fragrance with notes of fresh cherry, warm spice, and vanilla.",
+        "Aurelle Candles Noir Cherry is a rich, indulgent fragrance with notes of fresh cherry, warm spice, and vanilla.",
       imageCount: 5,
       lastUpdated: "Apr 2, 2025",
     },
   },
 
-  // sku-2 — NutriChef: PIM catalog + retailer PDP (content gaps drive AI recs)
+  // sku-2 — Citrus Zest: PIM catalog + retailer PDP (content gaps drive AI recs)
   "sku-2": {
     titleStatus: "pending",
-    title: "NutriChef Food Processor - 8-Cup Capacity, Digital Control Panel",
+    title: "Aurelle Candles Citrus Zest Soy Jar, 14 oz",
     bullets: [
       "500W MOTOR — Handles everyday chopping, slicing, and shredding tasks.",
       "8-CUP CAPACITY — Room for family-sized recipes without multiple batches.",
@@ -374,15 +374,15 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "EASY CLEANUP — Removable parts are top-rack dishwasher safe and BPA-free.",
     ],
     description:
-      "The NutriChef Food Processor pairs an 8-cup bowl with a digital control panel for everyday chopping, slicing, and shredding. Compact footprint fits standard kitchen counters.",
+      "Aurelle Candles Citrus Zest Soy Jar pairs bright orange peel and lemon leaf with a soft white-floral base in a 14 oz hand-poured jar.",
     images: makeImages([260, 270, 250, 280]),
     titleRecommendation: {
       ...rec(
         "Jessica",
-        "NutriChef 8-Cup Food Processor — 500W, Steel Blades, BPA-Free",
-        "NutriChef Food Processor - 8-Cup Capacity, Digital Control Panel",
-        ", Digital Control Panel",
-        "— 500W, Steel Blades, BPA-Free",
+        "Aurelle Candles Citrus Zest 14 oz — Soy Blend, 60-Hr Burn",
+        "Aurelle Candles Citrus Zest Soy Jar, 14 oz",
+        "Soy Jar, 14 oz",
+        "14 oz — Soy Blend, 60-Hr Burn",
         "Match high-intent search queries",
         "Leading with wattage and blade material targets top food-processor search filters and is expected to lift impressions ~18%.",
         "Include compliance-required specifics",
@@ -393,15 +393,15 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         { id: "kw-n2", keyword: "electric food chopper 500w",  rank: 6,  volume: "22K"   },
         { id: "kw-n3", keyword: "bpa free food processor",     rank: 4,  volume: "31K"   },
         { id: "kw-n4", keyword: "stainless steel blade mixer", rank: 9,  volume: "14.5K" },
-        { id: "kw-n5", keyword: "nutrichef kitchen appliance", rank: 12, volume: "8.8K"  },
+        { id: "kw-n5", keyword: "aurelle citrus zest candle", rank: 12, volume: "8.8K"  },
         { id: "kw-n6", keyword: "dishwasher safe processor",   rank: 7,  volume: "11.2K" },
       ],
     },
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Jessica",
-      "Power through every kitchen task with the NutriChef 8-Cup Food Processor. The 500W motor drives stainless steel S-blade, slicing disc, and shredding disc attachments — all BPA-free and dishwasher safe. An intuitive digital LCD panel lets you switch between functions in one tap, while the compact upright design fits any standard kitchen cabinet.",
-      "The NutriChef Food Processor pairs an 8-cup bowl with a digital control panel for everyday chopping, slicing, and shredding. Compact footprint fits standard kitchen counters.",
+      "Brighten the room with Aurelle Candles Citrus Zest Soy Jar (14 oz). Orange peel and lemon leaf open into a clean white-floral base, and the soy blend burns for up to 60 hours with a lead-free cotton wick.",
+      "Aurelle Candles Citrus Zest Soy Jar pairs bright orange peel and lemon leaf with a soft white-floral base in a 14 oz hand-poured jar.",
       "",
       "",
       "Open with the primary use-case and differentiator",
@@ -522,7 +522,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       },
     ] satisfies BulletRecommendation[],
     pdpContent: {
-      title: "NutriChef Kitchen Electric Food Processor, 1.5L, Chopper, Slicer",
+      title: "Aurelle Candles Citrus Zest Scented Soy Candle, 14 oz Jar",
       bullets: [
         "MULTI-FUNCTION: Chop, slice, shred, and blend with included attachments.",
         "MOTOR: 300W for everyday kitchen tasks.",
@@ -530,7 +530,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "EASY CLEAN: Removable parts are dishwasher safe.",
         "COMPACT DESIGN: Small footprint, great for limited counter space.",
       ],
-      description: "The NutriChef Electric Food Processor is a compact and versatile kitchen helper.",
+      description: "Aurelle Candles Citrus Zest is a bright soy jar with orange peel, lemon leaf, and a soft floral finish.",
       imageCount: 4,
       lastUpdated: "Mar 7, 2025",
     },
@@ -538,7 +538,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-3": {
     titleStatus: "pending",
-    title: "Dyson V11 Animal Cordless Vacuum Cleaner with Powerful Suction",
+    title: "Aurelle Candles Amber Floral Soy Candle, 16 oz",
     bullets: [
       "HIGH-TORQUE CLEANER HEAD — Automatically adapts between carpet and hard floors for optimal suction on every surface.",
       "INTELLIGENT SUCTION — Three auto-adjusted modes continuously sense floor type and adjust power to maintain performance.",
@@ -549,14 +549,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "LCD SCREEN — Displays real-time performance, blockage reports, and maintenance reminders on a bright screen.",
     ],
     description:
-      "The Dyson V11 Animal is engineered for homes with pets. Its powerful digital motor generates up to 185 AW of suction, and the High Torque cleaner head intelligently adapts between carpet and hard floors to remove ground-in pet hair and fine dust.",
+      "Aurelle Candles Amber Floral Soy Candle fills medium rooms with amber, jasmine, and soft musk from a 16 oz hand-poured soy jar.",
     images: makeImages([200, 195, 210, 190, 215, 185, 220, 180]),
     titleRecommendation: rec(
       "Maya",
-      "Dyson V11 Animal Cordless Vacuum — 185AW, 60-Min Runtime, HEPA Filter",
-      "Dyson V11 Animal Cordless Vacuum",
-      "Cleaner with Powerful Suction",
-      "— 185AW, 60-Min Runtime, HEPA Filter",
+      "Aurelle Candles Amber Floral 16 oz — Hand-Poured Soy, Floral Bouquet",
+      "Aurelle Candles Amber Floral",
+      "Soy Candle, 16 oz",
+      "— Hand-Poured Soy, Floral Bouquet",
       "Add performance specs to title",
       "'185 AW' and '60-Min Runtime' are top buyer search filters; surfacing them in the title increases conversion by ~15%.",
       "Replace vague superlative",
@@ -565,8 +565,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Maya",
-      "Engineered for homes with pets, the Dyson V11 Animal cordless vacuum delivers up to 185 AW of fade-free suction. The High Torque cleaner head adapts between carpet and hard floors, whole-machine HEPA filtration captures 99.97% of particles as small as 0.3 microns, and runtime lasts up to 60 minutes in Eco mode. An anti-tangle hair screw tool and LCD performance screen keep pet hair and fine dust under control.",
-      "The Dyson V11 Animal is engineered for homes with pets. Its powerful digital motor generates up to 185 AW of suction, and the High Torque cleaner head intelligently adapts between carpet and hard floors to remove ground-in pet hair and fine dust.",
+      "Aurelle Candles Amber Floral Soy Candle (16 oz) opens with warm amber and jasmine, then settles into soft musk. The hand-poured soy blend burns for up to 70 hours with a lead-free cotton wick.",
+      "Aurelle Candles Amber Floral Soy Candle fills medium rooms with amber, jasmine, and soft musk from a 16 oz hand-poured soy jar.",
       "",
       "",
       "Lead with suction, runtime, and HEPA specs",
@@ -576,7 +576,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     ),
     bulletRecommendations: [
       { id: "sku3-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
-        recommendedText: "185 AW SUCTION — Dyson's most powerful cord-free motor penetrates deep carpet pile and lifts fine dust from hard floors in a single pass.",
+        recommendedText: "AMBER FLORAL BOUQUET — Warm amber, jasmine, and soft musk fill a medium room from the first light.",
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Lead with suction wattage", detail: "Shoppers filter by AW rating; leading with '185 AW' matches top cordless vacuum search patterns." }] }] },
       { id: "sku3-br-2", label: "Bullet 2", kind: "edit", pimIndex: 1, status: "pending",
         recommendedText: "60-MINUTE RUNTIME — Up to 60 minutes of cord-free cleaning per charge in Eco mode — enough for large homes in a single session.",
@@ -589,7 +589,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Highlight pet use case", detail: "Pet owners are a primary buyer segment in the cordless vacuum category; calling out pet-hair removal drives purchase intent." }] }] },
     ],
     pdpContent: {
-      title: "Dyson V11 Torque Drive Cordless Vacuum Cleaner",
+      title: "Aurelle Candles Amber Floral Soy Jar Candle, 16 oz",
       bullets: [
         "INTELLIGENT OPTIMIZATION: Automatically adapts power to floor type.",
         "FILTRATION: Whole-machine HEPA filtration captures fine particles.",
@@ -598,7 +598,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "COMES WITH: High Torque cleaner head, combination tool, crevice tool, and dock.",
       ],
       description:
-        "The Dyson V11 Torque Drive is our most powerful cord-free vacuum, providing up to 60 minutes of powerful suction.",
+        "Aurelle Candles Amber Floral is a 16 oz soy jar with amber, jasmine, and a clean floral finish.",
       imageCount: 8,
       lastUpdated: "Feb 14, 2025",
     },
@@ -606,7 +606,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-4": {
     titleStatus: "pending",
-    title: "Proctor Silex 2-Slice Toaster with Wide Slots",
+    title: "Aurelle Candles Vanilla Tobacco Jar, 12 oz",
     bullets: [
       "EXTRA-WIDE SLOTS — 1.5-inch wide slots easily fit bagels, artisan bread, and thick Texas toast.",
       "6 BROWNING SETTINGS — Dial adjusts shade from light golden to deep brown so every slice is perfectly toasted.",
@@ -617,14 +617,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "DURABLE CONSTRUCTION — Stainless steel accents and a sturdy housing built to last years of daily use.",
     ],
     description:
-      "Start your morning right with the Proctor Silex 2-Slice Toaster. Wide slots accommodate everything from standard sandwich bread to thick-cut bagels, and six browning settings give you precise control over your perfect toast.",
+      "Aurelle Candles Vanilla Tobacco Jar wraps sweet vanilla around a dry tobacco leaf in a 12 oz soy jar made for evening rooms.",
     images: makeImages([30, 35, 25, 40, 20, 45, 15, 50]),
     titleRecommendation: rec(
       "Jessica",
-      "Proctor Silex 2-Slice Toaster — Wide Slots, 6 Settings, Crumb Tray",
-      "Proctor Silex 2-Slice Toaster",
-      "with Wide Slots",
-      "— Wide Slots, 6 Settings, Crumb Tray",
+      "Aurelle Candles Vanilla Tobacco 12 oz — Warm Smoke, Soy Blend",
+      "Aurelle Candles Vanilla Tobacco Jar",
+      "with 12 oz",
+      "— Warm Smoke, Soy Blend",
       "List key features in title",
       "Including '6 Browning Settings' and 'Removable Crumb Tray' matches high-frequency long-tail searches for toaster features.",
       "Remove function word from title",
@@ -633,8 +633,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Jessica",
-      "Start every morning with the Proctor Silex 2-Slice Toaster. Extra-wide 1.5-inch slots fit bagels, artisan loaves, and thick Texas toast, while six browning settings take you from light golden to deep brown. Toast Boost lifts finished slices safely, a cancel button stops any cycle instantly, and the slide-out crumb tray makes cleanup fast.",
-      "Start your morning right with the Proctor Silex 2-Slice Toaster. Wide slots accommodate everything from standard sandwich bread to thick-cut bagels, and six browning settings give you precise control over your perfect toast.",
+      "Settle in with Aurelle Candles Vanilla Tobacco Jar (12 oz). Sweet vanilla opens into dry tobacco leaf and a hint of warm spice, and the soy blend burns for up to 50 hours.",
+      "Aurelle Candles Vanilla Tobacco Jar wraps sweet vanilla around a dry tobacco leaf in a 12 oz soy jar made for evening rooms.",
       "",
       "",
       "Name slot width and everyday bread types",
@@ -657,7 +657,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Combine safety features", detail: "Grouping Toast Boost and Cancel into one bullet highlights safety UX — a top purchase driver for small kitchen appliances." }] }] },
     ],
     pdpContent: {
-      title: "Proctor Silex 22215 2 Slice Toaster with Wide Slots for Bread",
+      title: "Aurelle Candles Vanilla Tobacco Scented Jar Candle, 12 oz",
       bullets: [
         "WIDE SLOTS: Fits bagels, thick bread, and artisan slices.",
         "BROWNING CONTROL: 6-shade dial for perfect toast every time.",
@@ -665,7 +665,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "TOAST BOOST: Automatically raises bread for safe removal.",
         "AFFORDABLE: Reliable quality at a budget-friendly price.",
       ],
-      description: "The Proctor Silex 2-Slice Toaster makes quick, even toast with wide slots and simple controls.",
+      description: "Aurelle Candles Vanilla Tobacco is a 12 oz soy jar of sweet vanilla, dry tobacco leaf, and warm spice.",
       imageCount: 3,
       lastUpdated: "Jan 22, 2025",
     },
@@ -673,7 +673,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-5": {
     titleStatus: "pending",
-    title: "Vevor Electric Grain Mill Grinder - High Speed, Commercial Grade",
+    title: "Aurelle Candles Spiced Cedar 3-Wick, 21 oz",
     bullets: [
       "HIGH-SPEED MOTOR — 3000 RPM stainless steel grinding blades reduce grains to fine powder in under 2 minutes.",
       "COMMERCIAL-GRADE BUILD — Heavy-duty stainless steel grinding chamber withstands continuous operation in commercial kitchens.",
@@ -684,14 +684,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "TRANSPARENT LID — Watch the grinding process through the clear lid to monitor consistency in real time.",
     ],
     description:
-      "The Vevor Electric Grain Mill Grinder brings commercial-grade milling capability to your home or small business. With a powerful high-torque motor and a stainless steel grinding chamber, this machine transforms whole grains into fine flour in minutes.",
+      "Aurelle Candles Spiced Cedar 3-Wick fills large rooms with cedar, clove, and smoked wood from a 21 oz three-wick jar.",
     images: makeImages([120, 115, 125, 110, 130, 105, 135, 100]),
     titleRecommendation: rec(
       "Maya",
-      "Vevor Electric Grain Mill Grinder — 3000 RPM, Stainless, Wheat & Oats",
-      "Vevor Electric Grain Mill Grinder",
-      "- High Speed, Commercial Grade",
-      "— 3000 RPM, Stainless, Wheat & Oats",
+      "Aurelle Candles Spiced Cedar 3-Wick — 80-Hr Burn, Room-Filling",
+      "Aurelle Candles Spiced Cedar 3-Wick",
+      ", 21 oz",
+      "— 80-Hr Burn, Room-Filling",
       "Add RPM and compatible grains",
       "Buyers search by RPM and grain type — surfacing '3000 RPM' and grain names improves impression share on high-intent queries.",
       "Remove vague qualifier",
@@ -700,8 +700,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Maya",
-      "Mill wheat, corn, oats, rice, spices, and coffee at home with the Vevor Electric Grain Mill Grinder. A 3000 RPM stainless steel blade set reduces whole grains to 50–200 mesh flour in under two minutes. The food-grade stainless chamber, thermal overload protection, and easy-clean removable container support home baking and small-batch commercial use.",
-      "The Vevor Electric Grain Mill Grinder brings commercial-grade milling capability to your home or small business. With a powerful high-torque motor and a stainless steel grinding chamber, this machine transforms whole grains into fine flour in minutes.",
+      "Fill a large room with Aurelle Candles Spiced Cedar 3-Wick (21 oz). Cedar, clove, and smoked wood burn evenly across three cotton wicks for up to 80 hours.",
+      "Aurelle Candles Spiced Cedar 3-Wick fills large rooms with cedar, clove, and smoked wood from a 21 oz three-wick jar.",
       "",
       "",
       "Lead with RPM, grain types, and mesh output",
@@ -724,7 +724,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Emphasize cross-grain cleanup", detail: "Cleanup between grain types is a primary concern for buyers; addressing it directly reduces purchase hesitation." }] }] },
     ],
     pdpContent: {
-      title: "Vevor Grain Grinder Mill, 700g Capacity, Stainless Steel Electric Grain Mill",
+      title: "Aurelle Candles Spiced Cedar 3-Wick Jar Candle, 21 oz",
       bullets: [
         "CAPACITY: 700g grain per batch.",
         "SPEED: High-torque motor for fast grinding.",
@@ -732,7 +732,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "VERSATILE: Suitable for wheat, rice, corn, and spices.",
         "INCLUDES: Machine, extra grinding blade, and cleaning brush.",
       ],
-      description: "The Vevor Grain Mill Grinder is a powerful, efficient solution for home and commercial grain milling.",
+      description: "Aurelle Candles Spiced Cedar is a 21 oz three-wick jar of cedar, clove, and smoked wood.",
       imageCount: 6,
       lastUpdated: "Mar 19, 2025",
     },
@@ -740,7 +740,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-6": {
     titleStatus: "pending",
-    title: "Shark Navigator Lift-Away Professional Upright Vacuum NV356E",
+    title: "Aurelle Candles Pink Sands Tumbler, 10 oz",
     bullets: [
       "LIFT-AWAY CANISTER — Detach the pod with one button press to clean stairs, upholstery, and under furniture effortlessly.",
       "NEVER LOSES SUCTION — Advanced swivel steering and sealed suction design maintain peak performance on every floor type.",
@@ -751,14 +751,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "LIGHTWEIGHT & MANEUVERABLE — Weighs just 12.5 lbs and features swivel steering for tight corners and around furniture.",
     ],
     description:
-      "The Shark Navigator Lift-Away Professional combines the power of an upright vacuum with the versatility of a portable canister. Its Lift-Away design lets you remove the dust pod with one press and tackle above-floor cleaning without switching machines.",
+      "Aurelle Candles Pink Sands Tumbler is a 10 oz pour of coconut, sea salt, and a light floral breeze, made for bedrooms and baths.",
     images: makeImages([180, 175, 185, 170, 190, 165, 195, 160]),
     titleRecommendation: rec(
       "Jessica",
-      "Shark Navigator Lift-Away Upright Vacuum — Anti-Allergen, Pet Brush",
-      "Shark Navigator Lift-Away",
-      "Professional Upright Vacuum NV356E",
-      "Upright Vacuum — Anti-Allergen, Pet Brush",
+      "Aurelle Candles Pink Sands Tumbler — Coconut, Sea Salt, 45-Hr Burn",
+      "Aurelle Candles Pink Sands",
+      "Tumbler, 10 oz",
+      "— Coconut, Sea Salt, 45-Hr Burn",
       "Replace model number with benefit keywords",
       "'Anti-Allergen Seal' and 'Pet Brush' match top search filters; replacing the model number with features lifts organic CTR.",
       "Model numbers in consumer titles",
@@ -767,8 +767,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Jessica",
-      "The Shark Navigator Lift-Away Professional combines upright suction with a detachable canister for stairs, upholstery, and under furniture. Anti-Allergen Complete Seal traps 99.9% of dust and dander, the motorized pet power brush lifts embedded hair, and the 12.5 lb body with swivel steering navigates tight rooms. A 2.2-liter dust cup keeps longer cleaning sessions going.",
-      "The Shark Navigator Lift-Away Professional combines the power of an upright vacuum with the versatility of a portable canister. Its Lift-Away design lets you remove the dust pod with one press and tackle above-floor cleaning without switching machines.",
+      "Aurelle Candles Pink Sands Tumbler (10 oz) opens with coconut and sea salt, then settles into a light floral breeze. The soy blend burns for up to 45 hours with a single cotton wick.",
+      "Aurelle Candles Pink Sands Tumbler is a 10 oz pour of coconut, sea salt, and a light floral breeze, made for bedrooms and baths.",
       "",
       "",
       "Name Lift-Away, pet brush, and allergen seal first",
@@ -791,7 +791,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Quantify weight", detail: "Including '12.5 lbs' answers the buyer's implicit 'is it easy to carry?' question and matches weight-filtered searches." }] }] },
     ],
     pdpContent: {
-      title: "Shark NV356E Navigator Lift-Away Professional Upright Vacuum",
+      title: "Aurelle Candles Pink Sands Scented Tumbler Candle, 10 oz",
       bullets: [
         "LIFT-AWAY: Detachable pod for portable above-floor cleaning.",
         "ANTI-ALLERGEN: Complete seal traps 99.9% of dust and allergens.",
@@ -800,7 +800,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "LARGE CUP: 2.2L dust cup for longer cleaning sessions.",
       ],
       description:
-        "The Shark NV356E combines upright and canister vacuum functionality in a single lightweight unit.",
+        "Aurelle Candles Pink Sands is a 10 oz tumbler of coconut, sea salt, and a light floral breeze.",
       imageCount: 7,
       lastUpdated: "Mar 3, 2025",
     },
@@ -808,7 +808,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-7": {
     titleStatus: "pending",
-    title: "KitchenAid Artisan 5-Quart Tilt-Head Stand Mixer KSM150PS",
+    title: "Aurelle Candles Bergamot Grove Pillar Set",
     bullets: [
       "67-POINT PLANETARY MIXING — The beater moves in 67 touch points per rotation, reaching every part of the bowl for thorough, even mixing.",
       "59 VERSATILE ATTACHMENTS — Power Hub fits optional attachments including pasta maker, food grinder, ice cream maker, and more.",
@@ -819,14 +819,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "ICONIC DESIGN — Available in 30+ colors to complement any kitchen aesthetic, with a classic silhouette that hasn't changed since 1937.",
     ],
     description:
-      "The KitchenAid Artisan Stand Mixer is the cornerstone of countless home kitchens and professional bakeries alike. With its 325-watt motor, 10 mixing speeds, and a tilt-head design, it handles everything from delicate meringues to stiff bread doughs with consistent precision.",
+      "Aurelle Candles Bergamot Grove Pillar Set is a pair of hand-poured pillars scented with bergamot, green leaf, and a soft cedar base.",
     images: makeImages([0, 10, 350, 15, 345, 20, 340, 5]),
     titleRecommendation: rec(
       "Maya",
-      "KitchenAid Artisan 5-Qt Stand Mixer — 325W, 10 Speeds, 59 Attachments",
-      "KitchenAid Artisan",
-      "5-Quart Tilt-Head Stand Mixer KSM150PS",
-      "5-Qt Stand Mixer — 325W, 10 Speeds, 59 Attachments",
+      "Aurelle Candles Bergamot Grove Pillar Set — Set of 2, Hand-Poured",
+      "Aurelle Candles Bergamot Grove",
+      "Pillar Set",
+      "— Set of 2, Hand-Poured",
       "Add wattage and key specs",
       "Buyers compare mixers by wattage and speed count; '325W' and '10 Speeds' in the title improve spec-based filter matching.",
       "Move model number out of title",
@@ -835,8 +835,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Maya",
-      "The KitchenAid Artisan 5-quart tilt-head stand mixer pairs a 325-watt motor with 10 speeds and 67-point planetary mixing. The polished stainless bowl holds batter for 9 dozen cookies, the Power Hub drives 59 optional attachments, and the tilt-head design makes bowl access and cleanup simple — a kitchen staple available in 30+ colors.",
-      "The KitchenAid Artisan Stand Mixer is the cornerstone of countless home kitchens and professional bakeries alike. With its 325-watt motor, 10 mixing speeds, and a tilt-head design, it handles everything from delicate meringues to stiff bread doughs with consistent precision.",
+      "Aurelle Candles Bergamot Grove Pillar Set pairs two hand-poured pillars of bergamot, green leaf, and cedar. Each pillar burns evenly for dinners, mantels, and gift tables.",
+      "Aurelle Candles Bergamot Grove Pillar Set is a pair of hand-poured pillars scented with bergamot, green leaf, and a soft cedar base.",
       "",
       "",
       "Lead with wattage, bowl size, and attachment hub",
@@ -859,7 +859,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Substantiate heritage claim", detail: "Anchoring '1937' to the silhouette (not the product line) is historically accurate and avoids misleading longevity claims." }] }] },
     ],
     pdpContent: {
-      title: "KitchenAid KSM150PSER Artisan Tilt-Head Stand Mixer, 5 quart, Empire Red",
+      title: "Aurelle Candles Bergamot Grove Decorative Pillar Candles, Set of 2",
       bullets: [
         "POWER: 325-watt motor handles the most demanding recipes.",
         "10 SPEEDS: From slow stir to fast whip.",
@@ -868,7 +868,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "BOWL: 5-quart polished stainless steel bowl with handle.",
       ],
       description:
-        "The KitchenAid Artisan Stand Mixer is a kitchen icon available in a wide range of colors with accessories for almost any culinary task.",
+        "Aurelle Candles Bergamot Grove Pillar Set is two hand-poured pillars with bergamot, green leaf, and a soft cedar finish.",
       imageCount: 8,
       lastUpdated: "Apr 12, 2025",
     },
@@ -876,7 +876,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-8": {
     titleStatus: "pending",
-    title: "Instant Pot Duo 7-in-1 Electric Pressure Cooker, 6 Qt",
+    title: "Aurelle Candles Coastal Linen Large Jar, 22 oz",
     bullets: [
       "7-IN-1 VERSATILITY — Replaces pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker, and food warmer.",
       "UP TO 70% FASTER — Pressure cooking dramatically reduces meal time compared to conventional methods.",
@@ -887,14 +887,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "6-QUART CAPACITY — Feeds up to 6 people comfortably; ideal for families, meal prepping, and entertaining.",
     ],
     description:
-      "The Instant Pot Duo 7-in-1 is the best-selling multi-cooker trusted by millions of home cooks worldwide. It combines the functions of seven kitchen appliances into one compact device, saving counter space while expanding your cooking repertoire.",
+      "Aurelle Candles Coastal Linen Large Jar is a 22 oz pour of clean cotton, sea air, and soft musk for living rooms and guest suites.",
     images: makeImages([240, 245, 235, 250, 230, 255, 225, 260]),
     titleRecommendation: rec(
       "Jessica",
-      "Instant Pot Duo 7-in-1 Pressure Cooker 6 Qt — 70% Faster, 13 Programs",
-      "Instant Pot Duo 7-in-1",
-      "Electric Pressure Cooker, 6 Qt",
-      "Pressure Cooker 6 Qt — 70% Faster, 13 Programs",
+      "Aurelle Candles Coastal Linen 22 oz — Clean Cotton, 110-Hr Burn",
+      "Aurelle Candles Coastal Linen",
+      "Large Jar, 22 oz",
+      "22 oz — Clean Cotton, 110-Hr Burn",
       "Surface speed and program count",
       "'Up to 70% Faster' and '13 Programs' are high-conversion claims that drive clicks from comparison shoppers.",
       "No compliance issues found",
@@ -903,14 +903,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Jessica",
-      "The Instant Pot Duo 7-in-1 6-quart multi-cooker replaces a pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker, and warmer. Cook up to 70% faster with 13 one-touch programs and 10 safety mechanisms. The dishwasher-safe stainless inner pot, delay start, and auto keep-warm feed families of up to six.",
-      "The Instant Pot Duo 7-in-1 is the best-selling multi-cooker trusted by millions of home cooks worldwide. It combines the functions of seven kitchen appliances into one compact device, saving counter space while expanding your cooking repertoire.",
+      "Aurelle Candles Coastal Linen Large Jar (22 oz) opens with clean cotton and sea air, then settles into soft musk. The soy blend burns for up to 110 hours from a single lead-free wick.",
+      "Aurelle Candles Coastal Linen Large Jar is a 22 oz pour of clean cotton, sea air, and soft musk for living rooms and guest suites.",
       "",
       "",
       "List all seven functions and program count",
       "Naming each replaced appliance plus 13 programs captures long-tail searches for rice cooker, yogurt maker, and pressure cooker in one description.",
       "Keep the 70% faster claim tied to safety count",
-      "Pairing the substantiated speed claim with 10 safety mechanisms matches Instant Pot documentation and reduces policy-flag risk.",
+      "Pairing the burn-time claim with a lead-free wick matches Aurelle Candles specs and reduces policy-flag risk.",
     ),
     bulletRecommendations: [
       { id: "sku8-br-1", label: "Bullet 1", kind: "edit", pimIndex: 0, status: "pending",
@@ -921,13 +921,13 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Ground speed claim in examples", detail: "Concrete cook-time examples make the '70% faster' claim tangible and generate long-tail searches by dish name." }] }] },
       { id: "sku8-br-3", label: "Bullet 3", kind: "edit", pimIndex: 3, status: "pending",
         recommendedText: "10 PROVEN SAFETY MECHANISMS — Overheat protection, safe-locking lid, and automatic pressure control for completely worry-free cooking.",
-        reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Specify the safety number", detail: "Changing to '10 proven safety mechanisms' is more accurate than '10 safety mechanisms' and aligns with Instant Pot's certified safety documentation." }] }] },
+        reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Specify the safety number", detail: "Changing the safety wording to match the published wick and wax specs is more accurate and aligns with Aurelle Candles documentation." }] }] },
       { id: "sku8-br-4", label: "Bullet 4", kind: "edit", pimIndex: 5, status: "pending",
         recommendedText: "DELAY START & KEEP-WARM — Schedule meals up to 24 hours ahead; auto keep-warm holds food at ideal serving temperature for hours.",
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Highlight convenience use case", detail: "Delay start and keep-warm are top requested features among busy family cooks — surfacing them lifts consideration in that segment." }] }] },
     ],
     pdpContent: {
-      title: "Instant Pot Duo 7-in-1 Electric Pressure Cooker, Sterilizer, Slow Cooker, 6 Quart",
+      title: "Aurelle Candles Coastal Linen Large Jar Candle, 22 oz",
       bullets: [
         "7-IN-1: Pressure cooker, slow cooker, rice cooker, steamer, sauté, yogurt, and warmer.",
         "UP TO 70% FASTER than stove top cooking.",
@@ -936,7 +936,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "DISHWASHER SAFE: Inner pot, steam rack, and accessories.",
       ],
       description:
-        "The Instant Pot Duo is the #1 best-selling multi-cooker. It speeds up cooking by 2–6× while using up to 70% less energy.",
+        "Aurelle Candles Coastal Linen is a 22 oz jar of clean cotton, sea air, and soft musk.",
       imageCount: 8,
       lastUpdated: "Apr 1, 2025",
     },
@@ -944,7 +944,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-9": {
     titleStatus: "pending",
-    title: "Vitamix E310 Explorian Blender, Professional Grade",
+    title: "Aurelle Candles Hearthwood Cedar Jar, 18 oz",
     bullets: [
       "AIRCRAFT-GRADE STAINLESS BLADES — Hardened stainless steel blades pulverize the toughest ingredients including ice, nuts, and fibrous greens.",
       "48 OZ CONTAINER — The low-profile 48 oz container fits under most kitchen cabinets and works great for medium-to-large batches.",
@@ -952,17 +952,17 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "PULSE FEATURE — One-touch pulse button adds quick bursts of power for controlled chopping and final texture adjustments.",
       "SELF-CLEANING — Add warm water and a drop of dish soap, run for 30–60 seconds, and the container cleans itself.",
       "RADIAL COOLING FAN — Thermal protection system prevents overheating and extends motor life for years of reliable use.",
-      "7-YEAR WARRANTY — Vitamix backs every E310 with a full 7-year warranty covering parts, performance, and return shipping.",
+      "SATISFACTION GUARANTEE — Aurelle Candles backs every jar for scent throw, even burn, and finish.",
     ],
     description:
-      "The Vitamix E310 Explorian delivers the full Vitamix performance in a compact, affordable package. Its powerful motor and aircraft-grade stainless steel blades break down any ingredient — whole fruits, nuts, seeds, ice — into silky perfection, batch after batch.",
+      "Aurelle Candles Hearthwood Cedar Jar is an 18 oz soy pour of smoked cedar, clove, and a dry vanilla base for living rooms and studies.",
     images: makeImages([160, 165, 155, 170, 150, 175, 145, 180]),
     titleRecommendation: rec(
       "Maya",
-      "Vitamix E310 Explorian Blender — 48 oz, 10 Speeds, 7-Year Warranty",
-      "Vitamix E310 Explorian Blender",
-      ", Professional Grade",
-      "— 48 oz, 10 Speeds, 7-Year Warranty",
+      "Aurelle Candles Hearthwood Cedar 18 oz — Smoked Wood, Soy Wax",
+      "Aurelle Candles Hearthwood Cedar",
+      "Jar, 18 oz",
+      "18 oz — Smoked Wood, Soy Wax",
       "Add container size and warranty",
       "Container size and warranty length are top comparison factors for blenders; surfacing both boosts spec-match rankings.",
       "Remove vague tier label",
@@ -979,14 +979,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         recommendedText: "10-SPEED VARIABLE CONTROL + PULSE — Dial precisely from chunky salsa to silky smooth soup; Pulse adds quick power bursts for perfect texture.",
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "REPLACED", summary: "Combine speed and pulse features", detail: "Grouping variable speed and pulse in one bullet highlights full texture control and reduces bullet count without losing information." }] }] },
       { id: "sku9-br-4", label: "Bullet 4", kind: "edit", pimIndex: 6, status: "pending",
-        recommendedText: "7-YEAR FULL WARRANTY — Vitamix covers parts, performance, and return shipping for a full 7 years — the longest warranty in the blender category.",
-        reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Clarify warranty scope", detail: "Adding 'parts, performance, and return shipping' exactly mirrors Vitamix's official warranty terms and avoids overpromising." }] }] },
+        recommendedText: "SATISFACTION GUARANTEE — Aurelle Candles covers scent throw, even burn, and finish — stated in plain language on the listing.",
+        reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Clarify warranty scope", detail: "Stating scent throw, even burn, and finish mirrors the published guarantee and avoids overpromising." }] }] },
     ],
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Maya",
-      "Unlock restaurant-quality results at home with the Vitamix E310 Explorian. Aircraft-grade stainless steel blades and a robust motor blend ice, nuts, and fibrous greens into silky smoothies, hot soup, and nut butter. The 48 oz low-profile container fits under most cabinets; 10 speeds plus Pulse deliver precise texture control. Self-cleaning in under a minute — backed by a 7-year full warranty.",
-      "The Vitamix E310 Explorian delivers the full Vitamix performance in a compact, affordable package. Its powerful motor and aircraft-grade stainless steel blades break down any ingredient — whole fruits, nuts, seeds, ice — into silky perfection, batch after batch.",
+      "Unlock restaurant-quality results at home with the Aurelle Candles Hearthwood Cedar. Aircraft-grade stainless steel blades and a robust motor blend ice, nuts, and fibrous greens into silky smoothies, hot soup, and nut butter. The 48 oz low-profile container fits under most cabinets; 10 speeds plus Pulse deliver precise texture control. Self-cleaning in under a minute — backed by a 7-year full warranty.",
+      "Aurelle Candles Hearthwood Cedar Jar is an 18 oz soy pour of smoked cedar, clove, and a dry vanilla base for living rooms and studies.",
       "",
       "",
       "Lead with outcome keywords",
@@ -995,7 +995,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "7-year warranty messaging mirrors bullets and reduces hesitation on high-ticket purchases.",
     ),
     pdpContent: {
-      title: "Vitamix E310 Explorian Blender, Variable Speed, 48-oz. Low-Profile Container",
+      title: "Aurelle Candles Hearthwood Cedar Soy Jar Candle, 18 oz",
       bullets: [
         "AIRCRAFT-GRADE BLADES: Laser-cut stainless steel blades handle any ingredient.",
         "VARIABLE SPEED: 10 speeds plus pulse for total texture control.",
@@ -1004,7 +1004,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "7-YEAR WARRANTY: Full coverage including parts and labor.",
       ],
       description:
-        "Experience the Vitamix performance at an accessible price point. The E310 Explorian's robust motor and precision blades create everything from smoothies to hot soup.",
+        "Aurelle Candles Hearthwood Cedar is an 18 oz soy jar of smoked cedar, clove, and dry vanilla.",
       imageCount: 6,
       lastUpdated: "Mar 28, 2025",
     },
@@ -1012,10 +1012,10 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-10": {
     titleStatus: "pending",
-    title: "iRobot Roomba i3+ EVO Self-Emptying Robot Vacuum",
+    title: "Aurelle Candles Rasa Decorative Candle Duo",
     bullets: [
       "SELF-EMPTYING BASE — The Clean Base Automatic Dirt Disposal holds up to 60 days of debris so you don't have to touch the bin for months.",
-      "SMART MAPPING — Learns and maps your home layout over time to clean specific rooms on demand via the iRobot Home app.",
+      "GIFT-READY PAIR — Two hand-poured candles, one floral and one woody, packed as a set for tables and gift boxes.",
       "DUAL MULTI-SURFACE BRUSHES — Rubber brushes flex and adjust to carpet and hard floors, grabbing dirt from every direction.",
       "IMPRINT LINK TECHNOLOGY — Works with Braava jet m6 to auto-mop after vacuuming in a single coordinated session.",
       "PERSONALIZED SCHEDULES — Cleans automatically on your schedule, recharges when needed, and resumes until the job is complete.",
@@ -1023,14 +1023,14 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
       "WORKS WITH VOICE ASSISTANTS — Compatible with Alexa and Google Assistant for hands-free room-by-room control.",
     ],
     description:
-      "The iRobot Roomba i3+ EVO takes the hassle out of daily floor cleaning with its powerful self-emptying Clean Base and smart room-by-room mapping. Set a schedule, walk away, and come back to floors that have been cleaned, the bin emptied, and the robot back on its dock.",
+      "Aurelle Candles Rasa Decorative Candle Duo is a set of two hand-poured candles — one floral, one woody — for tables and gift boxes.",
     images: makeImages([220, 215, 225, 210, 230, 205, 235, 200]),
     titleRecommendation: rec(
       "Jessica",
-      "iRobot Roomba i3+ EVO Self-Emptying Vacuum — Mapping, 60-Day, Alexa",
-      "iRobot Roomba i3+ EVO Self-Emptying",
-      "Robot Vacuum",
-      "Vacuum — Mapping, 60-Day, Alexa",
+      "Aurelle Candles Rasa Duo — Set of 2 Scented Decorative Candles",
+      "Aurelle Candles Rasa Decorative",
+      "Candle Duo",
+      "— Set of 2 Scented Decorative Candles",
       "Add smart home and storage highlights",
       "'Smart Mapping' and 'Alexa Compatible' are top filter terms in the robot vacuum category and improve discoverability on app-connected device searches.",
       "No compliance issues found",
@@ -1039,8 +1039,8 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
     descriptionStatus: "pending",
     descriptionRecommendation: rec(
       "Jessica",
-      "The iRobot Roomba i3+ EVO self-emptying robot vacuum maps your home, cleans room by room, and empties itself into the Clean Base for up to 60 days. Dual multi-surface rubber brushes handle carpet and hard floors, a high-efficiency filter captures 99% of cat and dog allergens, and Alexa or Google Assistant lets you start, pause, or dock hands-free.",
-      "The iRobot Roomba i3+ EVO takes the hassle out of daily floor cleaning with its powerful self-emptying Clean Base and smart room-by-room mapping. Set a schedule, walk away, and come back to floors that have been cleaned, the bin emptied, and the robot back on its dock.",
+      "Aurelle Candles Rasa Decorative Candle Duo pairs a floral candle with a woody candle in one gift-ready set. Both are hand-poured soy with lead-free cotton wicks.",
+      "Aurelle Candles Rasa Decorative Candle Duo is a set of two hand-poured candles — one floral, one woody — for tables and gift boxes.",
       "",
       "",
       "Lead with self-empty, mapping, and 60-day hold",
@@ -1057,13 +1057,13 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "REPLACED", summary: "Mention app and voice together", detail: "Combining 'app' and 'voice' in one bullet captures both app-centric and smart-speaker-first buyer segments." }] }] },
       { id: "sku10-br-3", label: "Bullet 3", kind: "edit", pimIndex: 5, status: "pending",
         recommendedText: "ALLERGY-FRIENDLY HIGH-EFFICIENCY FILTER — Captures 99% of cat and dog allergens and seals them in the disposal bag, not back in your air.",
-        reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Specify allergen types", detail: "Naming cat and dog allergens specifically is substantiated by iRobot's allergen testing data and avoids a vague '99%' claim." }] }] },
+        reasoning: [{ key: "compliance", label: "Compliance", reasons: [{ type: "REPLACED", summary: "Specify allergen types", detail: "Naming floral and woody as the two scents matches the set contents and avoids a vague 'scented' claim." }] }] },
       { id: "sku10-br-4", label: "Bullet 4", kind: "edit", pimIndex: 6, status: "pending",
-        recommendedText: "ALEXA & GOOGLE ASSISTANT COMPATIBLE — Ask Alexa or Google to clean the kitchen, pause, or dock the Roomba hands-free from any room.",
+        recommendedText: "SET OF TWO SCENTS — Ask for a floral and a woody candle together; the Rasa duo is ready to gift or display.",
         reasoning: [{ key: "seo", label: "SEO", reasons: [{ type: "ADDED", summary: "Name both voice platforms", detail: "Naming Alexa and Google Assistant drives discovery from owners of both ecosystems; generic 'voice assistant' loses that specificity." }] }] },
     ],
     pdpContent: {
-      title: "iRobot Roomba i3+ (3550) Robot Vacuum with Automatic Dirt Disposal",
+      title: "Aurelle Candles Rasa Set of 2 Decorative Scented Candles",
       bullets: [
         "SELF-EMPTYING: Clean Base holds 60 days of debris automatically.",
         "SMART MAPPING: Learns your floor plan and cleans room by room.",
@@ -1072,7 +1072,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
         "VOICE CONTROL: Works with Alexa and Google Assistant.",
       ],
       description:
-        "The iRobot Roomba i3+ is a smart, self-emptying robot vacuum that maps your home and empties itself for up to 60 days of hands-free cleaning.",
+        "Aurelle Candles Rasa is a set of two decorative scented candles, one floral and one woody.",
       imageCount: 7,
       lastUpdated: "Feb 27, 2025",
     },

@@ -1,5 +1,5 @@
 export const heroData = {
-  brand: "Yankee Candle",
+  brand: "Aurelle Candles",
   report: "Amazon Alexa AI Visibility Report",
   visibilityScore: 34,
   categoryRank: 2,
@@ -8,12 +8,12 @@ export const heroData = {
     { name: "Bath & Body Works", score: 48, initials: "BBW", colorClass: "bg-info-600" },
   ],
   summary:
-    "Yankee Candle ranks #2 in AI visibility across tracked categories, with strong performance in seasonal and scented jar candle prompts. Bath & Body Works (48%) leads while opportunity remains in gift-giving and home décor searches.",
+    "Aurelle Candles ranks #2 in AI visibility across tracked categories, with strong performance in seasonal and scented jar candle prompts. Bath & Body Works (48%) leads while opportunity remains in gift-giving and home décor searches.",
 }
 
 export const leaderboardData = [
   { rank: 1,  brand: "Bath & Body Works",      score: 48, isYou: false },
-  { rank: 2,  brand: "Yankee Candle",           score: 34, isYou: true  },
+  { rank: 2,  brand: "Aurelle Candles",          score: 34, isYou: true  },
   { rank: 3,  brand: "Voluspa",                 score: 27, isYou: false },
   { rank: 4,  brand: "WoodWick",                score: 22, isYou: false },
   { rank: 5,  brand: "Nest Fragrances",         score: 18, isYou: false },

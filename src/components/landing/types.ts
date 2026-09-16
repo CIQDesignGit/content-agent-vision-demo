@@ -142,7 +142,7 @@ export interface CalendarSkuFinding {
   id: string
   name: string
   asin: string
-  /** Product thumbnail — use placehold.co when no real asset */
+  /** Product thumbnail — candle photo from the shared pool. */
   imageUrl: string
   finding: string
   driver: CalendarDriverKind

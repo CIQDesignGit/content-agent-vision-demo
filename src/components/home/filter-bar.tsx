@@ -29,7 +29,7 @@ const LOCKED_PAGE_TASK_FILTER = {
   description: "AI-powered title rewrites for discoverability",
 } as const
 
-export const BRANDS = ["Yankee Candle", "NutriChef", "Vevor", "Proctor Silex", "Dyson"]
+export const BRANDS = ["Aurelle Candles"]
 
 // ─── Shared dropdown trigger styles ───────────────────────────────────────────
 
@@ -39,7 +39,7 @@ function DropdownTrigger({
   className,
 }: {
   field: string        // muted label e.g. "Type", "Brand"
-  value?: string       // bold value e.g. "All", "Vevor & 1 more" — omit when nothing selected
+  value?: string       // bold value e.g. "All", "Aurelle Candles" — omit when nothing selected
   className?: string
 }) {
   return (

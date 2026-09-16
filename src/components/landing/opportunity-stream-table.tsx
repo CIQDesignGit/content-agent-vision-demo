@@ -48,7 +48,7 @@ export function OpportunityStreamTable({
             >
               <td className="py-3.5 pl-6 pr-4 align-middle">
                   <div className="flex items-center gap-3">
-                    <SkuGradientThumbnail />
+                    <SkuGradientThumbnail seed={row.asin} />
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold tracking-tight text-slate-900">
                         {row.name}

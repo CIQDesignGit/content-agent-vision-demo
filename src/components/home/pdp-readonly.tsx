@@ -1,4 +1,5 @@
 import { Image as ImageIcon, ListChecks, Type } from "lucide-react"
+import { candleThumbnail } from "@/lib/candle-thumbnails"
 
 function PdpCard({
   icon,
@@ -42,10 +43,11 @@ export function PdpReadOnlyContent({ title, description, bullets, imageCount }: 
       <PdpCard icon={<ImageIcon className="size-4" />} title="Image" badge={`${imageCount}/${imageCount} Present`}>
         <div className="scroll-thin flex gap-3 overflow-x-auto pb-1">
           {Array.from({ length: imageCount }).map((_, i) => (
-            <div
+            <img
               key={i}
-              className="flex h-44 w-36 shrink-0 rounded-lg border border-slate-200 bg-slate-100"
-              aria-hidden
+              src={candleThumbnail(`${title}-${i}`)}
+              alt=""
+              className="h-44 w-36 shrink-0 rounded-lg border border-slate-200 object-cover"
             />
           ))}
         </div>

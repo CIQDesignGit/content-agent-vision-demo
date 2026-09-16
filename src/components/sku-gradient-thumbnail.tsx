@@ -1,16 +1,26 @@
+import { candleThumbnail } from "@/lib/candle-thumbnails"
 import { cn } from "@/lib/utils"
 
-/** Shared SKU placeholder — light multicolor gradient (no per-SKU initials). */
+interface SkuGradientThumbnailProps {
+  className?: string
+  /** Product id or ASIN — same seed always maps to the same candle photo. */
+  seed?: string
+  src?: string
+  alt?: string
+}
+
 export function SkuGradientThumbnail({
   className,
-}: {
-  className?: string
-}) {
+  seed = "candle",
+  src,
+  alt = "",
+}: SkuGradientThumbnailProps) {
   return (
-    <div
-      aria-hidden
+    <img
+      src={src ?? candleThumbnail(seed)}
+      alt={alt}
       className={cn(
-        "shrink-0 rounded-lg bg-gradient-to-br from-brand-100 via-info-50 to-warning-100 ring-1 ring-slate-200/80",
+        "shrink-0 rounded-lg object-cover ring-1 ring-slate-200/80",
         className ?? "size-10",
       )}
     />

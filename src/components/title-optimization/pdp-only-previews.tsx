@@ -1,5 +1,6 @@
 import { AiRecommendationSparklesIcon, SourceCellLabel, SourceChannelLabel } from "@/components/home/bullet-source-cell"
 import { RETAILER_LOGO_SRC } from "@/components/home/source-logos"
+import { candleThumbnail } from "@/lib/candle-thumbnails"
 import type { BulletRecommendation, ProductImage, TitleRecommendation } from "@/components/home/types"
 
 // ─── Shared layout primitives ─────────────────────────────────────────────────
@@ -120,21 +121,13 @@ export function PdpOnlyDescriptionPreview({
 
 // ─── PDP-only Image preview ───────────────────────────────────────────────────
 
-function ImageThumb({ hue }: { hue?: number }) {
+function ImageThumb({ seed }: { seed: string }) {
   return (
-    <div className="h-20 w-[88px] shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white">
-      {hue !== undefined ? (
-        <div
-          className="size-full"
-          style={{
-            background: `linear-gradient(135deg, hsl(${hue} 60% 88%), hsl(${(hue + 30) % 360} 50% 78%))`,
-          }}
-          aria-hidden
-        />
-      ) : (
-        <div className="size-full bg-slate-100" aria-hidden />
-      )}
-    </div>
+    <img
+      src={candleThumbnail(seed)}
+      alt=""
+      className="h-20 w-[88px] shrink-0 rounded-lg border border-slate-200 object-cover"
+    />
   )
 }
 
@@ -154,7 +147,7 @@ export function PdpOnlyImagePreview({ pdpImages }: { pdpImages: ProductImage[] }
       >
         <div className="flex gap-2">
           {Array.from({ length: previewCount }).map((_, i) => (
-            <ImageThumb key={i} />
+            <ImageThumb key={i} seed={`reco-${i}`} />
           ))}
         </div>
       </PreviewColumn>
@@ -162,10 +155,10 @@ export function PdpOnlyImagePreview({ pdpImages }: { pdpImages: ProductImage[] }
       <PreviewColumn label={retailerLabel}>
         <div className="flex gap-2">
           {pdpSlice.map((img) => (
-            <ImageThumb key={img.id} hue={img.hue} />
+            <ImageThumb key={img.id} seed={img.id} />
           ))}
           {Array.from({ length: Math.max(0, previewCount - pdpSlice.length) }).map((_, i) => (
-            <ImageThumb key={`empty-${i}`} />
+            <ImageThumb key={`empty-${i}`} seed={`pdp-empty-${i}`} />
           ))}
         </div>
       </PreviewColumn>

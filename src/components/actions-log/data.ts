@@ -1,8 +1,9 @@
+import { candleThumbnail } from "@/lib/candle-thumbnails"
 import type { ActionLogEntry, AttemptedChange } from "./types"
 
 export const DEFAULT_DATE_RANGE = "May 03, 2026 - Jun 01, 2026"
 
-const TIDY_CATS_CHANGES: AttemptedChange[] = [
+const LIGHT_LINEN_CHANGES: AttemptedChange[] = [
   {
     type: "text",
     field: "Title",
@@ -10,12 +11,12 @@ const TIDY_CATS_CHANGES: AttemptedChange[] = [
     liveDate: "May 23",
     fieldReflection: "live",
     before: [
-      { text: "Tidy Cats " },
-      { text: "Cat Litter, 20 lb", variant: "removed" },
+      { text: "Aurelle Candles " },
+      { text: "Linen Candle, 12 oz", variant: "removed" },
     ],
     after: [
-      { text: "Tidy Cats " },
-      { text: "LightWeight Free & Clean, 17 lb", variant: "added" },
+      { text: "Aurelle Candles " },
+      { text: "Light Linen Soy Candle, 10 oz", variant: "added" },
     ],
   },
   {
@@ -25,9 +26,9 @@ const TIDY_CATS_CHANGES: AttemptedChange[] = [
     liveDate: "May 24",
     fieldReflection: "live",
     items: [
-      { text: "Odor control for 14 days" },
-      { text: "Lightweight — half the weight", added: true },
-      { text: "Free of dyes & fragrances", added: true },
+      { text: "Clean linen scent for 40 hours" },
+      { text: "Soy wax — lighter jar", added: true },
+      { text: "Lead-free cotton wick", added: true },
     ],
   },
   {
@@ -38,16 +39,16 @@ const TIDY_CATS_CHANGES: AttemptedChange[] = [
     fieldReflection: "live",
     before: [
       {
-        text: "Keep litter boxes fresh with powerful odor control. ",
+        text: "Keep small rooms fresh with a light everyday candle. ",
       },
       {
-        text: "Our standard clay formula is ideal for everyday use in single-cat homes.",
+        text: "A compact paraffin jar suited to single-room use.",
         variant: "removed",
       },
     ],
     after: [
       {
-        text: "Tidy Cats LightWeight Free & Clean is now half the weight of traditional clay litter, with 14-day odor control and a dye-free, fragrance-free formula ideal for multi-cat households.",
+        text: "Aurelle Candles Light Linen Soy Candle is a lighter 10 oz jar with a clean cotton-and-linen scent, a 40-hour burn, and a lead-free wick for bedrooms and guest baths.",
         variant: "added",
       },
     ],
@@ -81,29 +82,29 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
   {
     id: "log-1",
     skuId: "B07KYLBRT4",
-    name: "Tidy Cats LightWeight Free & Clean",
-    thumbnailUrl: "https://placehold.co/40x40/e0f2fe/0369a1?text=TC",
+    name: "Aurelle Candles Light Linen Soy Candle",
+    thumbnailUrl: candleThumbnail("B07KYLBRT4"),
     pimStatus: "accepted",
     retailerStatus: "accepted",
     pdpStatus: "live",
     syndicationRemarks: "All 3 fields live (May 28).",
     actionedOn: "May 27, 2026, 07:56 PM",
     actionedShort: "actioned May 27 7:56 PM",
-    updatedBy: "kathleen.fuller@purina.nestle.com",
+    updatedBy: "kathleen.fuller@aurellecandles.com",
     status: "success",
     panelScenario: "live",
     pimWrittenAt: "3:10 PM",
     retailerAt: "3:12 PM",
     pdpAt: "May 28",
     fieldsLive: { live: 3, total: 3 },
-    attemptedChanges: TIDY_CATS_CHANGES,
+    attemptedChanges: LIGHT_LINEN_CHANGES,
   },
   // 2 — Pending (within 5-day crawl window)
   {
     id: "log-2",
     skuId: "B08NF9KBZ4",
-    name: "Yankee Candle Black Cherry Large Jar Candle, 22 oz",
-    thumbnailUrl: "https://placehold.co/40x40/fce7f3/be185d?text=YC",
+    name: "Aurelle Candles Noir Cherry Large Jar, 22 oz",
+    thumbnailUrl: candleThumbnail("B08NF9KBZ4"),
     pimStatus: "accepted",
     retailerStatus: "accepted",
     pdpStatus: "pending",
@@ -125,12 +126,12 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         liveDate: "May 19",
         fieldReflection: "live",
         before: [
-          { text: "Yankee Candle " },
-          { text: "Black Cherry Jar, 22oz", variant: "removed" },
+          { text: "Aurelle Candles " },
+          { text: "Noir Cherry Jar, 22oz", variant: "removed" },
         ],
         after: [
-          { text: "Yankee Candle " },
-          { text: "Black Cherry Large Jar Candle, 22 oz", variant: "added" },
+          { text: "Aurelle Candles " },
+          { text: "Noir Cherry Large Jar, 22 oz", variant: "added" },
         ],
       },
       {
@@ -171,8 +172,8 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
   {
     id: "log-3",
     skuId: "B0BLXL6QK6",
-    name: "Yankee Candle® Studio Scented Candle, Pink Sands",
-    thumbnailUrl: "https://placehold.co/40x40/fce7f3/db2777?text=YC",
+    name: "Aurelle Candles Studio Pink Sands, 8 oz",
+    thumbnailUrl: candleThumbnail("B0BLXL6QK6"),
     pimStatus: "accepted",
     retailerStatus: "accepted",
     pdpStatus: "partially_live",
@@ -194,12 +195,12 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         liveDate: "May 18",
         fieldReflection: "live",
         before: [
-          { text: "Yankee Candle " },
+          { text: "Aurelle Candles " },
           { text: "Studio Candle Pink Sand", variant: "removed" },
         ],
         after: [
-          { text: "Yankee Candle® Studio " },
-          { text: "Scented Candle, Pink Sands", variant: "added" },
+          { text: "Aurelle Candles Studio " },
+          { text: "Pink Sands, 8 oz", variant: "added" },
         ],
       },
       {
@@ -249,8 +250,8 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
   {
     id: "log-4",
     skuId: "B00I0DI0Z6",
-    name: "NutriChef Food Processor - 8-Cup Capacity",
-    thumbnailUrl: "https://placehold.co/40x40/ede9fe/7c3aed?text=NC",
+    name: "Aurelle Candles Citrus Zest Soy Jar, 14 oz",
+    thumbnailUrl: candleThumbnail("B00I0DI0Z6"),
     pimStatus: "accepted",
     retailerStatus: "pending",
     pdpStatus: "pending",
@@ -266,10 +267,10 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         type: "text",
         field: "Title",
         changeKind: "edit",
-        before: [{ text: "NutriChef Processor 8 Cup", variant: "removed" }],
+        before: [{ text: "Aurelle Citrus Zest Jar", variant: "removed" }],
         after: [
-          { text: "NutriChef Food Processor — " },
-          { text: "8-Cup Capacity, Digital Control", variant: "added" },
+          { text: "Aurelle Candles Citrus Zest — " },
+          { text: "Soy Jar, 14 oz", variant: "added" },
         ],
       },
       {
@@ -277,8 +278,8 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         field: "Bullets",
         changeKind: "add",
         items: [
-          { text: "8-cup work bowl capacity" },
-          { text: "Digital touch control panel", added: true },
+          { text: "Bright citrus zest scent" },
+          { text: "Soy blend, 60-hour burn", added: true },
         ],
       },
       {
@@ -288,7 +289,7 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         before: null,
         after: [
           {
-            text: "Versatile food processor for everyday meal prep — chop, slice, shred, and puree with an 8-cup work bowl and digital touch control panel. Ideal for sauces, dips, vegetables, and dough with dishwasher-safe parts for easy cleanup.",
+            text: "Bright citrus zest soy jar for kitchens and living rooms — orange peel, lemon leaf, and a clean white-floral base in a 14 oz hand-poured jar with a 60-hour burn.",
           },
         ],
       },
@@ -298,8 +299,8 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
   {
     id: "log-5",
     skuId: "B07GR5MSKD",
-    name: "Dyson V11 Animal Cordless Vacuum Cleaner",
-    thumbnailUrl: "https://placehold.co/40x40/dbeafe/1d4ed8?text=DY",
+    name: "Aurelle Candles Amber Floral Soy Candle, 16 oz",
+    thumbnailUrl: candleThumbnail("B07GR5MSKD"),
     pimStatus: "accepted",
     retailerStatus: "rejected",
     pdpStatus: "not_run",
@@ -316,10 +317,10 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         type: "text",
         field: "Title",
         changeKind: "edit",
-        before: [{ text: "Dyson V11 Animal Vacuum", variant: "removed" }],
+        before: [{ text: "Aurelle Amber Floral Candle", variant: "removed" }],
         after: [
           {
-            text: "Dyson V11 Animal Cordless Vacuum Cleaner with Powerful Suction",
+            text: "Aurelle Candles Amber Floral Soy Candle, 16 oz",
             variant: "added",
           },
         ],
@@ -328,7 +329,7 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         type: "bullets",
         field: "Bullets",
         changeKind: "add",
-        items: [{ text: "Powerful suction for pet hair", added: true }],
+        items: [{ text: "Amber, jasmine, and soft musk", added: true }],
       },
       {
         type: "text",
@@ -337,7 +338,7 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         before: null,
         after: [
           {
-            text: "Cordless vacuum with advanced filtration captures pet hair, dust, and allergens across carpets and hard floors. The V11 Animal delivers powerful suction, up to 60 minutes of runtime, and a whole-machine filtration system certified asthma & allergy friendly.",
+            text: "Hand-poured soy candle with amber, jasmine, and musk. The 16 oz jar burns for up to 70 hours and fills medium rooms with a warm floral scent from first light to last.",
           },
         ],
       },
@@ -348,8 +349,8 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
   {
     id: "log-6",
     skuId: "B00H8R3KM2",
-    name: "Vevor Electric Grain Mill Grinder - High Speed",
-    thumbnailUrl: "https://placehold.co/40x40/dcfce7/15803d?text=VV",
+    name: "Aurelle Candles Spiced Cedar 3-Wick, 21 oz",
+    thumbnailUrl: candleThumbnail("B00H8R3KM2"),
     pimStatus: "accepted",
     retailerStatus: "rejected",
     pdpStatus: "live",
@@ -372,10 +373,10 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         changeKind: "edit",
         liveDate: "May 24",
         fieldReflection: "live",
-        before: [{ text: "VEVOR Grain Mill Grinder" }],
+        before: [{ text: "Aurelle Spiced Cedar Candle" }],
         after: [
-          { text: "Vevor Electric Grain Mill Grinder — " },
-          { text: "High Speed, Commercial Grade", variant: "added" },
+          { text: "Aurelle Candles Spiced Cedar 3-Wick — " },
+          { text: "21 oz, Room-Filling", variant: "added" },
         ],
       },
       {
@@ -385,8 +386,8 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         liveDate: "May 24",
         fieldReflection: "live",
         items: [
-          { text: "304 stainless steel burrs", added: true },
-          { text: "Commercial-grade motor", added: true },
+          { text: "Three cotton wicks", added: true },
+          { text: "Cedar, clove, and smoked wood", added: true },
         ],
       },
       {
@@ -397,7 +398,7 @@ export const ACTION_LOG_ENTRIES: ActionLogEntry[] = [
         before: null,
         after: [
           {
-            text: "High-speed grain mill for commercial kitchens and home bakers — 304 stainless steel burrs grind wheat, corn, rice, and spices with a commercial-grade motor built for daily use. Adjustable texture from fine flour to coarse meal.",
+            text: "A 21 oz three-wick jar of cedar, clove, and smoked wood. Built to fill large rooms evenly, with an 80-hour burn and a lead-free cotton wick set.",
           },
         ],
       },

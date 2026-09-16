@@ -10,6 +10,7 @@ import {
   Trash2,
 } from "lucide-react"
 import { alignImageSlots, imageMatchPercent, imagePresentCount, makeRecommendedImages } from "@/lib/image-match"
+import { candleThumbnail } from "@/lib/candle-thumbnails"
 import { cn } from "@/lib/utils"
 import { fieldLabelContentStack, fieldSectionStack } from "./field-layout"
 import { AiRecommendationSparklesIcon, SourceCellLabel, SourceChannelLabel } from "./bullet-source-cell"
@@ -59,16 +60,11 @@ function ProductImageCard({
         ) : null}
       </header>
       <div className="flex-1 overflow-hidden rounded-b-xl border-t border-slate-200 bg-white">
-        {image.url ? (
-          <img src={image.url} alt={image.label} className="size-full object-contain p-2" />
-        ) : image.hue !== undefined ? (
-          // Dynamic HSL gradient from data — inline style required for computed color
-          <div
-            className="size-full"
-            style={{
-              background: `linear-gradient(135deg, hsl(${image.hue} 60% 88%), hsl(${((image.hue ?? 0) + 30) % 360} 50% 78%))`,
-            }}
-            aria-hidden
+        {image.url || image.hue !== undefined ? (
+          <img
+            src={image.url ?? candleThumbnail(image.id)}
+            alt={image.label}
+            className="size-full object-cover"
           />
         ) : (
           <div className="flex size-full items-center justify-center bg-slate-50 p-2">

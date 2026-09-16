@@ -239,7 +239,11 @@ export function BulkReviewTable({
                     label={`${isChecked ? "Deselect" : "Select"} ${sku.brand}`}
                   />
                   <div className="min-w-0">
-                    <SkuGradientThumbnail className="mb-1 size-9 border border-slate-100" />
+                    <SkuGradientThumbnail
+                      src={sku.thumbnailUrl}
+                      seed={sku.asin}
+                      className="mb-1 size-9 border border-slate-100"
+                    />
                     <p className="font-mono text-xs text-slate-400">{sku.asin}</p>
                     <p className="text-sm font-medium text-slate-700 line-clamp-2 leading-snug">
                       {sku.brand}

@@ -70,7 +70,11 @@ export function ImpactTable({ rows }: ImpactTableProps) {
                 >
                   <td className="px-5 py-3.5 align-middle">
                     <div className="flex min-w-0 items-center gap-3">
-                      <SkuGradientThumbnail className="size-10 rounded-md border border-slate-200" />
+                      <SkuGradientThumbnail
+                        src={row.thumbnailUrl}
+                        seed={row.asin}
+                        className="size-10 rounded-md border border-slate-200"
+                      />
                       <div className="min-w-0">
                         <p className="truncate text-sm font-medium text-fg-primary">
                           {row.productName}

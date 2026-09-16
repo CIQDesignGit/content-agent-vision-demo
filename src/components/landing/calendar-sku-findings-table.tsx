@@ -47,7 +47,7 @@ export function CalendarSkuFindingsTable({
             >
               <td className="px-4 py-3 pr-4 align-middle">
                 <div className="flex items-center gap-3">
-                  <SkuGradientThumbnail />
+                  <SkuGradientThumbnail src={row.imageUrl} seed={row.asin} />
                   <div className="min-w-0">
                     <p className="truncate text-sm font-medium text-slate-900">
                       {row.name}

@@ -22,7 +22,13 @@ export const COLUMNS: ColumnDef[] = [
   {
     id: "sku",
     label: "SKU",
-    options: ["Yankee Candle", "NutriChef", "Dyson", "KitchenAid", "iRobot"],
+    options: [
+      "Aurelle Candles Noir Cherry Large Jar",
+      "Aurelle Candles Citrus Zest Soy Jar",
+      "Aurelle Candles Amber Floral Soy Candle",
+      "Aurelle Candles Vanilla Tobacco Jar",
+      "Aurelle Candles Spiced Cedar 3-Wick",
+    ],
   },
   {
     id: "action_status",

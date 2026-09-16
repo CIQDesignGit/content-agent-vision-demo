@@ -1,5 +1,6 @@
 import { AlignLeft, Image as ImageIcon, List, Lock } from "lucide-react"
 import type { ReactNode } from "react"
+import { candleThumbnail } from "@/lib/candle-thumbnails"
 import type { BulletRecommendation, ProductImage, TitleRecommendation } from "@/components/home/types"
 import {
   PdpOnlyBulletsPreview,
@@ -124,9 +125,11 @@ export function LockedImagesSection({
       ) : (
         <div className="flex gap-3 overflow-hidden px-1 pb-2">
           {Array.from({ length: Math.min(count, 5) }).map((_, i) => (
-            <div
+            <img
               key={i}
-              className="h-24 w-24 shrink-0 rounded-lg border border-slate-200 bg-slate-100"
+              src={candleThumbnail(`locked-image-${i}`)}
+              alt=""
+              className="h-24 w-24 shrink-0 rounded-lg border border-slate-200 object-cover"
             />
           ))}
         </div>

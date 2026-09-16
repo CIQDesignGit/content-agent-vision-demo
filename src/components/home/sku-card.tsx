@@ -84,8 +84,15 @@ export function OpsTag({ value }: { value: number }) {
   )
 }
 
-function SkuThumb() {
-  return <SkuGradientThumbnail className="size-11 border border-slate-100" />
+function SkuThumb({ sku }: { sku: Sku }) {
+  return (
+    <SkuGradientThumbnail
+      src={sku.thumbnailUrl}
+      seed={sku.asin}
+      alt=""
+      className="size-11 border border-slate-100"
+    />
+  )
 }
 
 // Exported so SkuSidebar's master-select header can reuse it
@@ -195,7 +202,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
               </div>
             </div>
             <div className="flex items-start gap-2.5">
-              <SkuThumb />
+              <SkuThumb sku={sku} />
               <p className="line-clamp-2 flex-1 text-sm font-semibold leading-snug text-slate-700">
                 {sku.title}
               </p>
@@ -220,7 +227,11 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
           <MetaRow sku={sku} isActive={isActive} />
           <div className="flex items-stretch gap-3">
             {/* Image stretches to match the right column height, stays square */}
-            <SkuGradientThumbnail className="aspect-square w-14 self-stretch border border-slate-100" />
+            <SkuGradientThumbnail
+              src={sku.thumbnailUrl}
+              seed={sku.asin}
+              className="aspect-square w-14 self-stretch border border-slate-100"
+            />
             {/* Right column: title + OPS tag, tightly stacked */}
             <div className="flex min-w-0 flex-1 flex-col justify-start gap-1.5">
               <p className="line-clamp-2 text-sm font-semibold leading-snug text-slate-700">
@@ -238,7 +249,7 @@ export function SkuCard({ sku, isActive, isSelected, isSelectionMode, hideMetric
           <div className="flex flex-col gap-2 px-3 pb-2.5 pt-3">
             <MetaRow sku={sku} isActive={isActive} />
             <div className="flex gap-3">
-              <SkuThumb />
+              <SkuThumb sku={sku} />
               <p className="line-clamp-2 flex-1 text-sm font-semibold leading-snug text-slate-700">
                 {sku.title}
               </p>

@@ -41,6 +41,7 @@ export function ProductHeader({
   asin,
   productId,
   brand,
+  thumbnailUrl,
   compliance,
   seo,
   aeo,
@@ -77,7 +78,11 @@ export function ProductHeader({
       <div className="flex items-start justify-between gap-6 px-6 py-4">
         {/* Left: thumbnail + product info — items-stretch so thumbnail matches text height */}
         <div className="flex min-w-0 items-stretch gap-3">
-          <SkuGradientThumbnail className="size-14 border border-slate-200" />
+          <SkuGradientThumbnail
+            src={thumbnailUrl}
+            seed={asin}
+            className="size-14 border border-slate-200"
+          />
 
           {/* Metadata + title + optional metrics */}
           <div className="min-w-0 space-y-1">

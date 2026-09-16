@@ -23,7 +23,11 @@ function SkuCell({ entry }: { entry: ActionLogEntry }) {
 
   return (
     <div className="flex min-w-0 items-center gap-3">
-      <SkuGradientThumbnail className="size-10 rounded-md" />
+      <SkuGradientThumbnail
+        src={entry.thumbnailUrl}
+        seed={entry.skuId}
+        className="size-10 rounded-md"
+      />
       <div className="min-w-0">
         {entry.name ? (
           <p className="line-clamp-1 text-sm font-medium text-slate-900">{entry.name}</p>
