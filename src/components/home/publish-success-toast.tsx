@@ -32,18 +32,22 @@ function PublishSuccessToast({
   return (
     <div className="relative w-80 overflow-visible">
       <div className="relative z-10 rounded-xl border border-slate-200 bg-white px-4 py-3.5 shadow-2xl ring-1 ring-slate-900/10">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-xl bg-linear-to-tl from-emerald-100/50 via-emerald-50/20 to-transparent"
+        />
         <button
           type="button"
-          className="absolute top-2.5 right-2.5 grid size-5 place-items-center rounded text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+          className="absolute top-2.5 right-2.5 z-10 grid size-5 place-items-center rounded text-slate-400 hover:bg-slate-100 hover:text-slate-600"
           aria-label="Dismiss"
           onClick={() => toast.dismiss(toastId)}
         >
           <X className="size-3.5" />
         </button>
 
-        <div className="flex items-center gap-2.5 pr-5">
+        <div className="relative z-10 flex items-center gap-2.5 pr-5">
           <span className="relative grid size-5 shrink-0 place-items-center">
-            <PartyPopper className="size-5 text-success-600" aria-hidden />
+            <PartyPopper className="size-5 text-emerald-600" aria-hidden />
             <PublishConfetti />
           </span>
           <p className="text-sm font-semibold tracking-tight text-slate-900">
@@ -52,7 +56,7 @@ function PublishSuccessToast({
         </div>
 
         {capturedLabel ? (
-          <p className="mt-2.5 pl-7.5 text-sm leading-snug text-slate-500">
+          <p className="relative z-10 mt-2.5 pl-7.5 text-sm leading-snug text-slate-500">
             <span className="font-semibold tabular-nums text-slate-900">
               {capturedLabel} captured
             </span>

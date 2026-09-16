@@ -64,7 +64,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-1": {
     titleStatus: "pending",
-    title: "Aurelle Candles Noir Cherry Large Jar, 22 oz",
+    title: "Aurelle Candles Noir Cherry Large Scented Jar, 22 oz",
     bullets: [
       "RICH BLACK CHERRY FRAGRANCE — Deep, dark cherry blended with warming spice fills any room with an indulgent, fruity-sweet aroma.",
       "LONG BURN TIME — Up to 110–150 hours of fragrance from a single 22 oz jar, making it one of the best-value candles available.",
@@ -365,7 +365,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
   // sku-2 — Citrus Zest: PIM catalog + retailer PDP (content gaps drive AI recs)
   "sku-2": {
     titleStatus: "pending",
-    title: "Citrus Zest Soy Jar, 14 oz",
+    title: "Bright Citrus Zest Hand-Poured Soy Jar Candle, 14 oz",
     bullets: [
       "500W MOTOR — Handles everyday chopping, slicing, and shredding tasks.",
       "8-CUP CAPACITY — Room for family-sized recipes without multiple batches.",
@@ -538,7 +538,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-3": {
     titleStatus: "pending",
-    title: "Amber Floral Soy Candle, 16 oz",
+    title: "Warm Amber Floral Soy Jar Candle, 16 oz",
     bullets: [
       "HIGH-TORQUE CLEANER HEAD — Automatically adapts between carpet and hard floors for optimal suction on every surface.",
       "INTELLIGENT SUCTION — Three auto-adjusted modes continuously sense floor type and adjust power to maintain performance.",
@@ -606,7 +606,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-4": {
     titleStatus: "pending",
-    title: "Aurelle Candles Vanilla Tobacco Jar, 12 oz",
+    title: "Aurelle Candles Vanilla Tobacco Scented Jar Candle, 12 oz",
     bullets: [
       "EXTRA-WIDE SLOTS — 1.5-inch wide slots easily fit bagels, artisan bread, and thick Texas toast.",
       "6 BROWNING SETTINGS — Dial adjusts shade from light golden to deep brown so every slice is perfectly toasted.",
@@ -673,7 +673,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-5": {
     titleStatus: "pending",
-    title: "Spiced Cedar 3-Wick, 21 oz",
+    title: "Room-Filling Spiced Cedar Three-Wick Soy Candle, 21 oz",
     bullets: [
       "HIGH-SPEED MOTOR — 3000 RPM stainless steel grinding blades reduce grains to fine powder in under 2 minutes.",
       "COMMERCIAL-GRADE BUILD — Heavy-duty stainless steel grinding chamber withstands continuous operation in commercial kitchens.",
@@ -740,7 +740,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-6": {
     titleStatus: "pending",
-    title: "Aurelle Candles Pink Sands Tumbler, 10 oz",
+    title: "Aurelle Candles Pink Sands Scented Tumbler Candle, 10 oz",
     bullets: [
       "LIFT-AWAY CANISTER — Detach the pod with one button press to clean stairs, upholstery, and under furniture effortlessly.",
       "NEVER LOSES SUCTION — Advanced swivel steering and sealed suction design maintain peak performance on every floor type.",
@@ -808,7 +808,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-7": {
     titleStatus: "pending",
-    title: "Bergamot Grove Pillar Set",
+    title: "Bergamot Grove Decorative Scented Pillar Candle Set",
     bullets: [
       "67-POINT PLANETARY MIXING — The beater moves in 67 touch points per rotation, reaching every part of the bowl for thorough, even mixing.",
       "59 VERSATILE ATTACHMENTS — Power Hub fits optional attachments including pasta maker, food grinder, ice cream maker, and more.",
@@ -876,7 +876,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-8": {
     titleStatus: "pending",
-    title: "Aurelle Candles Coastal Linen Large Jar, 22 oz",
+    title: "Aurelle Candles Coastal Linen Large Scented Jar, 22 oz",
     bullets: [
       "7-IN-1 VERSATILITY — Replaces pressure cooker, slow cooker, rice cooker, steamer, sauté pan, yogurt maker, and food warmer.",
       "UP TO 70% FASTER — Pressure cooking dramatically reduces meal time compared to conventional methods.",
@@ -944,7 +944,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-9": {
     titleStatus: "pending",
-    title: "Hearthwood Cedar Jar, 18 oz",
+    title: "Hearthwood Cedar Hand-Poured Soy Jar Candle, 18 oz",
     bullets: [
       "AIRCRAFT-GRADE STAINLESS BLADES — Hardened stainless steel blades pulverize the toughest ingredients including ice, nuts, and fibrous greens.",
       "48 OZ CONTAINER — The low-profile 48 oz container fits under most kitchen cabinets and works great for medium-to-large batches.",
@@ -1012,7 +1012,7 @@ export const SKU_CONTENT: Record<string, SkuContentBundle> = {
 
   "sku-10": {
     titleStatus: "pending",
-    title: "Rasa Decorative Candle Duo",
+    title: "Rasa Decorative Scented Candle Duo Gift Set",
     bullets: [
       "SELF-EMPTYING BASE — The Clean Base Automatic Dirt Disposal holds up to 60 days of debris so you don't have to touch the bin for months.",
       "GIFT-READY PAIR — Two hand-poured candles, one floral and one woody, packed as a set for tables and gift boxes.",

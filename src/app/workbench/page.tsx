@@ -216,6 +216,33 @@ function WorkbenchPage() {
     [actionStatusMap, bookmarkSet, bookmarkedOnly, catalogSkus, filter, search],
   )
 
+  const listHeading = useMemo(() => {
+    if (!activeQueue) {
+      return {
+        title: "SKUs with Issues",
+        description: `Showing ${filteredSkus.length} of ${catalogSkus.length}`,
+      }
+    }
+
+    const reviewCount = activeBucket?.skuCount ?? activeQueue.skuCount
+    const countLabel =
+      filteredSkus.length === reviewCount
+        ? `${reviewCount.toLocaleString()} SKUs need review`
+        : `Showing ${filteredSkus.length.toLocaleString()} of ${reviewCount.toLocaleString()}`
+
+    if (activeBucket) {
+      return {
+        title: activeBucket.title,
+        description: `${activeQueue.name} · ${countLabel}`,
+      }
+    }
+
+    return {
+      title: `${activeQueue.name} queue`,
+      description: countLabel,
+    }
+  }, [activeBucket, activeQueue, catalogSkus.length, filteredSkus.length])
+
   // True when every SKU has been actioned (none remain with "to-do" status),
   // regardless of active filters. Used to show the "All caught up!" empty state.
   const queueEmpty = useMemo(
@@ -1064,27 +1091,11 @@ function WorkbenchPage() {
         onFilterPopoverOpenChange={setFilterPopoverOpen}
       />
 
-      {activeQueue ? (
-        <div className="shrink-0 border-b border-border-default bg-surface-muted px-6 py-2">
-          <p className="type-caption text-fg-secondary">
-            {activeBucket ? (
-              <>
-                {activeQueue.name} · {activeBucket.title} ·{" "}
-                {activeBucket.skuCount.toLocaleString()} SKUs need review
-              </>
-            ) : (
-              <>
-                {activeQueue.name} queue · {activeQueue.skuCount.toLocaleString()}{" "}
-                SKUs need review
-              </>
-            )}
-          </p>
-        </div>
-      ) : null}
-
       <div className="flex min-h-0 flex-1">
         <SkuSidebar
           skus={filteredSkus}
+          title={listHeading.title}
+          description={listHeading.description}
           selectedSkuId={selectedSkuId}
           onSelect={(skuId) => requestNavigation({ kind: "sku", skuId })}
           showOptimizationScore={showsOptimizationScore(filter)}

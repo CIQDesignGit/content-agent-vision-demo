@@ -137,6 +137,10 @@ interface SkuSidebarProps {
   onBulkReview?: () => void
   /** Play the Review landing sequence: pane first, then staggered SKU cards. */
   animateEntrance?: boolean
+  /** List name. Depends on the entry point (issues catalog, moment, or bucket). */
+  title?: string
+  /** Count line under the title. Defaults to the filtered showing count. */
+  description?: string
 }
 
 export function SkuSidebar({
@@ -159,6 +163,8 @@ export function SkuSidebar({
   onBulkAcceptAndPublish = () => {},
   onBulkReview,
   animateEntrance = false,
+  title = "SKUs with Issues",
+  description,
 }: SkuSidebarProps) {
   // Hooks must run unconditionally — before any early return.
   const { rendered, leavingDelays } = useSlidingList(skus)
@@ -235,13 +241,13 @@ export function SkuSidebar({
           </>
         ) : (
           <>
-            <div>
-              <h2 className="text-sm font-semibold text-slate-700">SKUs with Issues</h2>
+            <div className="min-w-0 flex-1">
+              <h2 className="line-clamp-2 text-sm font-semibold text-slate-700">{title}</h2>
               <p className="mt-0.5 text-[11px] text-slate-400">
-                Showing {skus.length} of {totalCount}
+                {description ?? `Showing ${skus.length} of ${totalCount}`}
               </p>
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex shrink-0 items-center gap-1.5">
               <button
                 type="button"
                 onClick={onToggleSelectionMode}
