@@ -290,7 +290,7 @@ export function BulkReviewDialog({
             <Button
               size="sm"
               disabled={checkedSkuCount === 0 || selectedFields.length === 0}
-              className="bg-brand-500 text-white hover:bg-brand-600 disabled:opacity-50"
+              className="bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800 disabled:opacity-50"
               onClick={() => {
                 onBulkApprove(selectedFields, allIds.filter((id) => localSkuIds.has(id)))
                 onOpenChange(false)

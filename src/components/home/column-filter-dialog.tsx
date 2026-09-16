@@ -194,7 +194,7 @@ export function ColumnFilterPanel({ filters, onApply, onClose }: Props) {
         <Button
           onClick={handleApply}
           disabled={totalActive === 0}
-          className="rounded-full bg-primary px-6 text-white hover:bg-primary/90 disabled:opacity-40"
+          className="rounded-full bg-brand-800 px-6 text-white hover:bg-brand-900 focus-visible:outline-brand-800 disabled:opacity-40"
         >
           {totalActive === 0 ? "Apply Filter" : `Apply ${totalActive} Filter${totalActive > 1 ? "s" : ""}`}
         </Button>

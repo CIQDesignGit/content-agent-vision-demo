@@ -90,7 +90,7 @@ export function CalendarEventDetail({ event }: CalendarEventDetailProps) {
         )}
         <Button
           size="sm"
-          className="group shrink-0 rounded-lg bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
+          className="group shrink-0 rounded-lg bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800"
           onClick={() => router.push(`/workbench?moment=${event.id}`)}
         >
           Take Action

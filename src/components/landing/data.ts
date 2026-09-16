@@ -602,15 +602,6 @@ export const opportunityStreams: OpportunityStream[] = [
     remainingLabel: "338 more SKUs, $389K blocked in total.",
     buckets: [
       {
-        id: "rr-b1",
-        title: "Package dimensions are incorrect",
-        skuCount: 88,
-        fillTime: "~2 min",
-        valueThousands: 150,
-        releasesThousands: 24,
-        alsoNote: "81 of these also have title gaps",
-      },
-      {
         id: "rr-b2",
         title: "Unit price missing",
         skuCount: 104,
@@ -705,7 +696,7 @@ export const opportunityStreams: OpportunityStream[] = [
     buckets: [
       {
         id: "sea-b1",
-        title: "Promo keywords missing in title",
+        title: "No promo keyword in title",
         skuCount: 142,
         fillTime: "~3 min",
         valueThousands: 420,
@@ -714,21 +705,40 @@ export const opportunityStreams: OpportunityStream[] = [
       },
       {
         id: "sea-b2",
-        title: "Deal terms not in bullets",
+        title: "Bullets don't state the deal terms",
         skuCount: 118,
         fillTime: "~2 min",
         valueThousands: 380,
         alsoNote:
-          "Black Friday window · 76 also missing bundle or gift-ready language",
+          "Black Friday window · 76 also missing holiday urgency language",
       },
       {
         id: "sea-b3",
-        title: "Bundle contents not described",
-        skuCount: 89,
+        title: "No holiday urgency language",
+        skuCount: 96,
         fillTime: "~2 min",
-        valueThousands: 290,
+        valueThousands: 210,
         alsoNote:
-          "5 days to act · 64 also lack event urgency in the title",
+          "5 days to act · 48 also missing a promo keyword in the title",
+      },
+      {
+        id: "sea-b4",
+        title: "Blocked — attributes missing first",
+        skuCount: 74,
+        fillMode: "input",
+        fillTime: "~15 min",
+        valueThousands: 140,
+        alsoNote:
+          "Seasonal copy can't publish until Amazon attributes are backfilled",
+      },
+      {
+        id: "sea-b5",
+        title: "Gift-set bundle not described",
+        skuCount: 52,
+        fillTime: "~2 min",
+        valueThousands: 90,
+        alsoNote:
+          "Gift sets · 31 also missing a promo keyword in the title",
       },
     ],
     rows: [
@@ -790,7 +800,7 @@ export const opportunityStreams: OpportunityStream[] = [
     buckets: [
       {
         id: "pdp-b1",
-        title: "Category keywords missing in copy",
+        title: "Missing top category keywords in bullets",
         skuCount: 248,
         fillTime: "~2 min",
         valueThousands: 980,
@@ -799,7 +809,7 @@ export const opportunityStreams: OpportunityStream[] = [
       },
       {
         id: "pdp-b2",
-        title: "Answer-ready specs for AI prompts",
+        title: "No answer-ready specs for common prompts",
         skuCount: 196,
         fillTime: "~3 min",
         valueThousands: 820,
@@ -808,12 +818,31 @@ export const opportunityStreams: OpportunityStream[] = [
       },
       {
         id: "pdp-b3",
-        title: "Competitor-matched terms absent",
+        title: "Title missing key search term",
         skuCount: 168,
         fillTime: "~2 min",
-        valueThousands: 700,
+        valueThousands: 310,
         alsoNote:
           "Always on · 119 overlap with missing category keywords above",
+      },
+      {
+        id: "pdp-b4",
+        title: "Bullets don't answer comparison prompts",
+        skuCount: 124,
+        fillTime: "~2 min",
+        valueThousands: 240,
+        alsoNote:
+          "AEO lift · 88 also missing answer-ready specs",
+      },
+      {
+        id: "pdp-b5",
+        title: "Blocked — attributes missing first",
+        skuCount: 74,
+        fillMode: "input",
+        fillTime: "~15 min",
+        valueThousands: 150,
+        alsoNote:
+          "SEO and AEO copy can't publish until Amazon attributes are backfilled",
       },
     ],
     rows: [

@@ -157,7 +157,7 @@ export function BulkPublishConfirmDialog({
             </Button>
             <Button
               disabled={checkedCount === 0}
-              className="bg-brand-500 text-white hover:bg-brand-600 disabled:opacity-50"
+              className="bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800 disabled:opacity-50"
               onClick={() => onConfirm(Array.from(checkedFields))}
             >
               Approve &amp; publish
@@ -220,7 +220,7 @@ export function BulkPublishSuccessDialog({
         </div>
 
         <Button
-          className="w-full bg-brand-500 text-white hover:bg-brand-600"
+          className="w-full bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800"
           onClick={() => onOpenChange(false)}
         >
           Done

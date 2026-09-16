@@ -130,7 +130,11 @@ export function RecommendationFeedback() {
             className="min-h-16 text-sm"
           />
           <div className="flex justify-end">
-            <Button type="submit" size="xs">
+            <Button
+              type="submit"
+              size="xs"
+              className="bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800"
+            >
               Submit
             </Button>
           </div>

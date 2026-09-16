@@ -132,7 +132,7 @@ export function UpNextActionItem({
 
         <div className="pt-2">
           <Button
-            className="group h-11 w-full rounded-xl bg-brand-700 text-sm font-semibold text-white transition-colors hover:bg-brand-800 focus:outline-brand-700"
+            className="group h-11 w-full rounded-xl bg-brand-800 text-sm font-semibold text-white transition-colors hover:bg-brand-900 focus-visible:outline-brand-800"
             onClick={() => router.push(`/workbench?moment=${item.id}`)}
           >
             {actedCount > 0

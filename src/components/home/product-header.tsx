@@ -120,7 +120,7 @@ export function ProductHeader({
               disabled={!canPublish}
               className={cn(
                 "inline-flex h-8 items-center gap-2 rounded-md px-4 text-xs font-medium text-white",
-                canPublish ? "bg-brand-700 hover:bg-brand-800" : "cursor-not-allowed bg-slate-300",
+                canPublish ? "bg-brand-800 hover:bg-brand-900" : "cursor-not-allowed bg-slate-300",
               )}
             >
               {ctaLabel}

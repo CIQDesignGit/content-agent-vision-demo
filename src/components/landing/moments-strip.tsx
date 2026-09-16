@@ -109,7 +109,7 @@ export function MomentsStrip({ moments }: MomentsStripProps) {
             </div>
             <Button
               size="sm"
-              className="shrink-0 bg-brand-800 text-action-primary-fg hover:bg-brand-900 focus:outline-brand-800"
+              className="shrink-0 bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800"
               onClick={() => router.push(`/workbench?moment=${selected.id}`)}
             >
               Take Action

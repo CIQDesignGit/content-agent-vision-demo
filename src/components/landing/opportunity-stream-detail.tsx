@@ -1,5 +1,8 @@
 "use client"
 
+import { useRouter } from "next/navigation"
+import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { OpportunityStream } from "./types"
 import { OpportunityStreamTable } from "./opportunity-stream-table"
@@ -12,7 +15,12 @@ interface OpportunityStreamDetailProps {
 
 /** Expanded body shared by every opportunity-stream accordion. */
 export function OpportunityStreamDetail({ stream }: OpportunityStreamDetailProps) {
+  const router = useRouter()
   const warning = stream.tone === "warning"
+
+  function reviewAll() {
+    router.push(`/workbench?stream=${stream.id}`)
+  }
 
   return (
     <div className="flex flex-col gap-5 px-6 pb-6 pt-1">
@@ -35,11 +43,28 @@ export function OpportunityStreamDetail({ stream }: OpportunityStreamDetailProps
       ) : null}
 
       {stream.buckets ? (
-        <OpportunityStreamBuckets
-          buckets={stream.buckets}
-          valueKind={stream.valueKind}
-          streamId={stream.id}
-        />
+        <>
+          <OpportunityStreamBuckets
+            buckets={stream.buckets}
+            valueKind={stream.valueKind}
+            streamId={stream.id}
+          />
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-slate-500">
+              These issues are a slice of the queue — or open every SKU at once.
+            </p>
+            <Button
+              className="group h-9 shrink-0 rounded-lg bg-brand-800 px-3.5 text-sm font-semibold text-white hover:bg-brand-900 focus-visible:outline-brand-800"
+              onClick={reviewAll}
+            >
+              Review all {stream.skuCount.toLocaleString()} SKUs
+              <ArrowRight
+                className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                aria-hidden
+              />
+            </Button>
+          </div>
+        </>
       ) : (
         <>
           <div className="-mx-6">

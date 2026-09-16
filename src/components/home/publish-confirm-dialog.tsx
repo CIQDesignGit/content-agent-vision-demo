@@ -142,7 +142,7 @@ export function PublishConfirmDialog({
             </Button>
             <Button
               type="button"
-              className="bg-brand-700 text-white hover:bg-brand-800"
+              className="bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800"
               onClick={onConfirm}
             >
               Publish

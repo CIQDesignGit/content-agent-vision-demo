@@ -46,7 +46,11 @@ export function UnpublishedChangesGuardDialog({
           >
             Leave anyway
           </Button>
-          <Button type="button" onClick={onStay}>
+          <Button
+            type="button"
+            className="bg-brand-800 text-white hover:bg-brand-900 focus-visible:outline-brand-800"
+            onClick={onStay}
+          >
             Stay on this SKU
           </Button>
         </DialogFooter>

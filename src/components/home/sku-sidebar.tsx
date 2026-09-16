@@ -371,7 +371,7 @@ export function SkuSidebar({
             </Button>
             <Button
               size="sm"
-              className="bg-brand-500 text-xs text-white hover:bg-brand-600"
+              className="bg-brand-800 text-xs text-white hover:bg-brand-900 focus-visible:outline-brand-800"
               onClick={() => onBulkAcceptAndPublish(ALL_BULK_FIELDS)}
             >
               Approve {selectedCount} SKU{selectedCount !== 1 ? "s" : ""}
