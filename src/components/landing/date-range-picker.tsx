@@ -6,61 +6,39 @@ import { cn } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-const DEFAULT_RANGE = "this-year"
-
-function rangesFor(year: number) {
-  return [
-    {
-      id: DEFAULT_RANGE,
-      label: "This year",
-      span: `Jan 1 – Dec 31, ${year}`,
-    },
-    {
-      id: "q1",
-      label: "Q1",
-      span: `Jan 1 – Mar 31, ${year}`,
-    },
-    {
-      id: "q2",
-      label: "Q2",
-      span: `Apr 1 – Jun 30, ${year}`,
-    },
-    {
-      id: "q3",
-      label: "Q3",
-      span: `Jul 1 – Sep 30, ${year}`,
-    },
-    {
-      id: "q4",
-      label: "Q4",
-      span: `Oct 1 – Dec 31, ${year}`,
-    },
-    {
-      id: "last-year",
-      label: "Last year",
-      span: `Jan 1 – Dec 31, ${year - 1}`,
-    },
-  ]
-}
+import {
+  currentQuarterId,
+  DEFAULT_DATE_RANGE_ID,
+  dateRangeHeadline,
+  dateRangesForYear,
+  resolveDateRange,
+} from "./date-range"
+import {
+  MenuSectionLabel,
+  QuarterRangeItem,
+  YearRangeItem,
+} from "./date-range-menu"
 
 export function DateRangePicker({ className }: { className?: string }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const year = new Date().getFullYear()
-  const ranges = rangesFor(year)
-  const requested = searchParams.get("range")
-  const selected =
-    ranges.find((range) => range.id === requested) ?? ranges[0]
+  const ranges = dateRangesForYear(year)
+  const selected = resolveDateRange(searchParams.get("range"), year)
+  const yearRanges = ranges.filter((range) => range.group === "year")
+  const quarterRanges = ranges.filter((range) => range.group === "quarter")
+  const activeQuarter = currentQuarterId()
 
   function selectRange(id: string) {
     const params = new URLSearchParams(searchParams.toString())
-    if (id === DEFAULT_RANGE) params.delete("range")
+    if (id === DEFAULT_DATE_RANGE_ID) params.delete("range")
     else params.set("range", id)
     const query = params.toString()
     router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
@@ -75,27 +53,36 @@ export function DateRangePicker({ className }: { className?: string }) {
         )}
       >
         <Calendar className="size-3.5 shrink-0" strokeWidth={2} aria-hidden />
-        <span>{selected.id === DEFAULT_RANGE ? "This year" : selected.label}</span>
+        <span>{dateRangeHeadline(selected)}</span>
         <span className="text-xs font-normal tabular-nums text-slate-400">
           {selected.span}
         </span>
         <ChevronDown className="size-3.5 shrink-0 text-slate-400" strokeWidth={2} aria-hidden />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-72">
-        <DropdownMenuRadioGroup
-          value={selected.id}
-          onValueChange={selectRange}
-        >
-          {ranges.map((range) => (
-            <DropdownMenuRadioItem key={range.id} value={range.id}>
-              <span className="flex w-full items-baseline justify-between gap-4 pr-4">
-                <span>{range.label}</span>
-                <span className="text-xs tabular-nums text-slate-400">
-                  {range.span}
-                </span>
-              </span>
-            </DropdownMenuRadioItem>
-          ))}
+      <DropdownMenuContent align="end" sideOffset={8} className="w-80 p-1.5">
+        <DropdownMenuRadioGroup value={selected.id} onValueChange={selectRange}>
+          <DropdownMenuGroup>
+            <MenuSectionLabel>Year</MenuSectionLabel>
+            {yearRanges.map((range) => (
+              <YearRangeItem
+                key={range.id}
+                range={range}
+                selected={range.id === selected.id}
+              />
+            ))}
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator className="my-1.5 bg-slate-200" />
+          <DropdownMenuGroup>
+            <MenuSectionLabel>Quarter · {year}</MenuSectionLabel>
+            {quarterRanges.map((range) => (
+              <QuarterRangeItem
+                key={range.id}
+                range={range}
+                selected={range.id === selected.id}
+                current={range.id === activeQuarter}
+              />
+            ))}
+          </DropdownMenuGroup>
         </DropdownMenuRadioGroup>
       </DropdownMenuContent>
     </DropdownMenu>

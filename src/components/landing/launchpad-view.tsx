@@ -2,16 +2,10 @@
 
 import { useMemo } from "react"
 import { MotionConfig } from "framer-motion"
+import { useSearchParams } from "next/navigation"
 import { applyCapture } from "./apply-capture"
+import { overviewForRange } from "./overview-for-range"
 import { withOverviewFigures } from "./with-overview-figures"
-import {
-  opportunityByStatus,
-  opportunityCalculation,
-  opportunityMeter,
-  opportunityStreams,
-  secondaryStats,
-  upNext,
-} from "./data"
 import { OpportunityMeter } from "./opportunity-meter"
 import { OpportunityStreams } from "./opportunity-streams"
 import { RevealGroup } from "./reveal"
@@ -20,32 +14,37 @@ import { UpNextCard } from "./up-next-card"
 import { useCaptureReveal } from "./use-capture-reveal"
 
 export function LaunchpadView() {
+  const searchParams = useSearchParams()
+  const rangeId = searchParams.get("range")
+  const overview = useMemo(() => overviewForRange(rangeId), [rangeId])
+
   // Publishes from the workbench land here: the meter holds its pre-publish
   // numbers through the entrance, then rises to the new totals.
   const capture = useCaptureReveal()
 
   const meter = useMemo(
     () => ({
-      ...opportunityMeter,
+      ...overview.meter,
       realizedMillions:
-        opportunityMeter.realizedMillions + capture.capturedUsd / 1_000_000,
+        overview.meter.realizedMillions + capture.capturedUsd / 1_000_000,
     }),
-    [capture.capturedUsd],
+    [overview.meter, capture.capturedUsd],
   )
 
   const statusSegments = useMemo(
-    () => applyCapture(opportunityByStatus, capture.capturedUsd, capture.bucket),
-    [capture.capturedUsd, capture.bucket],
+    () => applyCapture(overview.status, capture.capturedUsd, capture.bucket),
+    [overview.status, capture.capturedUsd, capture.bucket],
   )
 
   const calculation = useMemo(
     () =>
       withOverviewFigures(
-        opportunityCalculation,
+        overview.calculation,
         meter.identifiedMillions,
         meter.realizedMillions,
+        overview.capturedSplit,
       ),
-    [meter],
+    [overview.calculation, overview.capturedSplit, meter],
   )
 
   return (
@@ -70,12 +69,12 @@ export function LaunchpadView() {
               capture={capture}
               calculation={calculation}
             />
-            <UpNextCard data={upNext} />
+            <UpNextCard key={rangeId ?? "this-year"} data={overview.upNext} />
           </div>
-          <SecondaryStats stats={secondaryStats} />
+          <SecondaryStats stats={overview.secondaryStats} />
         </RevealGroup>
 
-        <OpportunityStreams streams={opportunityStreams} />
+        <OpportunityStreams key={rangeId ?? "this-year"} streams={overview.streams} />
       </div>
     </MotionConfig>
   )

@@ -1,6 +1,40 @@
 "use client"
 
+import { Suspense } from "react"
+import { useSearchParams } from "next/navigation"
+import {
+  dateRangeHeadline,
+  dateRangesForYear,
+  resolveDateRange,
+} from "@/components/landing/date-range"
 import { trackingMeta } from "./data"
+
+function TrackingPeriodLabel() {
+  const searchParams = useSearchParams()
+  const year = new Date().getFullYear()
+  const selected = resolveDateRange(searchParams.get("range"), year)
+
+  return (
+    <p className="flex flex-wrap items-center gap-x-2 text-sm font-medium text-slate-600">
+      <span>{dateRangeHeadline(selected)}</span>
+      <span className="text-xs font-normal tabular-nums text-slate-400">
+        {selected.span}
+      </span>
+    </p>
+  )
+}
+
+function TrackingPeriodFallback() {
+  const selected = dateRangesForYear(new Date().getFullYear())[0]
+  return (
+    <p className="flex flex-wrap items-center gap-x-2 text-sm font-medium text-slate-600">
+      <span>{dateRangeHeadline(selected)}</span>
+      <span className="text-xs font-normal tabular-nums text-slate-400">
+        {selected.span}
+      </span>
+    </p>
+  )
+}
 
 export function TrackingHeader() {
   return (
@@ -9,13 +43,9 @@ export function TrackingHeader() {
         <h1 className="font-sans text-xl font-semibold tracking-tight text-slate-900">
           {trackingMeta.brand}
         </h1>
-        <p className="flex flex-wrap items-center gap-x-2 text-sm text-slate-500">
-          <span>{trackingMeta.weekLabel}</span>
-          <span className="text-slate-300" aria-hidden>
-            ·
-          </span>
-          <span>{trackingMeta.refreshLabel}</span>
-        </p>
+        <Suspense fallback={<TrackingPeriodFallback />}>
+          <TrackingPeriodLabel />
+        </Suspense>
       </div>
     </div>
   )

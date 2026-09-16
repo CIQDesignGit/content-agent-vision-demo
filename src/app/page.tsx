@@ -2,6 +2,7 @@
 
 export const dynamic = "force-static"
 
+import { Suspense } from "react"
 import { AppHeader } from "@/components/home/app-header"
 import { LaunchpadTabs } from "@/components/landing/launchpad-tabs"
 import { LaunchpadView } from "@/components/landing/launchpad-view"
@@ -23,7 +24,9 @@ export default function LandingPage() {
         <AppHeader />
         <LaunchpadTabs />
         <main className="flex-1">
-          <LaunchpadView />
+          <Suspense fallback={null}>
+            <LaunchpadView />
+          </Suspense>
         </main>
       </div>
     </PageShell>

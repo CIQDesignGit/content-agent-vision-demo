@@ -14,8 +14,6 @@ export const trackingMeta = {
   title: "Aurelle Candles — AI Visibility",
   domain: "aurellecandles.commerceiq.io",
   plan: "Pro",
-  weekLabel: "week of 25 Aug 2026",
-  refreshLabel: "next refresh Mon 1 Sep",
 }
 
 export const periodOptions = [
