@@ -8,11 +8,13 @@ import { SecondaryStatCalculationPanel } from "./secondary-stat-calculation-pane
 import { ViewCalculationIcon } from "./view-calculation-icon"
 import type { SecondaryStat } from "./types"
 
-/** Panel slides out from under the tile by this much (matches wrapper -mt / pt). */
-const TILE_PANEL_OVERLAP_PX = 16
-
 interface SecondaryStatsProps {
   stats: SecondaryStat[]
+}
+
+const panelMotion = {
+  height: { duration: DURATION.base, ease: EASE_SWAP },
+  opacity: { duration: DURATION.quick, ease: EASE_SWAP },
 }
 
 function LiveBadge() {
@@ -25,52 +27,41 @@ function LiveBadge() {
 }
 
 export function SecondaryStats({ stats }: SecondaryStatsProps) {
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set())
+  const [expandedId, setExpandedId] = useState<string | null>(null)
 
   function toggleStat(id: string) {
-    setExpandedIds((current) => {
-      const next = new Set(current)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
+    setExpandedId((current) => (current === id ? null : id))
   }
 
   return (
-    <motion.div variants={fadeRise}>
+    <motion.div variants={fadeRise} className="min-w-0">
       <motion.div
         aria-label="Key performance metrics"
-        className="grid grid-cols-1 items-start gap-4 md:grid-cols-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_340px]"
+        className="flex flex-col items-stretch gap-3"
         variants={staggerContainer(0.06)}
       >
         {stats.map((stat) => {
+          const isExpanded = expandedId === stat.id
           const isPositive = stat.deltaPositive ?? Boolean(stat.delta)
-          const isExpanded = expandedIds.has(stat.id)
           return (
             <motion.div
               key={stat.id}
               variants={fadeRise}
-              className="flex min-w-0 flex-col overflow-visible"
+              className={cn(
+                "overflow-hidden rounded-2xl bg-white/70 shadow-pane backdrop-blur-md transition-shadow duration-200",
+                isExpanded
+                  ? "ring-2 ring-brand-300"
+                  : "ring-1 ring-slate-900/5 hover:shadow-pane-hover",
+              )}
             >
-              <motion.button
+              <button
                 type="button"
-                whileHover={
-                  isExpanded
-                    ? undefined
-                    : {
-                        y: -2,
-                        transition: { duration: DURATION.quick, ease: EASE_SWAP },
-                      }
-                }
                 aria-expanded={isExpanded}
                 aria-controls={`stat-calc-${stat.id}`}
                 onClick={() => toggleStat(stat.id)}
                 className={cn(
-                  "relative z-10 w-full cursor-pointer bg-white/70 px-5 py-4 text-left ring-1 ring-slate-900/5 shadow-pane backdrop-blur-md transition-[box-shadow,ring-color,border-radius] duration-200 hover:shadow-pane-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500",
-                  isExpanded
-                    ? "rounded-t-2xl rounded-b-none border border-b-0 border-slate-200 ring-2 ring-brand-300 shadow-pane-hover"
-                    : "rounded-2xl",
-                  stat.calculation && !isExpanded && "pr-5",
+                  "relative w-full cursor-pointer px-5 py-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-500",
+                  stat.calculation && "pr-8",
                   stat.accent && "border-l-[3px] border-l-brand-500",
                 )}
               >
@@ -78,7 +69,7 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                   <p className="text-xs font-medium text-slate-500">{stat.label}</p>
                   {stat.live ? <LiveBadge /> : null}
                 </div>
-                <div className="mt-2 flex flex-wrap items-baseline gap-2">
+                <div className="mt-1.5 flex flex-wrap items-baseline gap-2">
                   <p className="font-sans text-2xl font-semibold tracking-tight text-slate-900 tabular-nums">
                     {stat.value}
                   </p>
@@ -95,24 +86,17 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                   ) : null}
                 </div>
                 {stat.footnote ? (
-                  <p
-                    className={cn(
-                      "mt-2.5 text-xs leading-snug text-slate-500",
-                      stat.calculation && !isExpanded && "pr-6",
-                    )}
-                  >
-                    {stat.footnote}
-                  </p>
+                  <p className="mt-2 pr-4 text-xs leading-snug text-slate-500">{stat.footnote}</p>
                 ) : null}
-                {stat.calculation && !isExpanded ? (
+                {stat.calculation ? (
                   <span
-                    className="pointer-events-none absolute bottom-4 right-5 text-brand-600"
+                    className="pointer-events-none absolute right-4 bottom-3.5 text-brand-600"
                     aria-hidden
                   >
                     <ViewCalculationIcon />
                   </span>
                 ) : null}
-              </motion.button>
+              </button>
 
               <AnimatePresence initial={false}>
                 {isExpanded && stat.calculation ? (
@@ -121,11 +105,14 @@ export function SecondaryStats({ stats }: SecondaryStatsProps) {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: DURATION.base, ease: EASE_SWAP }}
-                    style={{ marginTop: -TILE_PANEL_OVERLAP_PX, paddingTop: TILE_PANEL_OVERLAP_PX }}
-                    className="relative z-0 overflow-hidden px-px pb-px"
+                    transition={panelMotion}
+                    className="overflow-hidden"
                   >
-                    <SecondaryStatCalculationPanel detail={stat.calculation} overlapped />
+                    <SecondaryStatCalculationPanel
+                      detail={stat.calculation}
+                      overlapped
+                      className="h-auto rounded-none border-x-0 border-b-0 border-t border-slate-200 bg-transparent shadow-none"
+                    />
                   </motion.div>
                 ) : null}
               </AnimatePresence>

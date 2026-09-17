@@ -2,19 +2,29 @@
 
 import { useState } from "react"
 import { fadeRiseOnScroll } from "@/lib/motion"
-import type { OpportunityStream } from "./types"
+import type {
+  OpportunityStream,
+  PeriodRetrospective,
+  UpNextData,
+} from "./types"
 import { OpportunityStreamCard } from "./opportunity-stream-card"
+import { PeriodRetrospectiveCard } from "./period-retrospective-card"
 import { RevealGroup, RevealItem } from "./reveal"
 import { SectionHeading } from "./section-heading"
+import { UpNextCard } from "./up-next-card"
 
 interface OpportunityStreamsProps {
   streams: OpportunityStream[]
   windowClosed?: boolean
+  upNext?: UpNextData
+  retrospective?: PeriodRetrospective
 }
 
 export function OpportunityStreams({
   streams,
   windowClosed = false,
+  upNext,
+  retrospective,
 }: OpportunityStreamsProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
@@ -36,6 +46,8 @@ export function OpportunityStreams({
             : "Where the range comes from, and what's blocking it."
         }
       />
+
+      {!windowClosed && upNext ? <UpNextCard data={upNext} /> : null}
 
       <RevealItem variants={fadeRiseOnScroll}>
         <div className="relative overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md">
@@ -62,6 +74,14 @@ export function OpportunityStreams({
           </ul>
         </div>
       </RevealItem>
+
+      {windowClosed && retrospective ? (
+        <div className="flex justify-end">
+          <div className="w-full lg:w-[340px]">
+            <PeriodRetrospectiveCard data={retrospective} />
+          </div>
+        </div>
+      ) : null}
     </RevealGroup>
   )
 }

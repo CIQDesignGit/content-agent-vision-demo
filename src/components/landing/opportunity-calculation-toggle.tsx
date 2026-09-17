@@ -28,7 +28,7 @@ export function CalculationToggle({
       }}
       aria-expanded={open}
       aria-controls="opportunity-calculation-panel"
-      className="absolute top-7 right-7 z-20 inline-flex items-center gap-1.5 text-sm font-medium text-brand-600 group-hover/meter:text-brand-700 hover:text-brand-700"
+      className="flex w-full shrink-0 cursor-pointer items-center gap-1.5 border-t border-slate-100 px-7 py-3.5 text-left text-sm font-medium text-brand-600 hover:bg-slate-50 hover:text-brand-700"
     >
       {open ? (
         <>

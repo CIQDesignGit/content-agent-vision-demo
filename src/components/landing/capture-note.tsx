@@ -36,7 +36,13 @@ interface CaptureNoteProps {
   dimmed?: boolean
 }
 
-export function CaptureNote({ deltaUsd, skuCount, show, dimmed }: CaptureNoteProps) {
+export function CaptureNote({
+  deltaUsd,
+  skuCount,
+  show,
+  dimmed,
+  className,
+}: CaptureNoteProps & { className?: string }) {
   return (
     <AnimatePresence>
       {show ? (
@@ -44,6 +50,7 @@ export function CaptureNote({ deltaUsd, skuCount, show, dimmed }: CaptureNotePro
           className={cn(
             "absolute top-0 right-0 rounded-full bg-success-100 px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap text-success-700 transition-opacity duration-200",
             dimmed && "opacity-0",
+            className,
           )}
           variants={noteMotion}
           initial="hidden"

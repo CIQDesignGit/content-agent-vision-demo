@@ -126,6 +126,8 @@ interface OpportunityStatusTrackProps {
   note?: ReactNode
   /** Pop the readout — set while a fresh capture is being called out. */
   markerPulse?: boolean
+  /** Omit the marker pill so the track can sit under a headline row. */
+  flush?: boolean
 }
 
 export function OpportunityStatusTrack({
@@ -138,12 +140,14 @@ export function OpportunityStatusTrack({
   ariaLabel,
   note,
   markerPulse: pulse,
+  flush = false,
 }: OpportunityStatusTrackProps) {
   const markerLeft = Math.min(Math.max(markerPct, 0), 100)
   const hovered = layouts.find((s) => s.segment.id === hoveredId)
 
   return (
     <CompositionBarFrame
+      flush={flush}
       annotation={
         <BarMarker
           leftPct={hovered ? hovered.mid : markerLeft}

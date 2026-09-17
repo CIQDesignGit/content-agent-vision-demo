@@ -1,21 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { TooltipProvider } from "@ciq-dev/ciq-design-system"
-import { cn } from "@/lib/utils"
 import { AnimatedFigure } from "./animated-figure"
-import {
-  displayStatusSegments,
-  formatMillions,
-  trackStatusSegments,
-} from "./apply-capture"
+import { formatMillions, trackStatusSegments } from "./apply-capture"
 import { CaptureNote } from "./capture-note"
-import {
-  CompositionBarLegendItem,
-  CompositionBarScale,
-} from "./composition-bar"
 import { OpportunityStatusTrack } from "./opportunity-status-track"
-import { SegmentInfo } from "./segment-info"
 import type { CaptureReveal } from "./use-capture-reveal"
 import type { OpportunityStatusKind, OpportunityStatusSegment } from "./types"
 
@@ -29,13 +18,19 @@ const SEGMENT_FILL: Record<OpportunityStatusKind, string> = {
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-300),var(--color-slate-300)_1.5px,var(--color-slate-100),var(--color-slate-100)_5px)]",
 }
 
-const DOT_FILL: Record<OpportunityStatusKind, string> = {
+export const STATUS_DOT_FILL: Record<OpportunityStatusKind, string> = {
   captured: "bg-sky-600",
   seasonal: "bg-cyan-500",
   pdp: "bg-cyan-500",
   opportunity: "bg-cyan-500",
   expired:
     "bg-[repeating-linear-gradient(-45deg,var(--color-slate-400),var(--color-slate-400)_1px,var(--color-slate-200),var(--color-slate-200)_3px)]",
+}
+
+export function statusDotFill(windowClosed: boolean) {
+  return windowClosed
+    ? { ...STATUS_DOT_FILL, opportunity: STATUS_DOT_FILL.expired }
+    : STATUS_DOT_FILL
 }
 
 interface OpportunityStatusBarProps {
@@ -45,6 +40,8 @@ interface OpportunityStatusBarProps {
   totalAmountLabel: string
   capture: CaptureReveal
   windowClosed?: boolean
+  hoveredId?: OpportunityStatusKind | null
+  onHoverChange?: (id: OpportunityStatusKind | null) => void
 }
 
 export function OpportunityStatusBar({
@@ -54,16 +51,16 @@ export function OpportunityStatusBar({
   totalAmountLabel,
   capture,
   windowClosed = false,
+  hoveredId: hoveredIdProp,
+  onHoverChange,
 }: OpportunityStatusBarProps) {
-  const [hoveredId, setHoveredId] = useState<OpportunityStatusKind | null>(null)
-  const legend = displayStatusSegments(segments, windowClosed)
+  const [hoveredInternal, setHoveredInternal] = useState<OpportunityStatusKind | null>(null)
+  const hoveredId = hoveredIdProp !== undefined ? hoveredIdProp : hoveredInternal
+  const setHoveredId = onHoverChange ?? setHoveredInternal
   const track = trackStatusSegments(segments, windowClosed)
   const segmentFill = windowClosed
     ? { ...SEGMENT_FILL, opportunity: SEGMENT_FILL.expired }
     : SEGMENT_FILL
-  const dotFill = windowClosed
-    ? { ...DOT_FILL, opportunity: DOT_FILL.expired }
-    : DOT_FILL
   const total = track.reduce((sum, s) => sum + s.millions, 0)
 
   const layouts = track.map((segment, index) => {
@@ -77,92 +74,70 @@ export function OpportunityStatusBar({
     return { segment, share, mid: cursor + share / 2 }
   })
 
-  // The track spans every bucket, expired included, so the needle rides the
-  // captured segment's trailing edge and reads as a share of the whole track.
+  // The needle rides the captured segment's trailing edge on a track that
+  // includes expired. The percent itself is captured / identified — the same
+  // figure as the caption — so the pill and the sentence never disagree.
   const captured = layouts.find((l) => l.segment.id === "captured")
   const markerPct = captured ? captured.mid + captured.share / 2 : capturedPct
-  const markerShare = Math.round(markerPct)
+  const capturedMillions = captured?.segment.millions ?? 0
   const trackTotalLabel = `$${total.toFixed(2)}M`
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-3">
-      <div className="flex w-full min-w-0 flex-col gap-1.5">
-        <OpportunityStatusTrack
-          layouts={layouts}
-          segmentFill={segmentFill}
-          hoveredId={hoveredId}
-          onHoverChange={setHoveredId}
-          markerPct={markerPct}
-          markerLabel={
-            <>
-              <AnimatedFigure
-                value={markerShare}
-                fractionDigits={0}
-                animateOnMount={false}
-              />
-              % ·{" "}
-              <AnimatedFigure
-                value={captured?.segment.millions ?? 0}
-                format={formatMillions}
-                animateOnMount={false}
-              />
-            </>
-          }
-          markerPulse={capture.justCaptured}
-          ariaLabel={`Opportunity breakdown by status. ${markerShare}% captured (${capturedAmountLabel} of ${trackTotalLabel})`}
-          note={
-            <CaptureNote
-              deltaUsd={capture.deltaUsd}
-              skuCount={capture.skuCount}
-              show={capture.justCaptured}
-              dimmed={hoveredId != null}
+      <OpportunityStatusTrack
+        layouts={layouts}
+        segmentFill={segmentFill}
+        hoveredId={hoveredId}
+        onHoverChange={setHoveredId}
+        markerPct={markerPct}
+        markerLabel={
+          <>
+            <AnimatedFigure
+              value={capturedPct}
+              fractionDigits={0}
+              animateOnMount={false}
             />
-          }
-        />
-        <CompositionBarScale end={trackTotalLabel} />
+            % ·{" "}
+            <AnimatedFigure
+              value={capturedMillions}
+              format={formatMillions}
+              animateOnMount={false}
+            />
+          </>
+        }
+        markerPulse={capture.justCaptured}
+        ariaLabel={`Opportunity breakdown by status. ${capturedPct}% captured (${capturedAmountLabel} of ${totalAmountLabel})`}
+        note={
+          <CaptureNote
+            deltaUsd={capture.deltaUsd}
+            skuCount={capture.skuCount}
+            show={capture.justCaptured}
+            dimmed={hoveredId != null}
+          />
+        }
+      />
+      <div className="flex items-baseline justify-between gap-4 text-base text-slate-500">
+        <p>
+          <AnimatedFigure
+            value={capturedMillions}
+            format={formatMillions}
+            animateOnMount={false}
+            className="font-semibold text-slate-800"
+          />{" "}
+          (
+          <AnimatedFigure
+            value={capturedPct}
+            fractionDigits={0}
+            animateOnMount={false}
+            className="font-semibold text-slate-800"
+          />
+          %) of the {totalAmountLabel} opportunity captured
+        </p>
+        <p className="shrink-0 tabular-nums">
+          <span className="font-semibold text-slate-700">{trackTotalLabel}</span>{" "}
+          identified
+        </p>
       </div>
-
-      <TooltipProvider delayDuration={200}>
-        <ul className="grid w-full grid-cols-3 gap-2 border-t border-slate-100 pt-3">
-          {legend.map((segment) => (
-            <CompositionBarLegendItem
-              key={segment.id}
-              className={cn(
-                "rounded-xl border border-slate-200 bg-white px-3 py-2.5 transition-[box-shadow,border-color] duration-500",
-                // Points at the one figure that just moved, without recolouring it.
-                capture.justCaptured &&
-                  segment.id === "captured" &&
-                  "border-success-500/40 ring-2 ring-success-100",
-              )}
-              swatchClassName={dotFill[segment.id]}
-              swatchRingClassName={
-                segment.id === "expired" ||
-                (windowClosed && segment.id === "opportunity")
-                  ? "ring-1 ring-slate-300"
-                  : undefined
-              }
-              label={segment.label}
-              amountLabel={
-                // Expired never moves, so leave it as plain text.
-                segment.muted ? (
-                  segment.amountLabel
-                ) : (
-                  <AnimatedFigure
-                    value={segment.millions}
-                    format={formatMillions}
-                    animateOnMount={false}
-                  />
-                )
-              }
-              muted={segment.muted}
-              dimmed={hoveredId != null && hoveredId !== segment.id}
-              info={
-                <SegmentInfo label={segment.label} tooltip={segment.tooltip} />
-              }
-            />
-          ))}
-        </ul>
-      </TooltipProvider>
     </div>
   )
 }

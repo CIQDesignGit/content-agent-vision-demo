@@ -41,7 +41,7 @@ function CalculationFigure({
         >
           {tab.tabLabel}
         </span>
-        <span className="shrink-0 text-[11px] tabular-nums text-slate-400">
+        <span className="shrink-0 text-[11px] font-medium tabular-nums text-slate-600">
           {tab.periodBadge}
         </span>
       </span>
@@ -85,7 +85,7 @@ export function OpportunityCalculationPanel({
   } as const
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-4 px-6 pt-14 pb-6">
+    <div className="flex w-full min-w-0 flex-col gap-4 px-6 pt-7 pb-6">
       <div
         role="tablist"
         aria-label="Opportunity calculation views"
@@ -107,10 +107,7 @@ export function OpportunityCalculationPanel({
           return (
             <div
               key={id}
-              className={cn(
-                "col-start-1 row-start-1 min-w-0",
-                !selected && "invisible pointer-events-none",
-              )}
+              className={cn("min-w-0", !selected && "hidden")}
               aria-hidden={!selected}
             >
               <OpportunityCalculationTabPane tab={tabById[id]} />

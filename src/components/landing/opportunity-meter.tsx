@@ -1,10 +1,10 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { Card, CardContent } from "@ciq-dev/ciq-design-system"
 import { cn } from "@/lib/utils"
-import { DURATION, EASE_SWAP } from "@/lib/motion"
+import { DURATION, EASE_OUT } from "@/lib/motion"
 import type {
   OpportunityCalculationData,
   OpportunityMeterData,
@@ -16,11 +16,7 @@ import { OpportunityMeterOverview } from "./opportunity-meter-overview"
 import { RevealItem } from "./reveal"
 import type { CaptureReveal } from "./use-capture-reveal"
 
-const swap = { duration: DURATION.base, ease: EASE_SWAP }
-const overviewFade = {
-  duration: DURATION.calm,
-  ease: EASE_SWAP,
-}
+const slideUp = { duration: DURATION.calm, ease: EASE_OUT }
 
 interface OpportunityMeterProps {
   data: OpportunityMeterData
@@ -38,9 +34,13 @@ export function OpportunityMeter({
   windowClosed = false,
 }: OpportunityMeterProps) {
   const [calcPanelOpen, setCalcPanelOpen] = useState(false)
-  const [calcLayoutActive, setCalcLayoutActive] = useState(false)
+  const [covering, setCovering] = useState(false)
+  const [collapsedHeight, setCollapsedHeight] = useState<number>()
+  const [openHeight, setOpenHeight] = useState<number>()
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   const viewButtonRef = useRef<HTMLButtonElement>(null)
+  const overviewRef = useRef<HTMLDivElement>(null)
+  const panelContentRef = useRef<HTMLDivElement>(null)
   const openedOnce = useRef(false)
 
   const capturedPct = Math.min(
@@ -48,34 +48,41 @@ export function OpportunityMeter({
     Math.round((data.realizedMillions / data.identifiedMillions) * 100),
   )
   const totalAmountLabel = `$${data.identifiedMillions.toFixed(2)}M`
-  const overviewOverlay = calcPanelOpen || calcLayoutActive
-
   function openCalculation() {
-    setCalcLayoutActive(true)
+    setCollapsedHeight(overviewRef.current?.offsetHeight)
+    setOpenHeight(undefined)
+    setCovering(true)
     setCalcPanelOpen(true)
   }
+
+  useLayoutEffect(() => {
+    const content = panelContentRef.current
+    if (!calcPanelOpen || !content) return
+    const measure = () => setOpenHeight(content.offsetHeight)
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(content)
+    return () => observer.disconnect()
+  }, [calcPanelOpen])
 
   function closeCalculation() {
     setCalcPanelOpen(false)
   }
+  useEffect(() => {
+    if (!calcPanelOpen) return
+    openedOnce.current = true
+    closeButtonRef.current?.focus()
+  }, [calcPanelOpen])
 
   useEffect(() => {
-    if (!openedOnce.current) {
-      if (!calcPanelOpen) return
-      openedOnce.current = true
-    }
-    if (calcPanelOpen) closeButtonRef.current?.focus()
-    else viewButtonRef.current?.focus()
-  }, [calcPanelOpen])
+    if (covering || !openedOnce.current) return
+    viewButtonRef.current?.focus()
+  }, [covering])
 
   return (
     <RevealItem className="flex min-w-0 flex-col">
       <Card
-        className={cn(
-          "group/meter relative flex w-full flex-col overflow-hidden rounded-3xl border-0 bg-white py-0 ring-1 ring-slate-900/6 !shadow-pane-lg",
-          !overviewOverlay &&
-            "cursor-pointer transition-[box-shadow,ring-color] hover:ring-brand-300",
-        )}
+        className="group/meter relative flex w-full flex-col overflow-hidden rounded-3xl border-0 bg-white py-0 ring-1 ring-slate-900/6 !shadow-pane-lg"
       >
         <div
           aria-hidden
@@ -83,32 +90,15 @@ export function OpportunityMeter({
         />
 
         <CardContent className="relative flex flex-col p-0">
-          <motion.div
-            layout
-            transition={swap}
-            onClick={overviewOverlay ? undefined : openCalculation}
-            className="relative flex flex-col"
-          >
-            <CalculationToggle
-              open={calcPanelOpen}
-              buttonRef={calcPanelOpen ? closeButtonRef : viewButtonRef}
-              onOpen={openCalculation}
-              onClose={closeCalculation}
-            />
-
-            <motion.div
-              aria-hidden={calcPanelOpen}
+          <div className="relative flex flex-col">
+            <div
+              ref={overviewRef}
               className={cn(
-                "w-full p-7",
-                overviewOverlay &&
-                  "pointer-events-none absolute inset-0 z-0 overflow-hidden",
+                "relative z-0 flex flex-col",
+                covering && "invisible absolute inset-x-0 top-0",
               )}
-              initial={false}
-              animate={{ opacity: calcPanelOpen ? 0 : 1 }}
-              transition={{
-                ...overviewFade,
-                delay: calcPanelOpen ? 0 : DURATION.base,
-              }}
+              aria-hidden={covering}
+              inert={covering}
             >
               <OpportunityMeterOverview
                 variant="full"
@@ -118,29 +108,39 @@ export function OpportunityMeter({
                 capturedPct={capturedPct}
                 totalAmountLabel={totalAmountLabel}
                 windowClosed={windowClosed}
+                className="px-8 pt-8 pb-7"
               />
-            </motion.div>
-
-            <AnimatePresence
-              initial={false}
-              onExitComplete={() => setCalcLayoutActive(false)}
-            >
+              <CalculationToggle
+                open={false}
+                buttonRef={viewButtonRef}
+                onOpen={openCalculation}
+                onClose={closeCalculation}
+              />
+            </div>
+            <AnimatePresence initial={false} onExitComplete={() => setCovering(false)}>
               {calcPanelOpen ? (
                 <motion.div
                   key="calc-shell"
                   id="opportunity-calculation-panel"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={swap}
-                  onClick={(event) => event.stopPropagation()}
-                  className="relative z-10 min-w-0 overflow-hidden"
+                  initial={{ height: collapsedHeight }}
+                  animate={{ height: openHeight ?? collapsedHeight }}
+                  exit={{ height: collapsedHeight }}
+                  transition={slideUp}
+                  className="relative z-10 overflow-hidden bg-white"
                 >
-                  <OpportunityCalculationPanel data={calculation} />
+                  <div ref={panelContentRef}>
+                    <OpportunityCalculationPanel data={calculation} />
+                    <CalculationToggle
+                      open
+                      buttonRef={closeButtonRef}
+                      onOpen={openCalculation}
+                      onClose={closeCalculation}
+                    />
+                  </div>
                 </motion.div>
               ) : null}
             </AnimatePresence>
-          </motion.div>
+          </div>
         </CardContent>
       </Card>
     </RevealItem>

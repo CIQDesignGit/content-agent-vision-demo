@@ -8,10 +8,8 @@ import { overviewForRange } from "./overview-for-range"
 import { withOverviewFigures } from "./with-overview-figures"
 import { OpportunityMeter } from "./opportunity-meter"
 import { OpportunityStreams } from "./opportunity-streams"
-import { PeriodRetrospectiveCard } from "./period-retrospective-card"
 import { RevealGroup } from "./reveal"
 import { SecondaryStats } from "./secondary-stats"
-import { UpNextCard } from "./up-next-card"
 import { useCaptureReveal } from "./use-capture-reveal"
 
 export function LaunchpadView() {
@@ -54,8 +52,7 @@ export function LaunchpadView() {
     // so nothing ends up invisible.
     <MotionConfig reducedMotion="user">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-14 px-6 pt-2 pb-16">
-        {/* Above the fold: reveal on mount. The two panes land together,
-            then the stat row follows. */}
+        {/* Above the fold: meter and the stacked metrics land together. */}
         <RevealGroup
           as="section"
           aria-label="Opportunity overview"
@@ -63,7 +60,7 @@ export function LaunchpadView() {
           delay={0.06}
           stagger={0.09}
         >
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
             <OpportunityMeter
               data={meter}
               statusSegments={statusSegments}
@@ -71,22 +68,16 @@ export function LaunchpadView() {
               calculation={calculation}
               windowClosed={overview.windowClosed}
             />
-            {overview.windowClosed && overview.retrospective ? (
-              <PeriodRetrospectiveCard
-                key={rangeId ?? "this-year"}
-                data={overview.retrospective}
-              />
-            ) : (
-              <UpNextCard key={rangeId ?? "this-year"} data={overview.upNext} />
-            )}
+            <SecondaryStats stats={overview.secondaryStats} />
           </div>
-          <SecondaryStats stats={overview.secondaryStats} />
         </RevealGroup>
 
         <OpportunityStreams
           key={rangeId ?? "this-year"}
           streams={overview.streams}
           windowClosed={overview.windowClosed}
+          upNext={overview.upNext}
+          retrospective={overview.retrospective}
         />
       </div>
     </MotionConfig>

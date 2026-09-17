@@ -85,16 +85,19 @@ export function CompositionBarFrame({
   annotation,
   note,
   children,
+  flush = false,
 }: {
   annotation?: ReactNode
   /** Right-hand side of the annotation band — opposite the marker pill. */
   note?: ReactNode
   children: ReactNode
+  /** Drop the annotation band so the track sits flush with whatever is above it. */
+  flush?: boolean
 }) {
   return (
-    <div className="relative pt-7">
-      {annotation}
-      {note}
+    <div className={cn("relative", !flush && "pt-7")}>
+      {!flush && annotation}
+      {!flush && note}
       {children}
     </div>
   )
@@ -125,6 +128,8 @@ export function CompositionBarLegendItem({
   dimmed,
   muted,
   className,
+  amountClassName,
+  onPointerEnter,
 }: {
   swatchClassName: string
   swatchRingClassName?: string
@@ -135,6 +140,8 @@ export function CompositionBarLegendItem({
   /** Soften the amount — expired / out-of-total buckets */
   muted?: boolean
   className?: string
+  amountClassName?: string
+  onPointerEnter?: () => void
 }) {
   return (
     <li
@@ -143,6 +150,7 @@ export function CompositionBarLegendItem({
         dimmed && "opacity-40",
         className,
       )}
+      onPointerEnter={onPointerEnter}
     >
       <span className="flex items-center gap-2 text-xs font-medium text-slate-500">
         <span
@@ -160,8 +168,9 @@ export function CompositionBarLegendItem({
           a colored figure would compete with the headline value. */}
       <span
         className={cn(
-          "pl-4 font-sans text-lg font-semibold tracking-tight tabular-nums",
+          "font-sans text-lg font-semibold tracking-tight tabular-nums",
           muted ? "text-slate-400" : "text-slate-900",
+          amountClassName,
         )}
       >
         {amountLabel}

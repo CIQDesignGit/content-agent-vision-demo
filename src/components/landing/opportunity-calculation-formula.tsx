@@ -29,10 +29,8 @@ function groupFormula(rows: OpportunityCalculationRow[]): FormulaGroup[] {
 
 export function OpportunityCalculationFormula({
   rows,
-  summary,
 }: {
   rows: OpportunityCalculationRow[]
-  summary?: OpportunityCalculationRow
 }) {
   const groups = groupFormula(rows)
   if (groups.length === 0) return null
@@ -84,14 +82,6 @@ export function OpportunityCalculationFormula({
         ))}
       </div>
 
-      {summary ? (
-        <div className="flex items-baseline justify-between gap-3 border-t border-slate-200 pt-2.5">
-          <p className="text-xs font-medium text-slate-600">{summary.label}</p>
-          <p className="text-sm font-semibold tabular-nums text-brand-950">
-            {summary.value}
-          </p>
-        </div>
-      ) : null}
     </div>
   )
 }

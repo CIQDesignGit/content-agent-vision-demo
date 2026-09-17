@@ -67,13 +67,14 @@ export function OpportunityCalculationTabPane({
       </div>
 
       {hasFormula ? (
-        <OpportunityCalculationFormula
-          rows={tab.calcRows}
-          summary={tab.calcSummary}
-        />
+        <OpportunityCalculationFormula rows={tab.calcRows} />
       ) : null}
 
-      <div className="grid w-full grid-cols-3 gap-4 border-y border-slate-200 py-3">
+      <div>
+        <p className="text-sm font-semibold text-slate-900">
+          {hasFormula ? "Where the lift rate comes from" : "What went live"}
+        </p>
+        <div className="mt-2 grid w-full grid-cols-3 gap-4 border-y border-slate-200 py-3">
         {tab.kpis.map((kpi) => (
           <div key={kpi.label} className="min-w-0">
             <p className="text-sm font-semibold tabular-nums text-slate-900">
@@ -84,6 +85,7 @@ export function OpportunityCalculationTabPane({
             </p>
           </div>
         ))}
+        </div>
       </div>
 
       {tab.unrealized ? (
