@@ -84,13 +84,6 @@ export function UpNextActionItem({
               {item.valueLabel}
             </p>
           </button>
-          {hasProgress ? (
-            <UpNextProgress
-              actedCount={actedCount}
-              totalCount={item.skuCount}
-              valueLabel={item.valueLabel}
-            />
-          ) : null}
         </div>
 
         <dl className="flex flex-wrap gap-x-8 gap-y-3 lg:flex-1 lg:justify-center">
@@ -99,16 +92,25 @@ export function UpNextActionItem({
           <Spec label="Goes live" value={item.goesLiveNote} />
         </dl>
 
-        <Button
-          className="group h-11 w-full shrink-0 rounded-xl bg-brand-800 text-sm font-semibold text-white transition-colors hover:bg-brand-900 focus-visible:outline-brand-800 lg:w-auto"
-          onClick={() => router.push(`/workbench?moment=${item.id}`)}
-        >
-          {reviewLabel(actedCount, remaining, item.skuCount)}
-          <ArrowRight
-            className="size-4 transition-transform group-hover:translate-x-0.5"
-            aria-hidden
-          />
-        </Button>
+        <div className="flex w-full shrink-0 flex-col items-start gap-2 lg:w-auto lg:items-end">
+          {hasProgress ? (
+            <UpNextProgress
+              actedCount={actedCount}
+              totalCount={item.skuCount}
+              valueLabel={item.valueLabel}
+            />
+          ) : null}
+          <Button
+            className="group h-11 w-full shrink-0 rounded-xl bg-brand-800 text-sm font-semibold text-white transition-colors hover:bg-brand-900 focus-visible:outline-brand-800 lg:w-auto"
+            onClick={() => router.push(`/workbench?moment=${item.id}`)}
+          >
+            {reviewLabel(actedCount, remaining, item.skuCount)}
+            <ArrowRight
+              className="size-4 transition-transform group-hover:translate-x-0.5"
+              aria-hidden
+            />
+          </Button>
+        </div>
       </div>
 
     </motion.li>

@@ -14,7 +14,7 @@ interface SecondaryStatsProps {
 
 /** Opacity only — a translate here fights the layout animation of the expanding card. */
 const fadeIn: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: { opacity: 1, transition: { duration: DURATION.base, ease: EASE_OUT } },
 }
 

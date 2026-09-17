@@ -42,7 +42,7 @@ export function SecondaryStatCard({
     <motion.div
       layout="position"
       variants={{
-        hidden: { opacity: 0 },
+        hidden: { opacity: 1 },
         visible: { opacity: 1, transition: { duration: DURATION.base, ease: EASE_OUT } },
       }}
       transition={layoutMove}

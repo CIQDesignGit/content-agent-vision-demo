@@ -45,7 +45,7 @@ export function UpNextProgress({
   const bar = `${Math.max(share * 100, 1.5)}%`
 
   return (
-    <div className="flex w-fit max-w-full flex-col gap-1.5 self-start">
+    <div className="flex w-fit max-w-full flex-col gap-1.5">
       <p className="text-xs leading-5 text-slate-600">
         {done >= totalCount ? (
           <>

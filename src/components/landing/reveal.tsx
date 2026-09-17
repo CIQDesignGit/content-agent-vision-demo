@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
+import { useEffect, useMemo, useRef, type ReactNode } from "react"
 import { motion, type Variants } from "framer-motion"
 import { fadeRise, revealViewport, staggerContainer } from "@/lib/motion"
 
@@ -22,6 +22,19 @@ interface RevealGroupProps extends RevealProps {
   onScroll?: boolean
 }
 
+function openStuckEntrance(node: HTMLElement) {
+  node.querySelectorAll<HTMLElement>("[style]").forEach((el) => {
+    if (Number.parseFloat(el.style.opacity) !== 0) return
+    el.style.opacity = "1"
+    if (
+      el.style.transform.includes("translate") ||
+      el.style.transform.includes("scaleY(0)")
+    ) {
+      el.style.transform = "none"
+    }
+  })
+}
+
 /**
  * Drives a staggered reveal. Children opt in by declaring `hidden`/`visible`
  * variants (via `RevealItem` or a bare motion element) — variant state travels
@@ -37,14 +50,36 @@ export function RevealGroup({
   ...rest
 }: RevealGroupProps) {
   const Tag = motion[as] as typeof motion.div
+  const ref = useRef<HTMLElement>(null)
+  const variants = useMemo(
+    () => staggerContainer(stagger, delay),
+    [stagger, delay],
+  )
   const trigger = onScroll
     ? { whileInView: "visible", viewport: revealViewport }
-    : { animate: "visible" }
+    : { animate: "visible" as const }
+
+  // A missed animation frame leaves the band at opacity 0 forever. Open it.
+  useEffect(() => {
+    if (onScroll) return
+    const node = ref.current
+    if (!node) return
+    const timer = window.setTimeout(() => openStuckEntrance(node), 400)
+    const onShow = () => {
+      if (document.visibilityState === "visible") openStuckEntrance(node)
+    }
+    document.addEventListener("visibilitychange", onShow)
+    return () => {
+      window.clearTimeout(timer)
+      document.removeEventListener("visibilitychange", onShow)
+    }
+  }, [onScroll])
 
   return (
     <Tag
+      ref={ref}
       className={className}
-      variants={staggerContainer(stagger, delay)}
+      variants={variants}
       initial="hidden"
       {...trigger}
       {...rest}

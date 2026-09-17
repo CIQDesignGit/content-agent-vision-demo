@@ -40,14 +40,14 @@ export const swapTransition: Transition = {
 
 function fadeRiseAt(duration: number, distance: number): Variants {
   return {
-    hidden: { opacity: 0, y: distance },
+    hidden: { opacity: 1, y: distance },
     visible: { opacity: 1, y: 0, transition: { duration, ease: EASE_OUT } },
   }
 }
 
 function drawDownAt(duration: number): Variants {
   return {
-    hidden: { opacity: 0, scaleY: 0 },
+    hidden: { opacity: 1, scaleY: 0 },
     visible: {
       opacity: 1,
       scaleY: 1,

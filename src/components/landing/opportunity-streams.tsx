@@ -47,7 +47,11 @@ export function OpportunityStreams({
         }
       />
 
-      {!windowClosed && upNext ? <UpNextCard data={upNext} /> : null}
+      {windowClosed && retrospective ? (
+        <PeriodRetrospectiveCard data={retrospective} />
+      ) : upNext ? (
+        <UpNextCard data={upNext} />
+      ) : null}
 
       <RevealItem variants={fadeRiseOnScroll}>
         <div className="relative overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md">
@@ -74,14 +78,6 @@ export function OpportunityStreams({
           </ul>
         </div>
       </RevealItem>
-
-      {windowClosed && retrospective ? (
-        <div className="flex justify-end">
-          <div className="w-full lg:w-[340px]">
-            <PeriodRetrospectiveCard data={retrospective} />
-          </div>
-        </div>
-      ) : null}
     </RevealGroup>
   )
 }
