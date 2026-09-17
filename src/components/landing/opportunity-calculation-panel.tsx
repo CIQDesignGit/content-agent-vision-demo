@@ -27,9 +27,11 @@ function CalculationFigure({
       aria-selected={selected}
       onClick={onSelect}
       className={cn(
-        "flex min-w-0 cursor-pointer flex-col gap-1 rounded-xl px-3.5 py-3 text-left transition-colors",
+        "flex min-w-0 cursor-pointer flex-col gap-1 rounded-xl px-3.5 py-3 text-left transition-[color,opacity,box-shadow]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2",
-        selected ? "bg-brand-50" : "bg-transparent hover:bg-slate-50",
+        selected
+          ? "bg-brand-50 shadow-pane"
+          : "bg-transparent opacity-60 hover:bg-slate-50 hover:opacity-100",
       )}
     >
       <span className="flex items-baseline justify-between gap-3">

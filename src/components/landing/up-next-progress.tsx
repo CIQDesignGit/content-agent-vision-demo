@@ -45,26 +45,27 @@ export function UpNextProgress({
   const bar = `${Math.max(share * 100, 1.5)}%`
 
   return (
-    <div className="shrink-0 rounded-lg bg-success-50 px-2.5 py-1.5">
-      <div className="flex items-baseline justify-between gap-3 text-xs leading-5">
+    <div className="flex w-fit max-w-full flex-col gap-1.5 self-start">
+      <p className="text-xs leading-5 text-slate-600">
         {done >= totalCount ? (
-          <p className="text-slate-600">
-            All <span className="font-semibold text-success-700 tabular-nums">{valueLabel}</span> is in motion.
-          </p>
+          <>
+            All{" "}
+            <span className="font-semibold text-success-700 tabular-nums">{valueLabel}</span>{" "}
+            is in motion.
+          </>
         ) : (
           <>
-            <p className="min-w-0 truncate text-slate-600">
-              <span className="font-semibold text-success-700 tabular-nums">{captured}</span>
-              {" captured today"}
-            </p>
-            <p className="shrink-0 text-slate-500">
-              <span className="font-semibold text-slate-800 tabular-nums">{remaining}</span>
-              {" to go"}
-            </p>
+            <span className="font-semibold text-success-700 tabular-nums">{captured}</span>
+            {" captured today"}
+            <span className="px-1.5 text-slate-300" aria-hidden>
+              ·
+            </span>
+            <span className="font-semibold text-slate-800 tabular-nums">{remaining}</span>
+            {" to go"}
           </>
         )}
-      </div>
-      <div className="mt-1.5 h-0.5 w-full overflow-hidden rounded-full bg-success-200">
+      </p>
+      <div className="h-1 w-28 overflow-hidden rounded-full bg-slate-200">
         <motion.div
           className="h-full rounded-full bg-success-600"
           initial={{ width: 0 }}

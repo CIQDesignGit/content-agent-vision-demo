@@ -130,7 +130,7 @@ export const opportunityCalculation: OpportunityCalculationData = {
     ],
     calcRows: [],
     bodyCopy:
-      "Counts only the 128 SKUs acted on, accrued over the days their content was actually live — not the full-year value of a test that concluded last month. Each SKU's rate comes from its own A/B result where one exists, and from the demand-adjusted baseline model where Amazon won't test it.",
+      "128 SKUs, accrued over days their content was live — not the full-year value of a test that concluded last month. Each SKU's rate comes from its own A/B result where one exists, otherwise the demand-adjusted baseline (used where Amazon won't run a test).",
     cta: {
       label: "See SKU-level attribution in Agent Impact",
       href: "/impact",
@@ -139,7 +139,7 @@ export const opportunityCalculation: OpportunityCalculationData = {
       title: "Identified but never published",
       amountLabel: "$890K",
       description:
-        "Prime Day, Jul 12. 210 deal SKUs still had gaps when syndication cut off. Not part of the total above and not recoverable — shown so the gap between what was found and what shipped stays visible.",
+        "210 deal SKUs (Prime Day, Jul 12) still had gaps when syndication cut off. Not part of the total above and not recoverable — shown so the gap between what was found and what shipped stays visible.",
     },
     methodology: "",
   },

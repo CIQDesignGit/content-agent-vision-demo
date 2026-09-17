@@ -60,7 +60,7 @@ export function LaunchpadView() {
           delay={0.06}
           stagger={0.09}
         >
-          <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-[minmax(0,1fr)_340px]">
             <OpportunityMeter
               data={meter}
               statusSegments={statusSegments}

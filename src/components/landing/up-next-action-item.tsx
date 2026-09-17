@@ -70,19 +70,28 @@ export function UpNextActionItem({
       className="flex flex-col gap-4"
     >
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-        <button
-          type="button"
-          onClick={onSelect}
-          aria-expanded
-          className="shrink-0 text-left"
-        >
-          <p className="text-base font-semibold leading-snug text-slate-900">
-            {item.name}
-          </p>
-          <p className="mt-1 font-sans text-4xl font-semibold leading-none tracking-[-0.03em] text-brand-950 tabular-nums">
-            {item.valueLabel}
-          </p>
-        </button>
+        <div className="flex shrink-0 flex-col items-start gap-3">
+          <button
+            type="button"
+            onClick={onSelect}
+            aria-expanded
+            className="text-left"
+          >
+            <p className="text-base font-semibold leading-snug text-slate-900">
+              {item.name}
+            </p>
+            <p className="mt-1 font-sans text-4xl font-semibold leading-none tracking-[-0.03em] text-brand-950 tabular-nums">
+              {item.valueLabel}
+            </p>
+          </button>
+          {hasProgress ? (
+            <UpNextProgress
+              actedCount={actedCount}
+              totalCount={item.skuCount}
+              valueLabel={item.valueLabel}
+            />
+          ) : null}
+        </div>
 
         <dl className="flex flex-wrap gap-x-8 gap-y-3 lg:flex-1 lg:justify-center">
           <Spec label="Publish by" value={item.publishBy} />
@@ -102,13 +111,6 @@ export function UpNextActionItem({
         </Button>
       </div>
 
-      {hasProgress ? (
-        <UpNextProgress
-          actedCount={actedCount}
-          totalCount={item.skuCount}
-          valueLabel={item.valueLabel}
-        />
-      ) : null}
     </motion.li>
   )
 }

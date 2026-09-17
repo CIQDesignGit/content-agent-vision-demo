@@ -79,12 +79,7 @@ export function OpportunityMeterOverview({
             {legend.map((segment) => (
               <CompositionBarLegendItem
                 key={segment.id}
-                className={cn(
-                  "w-auto px-4 first:pl-0 last:pr-0",
-                  capture.justCaptured &&
-                    segment.id === "captured" &&
-                    "rounded-lg bg-success-50/80",
-                )}
+                className="w-auto px-4 first:pl-0 last:pr-0"
                 amountClassName="text-xl"
                 swatchClassName={dotFill[segment.id]}
                 swatchRingClassName={

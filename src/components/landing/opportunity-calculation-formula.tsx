@@ -50,10 +50,10 @@ export function OpportunityCalculationFormula({
           >
             {group.subtotal ? (
               <div className="flex items-baseline justify-between gap-3">
-                <p className="flex min-w-0 items-center gap-1.5 text-xs font-medium text-slate-600">
+                <p className="flex min-w-0 items-center gap-1.5 text-sm font-medium text-slate-600">
                   <span
                     className={cn(
-                      "size-1.5 shrink-0 rounded-full",
+                      "size-2.5 shrink-0 rounded-full",
                       GROUP_DOT[index] ?? "bg-slate-400",
                     )}
                     aria-hidden
@@ -69,7 +69,7 @@ export function OpportunityCalculationFormula({
               {group.operands.map((row) => (
                 <div
                   key={row.label}
-                  className="flex items-baseline justify-between gap-3 text-[11px] leading-snug"
+                  className="flex items-baseline justify-between gap-3 text-sm leading-snug"
                 >
                   <dt className="min-w-0 text-slate-500">{row.label}</dt>
                   <dd className="shrink-0 tabular-nums text-slate-700">
