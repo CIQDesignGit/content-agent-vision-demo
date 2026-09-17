@@ -27,11 +27,11 @@ function CalculationFigure({
       aria-selected={selected}
       onClick={onSelect}
       className={cn(
-        "flex min-w-0 cursor-pointer flex-col gap-1 rounded-xl px-3.5 py-3 text-left transition-[color,opacity,box-shadow]",
+        "flex min-w-0 cursor-pointer flex-col gap-1 rounded-t-2xl px-3.5 py-3 text-left transition-[color,opacity,background-color]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2",
         selected
-          ? "bg-brand-50 shadow-pane"
-          : "bg-transparent opacity-60 hover:bg-slate-50 hover:opacity-100",
+          ? "relative z-10 border border-slate-200 border-b-white bg-white"
+          : "rounded-b-2xl bg-transparent opacity-55 hover:bg-white/60 hover:opacity-100",
       )}
     >
       <span className="flex items-baseline justify-between gap-3">
@@ -87,11 +87,13 @@ export function OpportunityCalculationPanel({
   } as const
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-4 px-6 pt-7 pb-6">
+    <div className="flex w-full min-w-0 flex-col px-4 pt-4 pb-3">
+      {/* The selected figure's fill runs straight into the breakdown below it, so
+          the two read as one region without needing a stroke around them. */}
       <div
         role="tablist"
         aria-label="Opportunity calculation views"
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+        className="relative z-10 grid grid-cols-1 gap-x-3 sm:grid-cols-2"
       >
         {TAB_ORDER.map((id) => (
           <CalculationFigure
@@ -103,7 +105,13 @@ export function OpportunityCalculationPanel({
         ))}
       </div>
 
-      <div role="tabpanel" className="grid min-w-0">
+      <div
+        role="tabpanel"
+        className={cn(
+          "-mt-px grid min-w-0 rounded-b-2xl border border-slate-200 bg-white px-3.5 pt-2.5 pb-3",
+          activeTab === TAB_ORDER[0] ? "rounded-tr-2xl" : "rounded-tl-2xl",
+        )}
+      >
         {TAB_ORDER.map((id) => {
           const selected = activeTab === id
           return (

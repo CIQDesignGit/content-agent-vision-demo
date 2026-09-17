@@ -115,6 +115,12 @@
     0 2px 4px -2px rgb(15 23 42 / 0.05),
     0 16px 40px -12px rgb(15 23 42 / 0.08),
     0 48px 96px -32px rgb(76 29 149 / 0.16);
+  /* Drawer rising over a pane — casts upward, so the edge it covers reads as
+     being behind it rather than below it. */
+  --shadow-drawer-up:
+    0 -1px 2px -1px rgb(15 23 42 / 0.06),
+    0 -8px 20px -8px rgb(15 23 42 / 0.10),
+    0 -20px 40px -20px rgb(76 29 149 / 0.14);
   /* Dark action pane — brand-tinted halo instead of a neutral drop */
   --shadow-pane-brand:
     0 2px 6px -2px rgb(46 16 101 / 0.30),

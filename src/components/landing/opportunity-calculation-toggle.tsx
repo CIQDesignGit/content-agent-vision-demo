@@ -1,7 +1,7 @@
 "use client"
 
 import type { Ref } from "react"
-import { X } from "lucide-react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 import { ViewCalculationIcon } from "./view-calculation-icon"
 
 interface CalculationToggleProps {
@@ -28,17 +28,18 @@ export function CalculationToggle({
       }}
       aria-expanded={open}
       aria-controls="opportunity-calculation-panel"
-      className="flex w-full shrink-0 cursor-pointer items-center gap-1.5 border-t border-slate-100 px-7 py-3.5 text-left text-sm font-medium text-brand-600 hover:bg-slate-50 hover:text-brand-700"
+      className="flex w-full shrink-0 cursor-pointer items-center gap-1.5 border-t border-slate-200 px-5 py-3 text-left text-sm font-medium text-brand-600 hover:bg-slate-200 hover:text-brand-700"
     >
       {open ? (
         <>
-          <X className="size-3.5 shrink-0" strokeWidth={2} aria-hidden />
-          Close
+          Hide calculations
+          <ChevronDown className="size-4 shrink-0" strokeWidth={2.25} aria-hidden />
         </>
       ) : (
         <>
           <ViewCalculationIcon />
           How is this calculated?
+          <ChevronUp className="size-4 shrink-0" strokeWidth={2.25} aria-hidden />
         </>
       )}
     </button>

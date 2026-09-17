@@ -44,7 +44,7 @@ export function OpportunityCalculationTabPane({
   const hasFormula = tab.calcRows.length > 0
 
   return (
-    <div className="flex w-full min-w-0 flex-col gap-4">
+    <div className="flex w-full min-w-0 flex-col gap-3">
       <div className="w-full space-y-2.5">
         <OpportunityCalculationLiftBar
           foundationalPct={tab.liftBarPct.foundational}
