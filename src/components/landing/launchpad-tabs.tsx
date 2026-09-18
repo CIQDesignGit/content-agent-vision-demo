@@ -39,9 +39,12 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
     pathname.startsWith("/ai-tracking")
 
   function openTab(href: string) {
-    const range = new URLSearchParams(window.location.search).get("range")
+    const current = new URLSearchParams(window.location.search)
     const params = new URLSearchParams()
+    const range = current.get("range")
+    const profile = current.get("profile")
     if (range) params.set("range", range)
+    if (profile) params.set("profile", profile)
     const query = params.toString()
     router.push(query ? `${href}?${query}` : href)
   }
