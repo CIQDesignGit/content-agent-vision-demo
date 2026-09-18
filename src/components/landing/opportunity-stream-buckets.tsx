@@ -138,13 +138,13 @@ function BucketCard({
               </p>
               <span
                 className={cn(
-                  "inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
+                  "inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold tracking-widest",
                   !bucket.badge && "uppercase",
                   tone.chip,
                 )}
               >
                 {bucket.badge ? null : (
-                  <ChipIcon className="size-2.5 shrink-0" aria-hidden />
+                  <ChipIcon className="size-3 shrink-0" aria-hidden />
                 )}
                 {tone.chipLabel}
               </span>
@@ -170,13 +170,13 @@ function BucketCard({
             </p>
             <span
               className={cn(
-                "inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
+                "inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold tracking-widest",
                 !bucket.badge && "uppercase",
                 tone.chip,
               )}
             >
               {bucket.badge ? null : (
-                <ChipIcon className="size-2.5 shrink-0" aria-hidden />
+                <ChipIcon className="size-3 shrink-0" aria-hidden />
               )}
               {tone.chipLabel}
             </span>

@@ -99,22 +99,22 @@ export function bucketCardTone({
     ChipIcon: needsInput ? UserRound : Sparkles,
     surface: upNext
       ? "bg-white ring-1 ring-amber-200/50 shadow-pane transition-shadow duration-200 group-hover:shadow-pane-hover"
-      : "bg-slate-50 ring-1 ring-slate-200/80",
-    hover: upNext ? "" : "group-hover:bg-brand-25",
+      : "bg-sky-50 ring-1 ring-sky-100",
+    hover: upNext ? "" : "group-hover:bg-sky-100/60",
     chip: bucket.badge
       ? upNext
         ? "bg-amber-100/90 text-amber-900 normal-case tracking-normal"
-        : "bg-brand-100 text-brand-800 normal-case tracking-normal"
+        : "bg-sky-100 text-sky-700 normal-case tracking-normal"
       : needsInput
-        ? "bg-brand-100 text-brand-700 normal-case tracking-normal"
-        : "bg-brand-100 text-brand-700",
-    arrowHover: "group-hover:text-brand-600",
+        ? "bg-sky-100 text-sky-700 normal-case tracking-normal"
+        : "bg-sky-100 text-sky-700",
+    arrowHover: "group-hover:text-sky-600",
     value: "text-slate-950",
-    title: "text-slate-700",
+    title: "text-slate-900",
     skuCount: "text-slate-900",
     metaLabel: bucket.fillTime,
     footer: upNext
       ? "border-t border-amber-100/70 bg-warning-50/90 group-hover:border-amber-200/80 group-hover:bg-warning-100/50"
-      : "bg-slate-100/70 group-hover:bg-brand-50 group-hover:text-brand-950",
+      : "bg-sky-100/80 group-hover:bg-sky-100 group-hover:text-slate-900",
   }
 }
