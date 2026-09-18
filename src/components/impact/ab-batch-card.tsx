@@ -81,7 +81,7 @@ export function AbBatchCard({ batch, open, onToggle }: AbBatchCardProps) {
     <div
       className={cn(
         "overflow-hidden rounded-3xl bg-white/80 ring-1 shadow-pane-lg backdrop-blur-md",
-        batch.pilot ? "ring-brand-200" : "ring-slate-900/6",
+        batch.featured ? "ring-brand-200" : "ring-slate-900/6",
       )}
     >
       <button
@@ -97,10 +97,10 @@ export function AbBatchCard({ batch, open, onToggle }: AbBatchCardProps) {
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <h3 className="text-sm font-semibold text-slate-900">{batch.name}</h3>
-            {batch.pilot ? (
+            {batch.featured ? (
               <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-warning-100 to-brand-100 px-2.5 py-0.5 text-[10px] font-bold tracking-wide text-brand-700 uppercase">
                 <Trophy className="size-3" aria-hidden />
-                Pilot
+                A/B
               </span>
             ) : null}
             <StatusPill status={batch.status} />

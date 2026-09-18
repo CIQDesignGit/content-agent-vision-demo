@@ -7,7 +7,7 @@ import { AbBatchCard } from "./ab-batch-card"
 import { AB_BATCHES } from "./ab-batches-data"
 
 interface AbBatchListProps {
-  /** Deep-link support, e.g. arriving from Overview's "View pilot results" CTA. */
+  /** Deep-link support, e.g. arriving from Overview's "A/B test Results" CTA. */
   initialOpenBatchId?: string | null
   /** Must match the parent RevealGroup's own delay/stagger so the header +
    *  batch cards read as one continuous cascade, not two disconnected ones. */

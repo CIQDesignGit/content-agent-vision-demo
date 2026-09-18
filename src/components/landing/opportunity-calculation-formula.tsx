@@ -8,7 +8,7 @@ interface FormulaGroup {
   subtotal?: OpportunityCalculationRow
 }
 
-const GROUP_DOT = ["bg-data-1", "bg-data-3"]
+const GROUP_DOT = ["bg-data-1", "bg-data-2", "bg-data-3"]
 
 function groupFormula(rows: OpportunityCalculationRow[]): FormulaGroup[] {
   const groups: FormulaGroup[] = []
@@ -40,7 +40,8 @@ export function OpportunityCalculationFormula({
       <div
         className={cn(
           "grid gap-3",
-          groups.length > 1 && "sm:grid-cols-2",
+          groups.length === 2 && "sm:grid-cols-2",
+          groups.length >= 3 && "sm:grid-cols-3",
         )}
       >
         {groups.map((group, index) => (

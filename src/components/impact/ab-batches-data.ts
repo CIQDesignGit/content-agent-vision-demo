@@ -18,7 +18,8 @@ export interface AbBatchSkuRow {
 export interface AbBatch {
   id: string
   name: string
-  pilot?: boolean
+  /** Highlighted baseline A/B batch (shown with an A/B badge). */
+  featured?: boolean
   whenLabel: string
   skuCount: number
   pooledLiftPct: number
@@ -65,9 +66,9 @@ const FILLER_SCENTS = [
 ]
 
 /**
- * Fills out the long tail of a pilot batch with smaller, lower-traffic SKUs so
- * the headline SKU/win counts can match a bigger stated pilot size (e.g. the
- * "42 SKUs A/B tested in pilot" KPI on Overview) without ever falling back to
+ * Fills out the long tail of an A/B batch with smaller, lower-traffic SKUs so
+ * the headline SKU/win counts can match a bigger stated batch size (e.g. the
+ * "42 SKUs A/B tested" KPI on Overview) without ever falling back to
  * a rolled-up "N more SKUs" row — every SKU stays a real, clickable row.
  * Losses are placed at the end of the range so the win/loss split is exact,
  * not probabilistic.
@@ -108,10 +109,10 @@ function buildFillerRows(config: {
   return rows
 }
 
-// --- Batch 1 — Core Assortment (the pilot) ---------------------------------
-// Reconciled with the "42 SKUs A/B tested in pilot" / "38 of 42 · Challenger
+// --- Batch 1 — Core Assortment (baseline A/B) ------------------------------
+// Reconciled with the "42 SKUs A/B tested" / "38 of 42 · Challenger
 // won" / "+3.0%" KPIs shown in the Overview opportunity calculation panel —
-// same pilot, same story, viewed from the Agent Impact side.
+// same batch, same story, viewed from the Agent Impact side.
 const BATCH_1_NAMED_ROWS: AbBatchSkuRow[] = [
   { name: "Aurelle Vegan Soy Candle, Golden Hour, 8oz", asin: "B0D8QXK4TN", beforeRatePct: 6.04, afterRatePct: 6.40, visitors: 12300, impactCents: 176_000, units: 200, significant: false },
   { name: "Aurelle Vegan Soy Candle, Vanilla Bloom, 8oz", asin: "B0D8QXW3ZL", beforeRatePct: 5.9, afterRatePct: 7.1, visitors: 1200, impactCents: 152_000, units: 168, significant: true },
@@ -127,7 +128,7 @@ const BATCH_1_NAMED_ROWS: AbBatchSkuRow[] = [
   { name: "Aurelle Unscented Pure Soy Candle, 8oz", asin: "B0D8QYC4D4", beforeRatePct: 6.5, afterRatePct: 6.3, visitors: 700, impactCents: -12_000, units: -14, significant: false },
 ]
 
-// 11 wins + 1 loss above; fill out to the pilot's real 42 SKUs / 38 wins / 4
+// 11 wins + 1 loss above; fill out to the batch's real 42 SKUs / 38 wins / 4
 // losses / 16 significant with 27 more wins + 3 more losses (12 more significant).
 const BATCH_1_FILLER_ROWS = buildFillerRows({
   seedPrefix: "b1-filler",
@@ -151,7 +152,7 @@ const BATCH_1_WIN_RATE_PCT = Number(((BATCH_1_WINS / BATCH_1_SKU_COUNT) * 100).t
 /**
  * A/B test batches — every batch the agent has run, oldest to newest.
  * Every SKU in a batch is a real, clickable row (no rolled-up "N more SKUs"
- * summary). Batch 1 is the pilot referenced on Overview's opportunity
+ * summary). Batch 1 is the baseline A/B test referenced on Overview's opportunity
  * calculation panel — its SKU/win/lift numbers are computed above so the two
  * screens always agree. Adapted from the approved "Agent Impact" concept
  * (content-agent-at-a-glance mockup), restyled into this app's own design
@@ -161,7 +162,7 @@ export const AB_BATCHES: AbBatch[] = [
   {
     id: "b1",
     name: "Batch 1 — Core Assortment",
-    pilot: true,
+    featured: true,
     whenLabel: "Staggered rollout, Nov 24, 2025 – Jan 4, 2026 · Published Dec 1, 2025 – Jan 5, 2026",
     skuCount: BATCH_1_SKU_COUNT,
     pooledLiftPct: 3.0,
@@ -187,7 +188,7 @@ export const AB_BATCHES: AbBatch[] = [
       note: "Calculated on each SKU's own trailing 12-month revenue as of test start.",
     },
     rollout:
-      "This is the same 42-SKU pilot and +3.0% pooled rate behind the opportunity calculation on Overview — the rate used to size the always-on opportunity across the rest of the catalog.",
+      "This is the same 42-SKU A/B test and +3.0% pooled rate behind the opportunity calculation on Overview — the rate used to size the always-on opportunity across the rest of the catalog.",
     rows: BATCH_1_ROWS,
   },
   {

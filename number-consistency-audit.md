@@ -98,7 +98,7 @@ Seasonal and Always-on both have a card **Blocked — attributes missing first**
 | Comment in `src/components/impact/data.ts` | “period slice of launchpad captured (**$1.84M** YTD)” — stale. The meter is $800K. `formatMillions` still mentions $1.84M. |
 | Time saved | Launchpad 61.9 hrs on 128 SKUs. Impact **132 hrs**. |
 
-Lift rates also disagree: annualized pilot **+3.0%** (42 SKUs), value-pillar copy **2.1%**, Impact conversion lift **2.1%**.
+Lift rates also disagree: annualized A/B **+3.0%** (42 SKUs), value-pillar copy **2.1%**, Impact conversion lift **2.1%**.
 
 ### 8. Same 128 used for two stories
 

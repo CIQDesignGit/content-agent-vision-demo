@@ -49,7 +49,11 @@ const thisYearOverview: OverviewSnapshot = {
   secondaryStats,
   upNext,
   streams: opportunityStreams,
-  capturedSplit: { foundationalMillions: 0.6, seasonalMillions: 0.2 },
+  capturedSplit: {
+    retailReadinessMillions: 0.1,
+    amazonOptimizationMillions: 0.5,
+    seasonalMillions: 0.2,
+  },
 }
 
 const snapshots: Record<string, OverviewSnapshot> = {

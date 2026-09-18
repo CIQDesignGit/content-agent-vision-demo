@@ -11,7 +11,6 @@ import { OpportunityStreamCard } from "./opportunity-stream-card"
 import { PeriodRetrospectiveCard } from "./period-retrospective-card"
 import { RevealGroup, RevealItem } from "./reveal"
 import { SectionHeading } from "./section-heading"
-import { UpNextCard } from "./up-next-card"
 
 interface OpportunityStreamsProps {
   streams: OpportunityStream[]
@@ -49,8 +48,6 @@ export function OpportunityStreams({
 
       {windowClosed && retrospective ? (
         <PeriodRetrospectiveCard data={retrospective} />
-      ) : upNext ? (
-        <UpNextCard data={upNext} />
       ) : null}
 
       <RevealItem variants={fadeRiseOnScroll}>
@@ -66,6 +63,9 @@ export function OpportunityStreams({
                 <OpportunityStreamCard
                   stream={stream}
                   windowClosed={windowClosed}
+                  upNext={
+                    !windowClosed && stream.id === "seasonal" ? upNext : undefined
+                  }
                   expanded={expandedId === stream.id}
                   onToggle={() =>
                     setExpandedId((prev) =>

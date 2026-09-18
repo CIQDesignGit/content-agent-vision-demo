@@ -1,10 +1,10 @@
 "use client"
 
 import { AnimatePresence, motion } from "framer-motion"
-import { AlertTriangle, ChevronRight } from "lucide-react"
+import { AlertTriangle, ChevronRight, Timer } from "lucide-react"
 import { cn } from "@ciq-dev/ciq-design-system"
 import { DURATION, EASE_SWAP } from "@/lib/motion"
-import type { OpportunityStream } from "./types"
+import type { OpportunityStream, UpNextData } from "./types"
 import { OpportunityStreamDetail } from "./opportunity-stream-detail"
 
 interface OpportunityStreamCardProps {
@@ -12,6 +12,8 @@ interface OpportunityStreamCardProps {
   expanded: boolean
   onToggle: () => void
   windowClosed?: boolean
+  /** Seasonal — shown as the first card in the expanded bucket grid. */
+  upNext?: UpNextData
 }
 
 export function OpportunityStreamCard({
@@ -19,6 +21,7 @@ export function OpportunityStreamCard({
   expanded,
   onToggle,
   windowClosed = false,
+  upNext,
 }: OpportunityStreamCardProps) {
   const warning = stream.tone === "warning"
 
@@ -83,7 +86,11 @@ export function OpportunityStreamCard({
             {stream.contextHighlight ? (
               <>
                 {" "}
-                <span className="font-semibold text-brand-600">
+                <span className="inline-flex items-center gap-1 font-semibold text-brand-700">
+                  <Timer
+                    className="size-3.5 shrink-0 text-brand-600"
+                    aria-hidden
+                  />
                   {stream.contextHighlight}
                 </span>
               </>
@@ -127,6 +134,7 @@ export function OpportunityStreamCard({
             <OpportunityStreamDetail
               stream={stream}
               windowClosed={windowClosed}
+              upNext={upNext}
             />
           </motion.div>
         ) : null}

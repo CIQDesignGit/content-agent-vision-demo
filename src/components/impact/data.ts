@@ -23,7 +23,7 @@ export const impactSummary: ImpactSummary = {
       id: "conversion-rate-lift",
       label: "Conversion rate lift",
       value: "3.0%",
-      support: "Median pilot lift, these 6 ASINs",
+      support: "Median A/B lift, these 6 ASINs",
     },
     {
       id: "ai-visibility-lift",

@@ -47,15 +47,21 @@ export function OpportunityCalculationTabPane({
     <div className="flex w-full min-w-0 flex-col gap-3">
       <div className="w-full space-y-2.5">
         <OpportunityCalculationLiftBar
-          foundationalPct={tab.liftBarPct.foundational}
+          retailReadinessPct={tab.liftBarPct.retailReadiness}
+          amazonOptimizationPct={tab.liftBarPct.amazonOptimization}
           seasonalPct={tab.liftBarPct.seasonal}
         />
         {hasFormula ? null : (
-          <div className="grid w-full grid-cols-2 gap-x-6">
+          <div className="grid w-full grid-cols-3 gap-x-4">
             <LiftAmount
               dotClassName="bg-data-1"
-              label={tab.foundationalLiftLabel}
-              amount={tab.foundationalLiftAmount}
+              label={tab.retailReadinessLiftLabel}
+              amount={tab.retailReadinessLiftAmount}
+            />
+            <LiftAmount
+              dotClassName="bg-data-2"
+              label={tab.amazonOptimizationLiftLabel}
+              amount={tab.amazonOptimizationLiftAmount}
             />
             <LiftAmount
               dotClassName="bg-data-3"

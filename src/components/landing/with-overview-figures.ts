@@ -3,12 +3,13 @@ import type { OpportunityCalculationData } from "./types"
 
 /** Captured dollars before a publish, split the same way the value-realized card shows. */
 export interface CapturedLiftSplit {
-  foundationalMillions: number
+  retailReadinessMillions: number
+  amazonOptimizationMillions: number
   seasonalMillions: number
 }
 
 /**
- * The two calculation cards are the overview figures, not a second set of totals.
+ * The calculation cards are the overview figures, not a second set of totals.
  * Captured (and its lift split) follows a publish so it stays on the legend amount.
  * The split is the selected period's seed — not a hardcoded $800K year total.
  */
@@ -20,7 +21,9 @@ export function withOverviewFigures(
 ): OpportunityCalculationData {
   const totalLabel = `$${identifiedMillions.toFixed(2)}M`
   const seed =
-    capturedSplit.foundationalMillions + capturedSplit.seasonalMillions
+    capturedSplit.retailReadinessMillions +
+    capturedSplit.amazonOptimizationMillions +
+    capturedSplit.seasonalMillions
   const scale = seed > 0 ? realizedMillions / seed : 1
 
   return {
@@ -34,8 +37,11 @@ export function withOverviewFigures(
     valueRealized: {
       ...calculation.valueRealized,
       heroAmountLabel: formatMillions(realizedMillions),
-      foundationalLiftAmount: formatMillions(
-        capturedSplit.foundationalMillions * scale,
+      retailReadinessLiftAmount: formatMillions(
+        capturedSplit.retailReadinessMillions * scale,
+      ),
+      amazonOptimizationLiftAmount: formatMillions(
+        capturedSplit.amazonOptimizationMillions * scale,
       ),
       seasonalLiftAmount: formatMillions(
         capturedSplit.seasonalMillions * scale,

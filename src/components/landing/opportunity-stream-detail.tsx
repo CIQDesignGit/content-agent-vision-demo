@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import type { OpportunityStream } from "./types"
+import type { OpportunityStream, UpNextData } from "./types"
 import { OpportunityStreamTable } from "./opportunity-stream-table"
 import { OpportunityStreamBuckets } from "./opportunity-stream-buckets"
 import { OpportunityStreamInsight } from "./opportunity-stream-insight"
@@ -12,12 +12,14 @@ import { OpportunityStreamInsight } from "./opportunity-stream-insight"
 interface OpportunityStreamDetailProps {
   stream: OpportunityStream
   windowClosed?: boolean
+  upNext?: UpNextData
 }
 
 /** Expanded body shared by every opportunity-stream accordion. */
 export function OpportunityStreamDetail({
   stream,
   windowClosed = false,
+  upNext,
 }: OpportunityStreamDetailProps) {
   const router = useRouter()
   const warning = stream.tone === "warning"
@@ -53,6 +55,7 @@ export function OpportunityStreamDetail({
             valueKind={stream.valueKind}
             streamId={stream.id}
             windowClosed={windowClosed}
+            upNext={upNext}
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-sm text-slate-500">

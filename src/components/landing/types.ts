@@ -16,6 +16,9 @@ export interface OpportunityMeterData {
   realizedMillions: number
   /** Contract window for this total — not necessarily a calendar year */
   periodLabel: string
+  /** Period-vs-prior chip beside the hero total, e.g. "+$1.41M PvP" */
+  pvpDelta?: string
+  pvpDeltaPositive?: boolean
 }
 
 export type OpportunityCalculationTabId = "annualized" | "value-realized"
@@ -47,12 +50,18 @@ export interface OpportunityCalculationTabData {
   heroAmountLabel: string
   /** Value realized uses a bordered hero treatment */
   heroBordered?: boolean
-  foundationalLiftLabel: string
-  foundationalLiftAmount: string
+  retailReadinessLiftLabel: string
+  retailReadinessLiftAmount: string
+  amazonOptimizationLiftLabel: string
+  amazonOptimizationLiftAmount: string
   seasonalLiftLabel: string
   seasonalLiftAmount: string
-  /** Share of the two-lift bar (foundational first) */
-  liftBarPct: { foundational: number; seasonal: number }
+  /** Share of the three-bucket bar (retail → amazon → seasonal) */
+  liftBarPct: {
+    retailReadiness: number
+    amazonOptimization: number
+    seasonal: number
+  }
   kpis: OpportunityCalculationKpi[]
   calcRows: OpportunityCalculationRow[]
   calcSummary?: OpportunityCalculationRow
@@ -249,6 +258,10 @@ export interface OpportunityStreamBucket {
   releasesThousands?: number
   /** Blocked: tail after em dash on release line. Potential: full footer line. */
   alsoNote: string
+  /** When set, replaces the default Agent fills / Needs you chip (sentence case). */
+  badge?: string
+  /** Deep-link a calendar/moment queue instead of a stream bucket. */
+  momentId?: string
   /** Closed windows only — whether the job was published before the window shut. */
   outcome?: "captured" | "missed"
 }

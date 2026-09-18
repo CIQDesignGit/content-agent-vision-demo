@@ -58,16 +58,29 @@ export function OpportunityMeterOverview({
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
         <div className="flex min-w-0 flex-col gap-2">
           <p className="text-[13px] font-medium text-brand-600">
-            Total opportunity the agent has found
+            Total Annualized Opportunity Remaining
           </p>
-          <p className="flex items-baseline font-sans font-semibold leading-none text-brand-950">
-            <span className="text-6xl tracking-[-0.045em] sm:text-7xl">$</span>
-            <AnimatedFigure
-              value={data.identifiedMillions}
-              delay={0.3}
-              className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
-            />
-            <span className="text-6xl tracking-[-0.045em] sm:text-7xl">M</span>
+          <p className="flex flex-wrap items-baseline gap-x-3 gap-y-2 font-sans font-semibold leading-none text-brand-950">
+            <span className="flex items-baseline">
+              <span className="text-6xl tracking-[-0.045em] sm:text-7xl">$</span>
+              <AnimatedFigure
+                value={data.identifiedMillions}
+                delay={0.3}
+                className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
+              />
+              <span className="text-6xl tracking-[-0.045em] sm:text-7xl">M</span>
+            </span>
+            {data.pvpDelta ? (
+              <span
+                className={
+                  data.pvpDeltaPositive !== false
+                    ? "rounded-full bg-teal-50 px-2.5 py-1 text-sm font-semibold tabular-nums text-teal-700"
+                    : "rounded-full bg-slate-100 px-2.5 py-1 text-sm font-semibold tabular-nums text-slate-600"
+                }
+              >
+                {data.pvpDelta}
+              </span>
+            ) : null}
           </p>
         </div>
 
@@ -82,12 +95,6 @@ export function OpportunityMeterOverview({
                 className="w-auto px-4 first:pl-0 last:pr-0"
                 amountClassName="text-xl"
                 swatchClassName={dotFill[segment.id]}
-                swatchRingClassName={
-                  segment.id === "expired" ||
-                  (windowClosed && segment.id === "opportunity")
-                    ? "ring-1 ring-slate-300"
-                    : undefined
-                }
                 label={compactLabel(segment.label)}
                 amountLabel={
                   <AnimatedFigure

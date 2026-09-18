@@ -1,11 +1,12 @@
 "use client"
 
-import { useRouter } from "next/navigation"
-import { ArrowRight } from "lucide-react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import type {
   OpportunityStreamBucket,
   OpportunityStreamKind,
+  UpNextActionItem,
+  UpNextData,
 } from "./types"
 import { bucketCardTone } from "./bucket-card-tone"
 import { formatStreamValue } from "./opportunity-stream-format"
@@ -15,6 +16,38 @@ interface OpportunityStreamBucketsProps {
   valueKind: "blocked" | "potential"
   streamId: OpportunityStreamKind
   windowClosed?: boolean
+  /** Seasonal — prepended as the first card(s) in the same grid. */
+  upNext?: UpNextData
+}
+
+function valueLabelToThousands(label: string): number {
+  const millions = label.match(/\$([\d.]+)\s*M/i)
+  if (millions) return Math.round(parseFloat(millions[1]) * 1000)
+  const thousands = label.match(/\$([\d.]+)\s*K/i)
+  if (thousands) return Math.round(parseFloat(thousands[1]))
+  return 0
+}
+
+function upNextToBucket(item: UpNextActionItem): OpportunityStreamBucket {
+  return {
+    id: `up-next-${item.id}`,
+    title: item.name,
+    skuCount: item.skuCount,
+    fillTime: `Publish by ${item.publishBy}`,
+    valueThousands: valueLabelToThousands(item.valueLabel),
+    badge: "Up next",
+    alsoNote: `Goes live ${item.goesLiveNote}`,
+    momentId: item.id,
+  }
+}
+
+function reviewHref(
+  bucket: OpportunityStreamBucket,
+  streamId: OpportunityStreamKind,
+): string {
+  if (bucket.momentId) return `/workbench?moment=${bucket.momentId}`
+  const params = new URLSearchParams({ stream: streamId, bucket: bucket.id })
+  return `/workbench?${params.toString()}`
 }
 
 export function OpportunityStreamBuckets({
@@ -22,10 +55,21 @@ export function OpportunityStreamBuckets({
   valueKind,
   streamId,
   windowClosed = false,
+  upNext,
 }: OpportunityStreamBucketsProps) {
+  const cards = [
+    ...(upNext?.items.map(upNextToBucket) ?? []),
+    ...buckets,
+  ]
+
   return (
-    <ul className="grid grid-cols-1 gap-4 md:grid-cols-3">
-      {buckets.map((bucket) => (
+    <ul
+      className={cn(
+        "grid grid-cols-1 gap-4",
+        cards.length <= 2 ? "md:grid-cols-2" : "md:grid-cols-3",
+      )}
+    >
+      {cards.map((bucket) => (
         <li key={bucket.id} className="min-w-0">
           <BucketCard
             bucket={bucket}
@@ -50,22 +94,14 @@ function BucketCard({
   streamId: OpportunityStreamKind
   windowClosed: boolean
 }) {
-  const router = useRouter()
   const blocked = valueKind === "blocked"
   const tone = bucketCardTone({ bucket, streamId, blocked, windowClosed })
   const { ChipIcon } = tone
 
-  function openBucketReview() {
-    const params = new URLSearchParams({ stream: streamId, bucket: bucket.id })
-    router.push(`/workbench?${params.toString()}`)
-  }
-
   return (
-    <button
-      type="button"
-      onClick={openBucketReview}
+    <div
       className={cn(
-        "group flex h-full w-full flex-col overflow-hidden rounded-2xl text-left transition-colors duration-200 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
+        "group flex h-full w-full flex-col overflow-hidden rounded-2xl text-left transition-colors duration-200 ease-out",
         tone.surface,
       )}
     >
@@ -78,20 +114,16 @@ function BucketCard({
         <div className="flex w-full items-start justify-between gap-3">
           <span
             className={cn(
-              "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-widest",
+              "inline-flex max-w-[85%] items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
+              !bucket.badge && "uppercase",
               tone.chip,
             )}
           >
-            <ChipIcon className="size-2.5" aria-hidden />
+            {bucket.badge ? null : (
+              <ChipIcon className="size-2.5 shrink-0" aria-hidden />
+            )}
             {tone.chipLabel}
           </span>
-          <ArrowRight
-            className={cn(
-              "mt-0.5 size-4 shrink-0 text-slate-400 transition-[transform,color] duration-200 group-hover:translate-x-0.5",
-              tone.arrowHover,
-            )}
-            aria-hidden
-          />
         </div>
 
         <p
@@ -118,24 +150,34 @@ function BucketCard({
         </div>
       </div>
 
-      <p
+      <div
         className={cn(
-          "px-5 py-3 text-xs leading-relaxed text-slate-500 transition-colors duration-200 ease-out",
+          "flex flex-col gap-3 px-5 py-3 transition-colors duration-200 ease-out",
           tone.footer,
         )}
       >
-        {blocked && bucket.releasesThousands != null ? (
-          <>
-            {windowClosed ? "Also released " : "Also releases "}
-            <span className="font-semibold text-slate-700">
-              {formatStreamValue(bucket.releasesThousands)}
-            </span>{" "}
-            of queued content — {bucket.alsoNote}
-          </>
-        ) : (
-          bucket.alsoNote
-        )}
-      </p>
-    </button>
+        <p className="text-xs leading-relaxed text-slate-500">
+          {blocked && bucket.releasesThousands != null ? (
+            <>
+              {windowClosed ? "Also released " : "Also releases "}
+              <span className="font-semibold text-slate-700">
+                {formatStreamValue(bucket.releasesThousands)}
+              </span>{" "}
+              of queued content — {bucket.alsoNote}
+            </>
+          ) : (
+            bucket.alsoNote
+          )}
+        </p>
+        {!tone.captured && !tone.missed ? (
+          <Link
+            href={reviewHref(bucket, streamId)}
+            className="text-sm font-semibold text-brand-700 underline-offset-2 transition-colors hover:text-brand-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+          >
+            Review {bucket.skuCount.toLocaleString()} SKUs
+          </Link>
+        ) : null}
+      </div>
+    </div>
   )
 }

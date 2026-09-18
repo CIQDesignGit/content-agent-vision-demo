@@ -81,17 +81,31 @@ export function bucketCardTone({
   return {
     captured,
     missed,
-    chipLabel: needsInput
-      ? "Needs you"
-      : streamId === "seasonal"
-        ? "Agent drafts"
-        : "Agent fills",
+    chipLabel: bucket.badge
+      ? bucket.badge
+      : needsInput
+        ? "Needs you"
+        : streamId === "seasonal"
+          ? "Agent drafts"
+          : "Agent fills",
     ChipIcon: needsInput ? UserRound : Sparkles,
-    surface: "bg-slate-50",
-    hover: blocked ? "group-hover:bg-warning-50" : "group-hover:bg-brand-25",
-    chip: needsInput
-      ? "bg-warning-100 text-warning-700"
-      : "bg-brand-100 text-brand-700",
+    surface:
+      bucket.badge && /up next/i.test(bucket.badge)
+        ? "bg-brand-25"
+        : "bg-slate-50",
+    hover:
+      bucket.badge && /up next/i.test(bucket.badge)
+        ? "group-hover:bg-brand-50"
+        : blocked
+          ? "group-hover:bg-warning-50"
+          : "group-hover:bg-brand-25",
+    chip: bucket.badge
+      ? /up next/i.test(bucket.badge)
+        ? "bg-brand-100 text-brand-700 normal-case tracking-normal"
+        : "bg-warning-100 text-warning-800 normal-case tracking-normal"
+      : needsInput
+        ? "bg-warning-100 text-warning-700"
+        : "bg-brand-100 text-brand-700",
     arrowHover: blocked
       ? "group-hover:text-warning-600"
       : "group-hover:text-brand-600",
@@ -99,8 +113,10 @@ export function bucketCardTone({
     title: "text-slate-700",
     skuCount: "text-slate-900",
     metaLabel: bucket.fillTime,
-    footer: blocked
-      ? "bg-slate-100/70 group-hover:bg-warning-100 group-hover:text-slate-600"
-      : "bg-slate-100/70 group-hover:bg-brand-50 group-hover:text-brand-950",
+    footer: bucket.badge && /up next/i.test(bucket.badge)
+      ? "bg-brand-50/80 group-hover:bg-brand-100 group-hover:text-brand-950"
+      : blocked
+        ? "bg-slate-100/70 group-hover:bg-warning-100 group-hover:text-slate-600"
+        : "bg-slate-100/70 group-hover:bg-brand-50 group-hover:text-brand-950",
   }
 }
