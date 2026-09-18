@@ -78,7 +78,6 @@ export function OpportunityStatusBar({
   const captured = layouts.find((l) => l.segment.id === "captured")
   const markerPct = captured ? captured.mid + captured.share / 2 : capturedPct
   const capturedMillions = captured?.segment.millions ?? 0
-  const trackTotalLabel = `$${total.toFixed(2)}M`
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-3">
@@ -95,12 +94,13 @@ export function OpportunityStatusBar({
               fractionDigits={0}
               animateOnMount={false}
             />
-            % ·{" "}
+            % -{" "}
             <AnimatedFigure
               value={capturedMillions}
               format={formatMillions}
               animateOnMount={false}
-            />
+            />{" "}
+            captured
           </>
         }
         markerPulse={capture.justCaptured}
@@ -122,18 +122,18 @@ export function OpportunityStatusBar({
             animateOnMount={false}
             className="font-semibold text-slate-800"
           />{" "}
-          (
+          captured —{" "}
           <AnimatedFigure
             value={capturedPct}
             fractionDigits={0}
             animateOnMount={false}
             className="font-semibold text-slate-800"
           />
-          %) of the {totalAmountLabel} opportunity captured
+          % of everything found this year
         </p>
         <p className="shrink-0 tabular-nums">
-          <span className="font-semibold text-slate-700">{trackTotalLabel}</span>{" "}
-          identified
+          <span className="font-semibold text-slate-700">{totalAmountLabel}</span>{" "}
+          found
         </p>
       </div>
     </div>

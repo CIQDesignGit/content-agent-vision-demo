@@ -24,6 +24,8 @@ interface OpportunityMeterOverviewProps {
 }
 
 function compactLabel(label: string) {
+  // Keep "Open opportunity" intact; trim the trailing word on longer titles.
+  if (/^open opportunity$/i.test(label)) return label
   return label.replace(/ opportunity$/i, "")
 }
 
@@ -57,10 +59,10 @@ export function OpportunityMeterOverview({
     <div className={cn("flex w-full flex-col justify-between gap-8 lg:min-h-[22rem]", className)}>
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-medium text-brand-600">
-          Total Annualized Content Opportunity
+          Total annualized content opportunity
         </p>
 
-        {/* Hero + legend share one row so amounts sit on the $4.81M baseline;
+        {/* Hero + legend share one row so amounts sit on the $5.24M baseline;
             the PvP chip sits underneath and must not participate in that align. */}
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">

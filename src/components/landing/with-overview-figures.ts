@@ -11,15 +11,14 @@ export interface CapturedLiftSplit {
 /**
  * The calculation cards are the overview figures, not a second set of totals.
  * Captured (and its lift split) follows a publish so it stays on the legend amount.
- * The split is the selected period's seed — not a hardcoded $800K year total.
+ * Open opportunity keeps its authored total — it is not the same as everything found.
  */
 export function withOverviewFigures(
   calculation: OpportunityCalculationData,
-  identifiedMillions: number,
+  _identifiedMillions: number,
   realizedMillions: number,
   capturedSplit: CapturedLiftSplit,
 ): OpportunityCalculationData {
-  const totalLabel = `$${identifiedMillions.toFixed(2)}M`
   const seed =
     capturedSplit.retailReadinessMillions +
     capturedSplit.amazonOptimizationMillions +
@@ -27,13 +26,7 @@ export function withOverviewFigures(
   const scale = seed > 0 ? realizedMillions / seed : 1
 
   return {
-    annualized: {
-      ...calculation.annualized,
-      heroAmountLabel: totalLabel,
-      calcSummary: calculation.annualized.calcSummary
-        ? { ...calculation.annualized.calcSummary, value: totalLabel }
-        : undefined,
-    },
+    annualized: calculation.annualized,
     valueRealized: {
       ...calculation.valueRealized,
       heroAmountLabel: formatMillions(realizedMillions),

@@ -91,11 +91,11 @@ export function displayStatusSegments(
 
   const opportunity: OpportunityStatusSegment = {
     id: "opportunity",
-    label: "Remaining Opportunity",
+    label: "Open opportunity",
     millions: openMillions,
     amountLabel: formatMillions(openMillions),
     tooltip:
-      "Uncaptured lift still available — seasonal windows and always-on PDP optimization.",
+      "Uncaptured lift still available — retail readiness, always-on optimization, and seasonal windows.",
   }
 
   return [captured, opportunity, expired].filter(

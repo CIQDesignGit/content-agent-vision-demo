@@ -79,7 +79,7 @@ export function OpportunityCalculationTabPane({
 
       <div>
         <p className="text-sm font-semibold text-slate-900">
-          {hasFormula ? "Where the lift rate comes from" : "What went live"}
+          {hasFormula ? "Where the banked lift rate comes from" : "What went live"}
         </p>
         <div className="mt-2 flex flex-wrap items-baseline gap-x-10 gap-y-2 border-y border-slate-200 py-2.5">
           {tab.kpis.map((kpi) => (
@@ -106,14 +106,7 @@ export function OpportunityCalculationTabPane({
         <CalculationExplanation>
           {tab.bodyCopy ? <p>{tab.bodyCopy}</p> : null}
           {tab.methodology ? <p>{tab.methodology}</p> : null}
-          {tab.unrealized ? (
-            <p>
-              <span className="font-medium text-slate-700">
-                {tab.unrealized.title}.
-              </span>{" "}
-              {tab.unrealized.description}
-            </p>
-          ) : null}
+          {tab.unrealized ? <p>{tab.unrealized.description}</p> : null}
         </CalculationExplanation>
       ) : null}
 

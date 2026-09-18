@@ -17,11 +17,11 @@ import type {
 export const contractPeriodLabel = "Aug 2026 – Jul 2027"
 
 export const opportunityMeter: OpportunityMeterData = {
-  /** Active opportunity only — forfeited / past windows are excluded. */
-  identifiedMillions: 4.81,
-  realizedMillions: 0.8,
+  /** Captured + open + expired — everything found this year. */
+  identifiedMillions: 5.24,
+  realizedMillions: 0.892,
   periodLabel: contractPeriodLabel,
-  pvpDelta: "+$1.41M PvP",
+  pvpDelta: "+$1.41M vs. last year",
   pvpDeltaPositive: true,
 }
 
@@ -29,92 +29,92 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
   {
     id: "captured",
     label: "Captured",
-    amountLabel: "$800K",
-    millions: 0.8,
+    amountLabel: "$892K",
+    millions: 0.892,
     tooltip:
       "Opportunity already realized — content changes are live on retailer PDPs and contributing to incremental sales.",
   },
   {
     id: "seasonal",
     label: "Seasonal",
-    amountLabel: "$3.65M",
-    millions: 3.65,
+    amountLabel: "$1.46M",
+    millions: 1.46,
     tooltip:
-      "Open windows total $2.75M (Halloween $335K, Cyber Monday $860K, Holiday Gift Guide $510K, Winter peak $1.04M). The remaining $900K is later seasonal runway in the contract window — together $3.65M.",
+      "Open seasonal windows plus retail-readiness dollars still available to capture this year.",
   },
   {
     id: "pdp",
     label: "PDP optimization",
-    amountLabel: "$360K",
-    millions: 0.36,
+    amountLabel: "$2.50M",
+    millions: 2.5,
     tooltip:
-      "The $360K slice of the $2.50M always-on stream that can be captured now. A subset, not a second total.",
+      "Always-on SEO and AEO optimization still available across the catalog.",
   },
   {
     id: "expired",
     label: "Expired",
-    amountLabel: "$890K",
-    millions: 0.89,
+    amountLabel: "$380K",
+    millions: 0.38,
     muted: true,
     tooltip:
-      "Prime Day, Jul 12. $890K and 210 deal SKUs closed before publish — excluded from the active total.",
+      "Back to School window. $380K and 94 SKUs closed before publish.",
   },
 ]
 
 export const opportunityCalculation: OpportunityCalculationData = {
   annualized: {
     id: "annualized",
-    tabLabel: "Annualized opportunity",
-    heading: "Annualized Opportunity Size",
+    tabLabel: "Open opportunity",
+    heading: "Open opportunity",
     periodBadge: contractPeriodLabel,
-    heroAmountLabel: "$4.81M",
+    heroAmountLabel: "$3.96M",
     retailReadinessLiftLabel: "Retail readiness opportunity",
-    retailReadinessLiftAmount: "$0.26M",
-    amazonOptimizationLiftLabel: "Amazon optimization opportunity",
-    amazonOptimizationLiftAmount: "$1.19M",
+    retailReadinessLiftAmount: "$224K",
+    amazonOptimizationLiftLabel: "Always-on optimization opportunity",
+    amazonOptimizationLiftAmount: "$2.50M",
     seasonalLiftLabel: "Seasonal opportunity",
-    seasonalLiftAmount: "$3.36M",
-    liftBarPct: { retailReadiness: 5, amazonOptimization: 25, seasonal: 70 },
+    seasonalLiftAmount: "$1.24M",
+    liftBarPct: { retailReadiness: 6, amazonOptimization: 63, seasonal: 31 },
     kpis: [
       { value: "42", label: "SKUs A/B tested" },
-      { value: "+3.0%", label: "Median sales lift" },
-      { value: "38 of 42", label: "Challenger won" },
+      { value: "+3.0%", label: "median sales lift" },
+      { value: "38 of 42", label: "challenger won" },
     ],
     calcRows: [
       {
         label: "Annual revenue on attribute-blocked SKUs",
-        value: "$8.67M",
+        value: "$7.47M",
       },
       { label: "× banked lift rate", value: "3.0%" },
       {
         label: "Retail readiness opportunity",
-        value: "$0.26M",
+        value: "$224K",
         variant: "subtotal",
       },
       {
-        label: "Annual revenue on always-on SEO & AEO gaps",
-        value: "$39.63M",
+        label: "Annual revenue on SKUs with SEO & AEO gaps",
+        value: "$83.33M",
       },
       { label: "× banked lift rate", value: "3.0%" },
       {
-        label: "Amazon optimization opportunity",
-        value: "$1.19M",
+        label: "Always-on optimization opportunity",
+        value: "$2.50M",
         variant: "subtotal",
       },
       {
-        label: "Revenue in the 2 weeks after each of 17 events",
-        value: "$112M",
+        label: "Revenue in the 2 weeks around Black Friday",
+        value: "$41.33M",
       },
       { label: "× banked lift rate", value: "3.0%" },
       {
         label: "Seasonal opportunity",
-        value: "$3.36M",
+        value: "$1.24M",
         variant: "subtotal",
       },
     ],
     calcSummary: {
-      label: "Opportunity ahead",
-      value: "$4.81M",
+      label: "Open opportunity",
+      value: "$3.96M",
       variant: "total",
     },
     cta: {
@@ -122,40 +122,40 @@ export const opportunityCalculation: OpportunityCalculationData = {
       href: "/impact?batch=b1",
     },
     methodology:
-      "Revenue figures come from your Vendor Central history, pulled at onboarding. As new tests run the rate updates, and every change keeps a dated audit trail.",
+      "The banked lift rate comes from your latest A/B test, re-tested on a rolling basis. Each new result replaces the rate used here, with a dated audit trail.",
   },
   valueRealized: {
     id: "value-realized",
-    tabLabel: "Value Realized",
+    tabLabel: "Value realized",
     heading: "Value realized",
     periodBadge: "Jan 1 – Dec 31, 2026",
     trendBadge: { label: "+$340K this month", positive: true },
-    heroAmountLabel: "$800K",
+    heroAmountLabel: "$892K",
     heroBordered: true,
     retailReadinessLiftLabel: "Retail readiness opportunity",
-    retailReadinessLiftAmount: "$100K",
-    amazonOptimizationLiftLabel: "Amazon optimization opportunity",
-    amazonOptimizationLiftAmount: "$500K",
+    retailReadinessLiftAmount: "$50K",
+    amazonOptimizationLiftLabel: "Always-on optimization opportunity",
+    amazonOptimizationLiftAmount: "$562K",
     seasonalLiftLabel: "Seasonal opportunity",
-    seasonalLiftAmount: "$200K",
-    liftBarPct: { retailReadiness: 13, amazonOptimization: 62, seasonal: 25 },
+    seasonalLiftAmount: "$280K",
+    liftBarPct: { retailReadiness: 6, amazonOptimization: 63, seasonal: 31 },
     kpis: [
       { value: "128", label: "SKUs live" },
-      { value: "3.1 days", label: "Median approve-to-live" },
-      { value: "2 mo", label: "Accruing since Aug" },
+      { value: "3.1 days", label: "median approve-to-live" },
+      { value: "2 mo", label: "accruing since Aug" },
     ],
     calcRows: [],
     bodyCopy:
-      "128 SKUs, accrued over days their content was live — not the full-year value of a test that concluded last month. Each SKU's rate comes from its own A/B result where one exists, otherwise the demand-adjusted baseline (used where Amazon won't run a test).",
+      "Each SKU earns at its own A/B tested rate, counted only for the days its content was live.",
     cta: {
       label: "See SKU-level attribution in Agent Impact",
       href: "/impact",
     },
     unrealized: {
-      title: "Identified but never published",
-      amountLabel: "$890K",
+      title: "Lost to inaction",
+      amountLabel: "$380K",
       description:
-        "210 deal SKUs (Prime Day, Jul 12) still had gaps when syndication cut off. Not part of the total above and not recoverable — shown so the gap between what was found and what shipped stays visible.",
+        "94 SKUs weren't approved in time for Back to School. The window closed before they went live.",
     },
     methodology: "",
   },
@@ -166,7 +166,7 @@ export const secondaryStats: SecondaryStat[] = [
     id: "working-days-saved",
     label: "Working days saved",
     value: "7.7",
-    delta: "8% productivity boost WoW",
+    delta: "8% productivity boost PvP",
     deltaPositive: true,
     footnote: "128 actions taken · 61.9 analyst hours",
     calculation: {
@@ -187,7 +187,7 @@ export const secondaryStats: SecondaryStat[] = [
     id: "ai-rank",
     label: "AI rank",
     value: "#2",
-    delta: "▲ 1 place WoW",
+    delta: "▲ 1 place PvP",
     deltaPositive: true,
     live: true,
     footnote: "Median position across 25 tracked prompts",
@@ -207,10 +207,10 @@ export const secondaryStats: SecondaryStat[] = [
     id: "ai-share-of-voice",
     label: "AI share of voice",
     value: "34%",
-    delta: "▲ 1.4 pp WoW",
+    delta: "▲ 1.4 pp PvP",
     deltaPositive: true,
     live: true,
-    footnote: "Weighted, up from 32.6% last week",
+    footnote: "Weighted, up from 32.6% last month",
     calculation: {
       title: "AI share of voice",
       rows: [
@@ -239,11 +239,11 @@ export const upNext: UpNextData = {
 }
 
 export const lostToInaction: LostToInactionData = {
-  amountLabel: "$890K",
-  eventName: "Prime Day",
-  eventDateLabel: "Jul 12",
+  amountLabel: "$380K",
+  eventName: "Back to School",
+  eventDateLabel: "Aug 4",
   support:
-    "210 deal SKUs still had title and bullet gaps when the event window closed.",
+    "94 SKUs weren't approved in time for Back to School. The window closed before they went live.",
 }
 
 export const valuePillars: ValuePillar[] = [

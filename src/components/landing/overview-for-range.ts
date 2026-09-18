@@ -47,9 +47,9 @@ const thisYearOverview: OverviewSnapshot = {
   upNext,
   streams: opportunityStreams,
   capturedSplit: {
-    retailReadinessMillions: 0.1,
-    amazonOptimizationMillions: 0.5,
-    seasonalMillions: 0.2,
+    retailReadinessMillions: 0.05,
+    amazonOptimizationMillions: 0.562,
+    seasonalMillions: 0.28,
   },
 }
 
