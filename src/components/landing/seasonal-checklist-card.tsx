@@ -27,12 +27,7 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
         className,
       )}
     >
-      <div
-        aria-hidden
-        className="absolute inset-y-0 left-0 w-1 bg-brand-500"
-      />
-
-      <div className="flex flex-1 flex-col p-5 pl-6">
+      <div className="flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <span className="inline-flex items-center rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-semibold tracking-widest text-brand-700 uppercase">
             {event.eyebrow}
@@ -52,15 +47,14 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
           />
         </p>
 
-        <p className="mt-2 text-base font-semibold leading-snug text-slate-900">
-          {event.name}
-          <span className="font-medium text-slate-500">
-            {" "}
-            — {event.subtitle}
-          </span>
-        </p>
+        <div className="mt-3 space-y-1">
+          <p className="text-xl font-semibold leading-snug tracking-tight text-slate-950">
+            {event.name}
+          </p>
+          <p className="text-sm leading-snug text-slate-500">{event.subtitle}</p>
+        </div>
 
-        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
+        <div className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
           <span className="font-semibold tabular-nums text-slate-700">
             {event.skuCount.toLocaleString()} SKUs
           </span>
@@ -93,17 +87,17 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
         ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-200/50 bg-white/50 px-5 py-3.5 pl-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-200/50 bg-white/50 px-5 py-3.5">
         <p className="max-w-md text-xs leading-relaxed text-slate-500">
           {event.goesLiveNote}
         </p>
         <Link
           href={`/workbench?moment=${event.momentId}`}
           className={cn(
-            "inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-600 px-3.5 py-2",
+            "inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-700 px-3.5 py-2",
             "text-sm font-semibold text-white shadow-sm",
-            "transition-colors hover:bg-brand-700",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
+            "transition-colors hover:bg-brand-800",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700",
           )}
         >
           {started

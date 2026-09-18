@@ -75,20 +75,12 @@ function QueueStatCard({
         isRisk ? "ring-slate-900/8" : "ring-slate-900/5",
       )}
     >
-      <div
-        aria-hidden
-        className={cn(
-          "absolute inset-y-3 left-0 w-0.5 rounded-full",
-          isRisk ? "bg-error-500" : "bg-teal-500",
-        )}
-      />
-
-      <div className="relative flex flex-1 flex-col justify-center px-5 py-4 pl-5">
-        <p className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+      <div className="relative flex flex-1 flex-col justify-center px-5 py-4">
+        <p className="text-lg font-semibold tracking-tight text-slate-950">
           {label}
         </p>
 
-        <div className="mt-2 flex flex-wrap items-baseline gap-2">
+        <div className="mt-2.5 flex flex-wrap items-baseline gap-2.5">
           <p className="font-sans text-3xl font-semibold tracking-tight text-slate-900 tabular-nums">
             <AnimatedFigure
               value={value}
