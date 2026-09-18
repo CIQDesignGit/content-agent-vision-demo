@@ -2,19 +2,14 @@
 
 import { useState } from "react"
 import { fadeRiseOnScroll } from "@/lib/motion"
-import type {
-  OpportunityStream,
-  PeriodRetrospective,
-} from "./types"
+import type { OpportunityStream } from "./types"
 import { OpportunityStreamCard } from "./opportunity-stream-card"
-import { PeriodRetrospectiveCard } from "./period-retrospective-card"
 import { RevealGroup, RevealItem } from "./reveal"
 import { SectionHeading } from "./section-heading"
 
 interface OpportunityStreamsProps {
   streams: OpportunityStream[]
   windowClosed?: boolean
-  retrospective?: PeriodRetrospective
   /** When set, that stream starts expanded (accordion still toggles). */
   defaultExpandedId?: string | null
   title?: string
@@ -25,7 +20,6 @@ interface OpportunityStreamsProps {
 export function OpportunityStreams({
   streams,
   windowClosed = false,
-  retrospective,
   defaultExpandedId = null,
   title = "Opportunity streams",
   description,
@@ -51,10 +45,6 @@ export function OpportunityStreams({
     >
       {!hideHeading ? (
         <SectionHeading title={title} description={headingDescription} />
-      ) : null}
-
-      {windowClosed && retrospective ? (
-        <PeriodRetrospectiveCard data={retrospective} />
       ) : null}
 
       <RevealItem variants={fadeRiseOnScroll}>

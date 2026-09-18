@@ -196,28 +196,6 @@ export const q2Overview: OverviewSnapshot = {
       },
     ],
   },
-  retrospective: {
-    heading: "Q2 recap",
-    highlights: [
-      {
-        id: "q2-h1",
-        title: "Mother's Day copy shipped on the top 36 SKUs",
-        amountLabel: "$50K",
-      },
-      {
-        id: "q2-h2",
-        title: "Unit price and item weight backfilled on 48 SKUs",
-        amountLabel: "$100K",
-      },
-    ],
-    lowlights: [
-      {
-        id: "q2-l1",
-        title: "112 Mother's Day SKUs never published",
-        amountLabel: "$610K",
-      },
-    ],
-  },
   streams: [
     {
       id: "seasonal",
@@ -323,7 +301,7 @@ export const q2Overview: OverviewSnapshot = {
           impactThousands: 18,
         },
       ],
-    },,
+    },
     {
       id: "pdp",
       title: "Always-on optimization opportunity",
@@ -420,7 +398,7 @@ export const q2Overview: OverviewSnapshot = {
           findingType: "SEO",
         },
       ],
-    },,
+    },
     {
       id: "retail-readiness",
       title: "Retail readiness opportunity",
@@ -483,6 +461,6 @@ export const q2Overview: OverviewSnapshot = {
           impactThousands: 3,
         },
       ],
-    },,
+    },
   ],
 }

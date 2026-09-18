@@ -215,28 +215,6 @@ export const lastYearOverview: OverviewSnapshot = {
       },
     ],
   },
-  retrospective: {
-    heading: "2025 recap",
-    highlights: [
-      {
-        id: "ly-h1",
-        title: "$2.15M captured across the year",
-        amountLabel: "$2.15M",
-      },
-      {
-        id: "ly-h2",
-        title: "Retail-readiness climbed to 91% of catalog",
-        amountLabel: "+9 pts",
-      },
-    ],
-    lowlights: [
-      {
-        id: "ly-l1",
-        title: "Holiday 2025 closed with 210 SKUs unpublished",
-        amountLabel: "$900K",
-      },
-    ],
-  },
   streams: [
     {
       id: "seasonal",
@@ -339,7 +317,7 @@ export const lastYearOverview: OverviewSnapshot = {
           impactThousands: 16,
         },
       ],
-    },,
+    },
     {
       id: "pdp",
       title: "Always-on optimization opportunity",
@@ -436,7 +414,7 @@ export const lastYearOverview: OverviewSnapshot = {
           findingType: "SEO",
         },
       ],
-    },,
+    },
     {
       id: "retail-readiness",
       title: "Retail readiness opportunity",
@@ -502,6 +480,6 @@ export const lastYearOverview: OverviewSnapshot = {
           impactThousands: 5,
         },
       ],
-    },,
+    },
   ],
 }

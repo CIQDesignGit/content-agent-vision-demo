@@ -38,7 +38,6 @@ export function AnalystTasksView() {
           key={rangeId ?? "this-year"}
           streams={overview.streams}
           windowClosed={overview.windowClosed}
-          retrospective={overview.retrospective}
           hideHeading
         />
       </div>

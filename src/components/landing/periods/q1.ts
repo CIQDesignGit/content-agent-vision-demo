@@ -196,28 +196,6 @@ export const q1Overview: OverviewSnapshot = {
       },
     ],
   },
-  retrospective: {
-    heading: "Q1 recap",
-    highlights: [
-      {
-        id: "q1-h1",
-        title: "Valentine's copy live on the top 24 SKUs",
-        amountLabel: "$30K",
-      },
-      {
-        id: "q1-h2",
-        title: "Unit price backfilled on 22 SKUs",
-        amountLabel: "$28K",
-      },
-    ],
-    lowlights: [
-      {
-        id: "q1-l1",
-        title: "72 Valentine's SKUs never published",
-        amountLabel: "$350K",
-      },
-    ],
-  },
   streams: [
     {
       id: "seasonal",
@@ -319,7 +297,7 @@ export const q1Overview: OverviewSnapshot = {
           impactThousands: 12,
         },
       ],
-    },,
+    },
     {
       id: "pdp",
       title: "Always-on optimization opportunity",
@@ -416,7 +394,7 @@ export const q1Overview: OverviewSnapshot = {
           findingType: "SEO",
         },
       ],
-    },,
+    },
     {
       id: "retail-readiness",
       title: "Retail readiness opportunity",
@@ -482,6 +460,6 @@ export const q1Overview: OverviewSnapshot = {
           impactThousands: 2,
         },
       ],
-    },,
+    },
   ],
 }

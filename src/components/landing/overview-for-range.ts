@@ -17,7 +17,6 @@ import type {
   OpportunityMeterData,
   OpportunityStatusSegment,
   OpportunityStream,
-  PeriodRetrospective,
   SecondaryStat,
   UpNextData,
 } from "./types"
@@ -35,8 +34,6 @@ export interface OverviewSnapshot {
   upNext: UpNextData
   streams: OpportunityStream[]
   capturedSplit: CapturedLiftSplit
-  /** Shown in place of "Up next" once the window has closed. */
-  retrospective?: PeriodRetrospective
   /** True when the selected window's last day is already over. */
   windowClosed?: boolean
 }

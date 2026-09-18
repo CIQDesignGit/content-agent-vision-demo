@@ -696,7 +696,7 @@ export const opportunityStreams: OpportunityStream[] = [
         impactThousands: 41,
       },
     ],
-  },,
+  },
   {
     id: "pdp",
     title: "Always-on optimization opportunity",
@@ -766,7 +766,7 @@ export const opportunityStreams: OpportunityStream[] = [
         findingType: "SEO",
       },
     ],
-  },,
+  },
   {
     id: "retail-readiness",
     title: "Retail readiness opportunity",
@@ -829,5 +829,5 @@ export const opportunityStreams: OpportunityStream[] = [
         impactThousands: 2.8,
       },
     ],
-  },,
+  },
 ]

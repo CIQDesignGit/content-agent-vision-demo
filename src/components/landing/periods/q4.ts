@@ -298,7 +298,7 @@ export const q4Overview: OverviewSnapshot = {
           impactThousands: 16,
         },
       ],
-    },,
+    },
     {
       id: "pdp",
       title: "Always-on optimization opportunity",
@@ -395,7 +395,7 @@ export const q4Overview: OverviewSnapshot = {
           findingType: "SEO",
         },
       ],
-    },,
+    },
     {
       id: "retail-readiness",
       title: "Retail readiness opportunity",
@@ -458,6 +458,6 @@ export const q4Overview: OverviewSnapshot = {
           impactThousands: 3,
         },
       ],
-    },,
+    },
   ],
 }

@@ -213,21 +213,6 @@ export interface UpNextData {
   items: UpNextActionItem[]
 }
 
-/** One win or miss in a closed-window recap. */
-export interface PeriodRetroNote {
-  id: string
-  title: string
-  amountLabel: string
-}
-
-/** Replaces "Up next" once the selected window has closed. */
-export interface PeriodRetrospective {
-  heading: string
-  /** Two wins and one miss — the card is sized for exactly that. */
-  highlights: [PeriodRetroNote, PeriodRetroNote]
-  lowlights: [PeriodRetroNote]
-}
-
 export type OpportunityStreamKind = "retail-readiness" | "seasonal" | "pdp"
 
 export type StreamFindingType = "SEO" | "AEO"
