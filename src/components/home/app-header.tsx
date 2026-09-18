@@ -17,44 +17,31 @@ import { ProfileSwitcher } from "./profile-switcher"
 
 const PARENT_APP_HOME_HREF = "https://allybrain.web.app/#/"
 
-function IconHeaderButton({
+/** Prototype chrome — visual only, not interactive. */
+function IconHeaderDecoration({
   badge,
-  label,
-  href,
   className,
   children,
 }: {
   badge?: number | string
-  label: string
-  href?: string
   className?: string
   children: ReactNode
 }) {
-  const baseClass = cn("relative grid size-8 place-items-center rounded-md text-slate-600 hover:bg-slate-100", className)
-
-  const inner = (
-    <>
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "relative grid size-8 place-items-center rounded-md text-slate-600 pointer-events-none select-none",
+        className,
+      )}
+    >
       {children}
       {badge ? (
         <span className="absolute -right-0.5 -top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-error-600 px-1 text-[10px] font-semibold text-white">
           {badge}
         </span>
       ) : null}
-    </>
-  )
-
-  if (href) {
-    return (
-      <Link href={href} aria-label={label} title={label} className={baseClass}>
-        {inner}
-      </Link>
-    )
-  }
-
-  return (
-    <button type="button" aria-label={label} title={label} className={baseClass}>
-      {inner}
-    </button>
+    </span>
   )
 }
 
@@ -123,28 +110,24 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
       </div>
 
       <div className="flex items-center gap-2">
-        <IconHeaderButton label="Brand Performance" href="/brand-performance">
+        <IconHeaderDecoration>
           <BarChart3 className="size-4" />
-        </IconHeaderButton>
-        <IconHeaderButton
-          label={backHref ? "Content Agent" : "Title Optimization"}
-          href={backHref ? "/workbench" : "/title-optimization"}
-          className="bg-brand-100"
-        >
+        </IconHeaderDecoration>
+        <IconHeaderDecoration className="bg-brand-100">
           <Rocket className="size-4 text-brand-500" />
-        </IconHeaderButton>
-        <IconHeaderButton label="Alerts" badge={6}>
+        </IconHeaderDecoration>
+        <IconHeaderDecoration badge={6}>
           <Bell className="size-5" />
-        </IconHeaderButton>
-        <IconHeaderButton label="Help">
+        </IconHeaderDecoration>
+        <IconHeaderDecoration>
           <HelpCircle className="size-5" />
-        </IconHeaderButton>
-        <IconHeaderButton label="Share">
+        </IconHeaderDecoration>
+        <IconHeaderDecoration>
           <Share2 className="size-5" />
-        </IconHeaderButton>
-        <IconHeaderButton label="Inbox">
+        </IconHeaderDecoration>
+        <IconHeaderDecoration>
           <Mail className="size-5" />
-        </IconHeaderButton>
+        </IconHeaderDecoration>
         <ProfileSwitcher />
       </div>
     </header>

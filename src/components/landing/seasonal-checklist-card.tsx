@@ -22,18 +22,32 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
       whileHover={{ y: -2 }}
       transition={{ duration: DURATION.quick, ease: EASE_OUT }}
       className={cn(
-        "group relative flex h-full w-full flex-col overflow-hidden rounded-2xl",
-        "bg-brand-25 ring-1 ring-brand-200/60 shadow-pane-lg",
-        "transition-shadow duration-200 ease-out hover:shadow-pane-brand",
+        "group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-brand-25",
+        "ring-1 ring-brand-200/60 shadow-pane-lg",
+        "transition-shadow duration-300 ease-out",
+        "hover:shadow-[0_2px_8px_-4px_rgb(15_23_42/0.04),0_20px_56px_-20px_rgb(15_23_42/0.06),0_40px_96px_-40px_rgb(135_91_247/0.07)]",
         className,
       )}
     >
-      <div className="flex flex-1 flex-col p-5">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-linear-to-br from-brand-200/40 via-brand-50/25 to-brand-25 transition-[opacity] duration-300 group-hover:from-brand-200/50"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_95%_85%_at_8%_-25%,var(--color-brand-300)_0%,var(--color-brand-100)_40%,transparent_72%)] opacity-55"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_100%_0%,var(--color-brand-200)_0%,transparent_58%)] opacity-40"
+      />
+
+      <div className="relative z-10 flex flex-1 flex-col p-5">
         <div className="flex flex-wrap items-start justify-between gap-2">
-          <span className="inline-flex items-center rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-semibold tracking-widest text-brand-700 uppercase">
+          <span className="inline-flex items-center rounded-full bg-brand-100/80 px-2.5 py-0.5 text-[10px] font-semibold tracking-widest text-brand-800 uppercase ring-1 ring-brand-200/50">
             {event.eyebrow}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-full bg-warning-100 px-2 py-0.5 text-[10px] font-semibold tracking-widest text-warning-800 uppercase">
+          <span className="inline-flex items-center gap-1 rounded-full bg-warning-100 px-2.5 py-0.5 text-[10px] font-semibold tracking-widest text-warning-800 uppercase ring-1 ring-warning-300/60">
             <AlertTriangle className="size-2.5 shrink-0" aria-hidden />
             {event.daysToAct} days to act
           </span>
@@ -52,11 +66,11 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
           <p className="text-xl font-semibold leading-snug tracking-tight text-slate-950">
             {event.name}
           </p>
-          <p className="text-sm leading-snug text-slate-500">{event.subtitle}</p>
+          <p className="text-sm leading-snug text-slate-600">{event.subtitle}</p>
         </div>
 
-        <div className="mt-3.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-base text-slate-500">
-          <span className="font-semibold tabular-nums text-slate-800">
+        <div className="mt-3.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-base text-slate-600">
+          <span className="font-semibold tabular-nums text-slate-900">
             {event.skuCount.toLocaleString()} SKUs
           </span>
           <Dot />
@@ -67,18 +81,18 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
 
         {started ? (
           <div className="mt-4 space-y-1.5">
-            <div className="flex justify-between gap-2 text-xs tabular-nums text-slate-500">
+            <div className="flex justify-between gap-2 text-xs tabular-nums text-slate-600">
               <span>
                 {event.checkedCount} of {event.skuCount} checked
               </span>
-              <span className="font-semibold text-slate-700">{progressPct}%</span>
+              <span className="font-semibold text-slate-800">{progressPct}%</span>
             </div>
             <div
-              className="h-1 w-full overflow-hidden rounded-full bg-brand-100"
+              className="h-1 w-full overflow-hidden rounded-full bg-white/70 ring-1 ring-brand-100"
               aria-hidden
             >
               <motion.div
-                className="h-full rounded-full bg-brand-500"
+                className="h-full rounded-full bg-brand-600"
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPct}%` }}
                 transition={{ duration: DURATION.calm, ease: EASE_OUT, delay: 0.4 }}
@@ -88,8 +102,8 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
         ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-200/50 bg-white/50 px-5 py-3.5">
-        <p className="max-w-md text-sm leading-relaxed text-slate-500">
+      <div className="relative z-10 mt-auto flex flex-wrap items-center justify-between gap-3 rounded-b-2xl border-t border-brand-100/80 bg-white/70 px-5 py-3.5">
+        <p className="max-w-md text-sm leading-relaxed text-slate-600">
           {event.goesLiveNote}
         </p>
         <Link
@@ -111,7 +125,7 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
 
 function Dot() {
   return (
-    <span className="text-slate-300" aria-hidden>
+    <span className="text-brand-200" aria-hidden>
       ·
     </span>
   )
