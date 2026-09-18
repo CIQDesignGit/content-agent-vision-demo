@@ -61,6 +61,19 @@ export const fadeRise = fadeRiseAt(DURATION.calm, RISE)
 /** Same gesture at a third of the travel — for text and controls inside a pane. */
 export const fadeRiseTight = fadeRiseAt(DURATION.base, 4)
 
+/**
+ * First-land entrance — fades and rises with ease-in-out so the eye can
+ * follow a staggered wave without the pieces popping in.
+ */
+export const fadeRiseLand: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: DURATION.draw, ease: EASE_IN_OUT },
+  },
+}
+
 /** Accent rules and timeline connectors that draw themselves downward. */
 export const drawDown = drawDownAt(DURATION.calm)
 

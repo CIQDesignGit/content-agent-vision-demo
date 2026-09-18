@@ -1,25 +1,38 @@
 "use client"
 
 import Link from "next/link"
-import { AlertTriangle } from "lucide-react"
+import { motion } from "framer-motion"
+import { AlertTriangle, ArrowRight } from "lucide-react"
+import { DURATION, EASE_OUT } from "@/lib/motion"
 import { cn } from "@/lib/utils"
+import { AnimatedFigure } from "./animated-figure"
 import { seasonalChecklist } from "./analyst-tasks-data"
 
-/** Up-next seasonal moment — same card language as the stream bucket grid. */
+/** Up-next seasonal moment — primary card in the analyst task strip. */
 export function SeasonalChecklistCard({ className }: { className?: string }) {
   const event = seasonalChecklist
   const remaining = Math.max(event.skuCount - event.checkedCount, 0)
   const started = event.checkedCount > 0
   const progressPct = Math.round((event.checkedCount / event.skuCount) * 100)
+  const valueAmount = Number(event.valueLabel.replace(/[^0-9.]/g, "")) || 0
 
   return (
-    <div
+    <motion.div
+      whileHover={{ y: -2 }}
+      transition={{ duration: DURATION.quick, ease: EASE_OUT }}
       className={cn(
-        "group flex h-full w-full flex-col overflow-hidden rounded-2xl bg-brand-25 ring-1 ring-slate-900/6 !shadow-pane-lg",
+        "group relative flex h-full w-full flex-col overflow-hidden rounded-2xl",
+        "bg-brand-25 ring-1 ring-brand-200/60 shadow-pane-lg",
+        "transition-shadow duration-200 ease-out hover:shadow-pane-brand",
         className,
       )}
     >
-      <div className="flex flex-1 flex-col p-5 transition-colors duration-200 ease-out group-hover:bg-brand-50">
+      <div
+        aria-hidden
+        className="absolute inset-y-0 left-0 w-1 bg-brand-500"
+      />
+
+      <div className="flex flex-1 flex-col p-5 pl-6">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <span className="inline-flex items-center rounded-full bg-brand-100 px-2 py-0.5 text-[10px] font-semibold tracking-widest text-brand-700 uppercase">
             {event.eyebrow}
@@ -30,26 +43,31 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
           </span>
         </div>
 
-        <p className="mt-3.5 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em] text-slate-950">
-          {event.valueLabel}
+        <p className="mt-4 font-sans text-4xl font-semibold tabular-nums tracking-[-0.04em] text-slate-950">
+          <AnimatedFigure
+            value={valueAmount}
+            fractionDigits={0}
+            delay={0.28}
+            format={(v) => `$${Math.round(v)}K`}
+          />
         </p>
 
-        <p className="mt-1.5 text-sm font-medium leading-snug text-slate-700">
-          {event.name} — {event.subtitle}
+        <p className="mt-2 text-base font-semibold leading-snug text-slate-900">
+          {event.name}
+          <span className="font-medium text-slate-500">
+            {" "}
+            — {event.subtitle}
+          </span>
         </p>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
-          <span className="font-semibold tabular-nums text-slate-900">
+        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
+          <span className="font-semibold tabular-nums text-slate-700">
             {event.skuCount.toLocaleString()} SKUs
           </span>
           <Dot />
-          <span className="font-medium text-slate-500">
-            Publish by {event.publishBy}
-          </span>
+          <span>Publish by {event.publishBy}</span>
           <Dot />
-          <span className="font-medium text-slate-500">
-            Live {event.eventDate}
-          </span>
+          <span>Live {event.eventDate}</span>
         </div>
 
         {started ? (
@@ -58,37 +76,43 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
               <span>
                 {event.checkedCount} of {event.skuCount} checked
               </span>
-              <span className="font-semibold text-slate-700">
-                {progressPct}%
-              </span>
+              <span className="font-semibold text-slate-700">{progressPct}%</span>
             </div>
             <div
               className="h-1 w-full overflow-hidden rounded-full bg-brand-100"
               aria-hidden
             >
-              <div
+              <motion.div
                 className="h-full rounded-full bg-brand-500"
-                style={{ width: `${progressPct}%` }}
+                initial={{ width: 0 }}
+                animate={{ width: `${progressPct}%` }}
+                transition={{ duration: DURATION.calm, ease: EASE_OUT, delay: 0.4 }}
               />
             </div>
           </div>
         ) : null}
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-brand-50/80 px-5 py-3 transition-colors duration-200 ease-out group-hover:bg-brand-100">
-        <p className="text-sm leading-relaxed text-muted-foreground">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-200/50 bg-white/50 px-5 py-3.5 pl-6">
+        <p className="max-w-md text-xs leading-relaxed text-slate-500">
           {event.goesLiveNote}
         </p>
         <Link
           href={`/workbench?moment=${event.momentId}`}
-          className="text-sm font-semibold text-brand-700 underline-offset-2 transition-colors hover:text-brand-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+          className={cn(
+            "inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-600 px-3.5 py-2",
+            "text-sm font-semibold text-white shadow-sm",
+            "transition-colors hover:bg-brand-700",
+            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
+          )}
         >
           {started
-            ? `Continue — ${remaining.toLocaleString()} SKUs left`
+            ? `Continue — ${remaining.toLocaleString()} left`
             : `Review ${event.skuCount.toLocaleString()} SKUs`}
+          <ArrowRight className="size-3.5" aria-hidden />
         </Link>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
