@@ -10,10 +10,6 @@ type ProgressMap = Record<string, string[]>
 
 const EMPTY: ProgressMap = {}
 
-// A reload must not surface leftover progress. The chip only appears after an
-// action is booked in this visit and the user navigates back to the overview.
-let actedThisVisit = false
-
 // useSyncExternalStore loops forever if getSnapshot hands back a new object each
 // call, so parse only when the stored string actually moves.
 let cachedRaw: string | null = null
@@ -46,13 +42,13 @@ function subscribe(onChange: () => void) {
 /** How many distinct SKUs the user has published out of this queue this visit. */
 export function useQueueActedCount(queueId: string | undefined): number {
   const progress = useSyncExternalStore(subscribe, readProgress, () => EMPTY)
-  if (!actedThisVisit || !queueId) return 0
+  if (!queueId) return 0
   return progress[queueId]?.length ?? 0
 }
 
 /** SKU ids already booked against this queue — used to resume a Review list mid-visit. */
 export function getQueueActedSkuIds(queueId: string | undefined): string[] {
-  if (typeof window === "undefined" || !actedThisVisit || !queueId) return []
+  if (typeof window === "undefined" || !queueId) return []
   return readProgress()[queueId] ?? []
 }
 
@@ -67,7 +63,6 @@ export function recordQueueProgress(queueId: string, skuIds: string[]) {
   // new arrived — otherwise each keystroke would republish the store.
   if (merged.size === existing.length) return
 
-  actedThisVisit = true
   const next: ProgressMap = { ...prev, [queueId]: Array.from(merged) }
 
   window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next))
