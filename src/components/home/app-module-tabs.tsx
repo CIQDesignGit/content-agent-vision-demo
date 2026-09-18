@@ -4,11 +4,10 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 
 const ALLY_BRAIN_HREF = "https://allybrain.web.app/#/"
-const CONTENT_APP_HREF = "https://content-agent-vision-demo.vercel.app/"
 
 const MODULES = [
   { id: "ally", label: "Ally", href: ALLY_BRAIN_HREF, external: true },
-  { id: "content", label: "Content", href: CONTENT_APP_HREF, external: true },
+  { id: "content", label: "Content", href: "/", external: false },
   { id: "media", label: "Media", href: null, external: false },
   { id: "ops", label: "Ops", href: "#", external: false },
   { id: "insights", label: "Insights", href: "#", external: false },

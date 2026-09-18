@@ -77,7 +77,10 @@ export function resolveDateRange(
   year = new Date().getFullYear(),
 ): DateRangeOption {
   const ranges = dateRangesForYear(year)
-  return ranges.find((range) => range.id === rangeId) ?? ranges[0]
+  const fallback =
+    ranges.find((range) => range.id === DEFAULT_DATE_RANGE_ID) ?? ranges[0]
+  if (!rangeId) return fallback
+  return ranges.find((range) => range.id === rangeId) ?? fallback
 }
 
 /** Matches the primary label shown in `DateRangePicker` trigger text. */

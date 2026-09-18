@@ -53,7 +53,7 @@ export function CompositionBarSegment({
   return (
     <motion.div
       className={cn(
-        "relative h-full min-w-0 overflow-hidden rounded-[3px] transition-[filter,opacity] duration-200",
+        "relative h-full min-w-0 shrink-0 overflow-hidden rounded-[3px] transition-[filter,opacity] duration-200",
         onHoverChange && "cursor-pointer hover:brightness-110 hover:saturate-125",
         dimmed && "opacity-35",
         isFirst && "rounded-l-full",
