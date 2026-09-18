@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { AlignJustify, CheckCircle2, PanelLeftOpen } from "lucide-react"
 import { enterTransition, fadeRise, staggerContainer } from "@/lib/motion"
@@ -25,12 +25,36 @@ function useSlidingList(incoming: Sku[]) {
   const [rendered, setRendered] = useState<Sku[]>(incoming)
   // id → stagger delay in ms. Presence in map = "this card is leaving".
   const [leavingDelays, setLeavingDelays] = useState<Map<string, number>>(new Map())
-  const prevIdsRef = useRef(new Set(incoming.map((s) => s.id)))
+  const prevIdsRef = useRef<Set<string> | null>(null)
+  // Exit animation is for user-driven removals (publish). Land / hydrate / queue
+  // resume must snap to the final list — never slide cards out on arrival.
+  const exitsEnabledRef = useRef(false)
 
   useEffect(() => {
+    const timer = window.setTimeout(() => {
+      exitsEnabledRef.current = true
+    }, 80)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  useLayoutEffect(() => {
     const incomingIds = new Set(incoming.map((s) => s.id))
-    const removed = [...prevIdsRef.current].filter((id) => !incomingIds.has(id))
+    const prevIds = prevIdsRef.current
+    const removed =
+      prevIds == null
+        ? []
+        : [...prevIds].filter((id) => !incomingIds.has(id))
+
     prevIdsRef.current = incomingIds
+
+    // First sync, still bootstrapping, or wholesale queue swap → snap.
+    const isQueueSwap =
+      prevIds != null && removed.length > 0 && removed.length === prevIds.size
+    if (prevIds == null || !exitsEnabledRef.current || isQueueSwap) {
+      setLeavingDelays(new Map())
+      setRendered(incoming)
+      return
+    }
 
     if (removed.length === 0) {
       setRendered(incoming)
@@ -51,7 +75,7 @@ function useSlidingList(incoming: Sku[]) {
     })
     setRendered((prev) => prev.map((s) => incoming.find((i) => i.id === s.id) ?? s))
 
-    // For N cards: last card starts at (N-1)×60ms, finishes collapsing at +950ms
+    // For N cards: last card starts at (N-1)×STAGGER_MS, finishes collapsing at +950ms
     const totalMs = (removed.length - 1) * STAGGER_MS + 950
     const timer = setTimeout(() => {
       setLeavingDelays((prev) => {

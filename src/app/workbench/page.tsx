@@ -2,7 +2,7 @@
 
 export const dynamic = "force-static"
 
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 
 import { BulkSelectControl } from "@/components/home/section-controls"
@@ -61,6 +61,10 @@ import {
   type SkuQueueSource,
 } from "@/lib/moment-sku-queue"
 import {
+  buildShareReviewQueueSource,
+  parseShareReviewParams,
+} from "@/lib/share-review-queue"
+import {
   MOCK_SKUS,
   buildInitialState,
   makeInitialContent,
@@ -96,8 +100,15 @@ function WorkbenchPage() {
   const momentId = searchParams.get("moment")
   const streamId = searchParams.get("stream")
   const bucketId = searchParams.get("bucket")
-  // Both entry points land here: a moment from Up next, or an opportunity
-  // stream from the landing accordion.
+  const titleParam = searchParams.get("title")
+  const countParam = searchParams.get("count")
+  // External share links only apply when no in-product moment/stream is present.
+  const shareParams = useMemo(() => {
+    if (momentId || streamId) return null
+    return parseShareReviewParams(titleParam, countParam)
+  }, [countParam, momentId, streamId, titleParam])
+  // Priority: moment → stream(+bucket) → share title+count → default catalog.
+  // Moment/stream paths stay identical so Halloween and bucket titles keep working.
   const activeQueue = useMemo<SkuQueueSource | null>(() => {
     if (momentId) {
       const moment = upcomingMoments.find((m) => m.id === momentId)
@@ -111,8 +122,11 @@ function WorkbenchPage() {
         ? { id: stream.id, name: stream.title, skuCount: stream.skuCount }
         : null
     }
+    if (shareParams) return buildShareReviewQueueSource(shareParams)
     return null
-  }, [momentId, streamId])
+  }, [momentId, shareParams, streamId])
+
+  const isShareQueue = shareParams != null
 
   const activeBucket = useMemo(() => {
     if (!streamId || !bucketId) return null
@@ -135,7 +149,17 @@ function WorkbenchPage() {
     return MOCK_SKUS
   }, [activeQueue, activeBucket])
 
-  const [selectedSkuId, setSelectedSkuId] = useState(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
+  const initialTodoId = useMemo(() => {
+    if (!activeQueue) return catalogSkus[0]?.id ?? MOCK_SKUS[0].id
+    const actedIds = new Set(getQueueActedSkuIds(activeQueue.id))
+    return (
+      catalogSkus.find((s) => !actedIds.has(s.id))?.id ??
+      catalogSkus[0]?.id ??
+      MOCK_SKUS[0].id
+    )
+  }, [activeQueue, catalogSkus])
+
+  const [selectedSkuId, setSelectedSkuId] = useState(initialTodoId)
   const [search, setSearch] = useState("")
   const [filter, setFilter] = useState(PDP_OPTIMIZATION_TASK)
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
@@ -143,15 +167,23 @@ function WorkbenchPage() {
   const [contentState, setContentState] = useState<ContentState>(() =>
     activeQueue ? {} : buildInitialState(),
   )
-  // Tracks each SKU's workflow state: to-do → in-progress (after publish) → success
-  const [actionStatusMap, setActionStatusMap] = useState<Record<string, ActionStatus>>(() =>
-    Object.fromEntries(
+  // Seed from session progress so the first paint already matches the final
+  // to-do list — avoids a post-load slide-out of already-acted SKUs.
+  const [actionStatusMap, setActionStatusMap] = useState<Record<string, ActionStatus>>(() => {
+    const actedIds = new Set(
+      activeQueue ? getQueueActedSkuIds(activeQueue.id) : [],
+    )
+    return Object.fromEntries(
       catalogSkus.map((s) => [
         s.id,
-        activeQueue ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
+        activeQueue
+          ? actedIds.has(s.id)
+            ? ("in-progress" as ActionStatus)
+            : ("to-do" as ActionStatus)
+          : (s.actionStatus ?? "to-do"),
       ]),
-    ),
-  )
+    )
+  })
   // Bookmark is orthogonal to workflow state — a SKU can be bookmarked at any stage
   const [bookmarkSet, setBookmarkSet] = useState<Set<string>>(
     () =>
@@ -189,39 +221,38 @@ function WorkbenchPage() {
   // Reset queue when landing from a moment Take Action (or clearing the param).
   // Already-acted SKUs from this visit stay marked done so Continue lands on
   // the next unchecked item instead of replaying hw-sku-1 / hw-sku-2.
-  useEffect(() => {
-    queueMicrotask(() => {
-      const actedIds = new Set(
-        activeQueue ? getQueueActedSkuIds(activeQueue.id) : [],
-      )
-      setActionStatusMap(
-        Object.fromEntries(
-          catalogSkus.map((s) => [
-            s.id,
-            activeQueue
-              ? actedIds.has(s.id)
-                ? ("in-progress" as ActionStatus)
-                : ("to-do" as ActionStatus)
-              : (s.actionStatus ?? "to-do"),
-          ]),
-        ),
-      )
-      const firstTodo =
-        catalogSkus.find((s) => !actedIds.has(s.id))?.id ??
-        catalogSkus[0]?.id ??
-        MOCK_SKUS[0].id
-      setSelectedSkuId(firstTodo)
-      setContentState(activeQueue ? {} : buildInitialState())
-      setSelectedSkuIds(new Set())
-      setIsSelectionMode(false)
-      setBookmarkSet(
-        new Set(
+  // useLayoutEffect so the sidebar sees the final to-do list before paint.
+  useLayoutEffect(() => {
+    const actedIds = new Set(
+      activeQueue ? getQueueActedSkuIds(activeQueue.id) : [],
+    )
+    setActionStatusMap(
+      Object.fromEntries(
+        catalogSkus.map((s) => [
+          s.id,
           activeQueue
-            ? []
-            : MOCK_SKUS.filter((s) => s.isBookmarked).map((s) => s.id),
-        ),
-      )
-    })
+            ? actedIds.has(s.id)
+              ? ("in-progress" as ActionStatus)
+              : ("to-do" as ActionStatus)
+            : (s.actionStatus ?? "to-do"),
+        ]),
+      ),
+    )
+    const firstTodo =
+      catalogSkus.find((s) => !actedIds.has(s.id))?.id ??
+      catalogSkus[0]?.id ??
+      MOCK_SKUS[0].id
+    setSelectedSkuId(firstTodo)
+    setContentState(activeQueue ? {} : buildInitialState())
+    setSelectedSkuIds(new Set())
+    setIsSelectionMode(false)
+    setBookmarkSet(
+      new Set(
+        activeQueue
+          ? []
+          : MOCK_SKUS.filter((s) => s.isBookmarked).map((s) => s.id),
+      ),
+    )
   }, [activeQueue, catalogSkus])
 
   // Books every SKU the analyst has accepted or published against the queue, so
@@ -271,11 +302,25 @@ function WorkbenchPage() {
       }
     }
 
+    // Share links use the freeform title as-is; moments keep the "… queue" suffix.
+    if (isShareQueue) {
+      return {
+        title: activeQueue.name,
+        description: countLabel,
+      }
+    }
+
     return {
       title: `${activeQueue.name} queue`,
       description: countLabel,
     }
-  }, [activeBucket, activeQueue, catalogSkus.length, filteredSkus.length])
+  }, [
+    activeBucket,
+    activeQueue,
+    catalogSkus.length,
+    filteredSkus.length,
+    isShareQueue,
+  ])
 
   // True when every SKU has been actioned (none remain with "to-do" status),
   // regardless of active filters. Used to show the "All caught up!" empty state.
