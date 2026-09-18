@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ChevronRight } from "lucide-react"
-import { AppModuleTabs } from "./app-module-tabs"
+import { ALLY_BRAIN_HREF, AppModuleTabs } from "./app-module-tabs"
 import { ProfileSwitcher } from "./profile-switcher"
 
 const BRAND_NAME = "Ally"
@@ -24,9 +24,15 @@ interface AppHeaderProps {
 
 function AllyWordmark({ className }: { className?: string }) {
   return (
-    <span className={className ?? "truncate text-3xl font-bold tracking-tight text-brand-900"}>
+    <a
+      href={ALLY_BRAIN_HREF}
+      className={
+        className ??
+        "truncate text-3xl font-bold tracking-tight text-brand-900 transition-colors hover:text-brand-950"
+      }
+    >
       {BRAND_NAME}
-    </span>
+    </a>
   )
 }
 

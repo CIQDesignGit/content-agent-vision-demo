@@ -10,6 +10,7 @@ import type {
 } from "./types"
 import { bucketCardTone } from "./bucket-card-tone"
 import { formatStreamValue } from "./opportunity-stream-format"
+import { useProfile, withProfileParam, type ProfileId } from "@/components/home/profile-context"
 
 interface OpportunityStreamBucketsProps {
   buckets: OpportunityStreamBucket[]
@@ -44,10 +45,12 @@ function upNextToBucket(item: UpNextActionItem): OpportunityStreamBucket {
 function reviewHref(
   bucket: OpportunityStreamBucket,
   streamId: OpportunityStreamKind,
+  profileId: ProfileId,
 ): string {
-  if (bucket.momentId) return `/workbench?moment=${bucket.momentId}`
-  const params = new URLSearchParams({ stream: streamId, bucket: bucket.id })
-  return `/workbench?${params.toString()}`
+  const href = bucket.momentId
+    ? `/workbench?moment=${bucket.momentId}`
+    : `/workbench?${new URLSearchParams({ stream: streamId, bucket: bucket.id }).toString()}`
+  return withProfileParam(href, profileId)
 }
 
 export function OpportunityStreamBuckets({
@@ -57,6 +60,7 @@ export function OpportunityStreamBuckets({
   windowClosed = false,
   upNext,
 }: OpportunityStreamBucketsProps) {
+  const { profileId } = useProfile()
   const cards = [
     ...(upNext?.items.map(upNextToBucket) ?? []),
     ...buckets,
@@ -71,11 +75,12 @@ export function OpportunityStreamBuckets({
     >
       {cards.map((bucket) => (
         <li key={bucket.id} className="min-w-0">
-          <BucketCard
+          <StreamBucketCard
             bucket={bucket}
             valueKind={valueKind}
             streamId={streamId}
             windowClosed={windowClosed}
+            profileId={profileId}
           />
         </li>
       ))}
@@ -83,16 +88,18 @@ export function OpportunityStreamBuckets({
   )
 }
 
-function BucketCard({
+export function StreamBucketCard({
   bucket,
   valueKind,
   streamId,
   windowClosed,
+  profileId,
 }: {
   bucket: OpportunityStreamBucket
   valueKind: "blocked" | "potential"
   streamId: OpportunityStreamKind
   windowClosed: boolean
+  profileId: ProfileId
 }) {
   const blocked = valueKind === "blocked"
   const tone = bucketCardTone({ bucket, streamId, blocked, windowClosed })
@@ -218,12 +225,21 @@ function BucketCard({
           </p>
         ) : null}
         {!tone.captured && !tone.missed ? (
-          <Link
-            href={reviewHref(bucket, streamId)}
-            className="text-sm font-semibold text-brand-700 underline-offset-2 transition-colors hover:text-brand-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-          >
-            {bucket.ctaLabel ?? "Review SKUs"}
-          </Link>
+          streamId === "retail-readiness" ? (
+            <span
+              aria-disabled="true"
+              className="cursor-not-allowed text-sm font-semibold text-slate-400"
+            >
+              {bucket.ctaLabel ?? "Review SKUs"}
+            </span>
+          ) : (
+            <Link
+              href={reviewHref(bucket, streamId, profileId)}
+              className="text-sm font-semibold text-brand-700 underline-offset-2 transition-colors hover:text-brand-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+            >
+              {bucket.ctaLabel ?? "Review SKUs"}
+            </Link>
+          )
         ) : null}
       </div>
     </div>

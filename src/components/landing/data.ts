@@ -163,27 +163,6 @@ export const opportunityCalculation: OpportunityCalculationData = {
 
 export const secondaryStats: SecondaryStat[] = [
   {
-    id: "working-days-saved",
-    label: "Working days saved",
-    value: "7.7",
-    delta: "8% productivity boost PvP",
-    deltaPositive: true,
-    footnote: "128 actions taken · 61.9 analyst hours",
-    calculation: {
-      title: "Working days saved",
-      rows: [
-        { label: "SKUs published, last 12 months", value: "128" },
-        { label: "Manual benchmark, per SKU", value: "30 min" },
-        { label: "Agent, per SKU", value: "1 min" },
-        { label: "Saved per SKU", value: "29 min" },
-        { label: "Total saved", value: "61.9 hrs" },
-      ],
-      summaryRow: { label: "At an 8-hour working day", value: "7.7 days" },
-      methodology:
-        "Time saved counts only SKUs actually published, not recommendations sitting in the queue. The 30-minute manual benchmark covers pulling the listing, researching keywords, drafting the title and bullets, and loading them back into Vendor Central.",
-    },
-  },
-  {
     id: "ai-rank",
     label: "AI rank",
     value: "#2",
@@ -223,6 +202,27 @@ export const secondaryStats: SecondaryStat[] = [
         "A live snapshot, not a 12-month total. Share of all brand citations across tracked prompts, weighted by position — being cited first counts more than being cited fifth. Re-measured every week against the same prompt set, so week-over-week movement is comparable.",
     },
   },
+  {
+    id: "working-days-saved",
+    label: "Working days saved",
+    value: "7.7",
+    delta: "8% productivity boost PvP",
+    deltaPositive: true,
+    footnote: "128 actions taken · 61.9 analyst hours",
+    calculation: {
+      title: "Working days saved",
+      rows: [
+        { label: "SKUs published, last 12 months", value: "128" },
+        { label: "Manual benchmark, per SKU", value: "30 min" },
+        { label: "Agent, per SKU", value: "1 min" },
+        { label: "Saved per SKU", value: "29 min" },
+        { label: "Total saved", value: "61.9 hrs" },
+      ],
+      summaryRow: { label: "At an 8-hour working day", value: "7.7 days" },
+      methodology:
+        "Time saved counts only SKUs actually published, not recommendations sitting in the queue. The 30-minute manual benchmark covers pulling the listing, researching keywords, drafting the title and bullets, and loading them back into Vendor Central.",
+    },
+  },
 ]
 
 export const upNext: UpNextData = {
@@ -230,9 +230,9 @@ export const upNext: UpNextData = {
     {
       id: "hw",
       name: "Halloween",
-      valueLabel: "$335K",
+      valueLabel: "$1.24M",
       publishBy: "Oct 8",
-      skuCount: 128,
+      skuCount: 384,
       goesLiveNote: "Oct 31",
     },
   ],
@@ -288,31 +288,31 @@ export const calendarEvents: CalendarEvent[] = [
   {
     id: "hw",
     name: "Halloween",
-    valueLabel: "$335K",
-    skuCount: 128,
+    valueLabel: "$1.24M",
+    skuCount: 384,
     status: "open",
     dateLabel: "Oct 8",
     daysToAct: 20,
     insightSummary:
-      "128 SKUs need Halloween-ready titles, seasonal scent and decor framing, and gifting cues before the Oct 31 event window. Ranked by revenue so hero SKUs land first.",
+      "384 SKUs are missing event titles, deal framing, and AEO specs before the Oct 31 event window. Ranked by revenue so the biggest SKUs come first.",
     dimensions: [
       {
         kind: "seasonal",
         label: "Seasonal lift",
-        potential: "$210K",
-        potentialMillions: 0.21,
+        potential: "$780K",
+        potentialMillions: 0.78,
       },
       {
         kind: "aeo",
         label: "AI visibility",
-        potential: "$80K",
-        potentialMillions: 0.08,
+        potential: "$310K",
+        potentialMillions: 0.31,
       },
       {
         kind: "foundational",
         label: "Foundational lift",
-        potential: "$45K",
-        potentialMillions: 0.045,
+        potential: "$150K",
+        potentialMillions: 0.15,
       },
     ],
     skuFindings: [
@@ -377,8 +377,8 @@ export const calendarEvents: CalendarEvent[] = [
         impactLabel: "$41K",
       },
     ],
-    remainingCount: 128,
-    remainingValueLabel: "$335K",
+    remainingCount: 384,
+    remainingValueLabel: "$1.24M",
   },
   {
     id: "cm",
@@ -635,21 +635,22 @@ export const opportunityStreams: OpportunityStream[] = [
       "Optimizes content ahead of shopping events like Prime Day and Black Friday.",
     context: "Next up · Halloween · Publish by Oct 8 ·",
     contextHighlight: "20 days to act",
-    skuCount: 128,
-    valueLabel: "$335K",
+    skuCount: 384,
+    valueLabel: "$1.24M",
     valueKind: "potential",
     tone: "default",
     insight:
-      "**128 SKUs** are missing Halloween-ready titles, seasonal scent/decor framing, or gifting cues shoppers respond to.",
-    remainingLabel: "122 more SKUs worth $251K, ranked by impact.",
+      "**384 SKUs** are missing event titles, deal framing, and AEO specs.",
+    remainingLabel: "378 more SKUs worth $882K, ranked by impact.",
     buckets: [
       {
         id: "sea-hw",
         title: "Halloween",
-        skuCount: 128,
+        skuCount: 384,
         fillTime: "~35 min total",
         badge: "Improves SEO & AEO",
         momentId: "hw",
+        ctaLabel: "Review 384 SKUs",
       },
     ],
     rows: [
@@ -717,6 +718,7 @@ export const opportunityStreams: OpportunityStream[] = [
         skuCount: 273,
         fillTime: "~25 min total",
         badge: "Improves SEO & AEO",
+        ctaLabel: "Review 273 SKUs",
       },
       {
         id: "pdp-b2",
@@ -724,6 +726,7 @@ export const opportunityStreams: OpportunityStream[] = [
         skuCount: 339,
         fillTime: "~55 min total",
         badge: "Improves SEO & AEO",
+        ctaLabel: "Review 339 SKUs",
       },
     ],
     rows: [
@@ -789,6 +792,7 @@ export const opportunityStreams: OpportunityStream[] = [
         skuCount: 74,
         fillTime: "~2 min total",
         badge: "Approval required",
+        ctaLabel: "Approve 74 SKUs",
       },
       {
         id: "rr-recommended",
@@ -797,7 +801,7 @@ export const opportunityStreams: OpportunityStream[] = [
         fillMode: "input",
         fillTime: "~45 min total",
         badge: "Input required",
-        ctaLabel: "Backfill SKUs",
+        ctaLabel: "Backfill 26 SKUs",
       },
     ],
     rows: [

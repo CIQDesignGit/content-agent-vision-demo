@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { fadeRiseOnScroll } from "@/lib/motion"
+import { cn } from "@/lib/utils"
 import type { OpportunityStream } from "./types"
 import { OpportunityStreamCard } from "./opportunity-stream-card"
 import { RevealGroup, RevealItem } from "./reveal"
@@ -12,20 +13,39 @@ interface OpportunityStreamsProps {
   windowClosed?: boolean
   /** When set, that stream starts expanded (accordion still toggles). */
   defaultExpandedId?: string | null
+  /** When set, these streams start expanded. Implies multi-expand. */
+  defaultExpandedIds?: string[]
+  /**
+   * When false, multiple streams can stay open.
+   * Defaults to true unless `defaultExpandedIds` is provided.
+   */
+  exclusive?: boolean
+  /** Each stream in its own pane with gap — clearer when several stay open. */
+  separatePanes?: boolean
   title?: string
   description?: string
   hideHeading?: boolean
+  className?: string
 }
 
 export function OpportunityStreams({
   streams,
   windowClosed = false,
   defaultExpandedId = null,
+  defaultExpandedIds,
+  exclusive,
+  separatePanes = false,
   title = "Open opportunity streams",
   description,
   hideHeading = false,
+  className,
 }: OpportunityStreamsProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(defaultExpandedId)
+  const multi = exclusive === false || (defaultExpandedIds?.length ?? 0) > 0
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => {
+    if (defaultExpandedIds?.length) return new Set(defaultExpandedIds)
+    if (defaultExpandedId) return new Set([defaultExpandedId])
+    return new Set()
+  })
 
   if (streams.length === 0) return null
 
@@ -35,11 +55,23 @@ export function OpportunityStreams({
       ? "Where the range came from, and what was captured before it closed."
       : "Where the range comes from, and what's blocking it.")
 
+  function toggle(id: string) {
+    setExpandedIds((prev) => {
+      if (multi) {
+        const next = new Set(prev)
+        if (next.has(id)) next.delete(id)
+        else next.add(id)
+        return next
+      }
+      return prev.has(id) ? new Set() : new Set([id])
+    })
+  }
+
   return (
     <RevealGroup
       as="section"
       aria-label={hideHeading ? "Task streams" : title}
-      className="flex flex-col gap-5"
+      className={cn("flex flex-col gap-5", className)}
       delay={0.12}
       stagger={0.1}
     >
@@ -48,28 +80,48 @@ export function OpportunityStreams({
       ) : null}
 
       <RevealItem variants={fadeRiseOnScroll}>
-        <div className="relative overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(70%_100%_at_12%_0%,var(--color-brand-50),transparent_70%)]"
-          />
-          <ul className="relative flex flex-col divide-y divide-slate-100/90">
+        {separatePanes ? (
+          <ul className="flex flex-col gap-4">
             {streams.map((stream) => (
-              <li key={stream.id}>
-                <OpportunityStreamCard
-                  stream={stream}
-                  windowClosed={windowClosed}
-                  expanded={expandedId === stream.id}
-                  onToggle={() =>
-                    setExpandedId((prev) =>
-                      prev === stream.id ? null : stream.id,
-                    )
-                  }
+              <li
+                key={stream.id}
+                className="relative overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md"
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-[radial-gradient(70%_100%_at_12%_0%,var(--color-brand-50),transparent_70%)]"
                 />
+                <div className="relative">
+                  <OpportunityStreamCard
+                    stream={stream}
+                    windowClosed={windowClosed}
+                    expanded={expandedIds.has(stream.id)}
+                    onToggle={() => toggle(stream.id)}
+                  />
+                </div>
               </li>
             ))}
           </ul>
-        </div>
+        ) : (
+          <div className="relative overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(70%_100%_at_12%_0%,var(--color-brand-50),transparent_70%)]"
+            />
+            <ul className="relative flex flex-col divide-y divide-slate-100/90">
+              {streams.map((stream) => (
+                <li key={stream.id}>
+                  <OpportunityStreamCard
+                    stream={stream}
+                    windowClosed={windowClosed}
+                    expanded={expandedIds.has(stream.id)}
+                    onToggle={() => toggle(stream.id)}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </RevealItem>
     </RevealGroup>
   )

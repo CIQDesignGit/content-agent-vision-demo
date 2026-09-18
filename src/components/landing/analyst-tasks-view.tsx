@@ -3,11 +3,13 @@
 import { useMemo } from "react"
 import { MotionConfig } from "framer-motion"
 import { useSearchParams } from "next/navigation"
-import { fadeRiseLand } from "@/lib/motion"
+import { fadeRiseLand, fadeRiseOnScroll } from "@/lib/motion"
 import { AnalystWeekStrip } from "./analyst-week-strip"
 import { overviewForRange } from "./overview-for-range"
 import { OpportunityStreams } from "./opportunity-streams"
 import { RevealGroup, RevealItem } from "./reveal"
+import { SectionHeading } from "./section-heading"
+import { StuckNeedsNudgeCard } from "./stuck-needs-nudge-card"
 
 export function AnalystTasksView() {
   const searchParams = useSearchParams()
@@ -24,9 +26,6 @@ export function AnalystTasksView() {
                 <h2 className="font-sans text-xl font-semibold tracking-tight text-slate-900">
                   Today&apos;s tasks
                 </h2>
-                <p className="text-sm text-slate-500">
-                  Start with the seasonal window, then clear the review queue.
-                </p>
               </div>
             </RevealItem>
           </RevealGroup>
@@ -36,10 +35,28 @@ export function AnalystTasksView() {
 
         <OpportunityStreams
           key={rangeId ?? "this-year"}
-          streams={overview.streams}
+          streams={overview.streams.filter((s) => s.id !== "seasonal")}
           windowClosed={overview.windowClosed}
-          hideHeading
+          title="Things to do"
+          description=""
+          defaultExpandedIds={["pdp", "retail-readiness"]}
+          exclusive={false}
+          separatePanes
+          className="mb-6"
         />
+
+        <RevealGroup
+          as="section"
+          aria-label="Stuck and needs a nudge"
+          className="flex flex-col gap-5"
+          delay={0.08}
+          stagger={0.1}
+        >
+          <SectionHeading title="Stuck and needs a nudge" />
+          <RevealItem variants={fadeRiseOnScroll}>
+            <StuckNeedsNudgeCard />
+          </RevealItem>
+        </RevealGroup>
       </div>
     </MotionConfig>
   )

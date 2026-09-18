@@ -68,11 +68,11 @@ export function SeasonalProgressBanner({
         >
           <motion.div
             animate={bumpControls}
-            className="relative space-y-1.5 rounded-xl bg-success-50 px-3 py-2.5 ring-1 ring-success-200/60"
+            className="relative space-y-1.5 rounded-xl bg-success-50 px-3 py-2.5"
           >
             <SeasonalProgressConfetti burstKey={burstKey} />
 
-            <div className="relative flex items-center justify-between gap-2 text-xs tabular-nums text-success-800">
+            <div className="relative flex items-center justify-between gap-2 text-xs tabular-nums text-slate-700">
               <span className="flex items-center gap-1.5">
                 <motion.span
                   initial={reduced ? false : { scale: 0, rotate: -25 }}
@@ -98,7 +98,7 @@ export function SeasonalProgressBanner({
                   of {totalCount.toLocaleString()} SKUs acted on today
                 </span>
               </span>
-              <span className="font-semibold">
+              <span className="font-semibold text-slate-700">
                 <AnimatedFigure
                   value={progressPct}
                   fractionDigits={0}

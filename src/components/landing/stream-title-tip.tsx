@@ -26,7 +26,7 @@ export function StreamTitleTip({
     return (
       <span
         aria-label={`About ${label}`}
-        className="inline-flex shrink-0 text-slate-300"
+        className="inline-flex shrink-0 text-slate-500"
       >
         <Info className="size-3.5" aria-hidden />
       </span>
@@ -39,7 +39,7 @@ export function StreamTitleTip({
         <span
           role="img"
           aria-label={`About ${label}`}
-          className="inline-flex shrink-0 cursor-help text-slate-300 transition-colors hover:text-slate-500"
+          className="inline-flex shrink-0 cursor-help text-slate-500 transition-colors hover:text-slate-700"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >

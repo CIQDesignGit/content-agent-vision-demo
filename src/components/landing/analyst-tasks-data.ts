@@ -3,14 +3,47 @@ export const seasonalChecklist = {
   momentId: "hw",
   eyebrow: "Up next · Seasonal",
   name: "Halloween",
-  subtitle: "SKU checklist ready for review",
-  valueLabel: "$335K",
+  subtitle: "384 SKUs missing event titles, deal framing, and AEO specs",
+  valueLabel: "$1.24M",
   publishBy: "Oct 8",
   eventDate: "Oct 31",
+  fillTime: "~35 min total",
   goesLiveNote:
-    "Event titles, deal framing, and AEO specs — drafted and ranked by revenue.",
-  skuCount: 128,
+    "Drafted and ranked by revenue, so the biggest SKUs come first.",
+  skuCount: 384,
   daysToAct: 20,
+}
+
+/** Blocked SKUs that need a nudge before going live. */
+export const stuckBeforeLive = {
+  title: "Blocked before going live",
+  tag: "65 SKUs held up",
+  skuCount: 65,
+  note: "The agent files the support ticket with Amazon and chases the unblock. You just confirm what to send.",
+  href: "/workbench?stream=stuck",
+  items: [
+    {
+      id: "syndication",
+      title: "Syndication failed",
+      detail: "Amazon rejected the push, safe to retry",
+      count: 18,
+      tone: "error" as const,
+    },
+    {
+      id: "brand-registry",
+      title: "Brand Registry blocked",
+      detail: "2 account issues holding 40 SKUs",
+      count: 40,
+      tone: "error" as const,
+    },
+    {
+      id: "drafts",
+      title: "Your unfinished drafts",
+      detail: "Started and left open, nothing published",
+      count: 7,
+      tone: "muted" as const,
+    },
+  ],
 }
 
 export const analystTaskSummary = {

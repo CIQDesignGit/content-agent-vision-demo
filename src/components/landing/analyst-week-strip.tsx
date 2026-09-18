@@ -2,13 +2,13 @@
 
 import { fadeRiseLand } from "@/lib/motion"
 import { cn } from "@/lib/utils"
-import { AnalystQueueStats } from "./analyst-queue-stats"
+import { AnalystQuickJobsCard } from "./analyst-quick-jobs-card"
 import { RevealGroup, RevealItem } from "./reveal"
 import { SeasonalChecklistCard } from "./seasonal-checklist-card"
 
 /**
- * Seasonal up-next + review queue.
- * Lands after the section heading: primary card first, then the queue column.
+ * Seasonal up-next + two quick jobs.
+ * Lands after the section heading: primary card first, then the jobs column.
  */
 export function AnalystWeekStrip({ className }: { className?: string }) {
   return (
@@ -24,7 +24,7 @@ export function AnalystWeekStrip({ className }: { className?: string }) {
         <SeasonalChecklistCard className="h-full" />
       </RevealItem>
       <RevealItem variants={fadeRiseLand} className="min-h-0 h-full">
-        <AnalystQueueStats className="h-full" />
+        <AnalystQuickJobsCard className="h-full" />
       </RevealItem>
     </RevealGroup>
   )

@@ -5,6 +5,10 @@ import { usePathname, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
 import { DURATION, EASE_SWAP } from "@/lib/motion"
+import {
+  DEFAULT_PROFILE_ID,
+  useProfile,
+} from "@/components/home/profile-context"
 import { DateRangePicker } from "./date-range-picker"
 
 export const LAUNCHPAD_TABS = [
@@ -32,6 +36,7 @@ interface LaunchpadTabsProps {
 export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const { profileId } = useProfile()
   const active = tabIdFromPath(pathname)
   const showDateRange =
     pathname === "/" ||
@@ -42,8 +47,11 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
     const current = new URLSearchParams(window.location.search)
     const params = new URLSearchParams()
     const range = current.get("range")
-    const profile = current.get("profile")
     if (range) params.set("range", range)
+    // Prefer context (includes restored session profile) over a missing URL param.
+    const profile =
+      current.get("profile") ??
+      (profileId !== DEFAULT_PROFILE_ID ? profileId : null)
     if (profile) params.set("profile", profile)
     const query = params.toString()
     router.push(query ? `${href}?${query}` : href)

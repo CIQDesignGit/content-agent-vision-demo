@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useProfile, withProfileParam } from "@/components/home/profile-context"
 import { cn } from "@/lib/utils"
 import type { OpportunityStream, UpNextData } from "./types"
 import { OpportunityStreamTable } from "./opportunity-stream-table"
@@ -23,14 +24,17 @@ export function OpportunityStreamDetail({
   upNext,
 }: OpportunityStreamDetailProps) {
   const router = useRouter()
+  const { profileId } = useProfile()
   const warning = stream.tone === "warning"
+  const reviewDisabled = stream.id === "retail-readiness"
 
   function reviewAll() {
-    router.push(`/workbench?stream=${stream.id}`)
+    if (reviewDisabled) return
+    router.push(withProfileParam(`/workbench?stream=${stream.id}`, profileId))
   }
 
   return (
-    <div className="flex flex-col gap-5 px-6 pb-6 pt-1">
+    <div className="flex flex-col gap-5 px-6 pt-1 pb-8">
       <div className="h-px w-full bg-slate-100" aria-hidden />
 
       <div
@@ -59,7 +63,11 @@ export function OpportunityStreamDetail({
             upNext={upNext}
           />
           <div className="flex flex-wrap items-center justify-end gap-3">
-            <Button className={reviewSkuCtaClassName} onClick={reviewAll}>
+            <Button
+              className={reviewSkuCtaClassName}
+              onClick={reviewAll}
+              disabled={reviewDisabled}
+            >
               Review all {stream.skuCount.toLocaleString()} SKUs
               <ArrowRight
                 className="size-3.5 transition-transform group-hover:translate-x-0.5"
@@ -75,7 +83,11 @@ export function OpportunityStreamDetail({
           </div>
           <div className="flex flex-wrap items-center justify-between gap-3 px-1">
             <p className="text-xs text-slate-700">{stream.remainingLabel}</p>
-            <Button className={reviewSkuCtaClassName} onClick={reviewAll}>
+            <Button
+              className={reviewSkuCtaClassName}
+              onClick={reviewAll}
+              disabled={reviewDisabled}
+            >
               Review all {stream.skuCount.toLocaleString()} SKUs
               <ArrowRight
                 className="size-3.5 transition-transform group-hover:translate-x-0.5"
