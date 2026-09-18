@@ -40,7 +40,7 @@ export const q3Overview: OverviewSnapshot = {
     },
     {
       id: "expired",
-      label: "Expired",
+      label: "Lost",
       amountLabel: "$890K",
       millions: 0.89,
       muted: true,

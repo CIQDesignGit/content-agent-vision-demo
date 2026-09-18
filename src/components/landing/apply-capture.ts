@@ -73,6 +73,14 @@ export function displayStatusSegments(
     .filter((s) => s.id === "seasonal" || s.id === "pdp")
     .reduce((sum, s) => sum + s.millions, 0)
 
+  const capturedLegend = captured
+    ? {
+        ...captured,
+        tooltip:
+          "Realised — shipped by the agents and confirmed live in this period.",
+      }
+    : undefined
+
   if (windowClosed) {
     const closedMillions = openMillions + (expired?.millions ?? 0)
     const closedBucket: OpportunityStatusSegment = {
@@ -81,24 +89,26 @@ export function displayStatusSegments(
       millions: closedMillions,
       amountLabel: formatMillions(closedMillions),
       muted: true,
-      tooltip:
-        "Lift the agent found in this window that never went live. The window has closed, so it can no longer be captured.",
+      tooltip: "Found but never turned into money.",
     }
-    return [captured, closedBucket].filter(
+    return [capturedLegend, closedBucket].filter(
       (s): s is OpportunityStatusSegment => s != null,
     )
   }
 
   const opportunity: OpportunityStatusSegment = {
     id: "opportunity",
-    label: "Open opportunity",
+    label: "Open",
     millions: openMillions,
     amountLabel: formatMillions(openMillions),
-    tooltip:
-      "Uncaptured lift still available — retail readiness, always-on optimization, and seasonal windows.",
+    tooltip: "Found and still actionable",
   }
 
-  return [captured, opportunity, expired].filter(
+  const lostLegend = expired
+    ? { ...expired, tooltip: "Found but never turned into money." }
+    : undefined
+
+  return [capturedLegend, opportunity, lostLegend].filter(
     (s): s is OpportunityStatusSegment => s != null,
   )
 }

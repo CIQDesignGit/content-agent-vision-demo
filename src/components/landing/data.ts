@@ -30,7 +30,7 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
     amountLabel: "$892K",
     millions: 0.892,
     tooltip:
-      "Opportunity already realized — content changes are live on retailer PDPs and contributing to incremental sales.",
+      "Realised — shipped by the agents and confirmed live in this period.",
   },
   {
     id: "seasonal",
@@ -50,12 +50,11 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
   },
   {
     id: "expired",
-    label: "Expired",
+    label: "Lost",
     amountLabel: "$380K",
     millions: 0.38,
     muted: true,
-    tooltip:
-      "Back to School window. $380K and 94 SKUs closed before publish.",
+    tooltip: "Found but never turned into money.",
   },
 ]
 

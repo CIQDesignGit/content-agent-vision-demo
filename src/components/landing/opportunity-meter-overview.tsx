@@ -24,8 +24,6 @@ interface OpportunityMeterOverviewProps {
 }
 
 function compactLabel(label: string) {
-  // Keep "Open opportunity" intact; trim the trailing word on longer titles.
-  if (/^open opportunity$/i.test(label)) return label
   return label.replace(/ opportunity$/i, "")
 }
 

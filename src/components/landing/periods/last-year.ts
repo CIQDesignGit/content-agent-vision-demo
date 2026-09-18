@@ -40,7 +40,7 @@ export const lastYearOverview: OverviewSnapshot = {
     },
     {
       id: "expired",
-      label: "Expired",
+      label: "Lost",
       amountLabel: "$720K",
       millions: 0.72,
       muted: true,
