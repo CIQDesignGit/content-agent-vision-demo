@@ -79,6 +79,9 @@ function stampSpan(snapshot: OverviewSnapshot, span: string): OverviewSnapshot {
   }
 }
 
+const QUARTER_STREAMS_DESCRIPTION =
+  "The opportunity in each stream, and how we performed against it."
+
 export function overviewForRange(
   rangeId: string | null | undefined,
   year = new Date().getFullYear(),
@@ -88,8 +91,16 @@ export function overviewForRange(
   const span =
     dateRangesForYear(year).find((option) => option.id === range.id)?.span ??
     range.span
+  const stamped = stampSpan(snapshot, span)
+  const isQuarter = range.group === "quarter"
   return {
-    ...stampSpan(snapshot, span),
+    ...stamped,
     windowClosed: dateRangeHasPassed(range),
+    streamsTitle:
+      stamped.streamsTitle ??
+      (isQuarter ? `${range.label} opportunity streams` : undefined),
+    streamsDescription:
+      stamped.streamsDescription ??
+      (isQuarter ? QUARTER_STREAMS_DESCRIPTION : undefined),
   }
 }

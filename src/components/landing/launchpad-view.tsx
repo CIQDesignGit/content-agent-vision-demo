@@ -81,8 +81,13 @@ export function LaunchpadView() {
           key={rangeId ?? "this-year"}
           streams={overview.streams}
           windowClosed={overview.windowClosed}
-          title={overview.streamsTitle}
-          description={overview.streamsDescription}
+          title={overview.streamsTitle ?? "Open opportunity streams"}
+          description={
+            overview.streamsDescription ??
+            (overview.windowClosed
+              ? "Where the range came from, and what was captured before it closed."
+              : "Where the range comes from, and what's blocking it.")
+          }
         />
       </div>
     </MotionConfig>

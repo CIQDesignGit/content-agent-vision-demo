@@ -142,27 +142,6 @@ export const lastYearOverview: OverviewSnapshot = {
   },
   secondaryStats: [
     {
-      id: "working-days-saved",
-      label: "Working days saved",
-      value: "5.8",
-      delta: "4% productivity boost vs prior year",
-      deltaPositive: true,
-      footnote: "96 actions taken · 46.4 analyst hours",
-      calculation: {
-        title: "Working days saved",
-        rows: [
-          { label: "SKUs published in 2025", value: "96" },
-          { label: "Manual benchmark, per SKU", value: "30 min" },
-          { label: "Agent, per SKU", value: "1 min" },
-          { label: "Saved per SKU", value: "29 min" },
-          { label: "Total saved", value: "46.4 hrs" },
-        ],
-        summaryRow: { label: "At an 8-hour working day", value: "5.8 days" },
-        methodology:
-          "Time saved counts only SKUs published in 2025. 96 SKUs × 29 minutes = 46.4 hours, or 5.8 working days.",
-      },
-    },
-    {
       id: "ai-rank",
       label: "AI rank",
       value: "#4",
@@ -200,6 +179,27 @@ export const lastYearOverview: OverviewSnapshot = {
         summaryRow: { label: "Prompts measured", value: "25" },
         methodology:
           "Share of brand citations in the last 2025 prompt run, weighted by position. 24.6% − 23.1% = 1.5 percentage points.",
+      },
+    },
+    {
+      id: "working-days-saved",
+      label: "Working days saved",
+      value: "5.8",
+      delta: "4% productivity boost vs prior year",
+      deltaPositive: true,
+      footnote: "96 actions taken · 46.4 analyst hours",
+      calculation: {
+        title: "Working days saved",
+        rows: [
+          { label: "SKUs published in 2025", value: "96" },
+          { label: "Manual benchmark, per SKU", value: "30 min" },
+          { label: "Agent, per SKU", value: "1 min" },
+          { label: "Saved per SKU", value: "29 min" },
+          { label: "Total saved", value: "46.4 hrs" },
+        ],
+        summaryRow: { label: "At an 8-hour working day", value: "5.8 days" },
+        methodology:
+          "Time saved counts only SKUs published in 2025. 96 SKUs × 29 minutes = 46.4 hours, or 5.8 working days.",
       },
     },
   ],
@@ -319,6 +319,72 @@ export const lastYearOverview: OverviewSnapshot = {
       ],
     },
     {
+      id: "retail-readiness",
+      title: "Retail readiness opportunity",
+      context: "Vendor Central Attribute Gaps",
+      skuCount: 188,
+      valueLabel: "$246K",
+      valueKind: "blocked",
+      tone: "default",
+      insight:
+        "**188 SKUs** were missing required **Amazon attributes** at the end of 2025. Amazon would not accept a content push until these were backfilled, so **$246K** of **PDP fixes** stayed stuck behind this.",
+      remainingLabel: "184 more SKUs, $203K blocked in total.",
+      buckets: [
+        {
+          id: "ly-rr-mandatory",
+          title: "Agent-drafted, ready for approval",
+          skuCount: 58,
+          fillTime: "~1 min each",
+          valueThousands: 82,
+          badge: "Approval required",
+          alsoNote:
+            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
+          outcome: "captured",
+        },
+        {
+          id: "ly-rr-recommended",
+          title: "Missing mandatory attributes",
+          skuCount: 130,
+          fillMode: "input",
+          fillTime: "~1-2 min each",
+          valueThousands: 164,
+          badge: "Input required",
+          alsoNote:
+            "This will improve search and answer engine citation rate.",
+        },
+      ],
+      rows: [
+        {
+          id: "ly-rr-r1",
+          name: "Aurelle Candles Noir Cherry Large Jar",
+          asin: "B08NF9KBZ4",
+          finding: "Unit price missing on the 2025 year-end feed",
+          impactThousands: 18,
+        },
+        {
+          id: "ly-rr-r2",
+          name: "Aurelle Candles Citrus Zest Soy Jar",
+          asin: "B00I0DI0Z6",
+          finding: "Item weight missing",
+          impactThousands: 12,
+        },
+        {
+          id: "ly-rr-r3",
+          name: "Aurelle Candles Vanilla Tobacco Jar",
+          asin: "B00FQK1H8C",
+          finding: "Safety sheet not attached",
+          impactThousands: 8,
+        },
+        {
+          id: "ly-rr-r4",
+          name: "Aurelle Candles Coastal Linen Large Jar",
+          asin: "B00FLYWNYQ",
+          finding: "Country of origin blank",
+          impactThousands: 5,
+        },
+      ],
+    },
+    {
       id: "pdp",
       title: "Always-on optimization opportunity",
       context: "2025 · SEO & AEO · No deadline",
@@ -412,72 +478,6 @@ export const lastYearOverview: OverviewSnapshot = {
           finding: "Missing hand-poured keyword",
           impactThousands: 16,
           findingType: "SEO",
-        },
-      ],
-    },
-    {
-      id: "retail-readiness",
-      title: "Retail readiness opportunity",
-      context: "Vendor Central Attribute Gaps",
-      skuCount: 188,
-      valueLabel: "$246K",
-      valueKind: "blocked",
-      tone: "default",
-      insight:
-        "**188 SKUs** were missing required **Amazon attributes** at the end of 2025. Amazon would not accept a content push until these were backfilled, so **$246K** of **PDP fixes** stayed stuck behind this.",
-      remainingLabel: "184 more SKUs, $203K blocked in total.",
-      buckets: [
-        {
-          id: "ly-rr-mandatory",
-          title: "Agent-drafted, ready for approval",
-          skuCount: 58,
-          fillTime: "~1 min each",
-          valueThousands: 82,
-          badge: "Approval required",
-          alsoNote:
-            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
-          outcome: "captured",
-        },
-        {
-          id: "ly-rr-recommended",
-          title: "Missing mandatory attributes",
-          skuCount: 130,
-          fillMode: "input",
-          fillTime: "~1-2 min each",
-          valueThousands: 164,
-          badge: "Input required",
-          alsoNote:
-            "This will improve search and answer engine citation rate.",
-        },
-      ],
-      rows: [
-        {
-          id: "ly-rr-r1",
-          name: "Aurelle Candles Noir Cherry Large Jar",
-          asin: "B08NF9KBZ4",
-          finding: "Unit price missing on the 2025 year-end feed",
-          impactThousands: 18,
-        },
-        {
-          id: "ly-rr-r2",
-          name: "Aurelle Candles Citrus Zest Soy Jar",
-          asin: "B00I0DI0Z6",
-          finding: "Item weight missing",
-          impactThousands: 12,
-        },
-        {
-          id: "ly-rr-r3",
-          name: "Aurelle Candles Vanilla Tobacco Jar",
-          asin: "B00FQK1H8C",
-          finding: "Safety sheet not attached",
-          impactThousands: 8,
-        },
-        {
-          id: "ly-rr-r4",
-          name: "Aurelle Candles Coastal Linen Large Jar",
-          asin: "B00FLYWNYQ",
-          finding: "Country of origin blank",
-          impactThousands: 5,
         },
       ],
     },

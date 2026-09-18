@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Calendar, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -25,19 +25,8 @@ import {
   YearRangeItem,
 } from "./date-range-menu"
 
-function rangeHref(
-  pathname: string,
-  searchParams: URLSearchParams,
-  id: string,
-): string {
-  const params = new URLSearchParams(searchParams.toString())
-  if (id === DEFAULT_DATE_RANGE_ID) params.delete("range")
-  else params.set("range", id)
-  const query = params.toString()
-  return query ? `${pathname}?${query}` : pathname
-}
-
 export function DateRangePicker({ className }: { className?: string }) {
+  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [open, setOpen] = useState(false)
@@ -47,6 +36,15 @@ export function DateRangePicker({ className }: { className?: string }) {
   const yearRanges = ranges.filter((range) => range.group === "year")
   const quarterRanges = ranges.filter((range) => range.group === "quarter")
   const activeQuarter = currentQuarterId()
+
+  function selectRange(id: string) {
+    const params = new URLSearchParams(searchParams.toString())
+    if (id === DEFAULT_DATE_RANGE_ID) params.delete("range")
+    else params.set("range", id)
+    const query = params.toString()
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    setOpen(false)
+  }
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -71,8 +69,7 @@ export function DateRangePicker({ className }: { className?: string }) {
               key={range.id}
               range={range}
               selected={range.id === selected.id}
-              href={rangeHref(pathname, searchParams, range.id)}
-              onNavigate={() => setOpen(false)}
+              onSelect={selectRange}
             />
           ))}
         </DropdownMenuGroup>
@@ -85,8 +82,7 @@ export function DateRangePicker({ className }: { className?: string }) {
               range={range}
               selected={range.id === selected.id}
               current={range.id === activeQuarter}
-              href={rangeHref(pathname, searchParams, range.id)}
-              onNavigate={() => setOpen(false)}
+              onSelect={selectRange}
             />
           ))}
         </DropdownMenuGroup>

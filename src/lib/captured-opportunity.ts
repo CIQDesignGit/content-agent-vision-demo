@@ -2,8 +2,10 @@
 
 import { useSyncExternalStore } from "react"
 
-const STORAGE_KEY = "ca:captured-opportunity:v2"
-const CHANGE_EVENT = "ca:captured-opportunity:v2"
+// Bump when the year overview seed changes so leftover demo publishes
+// don't inflate Captured past the HTML baseline ($892K).
+const STORAGE_KEY = "ca:captured-opportunity:v3"
+const CHANGE_EVENT = "ca:captured-opportunity:v3"
 
 /** Open buckets on the overview status bar that a publish can draw dollars out of. */
 export type CaptureBucket = "seasonal" | "pdp"

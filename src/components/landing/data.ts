@@ -13,14 +13,12 @@ import type {
   ValuePillar,
 } from "./types"
 
-/** Customer contract window. Not a calendar year. */
-export const contractPeriodLabel = "Aug 2026 – Jul 2027"
-
 export const opportunityMeter: OpportunityMeterData = {
   /** Captured + open + expired — everything found this year. */
   identifiedMillions: 5.24,
   realizedMillions: 0.892,
-  periodLabel: contractPeriodLabel,
+  periodLabel: "Jan 1 – Dec 31, 2026",
+  title: "Annualized content opportunity 2026",
   pvpDelta: "+$1.41M vs. last year",
   pvpDeltaPositive: true,
 }
@@ -66,7 +64,7 @@ export const opportunityCalculation: OpportunityCalculationData = {
     id: "annualized",
     tabLabel: "Open opportunity",
     heading: "Open opportunity",
-    periodBadge: contractPeriodLabel,
+    periodBadge: "Jan 1 – Dec 31, 2026",
     heroAmountLabel: "$3.96M",
     retailReadinessLiftLabel: "Retail readiness opportunity",
     retailReadinessLiftAmount: "$224K",
@@ -177,9 +175,9 @@ export const secondaryStats: SecondaryStat[] = [
         { label: "Prompts where you appear", value: "18" },
         { label: "Median position when cited", value: "#2" },
       ],
-      summaryRow: { label: "Last week", value: "#3" },
+      summaryRow: { label: "Last month", value: "#3" },
       methodology:
-        "A live snapshot, not a 12-month total — this is where you stand today, compared with last week's run against the same prompt set. Median position across prompts where your products are cited by Alexa AI. Prompts where you don't appear are excluded from the median and counted separately as coverage, so rank doesn't flatter itself by ignoring absences.",
+        "Median position where cited by Alexa AI, live vs. last month's run. Absences count as coverage, not hidden.",
     },
   },
   {
@@ -194,12 +192,12 @@ export const secondaryStats: SecondaryStat[] = [
       title: "AI share of voice",
       rows: [
         { label: "Your weighted share today", value: "34%" },
-        { label: "Last week", value: "32.6%" },
+        { label: "Last month", value: "32.6%" },
         { label: "Closest competitor", value: "41%" },
       ],
       summaryRow: { label: "Prompts measured", value: "25" },
       methodology:
-        "A live snapshot, not a 12-month total. Share of all brand citations across tracked prompts, weighted by position — being cited first counts more than being cited fifth. Re-measured every week against the same prompt set, so week-over-week movement is comparable.",
+        "Weighted brand-citation share across tracked prompts, live vs. last month. Being cited first counts more than fifth.",
     },
   },
   {
@@ -220,7 +218,7 @@ export const secondaryStats: SecondaryStat[] = [
       ],
       summaryRow: { label: "At an 8-hour working day", value: "7.7 days" },
       methodology:
-        "Time saved counts only SKUs actually published, not recommendations sitting in the queue. The 30-minute manual benchmark covers pulling the listing, researching keywords, drafting the title and bullets, and loading them back into Vendor Central.",
+        "Only published SKUs count, not ones waiting in the queue. 30 min is the full manual cycle: pull, research, draft, reload.",
     },
   },
 ]
@@ -699,6 +697,69 @@ export const opportunityStreams: OpportunityStream[] = [
     ],
   },
   {
+    id: "retail-readiness",
+    title: "Retail readiness opportunity",
+    titleTooltip:
+      "Cleans up backend catalog data so SKUs meet retailer syndication requirements.",
+    context: "Vendor Central attribute gaps",
+    skuCount: 100,
+    valueLabel: "$224K",
+    valueKind: "blocked",
+    tone: "default",
+    insight:
+      "**100 SKUs** are missing **Amazon-required attributes**. Fixing these gaps will make the full catalog ready for syndication and more frequent updates.",
+    remainingLabel: "96 more SKUs, $203K blocked in total.",
+    buckets: [
+      {
+        id: "rr-mandatory",
+        title: "Agent-drafted, ready for approval",
+        skuCount: 74,
+        fillTime: "~2 min total",
+        badge: "Approval required",
+        ctaLabel: "Approve 74 SKUs",
+      },
+      {
+        id: "rr-recommended",
+        title: "Missing mandatory attributes",
+        skuCount: 26,
+        fillMode: "input",
+        fillTime: "~45 min total",
+        badge: "Input required",
+        ctaLabel: "Backfill 26 SKUs",
+      },
+    ],
+    rows: [
+      {
+        id: "rr-1",
+        name: "Aurelle Candles Noir Cherry Large Jar",
+        asin: "B08NF9KBZ4",
+        finding: "6 attributes missing — material, weight, safety",
+        impactThousands: 8.9,
+      },
+      {
+        id: "rr-2",
+        name: "Aurelle Candles Citrus Zest Soy Jar",
+        asin: "B00I0DI0Z6",
+        finding: "4 attributes missing — care instructions, weight",
+        impactThousands: 6.1,
+      },
+      {
+        id: "rr-3",
+        name: "Aurelle Candles Vanilla Tobacco Jar",
+        asin: "B00FQK1H8C",
+        finding: "3 attributes missing — wax type, burn time",
+        impactThousands: 3.4,
+      },
+      {
+        id: "rr-4",
+        name: "Aurelle Candles Coastal Linen Large Jar",
+        asin: "B00FLYWNYQ",
+        finding: "9 attributes missing — material, capacity, safety",
+        impactThousands: 2.8,
+      },
+    ],
+  },
+  {
     id: "pdp",
     title: "Always-on optimization opportunity",
     titleTooltip:
@@ -769,69 +830,6 @@ export const opportunityStreams: OpportunityStream[] = [
         finding: "Missing hand-poured keyword competitors rank on",
         impactThousands: 44,
         findingType: "SEO",
-      },
-    ],
-  },
-  {
-    id: "retail-readiness",
-    title: "Retail readiness opportunity",
-    titleTooltip:
-      "Cleans up backend catalog data so SKUs meet retailer syndication requirements.",
-    context: "Vendor Central attribute gaps",
-    skuCount: 100,
-    valueLabel: "$224K",
-    valueKind: "blocked",
-    tone: "default",
-    insight:
-      "**100 SKUs** are missing **Amazon-required attributes**. Fixing these gaps will make the full catalog ready for syndication and more frequent updates.",
-    remainingLabel: "96 more SKUs, $203K blocked in total.",
-    buckets: [
-      {
-        id: "rr-mandatory",
-        title: "Agent-drafted, ready for approval",
-        skuCount: 74,
-        fillTime: "~2 min total",
-        badge: "Approval required",
-        ctaLabel: "Approve 74 SKUs",
-      },
-      {
-        id: "rr-recommended",
-        title: "Missing mandatory attributes",
-        skuCount: 26,
-        fillMode: "input",
-        fillTime: "~45 min total",
-        badge: "Input required",
-        ctaLabel: "Backfill 26 SKUs",
-      },
-    ],
-    rows: [
-      {
-        id: "rr-1",
-        name: "Aurelle Candles Noir Cherry Large Jar",
-        asin: "B08NF9KBZ4",
-        finding: "6 attributes missing — material, weight, safety",
-        impactThousands: 8.9,
-      },
-      {
-        id: "rr-2",
-        name: "Aurelle Candles Citrus Zest Soy Jar",
-        asin: "B00I0DI0Z6",
-        finding: "4 attributes missing — care instructions, weight",
-        impactThousands: 6.1,
-      },
-      {
-        id: "rr-3",
-        name: "Aurelle Candles Vanilla Tobacco Jar",
-        asin: "B00FQK1H8C",
-        finding: "3 attributes missing — wax type, burn time",
-        impactThousands: 3.4,
-      },
-      {
-        id: "rr-4",
-        name: "Aurelle Candles Coastal Linen Large Jar",
-        asin: "B00FLYWNYQ",
-        finding: "9 attributes missing — material, capacity, safety",
-        impactThousands: 2.8,
       },
     ],
   },

@@ -123,27 +123,6 @@ export const q4Overview: OverviewSnapshot = {
   },
   secondaryStats: [
     {
-      id: "working-days-saved",
-      label: "Working days saved",
-      value: "2.4",
-      delta: "5% productivity boost WoW",
-      deltaPositive: true,
-      footnote: "40 actions taken · 19.3 analyst hours",
-      calculation: {
-        title: "Working days saved",
-        rows: [
-          { label: "SKUs published in Q4", value: "40" },
-          { label: "Manual benchmark, per SKU", value: "30 min" },
-          { label: "Agent, per SKU", value: "1 min" },
-          { label: "Saved per SKU", value: "29 min" },
-          { label: "Total saved", value: "19.3 hrs" },
-        ],
-        summaryRow: { label: "At an 8-hour working day", value: "2.4 days" },
-        methodology:
-          "Time saved counts only SKUs published in this quarter. 40 SKUs × 29 minutes = 19.3 hours, or 2.4 working days.",
-      },
-    },
-    {
       id: "ai-rank",
       label: "AI rank",
       value: "#3",
@@ -181,6 +160,27 @@ export const q4Overview: OverviewSnapshot = {
         summaryRow: { label: "Prompts measured", value: "25" },
         methodology:
           "Share of brand citations in the Q4 prompt runs, weighted by position. 33.8% − 32.4% = 1.4 percentage points.",
+      },
+    },
+    {
+      id: "working-days-saved",
+      label: "Working days saved",
+      value: "2.4",
+      delta: "5% productivity boost WoW",
+      deltaPositive: true,
+      footnote: "40 actions taken · 19.3 analyst hours",
+      calculation: {
+        title: "Working days saved",
+        rows: [
+          { label: "SKUs published in Q4", value: "40" },
+          { label: "Manual benchmark, per SKU", value: "30 min" },
+          { label: "Agent, per SKU", value: "1 min" },
+          { label: "Saved per SKU", value: "29 min" },
+          { label: "Total saved", value: "19.3 hrs" },
+        ],
+        summaryRow: { label: "At an 8-hour working day", value: "2.4 days" },
+        methodology:
+          "Time saved counts only SKUs published in this quarter. 40 SKUs × 29 minutes = 19.3 hours, or 2.4 working days.",
       },
     },
   ],
@@ -300,6 +300,69 @@ export const q4Overview: OverviewSnapshot = {
       ],
     },
     {
+      id: "retail-readiness",
+      title: "Retail readiness opportunity",
+      context: "Vendor Central Attribute Gaps",
+      skuCount: 96,
+      valueLabel: "$128K",
+      valueKind: "blocked",
+      tone: "default",
+      insight:
+        "**96 SKUs** are missing required **Amazon attributes** in the Q4 catalog pull. Amazon won’t accept a content push until these are backfilled, so **$128K** of **PDP fixes** queued this quarter are stuck behind this.",
+      remainingLabel: "92 more SKUs, $100K blocked in total.",
+      buckets: [
+        {
+          id: "q4-rr-mandatory",
+          title: "Agent-drafted, ready for approval",
+          skuCount: 30,
+          fillTime: "~1 min each",
+          badge: "Approval required",
+          alsoNote:
+            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
+        },
+        {
+          id: "q4-rr-recommended",
+          title: "Missing mandatory attributes",
+          skuCount: 66,
+          fillMode: "input",
+          fillTime: "~1-2 min each",
+          badge: "Input required",
+          alsoNote:
+            "This will improve search and answer engine citation rate.",
+        },
+      ],
+      rows: [
+        {
+          id: "q4-rr-r1",
+          name: "Aurelle Candles Hearthwood Cedar Jar",
+          asin: "B079KLGWGR",
+          finding: "Unit price missing on the Q4 feed",
+          impactThousands: 12,
+        },
+        {
+          id: "q4-rr-r2",
+          name: "Aurelle Candles Spiced Cedar 3-Wick",
+          asin: "B00H8R3KM2",
+          finding: "Item weight missing",
+          impactThousands: 8,
+        },
+        {
+          id: "q4-rr-r3",
+          name: "Aurelle Candles Vanilla Tobacco Jar",
+          asin: "B00FQK1H8C",
+          finding: "Safety sheet not attached",
+          impactThousands: 5,
+        },
+        {
+          id: "q4-rr-r4",
+          name: "Aurelle Candles Pink Sands Tumbler",
+          asin: "B003IH3JN4",
+          finding: "Country of origin blank",
+          impactThousands: 3,
+        },
+      ],
+    },
+    {
       id: "pdp",
       title: "Always-on optimization opportunity",
       context: "Q4 · SEO & AEO · No deadline",
@@ -393,69 +456,6 @@ export const q4Overview: OverviewSnapshot = {
           finding: "Missing hand-poured keyword",
           impactThousands: 12,
           findingType: "SEO",
-        },
-      ],
-    },
-    {
-      id: "retail-readiness",
-      title: "Retail readiness opportunity",
-      context: "Vendor Central Attribute Gaps",
-      skuCount: 96,
-      valueLabel: "$128K",
-      valueKind: "blocked",
-      tone: "default",
-      insight:
-        "**96 SKUs** are missing required **Amazon attributes** in the Q4 catalog pull. Amazon won’t accept a content push until these are backfilled, so **$128K** of **PDP fixes** queued this quarter are stuck behind this.",
-      remainingLabel: "92 more SKUs, $100K blocked in total.",
-      buckets: [
-        {
-          id: "q4-rr-mandatory",
-          title: "Agent-drafted, ready for approval",
-          skuCount: 30,
-          fillTime: "~1 min each",
-          badge: "Approval required",
-          alsoNote:
-            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
-        },
-        {
-          id: "q4-rr-recommended",
-          title: "Missing mandatory attributes",
-          skuCount: 66,
-          fillMode: "input",
-          fillTime: "~1-2 min each",
-          badge: "Input required",
-          alsoNote:
-            "This will improve search and answer engine citation rate.",
-        },
-      ],
-      rows: [
-        {
-          id: "q4-rr-r1",
-          name: "Aurelle Candles Hearthwood Cedar Jar",
-          asin: "B079KLGWGR",
-          finding: "Unit price missing on the Q4 feed",
-          impactThousands: 12,
-        },
-        {
-          id: "q4-rr-r2",
-          name: "Aurelle Candles Spiced Cedar 3-Wick",
-          asin: "B00H8R3KM2",
-          finding: "Item weight missing",
-          impactThousands: 8,
-        },
-        {
-          id: "q4-rr-r3",
-          name: "Aurelle Candles Vanilla Tobacco Jar",
-          asin: "B00FQK1H8C",
-          finding: "Safety sheet not attached",
-          impactThousands: 5,
-        },
-        {
-          id: "q4-rr-r4",
-          name: "Aurelle Candles Pink Sands Tumbler",
-          asin: "B003IH3JN4",
-          finding: "Country of origin blank",
-          impactThousands: 3,
         },
       ],
     },

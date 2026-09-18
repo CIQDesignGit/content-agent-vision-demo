@@ -5,6 +5,7 @@ import { AlertTriangle, ChevronRight, Timer } from "lucide-react"
 import { cn, TooltipProvider } from "@ciq-dev/ciq-design-system"
 import { DURATION, EASE_SWAP } from "@/lib/motion"
 import type { OpportunityStream, UpNextData } from "./types"
+import { OpportunityStreamClosedRow } from "./opportunity-stream-closed-summary"
 import { OpportunityStreamDetail } from "./opportunity-stream-detail"
 import { StreamTitleTip } from "./stream-title-tip"
 
@@ -25,6 +26,24 @@ export function OpportunityStreamCard({
   upNext,
 }: OpportunityStreamCardProps) {
   const warning = stream.tone === "warning"
+  const closedSummary =
+    windowClosed && stream.closedSummary ? stream.closedSummary : null
+
+  if (closedSummary) {
+    return (
+      <TooltipProvider delayDuration={200}>
+        <OpportunityStreamClosedRow
+          title={stream.title}
+          titleTooltip={stream.titleTooltip}
+          skuCount={stream.skuCount}
+          context={stream.context}
+          valueLabel={stream.valueLabel}
+          insight={stream.insight}
+          summary={closedSummary}
+        />
+      </TooltipProvider>
+    )
+  }
 
   return (
     <TooltipProvider delayDuration={200}>
@@ -113,7 +132,7 @@ export function OpportunityStreamCard({
                 warning ? "text-warning-600" : "text-slate-400",
               )}
             >
-              Opportunity
+              {windowClosed ? "Identified" : "Opportunity"}
             </span>
             <span
               className={cn(

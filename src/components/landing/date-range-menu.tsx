@@ -1,7 +1,6 @@
 "use client"
 
 import type { ReactNode } from "react"
-import Link from "next/link"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
@@ -35,16 +34,22 @@ function SelectionMark({ selected }: { selected: boolean }) {
   )
 }
 
+function activateRange(
+  event: { button?: number },
+  onSelect: () => void,
+) {
+  if (event.button != null && event.button !== 0) return
+  onSelect()
+}
+
 export function YearRangeItem({
   range,
   selected,
-  href,
-  onNavigate,
+  onSelect,
 }: {
   range: DateRangeOption
   selected: boolean
-  href: string
-  onNavigate: () => void
+  onSelect: (id: string) => void
 }) {
   return (
     <DropdownMenuItem
@@ -56,7 +61,12 @@ export function YearRangeItem({
         "items-center gap-2 px-2.5 py-1.5 pr-2.5",
         selected && "bg-brand-50 focus:bg-brand-100 data-highlighted:bg-brand-100",
       )}
-      render={<Link href={href} scroll={false} onClick={onNavigate} />}
+      // Pointer down fires before Base UI's click/focus pipeline can swallow the
+      // selection — the previous RadioItem path often focused without navigating.
+      onPointerDown={(event) =>
+        activateRange(event, () => onSelect(range.id))
+      }
+      onClick={() => onSelect(range.id)}
     >
       <span className="font-medium text-slate-900">{range.label}</span>
       <span className="ml-auto font-mono text-xs text-slate-500">
@@ -71,14 +81,12 @@ export function QuarterRangeItem({
   range,
   selected,
   current,
-  href,
-  onNavigate,
+  onSelect,
 }: {
   range: DateRangeOption
   selected: boolean
   current: boolean
-  href: string
-  onNavigate: () => void
+  onSelect: (id: string) => void
 }) {
   return (
     <DropdownMenuItem
@@ -90,7 +98,10 @@ export function QuarterRangeItem({
         "items-center gap-2 px-2.5 py-1.5 pr-2.5",
         selected && "bg-brand-50 focus:bg-brand-100 data-highlighted:bg-brand-100",
       )}
-      render={<Link href={href} scroll={false} onClick={onNavigate} />}
+      onPointerDown={(event) =>
+        activateRange(event, () => onSelect(range.id))
+      }
+      onClick={() => onSelect(range.id)}
     >
       <span className="flex items-center gap-1.5 font-medium text-slate-900">
         {range.label}

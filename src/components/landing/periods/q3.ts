@@ -138,27 +138,6 @@ export const q3Overview: OverviewSnapshot = {
   },
   secondaryStats: [
     {
-      id: "working-days-saved",
-      label: "Working days saved",
-      value: "2.9",
-      delta: "8% productivity boost WoW",
-      deltaPositive: true,
-      footnote: "48 actions taken · 23.2 analyst hours",
-      calculation: {
-        title: "Working days saved",
-        rows: [
-          { label: "SKUs published in Q3", value: "48" },
-          { label: "Manual benchmark, per SKU", value: "30 min" },
-          { label: "Agent, per SKU", value: "1 min" },
-          { label: "Saved per SKU", value: "29 min" },
-          { label: "Total saved", value: "23.2 hrs" },
-        ],
-        summaryRow: { label: "At an 8-hour working day", value: "2.9 days" },
-        methodology:
-          "Time saved counts only SKUs published in this quarter. 48 SKUs × 29 minutes = 23.2 hours, or 2.9 working days.",
-      },
-    },
-    {
       id: "ai-rank",
       label: "AI rank",
       value: "#3",
@@ -196,6 +175,27 @@ export const q3Overview: OverviewSnapshot = {
         summaryRow: { label: "Prompts measured", value: "25" },
         methodology:
           "Share of brand citations in the Q3 prompt runs, weighted by position. 32.6% − 31.1% = 1.5 percentage points.",
+      },
+    },
+    {
+      id: "working-days-saved",
+      label: "Working days saved",
+      value: "2.9",
+      delta: "8% productivity boost WoW",
+      deltaPositive: true,
+      footnote: "48 actions taken · 23.2 analyst hours",
+      calculation: {
+        title: "Working days saved",
+        rows: [
+          { label: "SKUs published in Q3", value: "48" },
+          { label: "Manual benchmark, per SKU", value: "30 min" },
+          { label: "Agent, per SKU", value: "1 min" },
+          { label: "Saved per SKU", value: "29 min" },
+          { label: "Total saved", value: "23.2 hrs" },
+        ],
+        summaryRow: { label: "At an 8-hour working day", value: "2.9 days" },
+        methodology:
+          "Time saved counts only SKUs published in this quarter. 48 SKUs × 29 minutes = 23.2 hours, or 2.9 working days.",
       },
     },
   ],
@@ -278,6 +278,69 @@ export const q3Overview: OverviewSnapshot = {
           asin: "B08C4L7HC1",
           finding: "Bullets 4 and 5 empty",
           impactThousands: 41,
+        },
+      ],
+    },
+    {
+      id: "retail-readiness",
+      title: "Retail readiness opportunity",
+      context: "Vendor Central Attribute Gaps",
+      skuCount: 112,
+      valueLabel: "$148K",
+      valueKind: "blocked",
+      tone: "default",
+      insight:
+        "**112 SKUs** are missing required **Amazon attributes** in the Q3 catalog pull. Amazon won’t accept a content push until these are backfilled, so **$148K** of **PDP fixes** queued this quarter are stuck behind this.",
+      remainingLabel: "108 more SKUs, $115K blocked in total.",
+      buckets: [
+        {
+          id: "q3-rr-mandatory",
+          title: "Agent-drafted, ready for approval",
+          skuCount: 35,
+          fillTime: "~1 min each",
+          badge: "Approval required",
+          alsoNote:
+            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
+        },
+        {
+          id: "q3-rr-recommended",
+          title: "Missing mandatory attributes",
+          skuCount: 77,
+          fillMode: "input",
+          fillTime: "~1-2 min each",
+          badge: "Input required",
+          alsoNote:
+            "This will improve search and answer engine citation rate.",
+        },
+      ],
+      rows: [
+        {
+          id: "q3-rr-r1",
+          name: "Aurelle Candles Noir Cherry Large Jar",
+          asin: "B08NF9KBZ4",
+          finding: "6 attributes missing — material, weight, safety",
+          impactThousands: 14,
+        },
+        {
+          id: "q3-rr-r2",
+          name: "Aurelle Candles Citrus Zest Soy Jar",
+          asin: "B00I0DI0Z6",
+          finding: "Item weight missing on the Q3 feed",
+          impactThousands: 9,
+        },
+        {
+          id: "q3-rr-r3",
+          name: "Aurelle Candles Vanilla Tobacco Jar",
+          asin: "B00FQK1H8C",
+          finding: "Safety sheet not attached",
+          impactThousands: 6,
+        },
+        {
+          id: "q3-rr-r4",
+          name: "Aurelle Candles Coastal Linen Large Jar",
+          asin: "B00FLYWNYQ",
+          finding: "Country of origin blank",
+          impactThousands: 4,
         },
       ],
     },
@@ -375,69 +438,6 @@ export const q3Overview: OverviewSnapshot = {
           finding: "Missing hand-poured keyword",
           impactThousands: 18,
           findingType: "SEO",
-        },
-      ],
-    },
-    {
-      id: "retail-readiness",
-      title: "Retail readiness opportunity",
-      context: "Vendor Central Attribute Gaps",
-      skuCount: 112,
-      valueLabel: "$148K",
-      valueKind: "blocked",
-      tone: "default",
-      insight:
-        "**112 SKUs** are missing required **Amazon attributes** in the Q3 catalog pull. Amazon won’t accept a content push until these are backfilled, so **$148K** of **PDP fixes** queued this quarter are stuck behind this.",
-      remainingLabel: "108 more SKUs, $115K blocked in total.",
-      buckets: [
-        {
-          id: "q3-rr-mandatory",
-          title: "Agent-drafted, ready for approval",
-          skuCount: 35,
-          fillTime: "~1 min each",
-          badge: "Approval required",
-          alsoNote:
-            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
-        },
-        {
-          id: "q3-rr-recommended",
-          title: "Missing mandatory attributes",
-          skuCount: 77,
-          fillMode: "input",
-          fillTime: "~1-2 min each",
-          badge: "Input required",
-          alsoNote:
-            "This will improve search and answer engine citation rate.",
-        },
-      ],
-      rows: [
-        {
-          id: "q3-rr-r1",
-          name: "Aurelle Candles Noir Cherry Large Jar",
-          asin: "B08NF9KBZ4",
-          finding: "6 attributes missing — material, weight, safety",
-          impactThousands: 14,
-        },
-        {
-          id: "q3-rr-r2",
-          name: "Aurelle Candles Citrus Zest Soy Jar",
-          asin: "B00I0DI0Z6",
-          finding: "Item weight missing on the Q3 feed",
-          impactThousands: 9,
-        },
-        {
-          id: "q3-rr-r3",
-          name: "Aurelle Candles Vanilla Tobacco Jar",
-          asin: "B00FQK1H8C",
-          finding: "Safety sheet not attached",
-          impactThousands: 6,
-        },
-        {
-          id: "q3-rr-r4",
-          name: "Aurelle Candles Coastal Linen Large Jar",
-          asin: "B00FLYWNYQ",
-          finding: "Country of origin blank",
-          impactThousands: 4,
         },
       ],
     },

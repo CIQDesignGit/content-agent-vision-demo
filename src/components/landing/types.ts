@@ -16,7 +16,7 @@ export interface OpportunityMeterData {
   realizedMillions: number
   /** Contract window for this total — not necessarily a calendar year */
   periodLabel: string
-  /** Overrides the default “Total annualized content opportunity” kicker */
+  /** Overrides the default “Annualized content opportunity 2026” kicker */
   title?: string
   /** Period-vs-prior chip beside the hero total, e.g. "+$1.41M PvP" */
   pvpDelta?: string
@@ -255,6 +255,16 @@ export interface OpportunityStreamBucket {
   ctaLabel?: string
 }
 
+/** Closed-window stream row — captured vs remainder under a split bar. */
+export interface OpportunityStreamClosedSummary {
+  capturedLabel: string
+  uncapturedLabel: string
+  /** Legend for the red segment — e.g. "Lost to inaction" or "Not yet captured". */
+  uncapturedKind: "Lost to inaction" | "Not yet captured"
+  /** Captured share of identified, 0–100. */
+  capturedPct: number
+}
+
 export interface OpportunityStream {
   id: OpportunityStreamKind
   title: string
@@ -277,4 +287,6 @@ export interface OpportunityStream {
   buckets?: OpportunityStreamBucket[]
   /** Retail-readiness only — catalog % that is already ready */
   readyPercent?: number
+  /** Closed windows — split-bar summary shown in place of the open accordion. */
+  closedSummary?: OpportunityStreamClosedSummary
 }

@@ -92,27 +92,6 @@ export const q2Overview: OverviewSnapshot = {
   },
   secondaryStats: [
     {
-      id: "working-days-saved",
-      label: "Working days saved",
-      value: "2.2",
-      delta: "+0.3 vs Q1",
-      deltaPositive: true,
-      footnote: "36 actions taken · 17.4 analyst hours",
-      calculation: {
-        title: "Working days saved",
-        rows: [
-          { label: "SKUs published, Q2", value: "36" },
-          { label: "Manual benchmark, per SKU", value: "30 min" },
-          { label: "Agent, per SKU", value: "1 min" },
-          { label: "Saved per SKU", value: "29 min" },
-          { label: "Q1 average", value: "1.9 days" },
-        ],
-        summaryRow: { label: "At an 8-hour working day", value: "2.2 days" },
-        methodology:
-          "Only published SKUs count, not ones waiting in the queue. 30 min is the full manual cycle — pull, research, draft, reload. 36 × 29 minutes = 17.4 hours, or 2.2 working days.",
-      },
-    },
-    {
       id: "ai-rank",
       label: "AI rank",
       value: "#4",
@@ -150,6 +129,27 @@ export const q2Overview: OverviewSnapshot = {
           "Weighted brand citation share across tracked prompts, averaged across the quarter. Being cited first counts more than fifth.",
       },
     },
+    {
+      id: "working-days-saved",
+      label: "Working days saved",
+      value: "2.2",
+      delta: "+0.3 vs Q1",
+      deltaPositive: true,
+      footnote: "36 actions taken · 17.4 analyst hours",
+      calculation: {
+        title: "Working days saved",
+        rows: [
+          { label: "SKUs published, Q2", value: "36" },
+          { label: "Manual benchmark, per SKU", value: "30 min" },
+          { label: "Agent, per SKU", value: "1 min" },
+          { label: "Saved per SKU", value: "29 min" },
+          { label: "Q1 average", value: "1.9 days" },
+        ],
+        summaryRow: { label: "At an 8-hour working day", value: "2.2 days" },
+        methodology:
+          "Only published SKUs count, not ones waiting in the queue. 30 min is the full manual cycle — pull, research, draft, reload. 36 × 29 minutes = 17.4 hours, or 2.2 working days.",
+      },
+    },
   ],
   upNext: {
     items: [
@@ -169,15 +169,20 @@ export const q2Overview: OverviewSnapshot = {
       title: "Seasonal opportunity",
       titleTooltip:
         "Optimizes content ahead of shopping events like Mother's Day, Halloween, and Black Friday.",
-      context: "Mother's Day · Publish by Apr 28 ·",
-      contextHighlight: "window closed",
+      context: "Mother's Day · publish by Apr 28 · window closed",
       skuCount: 148,
       valueLabel: "$201K",
       valueKind: "potential",
       tone: "default",
       insight:
-        "The window closed on Apr 28. Captured **$145K**; **$56K** lost to inaction is gone for the year — it does not come back.",
+        "The window closed on Apr 28. This $56K is gone for the year — it does not come back.",
       remainingLabel: "142 more SKUs worth $129K, ranked by impact.",
+      closedSummary: {
+        capturedLabel: "$145K",
+        uncapturedLabel: "$56K",
+        uncapturedKind: "Lost to inaction",
+        capturedPct: 72.1,
+      },
       buckets: [
         {
           id: "q2-sea-1",
@@ -276,14 +281,20 @@ export const q2Overview: OverviewSnapshot = {
       title: "Always-on optimization opportunity",
       titleTooltip:
         "Keeps listings aligned with brand and retailer guidelines as category trends shift.",
-      context: "Always on · SEO and AEO · No deadline",
+      context: "Always on · SEO & AEO · no deadline",
       skuCount: 126,
       valueLabel: "$105K",
       valueKind: "potential",
       tone: "default",
       insight:
-        "No deadline on this stream. Captured **$75K** in Q2; the **$30K** not yet captured rolled into Q3's queue — it is not lost.",
+        "No deadline on this stream. The $30K not captured in Q2 rolled into Q3's queue — it is not lost.",
       remainingLabel: "121 more SKUs worth $60K, ranked by impact.",
+      closedSummary: {
+        capturedLabel: "$75K",
+        uncapturedLabel: "$30K",
+        uncapturedKind: "Not yet captured",
+        capturedPct: 71.4,
+      },
       buckets: [
         {
           id: "q2-pdp-1",
@@ -377,14 +388,20 @@ export const q2Overview: OverviewSnapshot = {
       title: "Retail readiness opportunity",
       titleTooltip:
         "Cleans up backend catalog data so SKUs meet retailer syndication requirements.",
-      context: "Vendor Central attribute gaps · No deadline",
+      context: "Vendor Central attribute gaps · no deadline",
       skuCount: 78,
       valueLabel: "$32K",
       valueKind: "blocked",
       tone: "default",
       insight:
-        "No deadline on this stream. Captured **$22K** in Q2; the **$10K** not yet captured rolled into Q3's queue — it is not lost.",
+        "No deadline on this stream. The $10K not captured in Q2 rolled into Q3's queue — it is not lost.",
       remainingLabel: "74 more SKUs, $20K blocked in total.",
+      closedSummary: {
+        capturedLabel: "$22K",
+        uncapturedLabel: "$10K",
+        uncapturedKind: "Not yet captured",
+        capturedPct: 68.8,
+      },
       buckets: [
         {
           id: "q2-rr-mandatory",
