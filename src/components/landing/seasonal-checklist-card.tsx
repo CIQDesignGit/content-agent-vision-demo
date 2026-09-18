@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { AnimatedFigure } from "./animated-figure"
 import { seasonalChecklist } from "./analyst-tasks-data"
 import { reviewSkuCtaClassName } from "./review-sku-cta"
+import { SeasonalProgressBanner } from "./seasonal-progress-banner"
 
 /** Up-next seasonal moment — primary card in the analyst task strip. */
 export function SeasonalChecklistCard({ className }: { className?: string }) {
@@ -16,7 +17,6 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
   const actedCount = useQueueActedCount(event.momentId)
   const remaining = Math.max(event.skuCount - actedCount, 0)
   const started = actedCount > 0
-  const progressPct = Math.round((actedCount / event.skuCount) * 100)
   const valueAmount = Number(event.valueLabel.replace(/[^0-9.]/g, "")) || 0
 
   return (
@@ -44,7 +44,7 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_65%_55%_at_100%_0%,var(--color-brand-200)_0%,transparent_58%)] opacity-40"
       />
 
-      <div className="relative z-10 flex flex-1 flex-col p-5">
+      <div className="relative z-10 flex flex-1 flex-col p-5 pb-4">
         <div className="flex flex-wrap items-start justify-between gap-2">
           <span className="inline-flex items-center rounded-full bg-brand-100/80 px-2.5 py-0.5 text-[10px] font-semibold tracking-widest text-brand-800 uppercase ring-1 ring-brand-200/50">
             {event.eyebrow}
@@ -80,38 +80,13 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
           <Dot />
           <span className="font-medium">Live {event.eventDate}</span>
         </div>
-
-        {started ? (
-          <div className="mt-4 space-y-1.5 rounded-xl bg-success-50 px-3 py-2.5">
-            <div className="flex justify-between gap-2 text-xs tabular-nums text-success-800">
-              <span>
-                <span className="font-semibold">
-                  {actedCount.toLocaleString()}
-                </span>{" "}
-                of {event.skuCount.toLocaleString()} SKUs acted on today
-              </span>
-              <span className="font-semibold">{progressPct}%</span>
-            </div>
-            <div
-              className="h-1.5 w-full overflow-hidden rounded-full bg-success-200/80"
-              role="progressbar"
-              aria-valuenow={actedCount}
-              aria-valuemin={0}
-              aria-valuemax={event.skuCount}
-              aria-label={`${actedCount} of ${event.skuCount} SKUs acted on today`}
-            >
-              <motion.div
-                className="h-full rounded-full bg-success-600"
-                initial={{ width: 0 }}
-                animate={{
-                  width: `${Math.max(progressPct, actedCount > 0 ? 2 : 0)}%`,
-                }}
-                transition={{ duration: DURATION.calm, ease: EASE_OUT, delay: 0.4 }}
-              />
-            </div>
-          </div>
-        ) : null}
       </div>
+
+      {/* Lives above the footer so the first appear reads as sliding up from it. */}
+      <SeasonalProgressBanner
+        actedCount={actedCount}
+        totalCount={event.skuCount}
+      />
 
       <div className="relative z-10 mt-auto flex flex-wrap items-center justify-between gap-3 rounded-b-2xl border-t border-brand-100/80 bg-white/70 px-5 py-3.5">
         <p className="max-w-md text-sm leading-relaxed text-slate-600">
