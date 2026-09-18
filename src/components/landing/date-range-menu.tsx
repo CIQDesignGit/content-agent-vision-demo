@@ -1,17 +1,18 @@
 "use client"
 
 import type { ReactNode } from "react"
+import Link from "next/link"
 import { Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
+  DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu"
 
 import type { DateRangeOption } from "./date-range"
 
 const rangeItemClass =
-  "cursor-pointer rounded-md focus:bg-slate-100 data-checked:bg-brand-50 data-checked:focus:bg-brand-100 [&_[data-slot=dropdown-menu-radio-item-indicator]]:hidden"
+  "cursor-pointer rounded-md focus:bg-slate-100 data-highlighted:bg-slate-100"
 
 export function MenuSectionLabel({ children }: { children: ReactNode }) {
   return (
@@ -25,7 +26,7 @@ function SelectionMark({ selected }: { selected: boolean }) {
   return (
     <Check
       className={cn(
-        "size-3.5 shrink-0 text-brand-600",
+        "pointer-events-none size-3.5 shrink-0 text-brand-600",
         selected ? "opacity-100" : "opacity-0",
       )}
       strokeWidth={2.5}
@@ -37,26 +38,32 @@ function SelectionMark({ selected }: { selected: boolean }) {
 export function YearRangeItem({
   range,
   selected,
-  onSelect,
+  href,
+  onNavigate,
 }: {
   range: DateRangeOption
   selected: boolean
-  onSelect: (id: string) => void
+  href: string
+  onNavigate: () => void
 }) {
   return (
-    <DropdownMenuRadioItem
-      value={range.id}
+    <DropdownMenuItem
       closeOnClick
       aria-label={`${range.label}, ${range.span}`}
-      className={cn(rangeItemClass, "items-center gap-2 px-2.5 py-1.5 pr-2.5")}
-      onClick={() => onSelect(range.id)}
+      aria-current={selected ? "true" : undefined}
+      className={cn(
+        rangeItemClass,
+        "items-center gap-2 px-2.5 py-1.5 pr-2.5",
+        selected && "bg-brand-50 focus:bg-brand-100 data-highlighted:bg-brand-100",
+      )}
+      render={<Link href={href} scroll={false} onClick={onNavigate} />}
     >
       <span className="font-medium text-slate-900">{range.label}</span>
       <span className="ml-auto font-mono text-xs text-slate-500">
         {range.span}
       </span>
       <SelectionMark selected={selected} />
-    </DropdownMenuRadioItem>
+    </DropdownMenuItem>
   )
 }
 
@@ -64,20 +71,26 @@ export function QuarterRangeItem({
   range,
   selected,
   current,
-  onSelect,
+  href,
+  onNavigate,
 }: {
   range: DateRangeOption
   selected: boolean
   current: boolean
-  onSelect: (id: string) => void
+  href: string
+  onNavigate: () => void
 }) {
   return (
-    <DropdownMenuRadioItem
-      value={range.id}
+    <DropdownMenuItem
       closeOnClick
       aria-label={`${range.label}, ${range.compact}`}
-      className={cn(rangeItemClass, "items-center gap-2 px-2.5 py-1.5 pr-2.5")}
-      onClick={() => onSelect(range.id)}
+      aria-current={selected ? "true" : undefined}
+      className={cn(
+        rangeItemClass,
+        "items-center gap-2 px-2.5 py-1.5 pr-2.5",
+        selected && "bg-brand-50 focus:bg-brand-100 data-highlighted:bg-brand-100",
+      )}
+      render={<Link href={href} scroll={false} onClick={onNavigate} />}
     >
       <span className="flex items-center gap-1.5 font-medium text-slate-900">
         {range.label}
@@ -91,6 +104,6 @@ export function QuarterRangeItem({
         {range.compact}
       </span>
       <SelectionMark selected={selected} />
-    </DropdownMenuRadioItem>
+    </DropdownMenuItem>
   )
 }

@@ -36,6 +36,9 @@ export interface OverviewSnapshot {
   capturedSplit: CapturedLiftSplit
   /** True when the selected window's last day is already over. */
   windowClosed?: boolean
+  /** Overrides the default “Open opportunity streams” section heading */
+  streamsTitle?: string
+  streamsDescription?: string
 }
 
 /** Existing year seed. Dollar figures stay as authored in data.ts. */

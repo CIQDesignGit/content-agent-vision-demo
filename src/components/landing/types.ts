@@ -16,6 +16,8 @@ export interface OpportunityMeterData {
   realizedMillions: number
   /** Contract window for this total — not necessarily a calendar year */
   periodLabel: string
+  /** Overrides the default “Total annualized content opportunity” kicker */
+  title?: string
   /** Period-vs-prior chip beside the hero total, e.g. "+$1.41M PvP" */
   pvpDelta?: string
   pvpDeltaPositive?: boolean

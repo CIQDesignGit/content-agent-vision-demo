@@ -129,11 +129,13 @@ export function OpportunityStatusBar({
             animateOnMount={false}
             className="font-semibold text-slate-800"
           />
-          % of everything found this year
+          {windowClosed
+            ? "% of everything identified"
+            : "% of everything found this year"}
         </p>
         <p className="shrink-0 tabular-nums">
           <span className="font-semibold text-slate-700">{totalAmountLabel}</span>{" "}
-          found
+          {windowClosed ? "identified" : "found"}
         </p>
       </div>
     </div>

@@ -77,21 +77,23 @@ export function OpportunityCalculationTabPane({
         <OpportunityCalculationFormula rows={tab.calcRows} />
       ) : null}
 
-      <div>
-        <p className="text-sm font-semibold text-slate-900">
-          {hasFormula ? "Where the banked lift rate comes from" : "What went live"}
-        </p>
-        <div className="mt-2 flex flex-wrap items-baseline gap-x-10 gap-y-2 border-y border-slate-200 py-2.5">
-          {tab.kpis.map((kpi) => (
-            <div key={kpi.label} className="flex min-w-0 items-baseline gap-1.5">
-              <p className="shrink-0 text-sm font-semibold tabular-nums text-slate-900">
-                {kpi.value}
-              </p>
-              <p className="text-sm text-slate-500">{kpi.label}</p>
-            </div>
-          ))}
+      {tab.kpis.length > 0 ? (
+        <div>
+          <p className="text-sm font-semibold text-slate-900">
+            {hasFormula ? "Where the banked lift rate comes from" : "What went live"}
+          </p>
+          <div className="mt-2 flex flex-wrap items-baseline gap-x-10 gap-y-2 border-y border-slate-200 py-2.5">
+            {tab.kpis.map((kpi) => (
+              <div key={kpi.label} className="flex min-w-0 items-baseline gap-1.5">
+                <p className="shrink-0 text-sm font-semibold tabular-nums text-slate-900">
+                  {kpi.value}
+                </p>
+                <p className="text-sm text-slate-500">{kpi.label}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {tab.unrealized ? (
         <div className="flex items-baseline justify-between gap-3 rounded-xl bg-slate-50 px-3.5 py-2.5">

@@ -1,14 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { Calendar, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuRadioGroup,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -26,8 +25,19 @@ import {
   YearRangeItem,
 } from "./date-range-menu"
 
+function rangeHref(
+  pathname: string,
+  searchParams: URLSearchParams,
+  id: string,
+): string {
+  const params = new URLSearchParams(searchParams.toString())
+  if (id === DEFAULT_DATE_RANGE_ID) params.delete("range")
+  else params.set("range", id)
+  const query = params.toString()
+  return query ? `${pathname}?${query}` : pathname
+}
+
 export function DateRangePicker({ className }: { className?: string }) {
-  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [open, setOpen] = useState(false)
@@ -37,15 +47,6 @@ export function DateRangePicker({ className }: { className?: string }) {
   const yearRanges = ranges.filter((range) => range.group === "year")
   const quarterRanges = ranges.filter((range) => range.group === "quarter")
   const activeQuarter = currentQuarterId()
-
-  function selectRange(id: string) {
-    const params = new URLSearchParams(searchParams.toString())
-    if (id === DEFAULT_DATE_RANGE_ID) params.delete("range")
-    else params.set("range", id)
-    const query = params.toString()
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
-    setOpen(false)
-  }
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -63,32 +64,32 @@ export function DateRangePicker({ className }: { className?: string }) {
         <ChevronDown className="size-3.5 shrink-0 text-slate-400" strokeWidth={2} aria-hidden />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" sideOffset={8} className="w-80 p-1.5">
-        <DropdownMenuRadioGroup value={selected.id} onValueChange={selectRange}>
-          <DropdownMenuGroup>
-            <MenuSectionLabel>Year</MenuSectionLabel>
-            {yearRanges.map((range) => (
-              <YearRangeItem
-                key={range.id}
-                range={range}
-                selected={range.id === selected.id}
-                onSelect={selectRange}
-              />
-            ))}
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator className="my-1.5 bg-slate-200" />
-          <DropdownMenuGroup>
-            <MenuSectionLabel>Quarter · {year}</MenuSectionLabel>
-            {quarterRanges.map((range) => (
-              <QuarterRangeItem
-                key={range.id}
-                range={range}
-                selected={range.id === selected.id}
-                current={range.id === activeQuarter}
-                onSelect={selectRange}
-              />
-            ))}
-          </DropdownMenuGroup>
-        </DropdownMenuRadioGroup>
+        <DropdownMenuGroup>
+          <MenuSectionLabel>Year</MenuSectionLabel>
+          {yearRanges.map((range) => (
+            <YearRangeItem
+              key={range.id}
+              range={range}
+              selected={range.id === selected.id}
+              href={rangeHref(pathname, searchParams, range.id)}
+              onNavigate={() => setOpen(false)}
+            />
+          ))}
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator className="my-1.5 bg-slate-200" />
+        <DropdownMenuGroup>
+          <MenuSectionLabel>Quarter · {year}</MenuSectionLabel>
+          {quarterRanges.map((range) => (
+            <QuarterRangeItem
+              key={range.id}
+              range={range}
+              selected={range.id === selected.id}
+              current={range.id === activeQuarter}
+              href={rangeHref(pathname, searchParams, range.id)}
+              onNavigate={() => setOpen(false)}
+            />
+          ))}
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )

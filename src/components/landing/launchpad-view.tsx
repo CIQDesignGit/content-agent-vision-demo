@@ -20,19 +20,24 @@ export function LaunchpadView() {
   // Publishes from the workbench land here: the meter holds its pre-publish
   // numbers through the entrance, then rises to the new totals.
   const capture = useCaptureReveal()
+  const applyLiveCapture = !overview.windowClosed
 
   const meter = useMemo(
     () => ({
       ...overview.meter,
       realizedMillions:
-        overview.meter.realizedMillions + capture.capturedUsd / 1_000_000,
+        overview.meter.realizedMillions +
+        (applyLiveCapture ? capture.capturedUsd / 1_000_000 : 0),
     }),
-    [overview.meter, capture.capturedUsd],
+    [overview.meter, capture.capturedUsd, applyLiveCapture],
   )
 
   const statusSegments = useMemo(
-    () => applyCapture(overview.status, capture.capturedUsd, capture.bucket),
-    [overview.status, capture.capturedUsd, capture.bucket],
+    () =>
+      applyLiveCapture
+        ? applyCapture(overview.status, capture.capturedUsd, capture.bucket)
+        : overview.status,
+    [overview.status, capture.capturedUsd, capture.bucket, applyLiveCapture],
   )
 
   const calculation = useMemo(
@@ -76,6 +81,8 @@ export function LaunchpadView() {
           key={rangeId ?? "this-year"}
           streams={overview.streams}
           windowClosed={overview.windowClosed}
+          title={overview.streamsTitle}
+          description={overview.streamsDescription}
         />
       </div>
     </MotionConfig>

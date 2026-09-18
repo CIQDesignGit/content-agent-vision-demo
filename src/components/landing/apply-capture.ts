@@ -77,7 +77,7 @@ export function displayStatusSegments(
     const closedMillions = openMillions + (expired?.millions ?? 0)
     const closedBucket: OpportunityStatusSegment = {
       id: "opportunity",
-      label: "Expired Opportunity",
+      label: "Lost to inaction",
       millions: closedMillions,
       amountLabel: formatMillions(closedMillions),
       muted: true,

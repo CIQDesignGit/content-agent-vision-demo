@@ -54,12 +54,16 @@ export function OpportunityMeterOverview({
 
   const legend = displayStatusSegments(statusSegments, windowClosed)
   const dotFill = statusDotFill(windowClosed)
+  const heroInThousands = data.identifiedMillions < 1
+  const heroValue = heroInThousands
+    ? data.identifiedMillions * 1000
+    : data.identifiedMillions
 
   return (
     <div className={cn("flex w-full flex-col justify-between gap-8 lg:min-h-[22rem]", className)}>
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-medium text-brand-600">
-          Total annualized content opportunity
+          {data.title ?? "Total annualized content opportunity"}
         </p>
 
         {/* Hero + legend share one row so amounts sit on the $5.24M baseline;
@@ -69,11 +73,14 @@ export function OpportunityMeterOverview({
             <p className="flex min-w-0 items-baseline font-sans font-semibold leading-none text-brand-950">
               <span className="text-6xl tracking-[-0.045em] sm:text-7xl">$</span>
               <AnimatedFigure
-                value={data.identifiedMillions}
+                value={heroValue}
+                fractionDigits={heroInThousands ? 0 : 2}
                 delay={0.3}
                 className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
               />
-              <span className="text-6xl tracking-[-0.045em] sm:text-7xl">M</span>
+              <span className="text-6xl tracking-[-0.045em] sm:text-7xl">
+                {heroInThousands ? "K" : "M"}
+              </span>
             </p>
 
             <TooltipProvider delayDuration={200}>

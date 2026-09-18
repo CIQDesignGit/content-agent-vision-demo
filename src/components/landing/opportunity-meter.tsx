@@ -8,6 +8,7 @@ import type {
   OpportunityMeterData,
   OpportunityStatusSegment,
 } from "./types"
+import { formatMillions } from "./apply-capture"
 import { OpportunityCalculationReveal } from "./opportunity-calculation-reveal"
 import { CalculationToggle } from "./opportunity-calculation-toggle"
 import { OpportunityMeterOverview } from "./opportunity-meter-overview"
@@ -43,7 +44,7 @@ export function OpportunityMeter({
     100,
     Math.round((data.realizedMillions / data.identifiedMillions) * 100),
   )
-  const totalAmountLabel = `$${data.identifiedMillions.toFixed(2)}M`
+  const totalAmountLabel = formatMillions(data.identifiedMillions)
   function openCalculation() {
     setCollapsedHeight(overviewRef.current?.offsetHeight)
     setOpenHeight(undefined)
