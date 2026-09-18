@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import type { OpportunityCalculationTabData } from "./types"
 import { CalculationExplanation } from "./opportunity-calculation-explanation"
 import { OpportunityCalculationFormula } from "./opportunity-calculation-formula"
-import { OpportunityCalculationLiftBar } from "./opportunity-calculation-lift-bar"
+import { OpportunityCalculationLiftBar, CALC_SEGMENT_FILL } from "./opportunity-calculation-lift-bar"
 
 interface OpportunityCalculationTabPaneProps {
   tab: OpportunityCalculationTabData
@@ -50,21 +50,22 @@ export function OpportunityCalculationTabPane({
           retailReadinessPct={tab.liftBarPct.retailReadiness}
           amazonOptimizationPct={tab.liftBarPct.amazonOptimization}
           seasonalPct={tab.liftBarPct.seasonal}
+          totalLabel={tab.heroAmountLabel}
         />
         {hasFormula ? null : (
           <div className="grid w-full grid-cols-3 gap-x-4">
             <LiftAmount
-              dotClassName="bg-data-1"
+              dotClassName={CALC_SEGMENT_FILL[0]}
               label={tab.retailReadinessLiftLabel}
               amount={tab.retailReadinessLiftAmount}
             />
             <LiftAmount
-              dotClassName="bg-data-2"
+              dotClassName={CALC_SEGMENT_FILL[1]}
               label={tab.amazonOptimizationLiftLabel}
               amount={tab.amazonOptimizationLiftAmount}
             />
             <LiftAmount
-              dotClassName="bg-data-3"
+              dotClassName={CALC_SEGMENT_FILL[2]}
               label={tab.seasonalLiftLabel}
               amount={tab.seasonalLiftAmount}
             />
