@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { Calendar, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -29,6 +30,7 @@ export function DateRangePicker({ className }: { className?: string }) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const [open, setOpen] = useState(false)
   const year = new Date().getFullYear()
   const ranges = dateRangesForYear(year)
   const selected = resolveDateRange(searchParams.get("range"), year)
@@ -42,13 +44,14 @@ export function DateRangePicker({ className }: { className?: string }) {
     else params.set("range", id)
     const query = params.toString()
     router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    setOpen(false)
   }
 
   return (
-    <DropdownMenu>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
         className={cn(
-          "ml-auto inline-flex items-center gap-1.5 py-1 text-sm font-medium text-slate-600 hover:text-slate-900",
+          "ml-auto inline-flex cursor-pointer items-center gap-1.5 py-1 text-sm font-medium text-slate-600 hover:text-slate-900",
           className,
         )}
       >
@@ -68,6 +71,7 @@ export function DateRangePicker({ className }: { className?: string }) {
                 key={range.id}
                 range={range}
                 selected={range.id === selected.id}
+                onSelect={selectRange}
               />
             ))}
           </DropdownMenuGroup>
@@ -80,6 +84,7 @@ export function DateRangePicker({ className }: { className?: string }) {
                 range={range}
                 selected={range.id === selected.id}
                 current={range.id === activeQuarter}
+                onSelect={selectRange}
               />
             ))}
           </DropdownMenuGroup>
