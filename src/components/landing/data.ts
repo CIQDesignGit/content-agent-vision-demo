@@ -18,7 +18,7 @@ export const contractPeriodLabel = "Aug 2026 – Jul 2027"
 
 export const opportunityMeter: OpportunityMeterData = {
   /** Active opportunity only — forfeited / past windows are excluded. */
-  identifiedMillions: 3.91,
+  identifiedMillions: 4.81,
   realizedMillions: 0.8,
   periodLabel: contractPeriodLabel,
   pvpDelta: "+$1.41M PvP",
@@ -37,10 +37,10 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
   {
     id: "seasonal",
     label: "Seasonal",
-    amountLabel: "$2.75M",
-    millions: 2.75,
+    amountLabel: "$3.65M",
+    millions: 3.65,
     tooltip:
-      "Open windows: Halloween $335K, Cyber Monday $860K, Holiday Gift Guide $510K, and Winter peak $1.04M. Together $2.75M.",
+      "Open windows total $2.75M (Halloween $335K, Cyber Monday $860K, Holiday Gift Guide $510K, Winter peak $1.04M). The remaining $900K is later seasonal runway in the contract window — together $3.65M.",
   },
   {
     id: "pdp",
@@ -67,14 +67,14 @@ export const opportunityCalculation: OpportunityCalculationData = {
     tabLabel: "Annualized opportunity",
     heading: "Annualized Opportunity Size",
     periodBadge: contractPeriodLabel,
-    heroAmountLabel: "$3.91M",
+    heroAmountLabel: "$4.81M",
     retailReadinessLiftLabel: "Retail readiness opportunity",
     retailReadinessLiftAmount: "$0.26M",
     amazonOptimizationLiftLabel: "Amazon optimization opportunity",
     amazonOptimizationLiftAmount: "$1.19M",
     seasonalLiftLabel: "Seasonal opportunity",
-    seasonalLiftAmount: "$2.46M",
-    liftBarPct: { retailReadiness: 7, amazonOptimization: 30, seasonal: 63 },
+    seasonalLiftAmount: "$3.36M",
+    liftBarPct: { retailReadiness: 5, amazonOptimization: 25, seasonal: 70 },
     kpis: [
       { value: "42", label: "SKUs A/B tested" },
       { value: "+3.0%", label: "Median sales lift" },
@@ -108,13 +108,13 @@ export const opportunityCalculation: OpportunityCalculationData = {
       { label: "× banked lift rate", value: "3.0%" },
       {
         label: "Seasonal opportunity",
-        value: "$2.46M",
+        value: "$3.36M",
         variant: "subtotal",
       },
     ],
     calcSummary: {
       label: "Opportunity ahead",
-      value: "$3.91M",
+      value: "$4.81M",
       variant: "total",
     },
     cta: {
@@ -263,7 +263,7 @@ export const valuePillars: ValuePillar[] = [
     id: "seasonal",
     kind: "seasonal",
     title: "Seasonal lift",
-    displayValue: "$2.46M",
+    displayValue: "$3.36M",
     tag: { label: "recurring", tone: "recurring" },
     support: "Event-tied copy ready for Halloween through gift guides.",
     confidence: "med",

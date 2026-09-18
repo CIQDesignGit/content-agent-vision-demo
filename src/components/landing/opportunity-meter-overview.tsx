@@ -57,13 +57,14 @@ export function OpportunityMeterOverview({
     <div className={cn("flex w-full flex-col justify-between gap-8 lg:min-h-[22rem]", className)}>
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-medium text-brand-600">
-          Total Annualized Opportunity Remaining
+          Total Annualized Content Opportunity
         </p>
 
-        {/* Title sits above so it doesn't pull the legend off the hero baseline. */}
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex min-w-0 flex-wrap items-end gap-x-3 gap-y-2">
-            <p className="flex items-baseline font-sans font-semibold leading-none text-brand-950">
+        {/* Hero + legend share one row so amounts sit on the $4.81M baseline;
+            the PvP chip sits underneath and must not participate in that align. */}
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <p className="flex min-w-0 items-baseline font-sans font-semibold leading-none text-brand-950">
               <span className="text-6xl tracking-[-0.045em] sm:text-7xl">$</span>
               <AnimatedFigure
                 value={data.identifiedMillions}
@@ -72,45 +73,46 @@ export function OpportunityMeterOverview({
               />
               <span className="text-6xl tracking-[-0.045em] sm:text-7xl">M</span>
             </p>
-            {data.pvpDelta ? (
-              <span
-                className={
-                  data.pvpDeltaPositive !== false
-                    ? "mb-1.5 rounded-full bg-teal-50 px-2.5 py-1 text-sm font-semibold tabular-nums text-teal-700"
-                    : "mb-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-sm font-semibold tabular-nums text-slate-600"
-                }
+
+            <TooltipProvider delayDuration={200}>
+              <ul
+                className="flex shrink-0 items-end divide-x divide-slate-200"
+                onPointerLeave={() => setHoveredId(null)}
               >
-                {data.pvpDelta}
-              </span>
-            ) : null}
+                {legend.map((segment) => (
+                  <CompositionBarLegendItem
+                    key={segment.id}
+                    className="w-auto px-4 first:pl-0 last:pr-0"
+                    amountClassName="text-xl leading-none"
+                    swatchClassName={dotFill[segment.id]}
+                    label={compactLabel(segment.label)}
+                    amountLabel={
+                      <AnimatedFigure
+                        value={segment.millions}
+                        format={formatMillions}
+                        animateOnMount={false}
+                      />
+                    }
+                    dimmed={hoveredId != null && hoveredId !== segment.id}
+                    onPointerEnter={() => setHoveredId(segment.id)}
+                    info={<SegmentInfo label={segment.label} tooltip={segment.tooltip} />}
+                  />
+                ))}
+              </ul>
+            </TooltipProvider>
           </div>
 
-          <TooltipProvider delayDuration={200}>
-            <ul
-              className="flex shrink-0 items-end divide-x divide-slate-200"
-              onPointerLeave={() => setHoveredId(null)}
+          {data.pvpDelta ? (
+            <span
+              className={
+                data.pvpDeltaPositive !== false
+                  ? "w-fit rounded-full bg-teal-50 px-2.5 py-1 text-sm font-semibold tabular-nums text-teal-700"
+                  : "w-fit rounded-full bg-slate-100 px-2.5 py-1 text-sm font-semibold tabular-nums text-slate-600"
+              }
             >
-              {legend.map((segment) => (
-                <CompositionBarLegendItem
-                  key={segment.id}
-                  className="w-auto px-4 first:pl-0 last:pr-0"
-                  amountClassName="text-xl leading-none"
-                  swatchClassName={dotFill[segment.id]}
-                  label={compactLabel(segment.label)}
-                  amountLabel={
-                    <AnimatedFigure
-                      value={segment.millions}
-                      format={formatMillions}
-                      animateOnMount={false}
-                    />
-                  }
-                  dimmed={hoveredId != null && hoveredId !== segment.id}
-                  onPointerEnter={() => setHoveredId(segment.id)}
-                  info={<SegmentInfo label={segment.label} tooltip={segment.tooltip} />}
-                />
-              ))}
-            </ul>
-          </TooltipProvider>
+              {data.pvpDelta}
+            </span>
+          ) : null}
         </div>
       </div>
 
