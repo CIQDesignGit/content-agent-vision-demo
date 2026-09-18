@@ -2,7 +2,9 @@
 
 import { Suspense } from "react"
 import { usePathname, useRouter } from "next/navigation"
+import { motion } from "framer-motion"
 import { cn } from "@ciq-dev/ciq-design-system"
+import { DURATION, EASE_SWAP } from "@/lib/motion"
 import { DateRangePicker } from "./date-range-picker"
 
 export const LAUNCHPAD_TABS = [
@@ -68,9 +70,11 @@ export function LaunchpadTabs({ className }: LaunchpadTabsProps) {
               )}
             >
               {isActive ? (
-                <span
+                <motion.span
+                  layoutId="launchpad-tab-pill"
                   aria-hidden
                   className="absolute inset-0 rounded-lg bg-white shadow-sm ring-1 ring-slate-900/10"
+                  transition={{ duration: DURATION.base, ease: EASE_SWAP }}
                 />
               ) : null}
               <span className="relative">{item.label}</span>

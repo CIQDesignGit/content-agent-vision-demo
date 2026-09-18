@@ -55,13 +55,15 @@ export function OpportunityMeterOverview({
 
   return (
     <div className={cn("flex w-full flex-col justify-between gap-8 lg:min-h-[22rem]", className)}>
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex min-w-0 flex-col gap-2">
-          <p className="text-[13px] font-medium text-brand-600">
-            Total Annualized Opportunity Remaining
-          </p>
-          <p className="flex flex-wrap items-baseline gap-x-3 gap-y-2 font-sans font-semibold leading-none text-brand-950">
-            <span className="flex items-baseline">
+      <div className="flex flex-col gap-2">
+        <p className="text-[13px] font-medium text-brand-600">
+          Total Annualized Opportunity Remaining
+        </p>
+
+        {/* Title sits above so it doesn't pull the legend off the hero baseline. */}
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+          <div className="flex min-w-0 flex-wrap items-end gap-x-3 gap-y-2">
+            <p className="flex items-baseline font-sans font-semibold leading-none text-brand-950">
               <span className="text-6xl tracking-[-0.045em] sm:text-7xl">$</span>
               <AnimatedFigure
                 value={data.identifiedMillions}
@@ -69,47 +71,47 @@ export function OpportunityMeterOverview({
                 className="text-6xl tracking-[-0.045em] tabular-nums sm:text-7xl"
               />
               <span className="text-6xl tracking-[-0.045em] sm:text-7xl">M</span>
-            </span>
+            </p>
             {data.pvpDelta ? (
               <span
                 className={
                   data.pvpDeltaPositive !== false
-                    ? "rounded-full bg-teal-50 px-2.5 py-1 text-sm font-semibold tabular-nums text-teal-700"
-                    : "rounded-full bg-slate-100 px-2.5 py-1 text-sm font-semibold tabular-nums text-slate-600"
+                    ? "mb-1.5 rounded-full bg-teal-50 px-2.5 py-1 text-sm font-semibold tabular-nums text-teal-700"
+                    : "mb-1.5 rounded-full bg-slate-100 px-2.5 py-1 text-sm font-semibold tabular-nums text-slate-600"
                 }
               >
                 {data.pvpDelta}
               </span>
             ) : null}
-          </p>
-        </div>
+          </div>
 
-        <TooltipProvider delayDuration={200}>
-          <ul
-            className="flex shrink-0 items-stretch divide-x divide-slate-200"
-            onPointerLeave={() => setHoveredId(null)}
-          >
-            {legend.map((segment) => (
-              <CompositionBarLegendItem
-                key={segment.id}
-                className="w-auto px-4 first:pl-0 last:pr-0"
-                amountClassName="text-xl"
-                swatchClassName={dotFill[segment.id]}
-                label={compactLabel(segment.label)}
-                amountLabel={
-                  <AnimatedFigure
-                    value={segment.millions}
-                    format={formatMillions}
-                    animateOnMount={false}
-                  />
-                }
-                dimmed={hoveredId != null && hoveredId !== segment.id}
-                onPointerEnter={() => setHoveredId(segment.id)}
-                info={<SegmentInfo label={segment.label} tooltip={segment.tooltip} />}
-              />
-            ))}
-          </ul>
-        </TooltipProvider>
+          <TooltipProvider delayDuration={200}>
+            <ul
+              className="flex shrink-0 items-end divide-x divide-slate-200"
+              onPointerLeave={() => setHoveredId(null)}
+            >
+              {legend.map((segment) => (
+                <CompositionBarLegendItem
+                  key={segment.id}
+                  className="w-auto px-4 first:pl-0 last:pr-0"
+                  amountClassName="text-xl leading-none"
+                  swatchClassName={dotFill[segment.id]}
+                  label={compactLabel(segment.label)}
+                  amountLabel={
+                    <AnimatedFigure
+                      value={segment.millions}
+                      format={formatMillions}
+                      animateOnMount={false}
+                    />
+                  }
+                  dimmed={hoveredId != null && hoveredId !== segment.id}
+                  onPointerEnter={() => setHoveredId(segment.id)}
+                  info={<SegmentInfo label={segment.label} tooltip={segment.tooltip} />}
+                />
+              ))}
+            </ul>
+          </TooltipProvider>
+        </div>
       </div>
 
       <OpportunityStatusBar

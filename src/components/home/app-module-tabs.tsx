@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 const ALLY_BRAIN_HREF = "https://allybrain.web.app/#/"
 
 const MODULES = [
-  { id: "ally", label: "Ally", href: ALLY_BRAIN_HREF, external: true },
+  { id: "ally", label: "Home", href: ALLY_BRAIN_HREF, external: true },
   { id: "content", label: "Content", href: "/", external: false },
   { id: "media", label: "Media", href: null, external: false },
   { id: "ops", label: "Ops", href: "#", external: false },
