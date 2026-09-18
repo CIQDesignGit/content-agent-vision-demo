@@ -11,7 +11,12 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { PROFILES, useProfile, type ProfileId } from "./profile-context"
+import {
+  PROFILE_ORDER,
+  PROFILES,
+  useProfile,
+  type ProfileId,
+} from "./profile-context"
 
 export function ProfileSwitcher() {
   const { profileId, setProfileId, profile } = useProfile()
@@ -25,7 +30,7 @@ export function ProfileSwitcher() {
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger
-        aria-label={`Profile: ${profile.label}`}
+        aria-label={`Viewing as ${profile.label}`}
         title={profile.label}
         className={cn(
           "ml-1 grid size-7 place-items-center rounded-full text-xs font-semibold text-white",
@@ -35,25 +40,39 @@ export function ProfileSwitcher() {
       >
         {profile.initials}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" sideOffset={8} className="min-w-48 p-1.5">
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        className="min-w-56 rounded-2xl p-2 shadow-lg ring-1 ring-slate-200/80"
+      >
         <DropdownMenuGroup>
-          <DropdownMenuLabel className="px-2 pt-1 pb-1.5 text-xs font-medium tracking-wider text-slate-400 uppercase">
-            Switch profile
+          <DropdownMenuLabel className="px-2.5 pt-1 pb-2 text-xs font-medium text-slate-400">
+            Viewing as
           </DropdownMenuLabel>
-          <DropdownMenuRadioGroup value={profileId} onValueChange={selectProfile}>
-            {(Object.keys(PROFILES) as ProfileId[]).map((id) => {
+          <DropdownMenuRadioGroup
+            value={profileId}
+            onValueChange={selectProfile}
+          >
+            {PROFILE_ORDER.map((id) => {
               const option = PROFILES[id]
               return (
-                <DropdownMenuRadioItem key={id} value={id} className="gap-2.5 py-1.5">
-                  <span
-                    className={cn(
-                      "grid size-6 shrink-0 place-items-center rounded-full text-[10px] font-semibold text-white",
-                      option.avatarClass,
-                    )}
-                  >
-                    {option.initials}
+                <DropdownMenuRadioItem
+                  key={id}
+                  value={id}
+                  className={cn(
+                    "flex cursor-pointer flex-col items-start gap-0.5 rounded-xl px-2.5 py-2.5 pr-2.5",
+                    "text-sm outline-hidden select-none",
+                    "focus:bg-brand-50 focus:text-slate-900",
+                    "data-checked:bg-brand-100 data-checked:text-slate-900",
+                    "**:data-[slot=dropdown-menu-radio-item-indicator]:hidden",
+                  )}
+                >
+                  <span className="font-semibold text-slate-900">
+                    {option.label}
                   </span>
-                  <span className="font-medium text-slate-800">{option.label}</span>
+                  <span className="text-xs font-normal text-slate-500">
+                    {option.description}
+                  </span>
                 </DropdownMenuRadioItem>
               )
             })}

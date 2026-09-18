@@ -10,28 +10,51 @@ import {
 } from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
-export type ProfileId = "exec" | "content-analyst"
+export type ProfileId = "exec" | "sales-analyst" | "content-analyst"
 
 export const DEFAULT_PROFILE_ID: ProfileId = "exec"
 
 export const PROFILES: Record<
   ProfileId,
-  { label: string; initials: string; avatarClass: string }
+  {
+    label: string
+    description: string
+    initials: string
+    avatarClass: string
+  }
 > = {
   exec: {
     label: "Exec",
-    initials: "MR",
+    description: "Deepak Kulkarni",
+    initials: "DK",
+    avatarClass: "bg-orange-600",
+  },
+  "sales-analyst": {
+    label: "Sales Analyst",
+    description: "Ravi Shankar",
+    initials: "RS",
     avatarClass: "bg-sky-700",
   },
   "content-analyst": {
     label: "Content Analyst",
+    description: "Opens Content Agent",
     initials: "CA",
     avatarClass: "bg-teal-600",
   },
 }
 
+export const PROFILE_ORDER: ProfileId[] = [
+  "exec",
+  "sales-analyst",
+  "content-analyst",
+]
+
 export function isProfileId(value: string | null | undefined): value is ProfileId {
-  return value === "exec" || value === "content-analyst"
+  return (
+    value === "exec" ||
+    value === "sales-analyst" ||
+    value === "content-analyst"
+  )
 }
 
 interface ProfileContextValue {
