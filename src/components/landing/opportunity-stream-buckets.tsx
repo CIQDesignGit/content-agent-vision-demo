@@ -125,34 +125,65 @@ function BucketCard({
             tone.hover,
           )}
         >
-        <div className="flex items-start justify-between gap-3">
-          <p
-            className={cn(
-              "min-w-0 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em]",
-              tone.value,
-            )}
-          >
-            {formatStreamValue(bucket.valueThousands)}
-          </p>
-          <span
-            className={cn(
-              "inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
-              !bucket.badge && "uppercase",
-              tone.chip,
-            )}
-          >
-            {bucket.badge ? null : (
-              <ChipIcon className="size-2.5 shrink-0" aria-hidden />
-            )}
-            {tone.chipLabel}
-          </span>
-        </div>
+        {bucket.valueThousands != null ? (
+          <>
+            <div className="flex items-start justify-between gap-3">
+              <p
+                className={cn(
+                  "min-w-0 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em]",
+                  tone.value,
+                )}
+              >
+                {formatStreamValue(bucket.valueThousands)}
+              </p>
+              <span
+                className={cn(
+                  "inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
+                  !bucket.badge && "uppercase",
+                  tone.chip,
+                )}
+              >
+                {bucket.badge ? null : (
+                  <ChipIcon className="size-2.5 shrink-0" aria-hidden />
+                )}
+                {tone.chipLabel}
+              </span>
+            </div>
+            <p
+              className={cn(
+                "mt-1 text-base font-semibold leading-snug tracking-tight",
+                tone.title,
+              )}
+            >
+              {bucket.title}
+            </p>
+          </>
+        ) : (
+          <div className="flex items-start justify-between gap-3">
+            <p
+              className={cn(
+                "min-w-0 text-base font-semibold leading-snug tracking-tight",
+                tone.title,
+              )}
+            >
+              {bucket.title}
+            </p>
+            <span
+              className={cn(
+                "inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
+                !bucket.badge && "uppercase",
+                tone.chip,
+              )}
+            >
+              {bucket.badge ? null : (
+                <ChipIcon className="size-2.5 shrink-0" aria-hidden />
+              )}
+              {tone.chipLabel}
+            </span>
+          </div>
+        )}
 
-        <p className={cn("mt-1 text-sm font-medium leading-snug", tone.title)}>
-          {bucket.title}
-        </p>
-
-        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+        <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
           <span className={cn("font-semibold tabular-nums", tone.skuCount)}>
             {bucket.skuCount.toLocaleString()} SKUs
           </span>
@@ -170,19 +201,22 @@ function BucketCard({
           tone.footer,
         )}
       >
-        <p className="text-xs leading-relaxed text-slate-500">
-          {blocked && bucket.releasesThousands != null ? (
-            <>
-              {windowClosed ? "Also released " : "Also releases "}
-              <span className="font-semibold text-slate-700">
-                {formatStreamValue(bucket.releasesThousands)}
-              </span>{" "}
-              of queued content — {bucket.alsoNote}
-            </>
-          ) : (
-            bucket.alsoNote
-          )}
-        </p>
+        {bucket.alsoNote ||
+        (blocked && bucket.releasesThousands != null) ? (
+          <p className="text-xs leading-relaxed text-slate-500">
+            {blocked && bucket.releasesThousands != null ? (
+              <>
+                {windowClosed ? "Also released " : "Also releases "}
+                <span className="font-semibold text-slate-700">
+                  {formatStreamValue(bucket.releasesThousands)}
+                </span>{" "}
+                of queued content — {bucket.alsoNote}
+              </>
+            ) : (
+              bucket.alsoNote
+            )}
+          </p>
+        ) : null}
         {!tone.captured && !tone.missed ? (
           <Link
             href={reviewHref(bucket, streamId)}

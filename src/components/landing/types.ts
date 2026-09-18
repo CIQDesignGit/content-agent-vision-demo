@@ -252,12 +252,12 @@ export interface OpportunityStreamBucket {
   fillMode?: "agent" | "input"
   /** Fill time, e.g. "~2 min" or "~15 min" */
   fillTime: string
-  /** Dollar value in thousands — blocked for retail-readiness, potential lift for others */
-  valueThousands: number
+  /** Dollar value in thousands — blocked for retail-readiness, potential lift for others. Omit to hide. */
+  valueThousands?: number
   /** Retail-readiness only — queued content this job also unblocks, in thousands */
   releasesThousands?: number
-  /** Blocked: tail after em dash on release line. Potential: full footer line. */
-  alsoNote: string
+  /** Blocked: tail after em dash on release line. Potential: full footer line. Omit to hide. */
+  alsoNote?: string
   /** When set, replaces the default Agent fills / Needs you chip (sentence case). */
   badge?: string
   /** Deep-link a calendar/moment queue instead of a stream bucket. */

@@ -76,7 +76,6 @@ export function LaunchpadView() {
           key={rangeId ?? "this-year"}
           streams={overview.streams}
           windowClosed={overview.windowClosed}
-          upNext={overview.upNext}
           retrospective={overview.retrospective}
         />
       </div>

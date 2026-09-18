@@ -5,7 +5,6 @@ import { fadeRiseOnScroll } from "@/lib/motion"
 import type {
   OpportunityStream,
   PeriodRetrospective,
-  UpNextData,
 } from "./types"
 import { OpportunityStreamCard } from "./opportunity-stream-card"
 import { PeriodRetrospectiveCard } from "./period-retrospective-card"
@@ -15,7 +14,6 @@ import { SectionHeading } from "./section-heading"
 interface OpportunityStreamsProps {
   streams: OpportunityStream[]
   windowClosed?: boolean
-  upNext?: UpNextData
   retrospective?: PeriodRetrospective
   /** When set, that stream starts expanded (accordion still toggles). */
   defaultExpandedId?: string | null
@@ -27,7 +25,6 @@ interface OpportunityStreamsProps {
 export function OpportunityStreams({
   streams,
   windowClosed = false,
-  upNext,
   retrospective,
   defaultExpandedId = null,
   title = "Opportunity streams",
@@ -72,9 +69,6 @@ export function OpportunityStreams({
                 <OpportunityStreamCard
                   stream={stream}
                   windowClosed={windowClosed}
-                  upNext={
-                    !windowClosed && stream.id === "seasonal" ? upNext : undefined
-                  }
                   expanded={expandedId === stream.id}
                   onToggle={() =>
                     setExpandedId((prev) =>

@@ -66,7 +66,7 @@ export function useCapturedOpportunity(): CaptureLedger {
 
 /**
  * A SKU's 3-month OPS figure runs $620–$12.4K, which is a rounding error against
- * a $4.81M meter — one publish would leave the headline and the bar visibly
+ * a $3.91M meter — one publish would leave the headline and the bar visibly
  * unchanged. The prototype books each publish at an annualized value so a single
  * publish reads on the overview. Drop the scale to 1 to book raw OPS instead.
  */

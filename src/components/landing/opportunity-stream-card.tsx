@@ -105,7 +105,7 @@ export function OpportunityStreamCard({
               warning ? "text-warning-600" : "text-slate-400",
             )}
           >
-            {stream.valueKind === "blocked" ? "Blocked" : "Potential impact"}
+            Opportunity
           </span>
           <span
             className={cn(

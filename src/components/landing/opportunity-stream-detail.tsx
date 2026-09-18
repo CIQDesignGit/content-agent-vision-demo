@@ -36,7 +36,7 @@ export function OpportunityStreamDetail({
       <div
         className={cn(
           "rounded-2xl px-4 py-3.5",
-          warning ? "bg-warning-100/50" : "bg-brand-50",
+          warning ? "bg-warning-100/50" : "bg-brand-25",
         )}
       >
         <OpportunityStreamInsight
@@ -58,18 +58,20 @@ export function OpportunityStreamDetail({
             windowClosed={windowClosed}
             upNext={upNext}
           />
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-slate-500">
-              These issues are a slice of the queue — or open every SKU at once.
-            </p>
-            <Button className={reviewSkuCtaClassName} onClick={reviewAll}>
-              Review all {stream.skuCount.toLocaleString()} SKUs
-              <ArrowRight
-                className="size-3.5 transition-transform group-hover:translate-x-0.5"
-                aria-hidden
-              />
-            </Button>
-          </div>
+          {stream.buckets.length > 1 || upNext?.items.length ? (
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <p className="text-sm text-slate-500">
+                These issues are a slice of the queue — or open every SKU at once.
+              </p>
+              <Button className={reviewSkuCtaClassName} onClick={reviewAll}>
+                Review all {stream.skuCount.toLocaleString()} SKUs
+                <ArrowRight
+                  className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </Button>
+            </div>
+          ) : null}
         </>
       ) : (
         <>

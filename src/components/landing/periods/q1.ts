@@ -220,73 +220,6 @@ export const q1Overview: OverviewSnapshot = {
   },
   streams: [
     {
-      id: "retail-readiness",
-      title: "Retail readiness opportunity",
-      context: "of catalog is retail-ready",
-      skuCount: 64,
-      valueLabel: "$86K",
-      valueKind: "blocked",
-      tone: "warning",
-      readyPercent: 97,
-      insight:
-        "**64 SKUs** are missing required **Amazon attributes** in the Q1 catalog pull — unit price, weight, or origin. Amazon won’t accept a content push until these are backfilled, so **$86K** of **PDP fixes** queued in this quarter are stuck behind this.",
-      remainingLabel: "60 more SKUs, $67K blocked in total.",
-      buckets: [
-        {
-          id: "q1-rr-mandatory",
-          title: "Missing Mandatory Attributes",
-          skuCount: 20,
-          fillMode: "input",
-          fillTime: "~1 min each · 2 need your input",
-          valueThousands: 28,
-          badge: "Unblocks syndication & improves SEO",
-          alsoNote:
-            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
-          outcome: "captured",
-        },
-        {
-          id: "q1-rr-recommended",
-          title: "Missing Recommended Attributes",
-          skuCount: 44,
-          fillTime: "~1-2 min each, agent-drafted",
-          valueThousands: 58,
-          badge: "Improves SEO & AEO",
-          alsoNote:
-            "This will improve search and answer engine citation rate.",
-        },
-      ],
-      rows: [
-        {
-          id: "q1-rr-r1",
-          name: "Aurelle Candles Noir Cherry Large Jar",
-          asin: "B08NF9KBZ4",
-          finding: "Unit price missing on the Q1 feed",
-          impactThousands: 8,
-        },
-        {
-          id: "q1-rr-r2",
-          name: "Aurelle Candles Citrus Zest Soy Jar",
-          asin: "B00I0DI0Z6",
-          finding: "Item weight missing",
-          impactThousands: 5,
-        },
-        {
-          id: "q1-rr-r3",
-          name: "Aurelle Candles Vanilla Tobacco Jar",
-          asin: "B00FQK1H8C",
-          finding: "Safety sheet not attached",
-          impactThousands: 4,
-        },
-        {
-          id: "q1-rr-r4",
-          name: "Aurelle Candles Coastal Linen Large Jar",
-          asin: "B00FLYWNYQ",
-          finding: "Country of origin blank",
-          impactThousands: 2,
-        },
-      ],
-    },
-    {
       id: "seasonal",
       title: "Seasonal opportunity",
       context: "Valentine's Day · Publish by Feb 1 ·",
@@ -386,7 +319,7 @@ export const q1Overview: OverviewSnapshot = {
           impactThousands: 12,
         },
       ],
-    },
+    },,
     {
       id: "pdp",
       title: "Always-on optimization opportunity",
@@ -483,6 +416,72 @@ export const q1Overview: OverviewSnapshot = {
           findingType: "SEO",
         },
       ],
-    },
+    },,
+    {
+      id: "retail-readiness",
+      title: "Retail readiness opportunity",
+      context: "Vendor Central Attribute Gaps",
+      skuCount: 64,
+      valueLabel: "$86K",
+      valueKind: "blocked",
+      tone: "default",
+      insight:
+        "**64 SKUs** are missing required **Amazon attributes** in the Q1 catalog pull — unit price, weight, or origin. Amazon won’t accept a content push until these are backfilled, so **$86K** of **PDP fixes** queued in this quarter are stuck behind this.",
+      remainingLabel: "60 more SKUs, $67K blocked in total.",
+      buckets: [
+        {
+          id: "q1-rr-mandatory",
+          title: "Agent-drafted, ready for approval",
+          skuCount: 20,
+          fillTime: "~1 min each",
+          valueThousands: 28,
+          badge: "Approval required",
+          alsoNote:
+            "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
+          outcome: "captured",
+        },
+        {
+          id: "q1-rr-recommended",
+          title: "Missing mandatory attributes",
+          skuCount: 44,
+          fillMode: "input",
+          fillTime: "~1-2 min each",
+          valueThousands: 58,
+          badge: "Input required",
+          alsoNote:
+            "This will improve search and answer engine citation rate.",
+        },
+      ],
+      rows: [
+        {
+          id: "q1-rr-r1",
+          name: "Aurelle Candles Noir Cherry Large Jar",
+          asin: "B08NF9KBZ4",
+          finding: "Unit price missing on the Q1 feed",
+          impactThousands: 8,
+        },
+        {
+          id: "q1-rr-r2",
+          name: "Aurelle Candles Citrus Zest Soy Jar",
+          asin: "B00I0DI0Z6",
+          finding: "Item weight missing",
+          impactThousands: 5,
+        },
+        {
+          id: "q1-rr-r3",
+          name: "Aurelle Candles Vanilla Tobacco Jar",
+          asin: "B00FQK1H8C",
+          finding: "Safety sheet not attached",
+          impactThousands: 4,
+        },
+        {
+          id: "q1-rr-r4",
+          name: "Aurelle Candles Coastal Linen Large Jar",
+          asin: "B00FLYWNYQ",
+          finding: "Country of origin blank",
+          impactThousands: 2,
+        },
+      ],
+    },,
   ],
 }

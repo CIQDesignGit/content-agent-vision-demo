@@ -18,7 +18,7 @@ export const contractPeriodLabel = "Aug 2026 – Jul 2027"
 
 export const opportunityMeter: OpportunityMeterData = {
   /** Active opportunity only — forfeited / past windows are excluded. */
-  identifiedMillions: 4.81,
+  identifiedMillions: 3.91,
   realizedMillions: 0.8,
   periodLabel: contractPeriodLabel,
   pvpDelta: "+$1.41M PvP",
@@ -37,10 +37,10 @@ export const opportunityByStatus: OpportunityStatusSegment[] = [
   {
     id: "seasonal",
     label: "Seasonal",
-    amountLabel: "$3.65M",
-    millions: 3.65,
+    amountLabel: "$2.75M",
+    millions: 2.75,
     tooltip:
-      "Open windows: Black Friday $1.24M, Cyber Monday $860K, Holiday Gift Guide $510K, and Winter peak $1.04M. Together $3.65M.",
+      "Open windows: Halloween $335K, Cyber Monday $860K, Holiday Gift Guide $510K, and Winter peak $1.04M. Together $2.75M.",
   },
   {
     id: "pdp",
@@ -67,14 +67,14 @@ export const opportunityCalculation: OpportunityCalculationData = {
     tabLabel: "Annualized opportunity",
     heading: "Annualized Opportunity Size",
     periodBadge: contractPeriodLabel,
-    heroAmountLabel: "$4.81M",
+    heroAmountLabel: "$3.91M",
     retailReadinessLiftLabel: "Retail readiness opportunity",
     retailReadinessLiftAmount: "$0.26M",
     amazonOptimizationLiftLabel: "Amazon optimization opportunity",
     amazonOptimizationLiftAmount: "$1.19M",
     seasonalLiftLabel: "Seasonal opportunity",
-    seasonalLiftAmount: "$3.36M",
-    liftBarPct: { retailReadiness: 5, amazonOptimization: 25, seasonal: 70 },
+    seasonalLiftAmount: "$2.46M",
+    liftBarPct: { retailReadiness: 7, amazonOptimization: 30, seasonal: 63 },
     kpis: [
       { value: "42", label: "SKUs A/B tested" },
       { value: "+3.0%", label: "Median sales lift" },
@@ -108,13 +108,13 @@ export const opportunityCalculation: OpportunityCalculationData = {
       { label: "× banked lift rate", value: "3.0%" },
       {
         label: "Seasonal opportunity",
-        value: "$3.36M",
+        value: "$2.46M",
         variant: "subtotal",
       },
     ],
     calcSummary: {
       label: "Opportunity ahead",
-      value: "$4.81M",
+      value: "$3.91M",
       variant: "total",
     },
     cta: {
@@ -263,13 +263,13 @@ export const valuePillars: ValuePillar[] = [
     id: "seasonal",
     kind: "seasonal",
     title: "Seasonal lift",
-    displayValue: "$3.36M",
+    displayValue: "$2.46M",
     tag: { label: "recurring", tone: "recurring" },
-    support: "Event-tied copy ready for Black Friday through gift guides.",
+    support: "Event-tied copy ready for Halloween through gift guides.",
     confidence: "med",
     methodology:
       "Revenue in the 2 weeks after each of 17 events ($112M) × 3.0% banked lift rate.",
-    benchmark: "vs. prior Black Friday content window",
+    benchmark: "vs. prior Halloween content window",
   },
 ]
 
@@ -277,7 +277,7 @@ export const calendarYearLabel = "2026"
 
 export const calendarTimelineMarkers: CalendarTimelineMarker[] = [
   { id: "today", label: "Today", position: 2, kind: "today" },
-  { id: "sep-15", label: "Sep 15", position: 18, kind: "active" },
+  { id: "oct-8", label: "Oct 8", position: 18, kind: "active" },
   { id: "sep-18", label: "Sep 18", position: 32, kind: "upcoming" },
   { id: "oct-3", label: "Oct 3", position: 52, kind: "upcoming" },
   { id: "nov-20", label: "Nov 20", position: 78, kind: "upcoming" },
@@ -286,58 +286,58 @@ export const calendarTimelineMarkers: CalendarTimelineMarker[] = [
 /** Publish-by calendar — open deadlines first, forfeited last. */
 export const calendarEvents: CalendarEvent[] = [
   {
-    id: "bf",
-    name: "Black Friday",
-    valueLabel: "$1.24M",
-    skuCount: 384,
+    id: "hw",
+    name: "Halloween",
+    valueLabel: "$335K",
+    skuCount: 128,
     status: "open",
-    dateLabel: "Sep 15",
-    daysToAct: 5,
+    dateLabel: "Oct 8",
+    daysToAct: 20,
     insightSummary:
-      "384 SKUs are missing promo keywords in titles, deal framing in bullets, or bundle language on hero SKUs. I ranked them by the revenue each fix is worth, so the top 20 carry about a third of the total.",
+      "128 SKUs need Halloween-ready titles, seasonal scent and decor framing, and gifting cues before the Oct 31 event window. Ranked by revenue so hero SKUs land first.",
     dimensions: [
       {
         kind: "seasonal",
         label: "Seasonal lift",
-        potential: "$780K",
-        potentialMillions: 0.78,
+        potential: "$210K",
+        potentialMillions: 0.21,
       },
       {
         kind: "aeo",
         label: "AI visibility",
-        potential: "$310K",
-        potentialMillions: 0.31,
+        potential: "$80K",
+        potentialMillions: 0.08,
       },
       {
         kind: "foundational",
         label: "Foundational lift",
-        potential: "$150K",
-        potentialMillions: 0.15,
+        potential: "$45K",
+        potentialMillions: 0.045,
       },
     ],
     skuFindings: [
       {
-        id: "bf-1",
+        id: "hw-1",
         name: "Aurelle Candles Fig & Freesia Jar",
         asin: "B07QK4Z1MN",
         imageUrl: candleThumbnail("B07QK4Z1MN"),
-        finding: "No promo keyword in title",
+        finding: "No Halloween keyword in title",
         driver: "seasonal",
         driverLabel: "Seasonal",
         impactLabel: "$84K",
       },
       {
-        id: "bf-2",
+        id: "hw-2",
         name: "Aurelle Candles Warm Cashmere 3-Wick",
         asin: "B08LM2W7PP",
         imageUrl: candleThumbnail("B08LM2W7PP"),
-        finding: "Bullets don't state the deal terms",
+        finding: "Bullets don't mention seasonal scent",
         driver: "seasonal",
         driverLabel: "Seasonal",
         impactLabel: "$71K",
       },
       {
-        id: "bf-3",
+        id: "hw-3",
         name: "Aurelle Candles Holiday Trio Gift Set",
         asin: "B09TT5R2QD",
         imageUrl: candleThumbnail("B09TT5R2QD"),
@@ -347,7 +347,7 @@ export const calendarEvents: CalendarEvent[] = [
         impactLabel: "$63K",
       },
       {
-        id: "bf-4",
+        id: "hw-4",
         name: "Aurelle Candles Santal & Smoke Votive Set",
         asin: "B07YH9L3KC",
         imageUrl: candleThumbnail("B07YH9L3KC"),
@@ -357,7 +357,7 @@ export const calendarEvents: CalendarEvent[] = [
         impactLabel: "$52K",
       },
       {
-        id: "bf-5",
+        id: "hw-5",
         name: "Aurelle Candles White Tea Pillar",
         asin: "B08FG6N8VT",
         imageUrl: candleThumbnail("B08FG6N8VT"),
@@ -367,7 +367,7 @@ export const calendarEvents: CalendarEvent[] = [
         impactLabel: "$47K",
       },
       {
-        id: "bf-6",
+        id: "hw-6",
         name: "Aurelle Candles Moonflower Soy Candle",
         asin: "B09WD1X4HB",
         imageUrl: candleThumbnail("B09WD1X4HB"),
@@ -377,8 +377,8 @@ export const calendarEvents: CalendarEvent[] = [
         impactLabel: "$41K",
       },
     ],
-    remainingCount: 378,
-    remainingValueLabel: "$882K",
+    remainingCount: 128,
+    remainingValueLabel: "$335K",
   },
   {
     id: "cm",
@@ -511,39 +511,6 @@ export const calendarEvents: CalendarEvent[] = [
     remainingValueLabel: "$416K",
   },
   {
-    id: "hw",
-    name: "Halloween",
-    valueLabel: "$335K",
-    skuCount: 128,
-    status: "open",
-    dateLabel: "Oct 8",
-    daysToAct: 20,
-    insightSummary:
-      "128 SKUs need Halloween-ready titles, seasonal scent and decor framing, and gifting cues before the Oct 31 event window. Ranked by revenue so hero SKUs land first.",
-    dimensions: [
-      {
-        kind: "seasonal",
-        label: "Seasonal lift",
-        potential: "$210K",
-        potentialMillions: 0.21,
-      },
-      {
-        kind: "aeo",
-        label: "AI visibility",
-        potential: "$80K",
-        potentialMillions: 0.08,
-      },
-      {
-        kind: "foundational",
-        label: "Foundational lift",
-        potential: "$45K",
-        potentialMillions: 0.045,
-      },
-    ],
-    remainingCount: 128,
-    remainingValueLabel: "$335K",
-  },
-  {
     id: "wp",
     name: "Winter peak",
     valueLabel: "$1.04M",
@@ -552,7 +519,7 @@ export const calendarEvents: CalendarEvent[] = [
     dateLabel: "Nov 20",
     daysToAct: 71,
     insightSummary:
-      "296 SKUs still need winter-gifting language after the gift-guide window. This is the rest of the seasonal segment — with Black Friday, Cyber Monday, and Holiday Gift Guide it makes $3.65M.",
+      "296 SKUs still need winter-gifting language after the gift-guide window. This is the rest of the seasonal segment — with Halloween, Cyber Monday, and Holiday Gift Guide it makes $2.75M.",
     dimensions: [
       {
         kind: "seasonal",
@@ -662,235 +629,99 @@ export const upcomingMoments: UpcomingMoment[] = calendarEvents
 /** Accordion streams that replace the open publish-by calendar list. */
 export const opportunityStreams: OpportunityStream[] = [
   {
-    id: "retail-readiness",
-    title: "Retail readiness opportunity",
-    context: "of catalog is retail-ready",
-    skuCount: 342,
-    valueLabel: "$410K",
-    valueKind: "blocked",
-    tone: "warning",
-    readyPercent: 94,
-    insight:
-      "**342 SKUs** are missing **Amazon attributes** — **100** lack mandatory fields that block syndication (**$150K**), and **242** lack recommended fields that lift SEO and AEO (**$260K**). Amazon won’t accept a content push on the mandatory set until those are backfilled.",
-    remainingLabel: "338 more SKUs, $389K blocked in total.",
-    buckets: [
-      {
-        id: "rr-mandatory",
-        title: "Missing Mandatory Attributes",
-        skuCount: 100,
-        fillMode: "input",
-        fillTime: "~1 min each · 5 need your input",
-        valueThousands: 150,
-        badge: "Unblocks syndication & improves SEO",
-        alsoNote:
-          "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
-      },
-      {
-        id: "rr-recommended",
-        title: "Missing Recommended Attributes",
-        skuCount: 242,
-        fillTime: "~1-2 min each, agent-drafted",
-        valueThousands: 260,
-        badge: "Improves SEO & AEO",
-        alsoNote:
-          "This will improve search and answer engine citation rate.",
-      },
-    ],
-    rows: [
-      {
-        id: "rr-1",
-        name: "Aurelle Candles Noir Cherry Large Jar",
-        asin: "B08NF9KBZ4",
-        finding: "6 attributes missing — material, weight, safety",
-        impactThousands: 8.9,
-      },
-      {
-        id: "rr-2",
-        name: "Aurelle Candles Citrus Zest Soy Jar",
-        asin: "B00I0DI0Z6",
-        finding: "4 attributes missing — care instructions, weight",
-        impactThousands: 6.1,
-      },
-      {
-        id: "rr-3",
-        name: "Aurelle Candles Vanilla Tobacco Jar",
-        asin: "B00FQK1H8C",
-        finding: "3 attributes missing — wax type, burn time",
-        impactThousands: 3.4,
-      },
-      {
-        id: "rr-4",
-        name: "Aurelle Candles Coastal Linen Large Jar",
-        asin: "B00FLYWNYQ",
-        finding: "9 attributes missing — material, capacity, safety",
-        impactThousands: 2.8,
-      },
-    ],
-  },
-  {
     id: "seasonal",
     title: "Seasonal opportunity",
-    context: "Next up · Black Friday · Publish by Sep 15 ·",
-    contextHighlight: "5 days to act",
-    skuCount: 384,
-    valueLabel: "$1.24M",
+    context: "Next up · Halloween · Publish by Oct 8 ·",
+    contextHighlight: "20 days to act",
+    skuCount: 128,
+    valueLabel: "$335K",
     valueKind: "potential",
     tone: "default",
     insight:
-      "**384 SKUs** are missing event-ready titles, deal framing, or bundle language for **Black Friday**. I ranked them by revenue each fix is worth, so the **top 20** carry about **a third of the total**.",
+      "**100 SKUs** are missing **Amazon-required attributes**. Fixing these gaps will make the full catalog ready for syndication and more frequent updates.",
     queueNote:
-      "Cyber Monday ($860K), Holiday Gift Guide ($510K), and Winter peak ($1.04M) are queued next. With this window they are the $3.65M seasonal segment.",
-    remainingLabel: "378 more SKUs worth $882K, ranked by impact.",
+      "Cyber Monday ($860K), Holiday Gift Guide ($510K), and Winter peak ($1.04M) are queued next. With this window they are the $2.75M seasonal segment.",
+    remainingLabel: "122 more SKUs worth $251K, ranked by impact.",
     buckets: [
       {
-        id: "sea-b1",
-        title: "No promo keyword in title",
-        skuCount: 142,
-        fillTime: "~3 min",
-        valueThousands: 420,
-        alsoNote:
-          "Publish by Sep 15 · 98 of these also need deal terms in bullets",
-      },
-      {
-        id: "sea-b2",
-        title: "Bullets don't state the deal terms",
-        skuCount: 118,
-        fillTime: "~2 min",
-        valueThousands: 380,
-        alsoNote:
-          "Black Friday window · 76 also missing holiday urgency language",
-      },
-      {
-        id: "sea-b3",
-        title: "No holiday urgency language",
-        skuCount: 96,
-        fillTime: "~2 min",
-        valueThousands: 210,
-        alsoNote:
-          "5 days to act · 48 also missing a promo keyword in the title",
-      },
-      {
-        id: "sea-b4",
-        title: "Blocked — attributes missing first",
-        skuCount: 74,
-        fillMode: "input",
-        fillTime: "~15 min",
-        valueThousands: 140,
-        alsoNote:
-          "Seasonal copy can't publish until Amazon attributes are backfilled",
-      },
-      {
-        id: "sea-b5",
-        title: "Gift-set bundle not described",
-        skuCount: 52,
-        fillTime: "~2 min",
-        valueThousands: 90,
-        alsoNote:
-          "Gift sets · 31 also missing a promo keyword in the title",
+        id: "sea-hw",
+        title: "Halloween",
+        skuCount: 128,
+        fillTime: "~35 min total",
+        badge: "Improves SEO & AEO",
+        momentId: "hw",
       },
     ],
     rows: [
       {
-        id: "bf-1",
+        id: "hw-r1",
         name: "Aurelle Candles Hearthwood Cedar Jar",
         asin: "B079KLGWGR",
-        finding: "No promo keyword in title",
+        finding: "No Halloween keyword in title",
         impactThousands: 84,
       },
       {
-        id: "bf-2",
+        id: "hw-r2",
         name: "Aurelle Candles Amber Floral Soy Candle",
         asin: "B07GR5MSKD",
-        finding: "Bullets don't state the deal terms",
+        finding: "Bullets don't mention seasonal scent",
         impactThousands: 71,
       },
       {
-        id: "bf-3",
+        id: "hw-r3",
         name: "Aurelle Candles Bergamot Grove Pillar Set",
         asin: "B00005UP2P",
         finding: "Bundle contents not described",
         impactThousands: 63,
       },
       {
-        id: "bf-4",
+        id: "hw-r4",
         name: "Aurelle Candles Coastal Linen Large Jar",
         asin: "B00FLYWNYQ",
-        finding: "No Black Friday urgency language",
+        finding: "No Halloween urgency language",
         impactThousands: 52,
       },
       {
-        id: "bf-5",
+        id: "hw-r5",
         name: "Aurelle Candles Pink Sands Tumbler",
         asin: "B003IH3JN4",
         finding: "Title truncated at 142 characters",
         impactThousands: 47,
       },
       {
-        id: "bf-6",
+        id: "hw-r6",
         name: "Aurelle Candles Rasa Decorative Candle Duo",
         asin: "B08C4L7HC1",
         finding: "Bullets 4 and 5 empty",
         impactThousands: 41,
       },
     ],
-  },
+  },,
   {
     id: "pdp",
     title: "Always-on optimization opportunity",
-    context: "Always on · SEO & AEO · No deadline",
+    context: "Always on · Outdated Content Refresh",
     skuCount: 612,
     valueLabel: "$2.50M",
     valueKind: "potential",
     tone: "default",
     insight:
-      "**612 SKUs** are missing category-standard keywords, competitor-matched terms, or the structured specs that let an **AI answer engine** cite the listing directly. The meter’s **$360K** PDP segment is the slice of this **$2.50M** ready to capture now — not a second total.",
+      "**612 SKUs** are due for a quarterly SEO/AEO review as search intent evolves. Of these, **273** have stale evergreen content, outdated backend keywords, and missing attributes.",
     remainingLabel: "607 more SKUs worth $2.20M, ranked by impact.",
     buckets: [
       {
         id: "pdp-b1",
-        title: "Missing top category keywords in bullets",
-        skuCount: 248,
-        fillTime: "~2 min",
-        valueThousands: 980,
-        alsoNote:
-          "SEO lift · 119 also missing a key search term in the title",
+        title: "Backend keyword & attribute gaps",
+        skuCount: 273,
+        fillTime: "~25 min total",
+        badge: "Improves SEO & AEO",
       },
       {
         id: "pdp-b2",
-        title: "No answer-ready specs for common prompts",
-        skuCount: 196,
-        fillTime: "~3 min",
-        valueThousands: 820,
-        alsoNote:
-          "AEO lift · 88 also have thin bullets for comparison queries",
-      },
-      {
-        id: "pdp-b3",
-        title: "Title missing key search term",
-        skuCount: 168,
-        fillTime: "~2 min",
-        valueThousands: 310,
-        alsoNote:
-          "Always on · 119 overlap with missing category keywords above",
-      },
-      {
-        id: "pdp-b4",
-        title: "Bullets don't answer comparison prompts",
-        skuCount: 124,
-        fillTime: "~2 min",
-        valueThousands: 240,
-        alsoNote:
-          "AEO lift · 88 also missing answer-ready specs",
-      },
-      {
-        id: "pdp-b5",
-        title: "Blocked — catalog attributes missing first",
-        skuCount: 41,
-        fillMode: "input",
-        fillTime: "~15 min",
-        valueThousands: 150,
-        alsoNote:
-          "SEO and AEO copy can't publish until Amazon attributes are backfilled",
+        title: "Baseline content due for a refresh",
+        skuCount: 339,
+        fillTime: "~55 min total",
+        badge: "Improves SEO & AEO",
       },
     ],
     rows: [
@@ -935,5 +766,68 @@ export const opportunityStreams: OpportunityStream[] = [
         findingType: "SEO",
       },
     ],
-  },
+  },,
+  {
+    id: "retail-readiness",
+    title: "Retail readiness opportunity",
+    context: "Vendor Central Attribute Gaps",
+    skuCount: 342,
+    valueLabel: "$410K",
+    valueKind: "blocked",
+    tone: "default",
+    insight:
+      "**100 SKUs** are missing **Amazon-required attributes**. Fixing these gaps will make the full catalog ready for syndication and more frequent updates.",
+    remainingLabel: "338 more SKUs, $389K blocked in total.",
+    buckets: [
+      {
+        id: "rr-mandatory",
+        title: "Agent-drafted, ready for approval",
+        skuCount: 100,
+        fillTime: "~1 min each",
+        badge: "Approval required",
+        alsoNote:
+          "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
+      },
+      {
+        id: "rr-recommended",
+        title: "Missing mandatory attributes",
+        skuCount: 242,
+        fillMode: "input",
+        fillTime: "~1-2 min each",
+        badge: "Input required",
+        alsoNote:
+          "This will improve search and answer engine citation rate.",
+      },
+    ],
+    rows: [
+      {
+        id: "rr-1",
+        name: "Aurelle Candles Noir Cherry Large Jar",
+        asin: "B08NF9KBZ4",
+        finding: "6 attributes missing — material, weight, safety",
+        impactThousands: 8.9,
+      },
+      {
+        id: "rr-2",
+        name: "Aurelle Candles Citrus Zest Soy Jar",
+        asin: "B00I0DI0Z6",
+        finding: "4 attributes missing — care instructions, weight",
+        impactThousands: 6.1,
+      },
+      {
+        id: "rr-3",
+        name: "Aurelle Candles Vanilla Tobacco Jar",
+        asin: "B00FQK1H8C",
+        finding: "3 attributes missing — wax type, burn time",
+        impactThousands: 3.4,
+      },
+      {
+        id: "rr-4",
+        name: "Aurelle Candles Coastal Linen Large Jar",
+        asin: "B00FLYWNYQ",
+        finding: "9 attributes missing — material, capacity, safety",
+        impactThousands: 2.8,
+      },
+    ],
+  },,
 ]
