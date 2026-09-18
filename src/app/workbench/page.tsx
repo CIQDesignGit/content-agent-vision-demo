@@ -39,7 +39,7 @@ import {
   recordCapture,
   type CaptureBucket,
 } from "@/lib/captured-opportunity"
-import { recordQueueProgress } from "@/lib/queue-progress"
+import { recordQueueProgress, getQueueActedSkuIds } from "@/lib/queue-progress"
 import { getFieldPublishQueue } from "@/lib/build-field-publish-queue"
 import { getActivePublishBatch, getPublishBatchForField } from "@/lib/publish-batch"
 import {
@@ -79,6 +79,16 @@ import {
 type PendingNavigation =
   | { kind: "sku"; skuId: string }
   | { kind: "route"; path: string }
+
+/** True once the analyst has accepted any field or published the SKU. */
+function hasAnalystAction(content: SkuContent): boolean {
+  return (
+    content.titleStatus === "accepted" ||
+    content.descriptionStatus === "accepted" ||
+    content.bulletRecommendations.some((r) => r.status === "accepted") ||
+    (content.publishBatches?.length ?? 0) > 0
+  )
+}
 
 function WorkbenchPage() {
   const router = useRouter()
@@ -177,17 +187,30 @@ function WorkbenchPage() {
   const includedCount = [titleIncluded, imageIncluded, bulletsIncluded, descriptionIncluded].filter(Boolean).length
 
   // Reset queue when landing from a moment Take Action (or clearing the param).
+  // Already-acted SKUs from this visit stay marked done so Continue lands on
+  // the next unchecked item instead of replaying hw-sku-1 / hw-sku-2.
   useEffect(() => {
     queueMicrotask(() => {
-      setSelectedSkuId(catalogSkus[0]?.id ?? MOCK_SKUS[0].id)
+      const actedIds = new Set(
+        activeQueue ? getQueueActedSkuIds(activeQueue.id) : [],
+      )
       setActionStatusMap(
         Object.fromEntries(
           catalogSkus.map((s) => [
             s.id,
-            activeQueue ? ("to-do" as ActionStatus) : (s.actionStatus ?? "to-do"),
+            activeQueue
+              ? actedIds.has(s.id)
+                ? ("in-progress" as ActionStatus)
+                : ("to-do" as ActionStatus)
+              : (s.actionStatus ?? "to-do"),
           ]),
         ),
       )
+      const firstTodo =
+        catalogSkus.find((s) => !actedIds.has(s.id))?.id ??
+        catalogSkus[0]?.id ??
+        MOCK_SKUS[0].id
+      setSelectedSkuId(firstTodo)
       setContentState(activeQueue ? {} : buildInitialState())
       setSelectedSkuIds(new Set())
       setIsSelectionMode(false)
@@ -200,6 +223,16 @@ function WorkbenchPage() {
       )
     })
   }, [activeQueue, catalogSkus])
+
+  // Books every SKU the analyst has accepted or published against the queue, so
+  // the overview's progress strip counts reviewed work — not just publishes.
+  useEffect(() => {
+    if (!activeQueue) return
+    const acted = Object.entries(contentState)
+      .filter(([, content]) => hasAnalystAction(content))
+      .map(([skuId]) => skuId)
+    recordQueueProgress(activeQueue.id, acted)
+  }, [activeQueue, contentState])
 
   const filteredSkus = useMemo(
     () => catalogSkus

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { AlertTriangle, ArrowRight } from "lucide-react"
 import { DURATION, EASE_OUT } from "@/lib/motion"
+import { useQueueActedCount } from "@/lib/queue-progress"
 import { cn } from "@/lib/utils"
 import { AnimatedFigure } from "./animated-figure"
 import { seasonalChecklist } from "./analyst-tasks-data"
@@ -12,9 +13,10 @@ import { reviewSkuCtaClassName } from "./review-sku-cta"
 /** Up-next seasonal moment — primary card in the analyst task strip. */
 export function SeasonalChecklistCard({ className }: { className?: string }) {
   const event = seasonalChecklist
-  const remaining = Math.max(event.skuCount - event.checkedCount, 0)
-  const started = event.checkedCount > 0
-  const progressPct = Math.round((event.checkedCount / event.skuCount) * 100)
+  const actedCount = useQueueActedCount(event.momentId)
+  const remaining = Math.max(event.skuCount - actedCount, 0)
+  const started = actedCount > 0
+  const progressPct = Math.round((actedCount / event.skuCount) * 100)
   const valueAmount = Number(event.valueLabel.replace(/[^0-9.]/g, "")) || 0
 
   return (
@@ -80,21 +82,30 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
         </div>
 
         {started ? (
-          <div className="mt-4 space-y-1.5">
-            <div className="flex justify-between gap-2 text-xs tabular-nums text-slate-600">
+          <div className="mt-4 space-y-1.5 rounded-xl bg-success-50 px-3 py-2.5">
+            <div className="flex justify-between gap-2 text-xs tabular-nums text-success-800">
               <span>
-                {event.checkedCount} of {event.skuCount} checked
+                <span className="font-semibold">
+                  {actedCount.toLocaleString()}
+                </span>{" "}
+                of {event.skuCount.toLocaleString()} SKUs acted on today
               </span>
-              <span className="font-semibold text-slate-800">{progressPct}%</span>
+              <span className="font-semibold">{progressPct}%</span>
             </div>
             <div
-              className="h-1 w-full overflow-hidden rounded-full bg-white/70 ring-1 ring-brand-100"
-              aria-hidden
+              className="h-1.5 w-full overflow-hidden rounded-full bg-success-200/80"
+              role="progressbar"
+              aria-valuenow={actedCount}
+              aria-valuemin={0}
+              aria-valuemax={event.skuCount}
+              aria-label={`${actedCount} of ${event.skuCount} SKUs acted on today`}
             >
               <motion.div
-                className="h-full rounded-full bg-brand-600"
+                className="h-full rounded-full bg-success-600"
                 initial={{ width: 0 }}
-                animate={{ width: `${progressPct}%` }}
+                animate={{
+                  width: `${Math.max(progressPct, actedCount > 0 ? 2 : 0)}%`,
+                }}
                 transition={{ duration: DURATION.calm, ease: EASE_OUT, delay: 0.4 }}
               />
             </div>

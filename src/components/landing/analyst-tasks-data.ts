@@ -11,7 +11,6 @@ export const seasonalChecklist = {
     "Event titles, deal framing, and AEO specs — drafted and ranked by revenue.",
   skuCount: 128,
   daysToAct: 20,
-  checkedCount: 0,
 }
 
 export const analystTaskSummary = {

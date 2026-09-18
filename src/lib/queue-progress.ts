@@ -50,13 +50,24 @@ export function useQueueActedCount(queueId: string | undefined): number {
   return progress[queueId]?.length ?? 0
 }
 
-/** Books published SKUs against their queue. Re-publishing a SKU never double-counts. */
+/** SKU ids already booked against this queue — used to resume a Review list mid-visit. */
+export function getQueueActedSkuIds(queueId: string | undefined): string[] {
+  if (typeof window === "undefined" || !actedThisVisit || !queueId) return []
+  return readProgress()[queueId] ?? []
+}
+
+/** Books acted-on SKUs against their queue. Acting on a SKU twice never double-counts. */
 export function recordQueueProgress(queueId: string, skuIds: string[]) {
   if (typeof window === "undefined" || !queueId || skuIds.length === 0) return
 
-  actedThisVisit = true
   const prev = readProgress()
-  const merged = new Set([...(prev[queueId] ?? []), ...skuIds])
+  const existing = prev[queueId] ?? []
+  const merged = new Set([...existing, ...skuIds])
+  // Callers re-send the full acted set on every change, so bail when nothing
+  // new arrived — otherwise each keystroke would republish the store.
+  if (merged.size === existing.length) return
+
+  actedThisVisit = true
   const next: ProgressMap = { ...prev, [queueId]: Array.from(merged) }
 
   window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next))
