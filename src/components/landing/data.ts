@@ -511,6 +511,39 @@ export const calendarEvents: CalendarEvent[] = [
     remainingValueLabel: "$416K",
   },
   {
+    id: "hw",
+    name: "Halloween",
+    valueLabel: "$335K",
+    skuCount: 128,
+    status: "open",
+    dateLabel: "Oct 8",
+    daysToAct: 20,
+    insightSummary:
+      "128 SKUs need Halloween-ready titles, seasonal scent and decor framing, and gifting cues before the Oct 31 event window. Ranked by revenue so hero SKUs land first.",
+    dimensions: [
+      {
+        kind: "seasonal",
+        label: "Seasonal lift",
+        potential: "$210K",
+        potentialMillions: 0.21,
+      },
+      {
+        kind: "aeo",
+        label: "AI visibility",
+        potential: "$80K",
+        potentialMillions: 0.08,
+      },
+      {
+        kind: "foundational",
+        label: "Foundational lift",
+        potential: "$45K",
+        potentialMillions: 0.045,
+      },
+    ],
+    remainingCount: 128,
+    remainingValueLabel: "$335K",
+  },
+  {
     id: "wp",
     name: "Winter peak",
     valueLabel: "$1.04M",

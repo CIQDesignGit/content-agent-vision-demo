@@ -1,9 +1,20 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, BarChart3, Bell, ChevronRight, Home, HelpCircle, Mail, Rocket, Share2 } from "lucide-react"
-import { cn } from "@/lib/utils"
 import type { ReactNode } from "react"
+import {
+  ArrowLeft,
+  BarChart3,
+  Bell,
+  ChevronRight,
+  Home,
+  HelpCircle,
+  Mail,
+  Rocket,
+  Share2,
+} from "lucide-react"
+import { cn } from "@/lib/utils"
+import { ProfileSwitcher } from "./profile-switcher"
 
 function IconHeaderButton({
   badge,
@@ -135,14 +146,7 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
         <IconHeaderButton label="Inbox">
           <Mail className="size-5" />
         </IconHeaderButton>
-        <span
-          className={cn(
-            "ml-1 grid size-7 place-items-center rounded-full",
-            "bg-warning-600 text-xs font-semibold text-white",
-          )}
-        >
-          MR
-        </span>
+        <ProfileSwitcher />
       </div>
     </header>
   )

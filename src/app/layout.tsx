@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "@ciq-dev/ciq-design-system/styles";
 import "./globals.css";
+import { ProfileProvider } from "@/components/home/profile-context";
 import { Toaster } from "@/components/ui/sonner";
 
 // Inter: used for all body text, UI labels, and headings (--font-sans / --font-heading)
@@ -32,8 +33,10 @@ export default function RootLayout({
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
-        <Toaster position="bottom-left" />
+        <ProfileProvider>
+          {children}
+          <Toaster position="bottom-left" />
+        </ProfileProvider>
       </body>
     </html>
   );

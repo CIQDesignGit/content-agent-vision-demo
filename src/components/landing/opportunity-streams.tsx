@@ -17,6 +17,11 @@ interface OpportunityStreamsProps {
   windowClosed?: boolean
   upNext?: UpNextData
   retrospective?: PeriodRetrospective
+  /** When set, that stream starts expanded (accordion still toggles). */
+  defaultExpandedId?: string | null
+  title?: string
+  description?: string
+  hideHeading?: boolean
 }
 
 export function OpportunityStreams({
@@ -24,27 +29,32 @@ export function OpportunityStreams({
   windowClosed = false,
   upNext,
   retrospective,
+  defaultExpandedId = null,
+  title = "Opportunity streams",
+  description,
+  hideHeading = false,
 }: OpportunityStreamsProps) {
-  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [expandedId, setExpandedId] = useState<string | null>(defaultExpandedId)
 
   if (streams.length === 0) return null
+
+  const headingDescription =
+    description ??
+    (windowClosed
+      ? "Where the range came from, and what was captured before it closed."
+      : "Where the range comes from, and what's blocking it.")
 
   return (
     <RevealGroup
       as="section"
-      aria-label="Opportunity streams"
+      aria-label={hideHeading ? "Task streams" : title}
       className="flex flex-col gap-5"
       delay={0.12}
       stagger={0.1}
     >
-      <SectionHeading
-        title="Opportunity streams"
-        description={
-          windowClosed
-            ? "Where the range came from, and what was captured before it closed."
-            : "Where the range comes from, and what's blocking it."
-        }
-      />
+      {!hideHeading ? (
+        <SectionHeading title={title} description={headingDescription} />
+      ) : null}
 
       {windowClosed && retrospective ? (
         <PeriodRetrospectiveCard data={retrospective} />
@@ -52,7 +62,6 @@ export function OpportunityStreams({
 
       <RevealItem variants={fadeRiseOnScroll}>
         <div className="relative overflow-hidden rounded-3xl bg-white/80 ring-1 ring-slate-900/6 shadow-pane-lg backdrop-blur-md">
-          {/* Soft brand wash — same lit-surface language as the meter pane. */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(70%_100%_at_12%_0%,var(--color-brand-50),transparent_70%)]"
