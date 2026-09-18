@@ -21,7 +21,7 @@ export function OpportunityStreams({
   streams,
   windowClosed = false,
   defaultExpandedId = null,
-  title = "Opportunity streams",
+  title = "Open opportunity streams",
   description,
   hideHeading = false,
 }: OpportunityStreamsProps) {

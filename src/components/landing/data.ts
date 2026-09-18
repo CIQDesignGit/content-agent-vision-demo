@@ -631,6 +631,8 @@ export const opportunityStreams: OpportunityStream[] = [
   {
     id: "seasonal",
     title: "Seasonal opportunity",
+    titleTooltip:
+      "Optimizes content ahead of shopping events like Prime Day and Black Friday.",
     context: "Next up · Halloween · Publish by Oct 8 ·",
     contextHighlight: "20 days to act",
     skuCount: 128,
@@ -638,9 +640,7 @@ export const opportunityStreams: OpportunityStream[] = [
     valueKind: "potential",
     tone: "default",
     insight:
-      "**100 SKUs** are missing **Amazon-required attributes**. Fixing these gaps will make the full catalog ready for syndication and more frequent updates.",
-    queueNote:
-      "Cyber Monday ($860K), Holiday Gift Guide ($510K), and Winter peak ($1.04M) are queued next. With this window they are the $2.75M seasonal segment.",
+      "**128 SKUs** are missing Halloween-ready titles, seasonal scent/decor framing, or gifting cues shoppers respond to.",
     remainingLabel: "122 more SKUs worth $251K, ranked by impact.",
     buckets: [
       {
@@ -700,7 +700,9 @@ export const opportunityStreams: OpportunityStream[] = [
   {
     id: "pdp",
     title: "Always-on optimization opportunity",
-    context: "Always on · Outdated Content Refresh",
+    titleTooltip:
+      "Keeps listings aligned with brand and retailer guidelines as category trends shift.",
+    context: "Always on · outdated content refresh",
     skuCount: 612,
     valueLabel: "$2.50M",
     valueKind: "potential",
@@ -770,33 +772,32 @@ export const opportunityStreams: OpportunityStream[] = [
   {
     id: "retail-readiness",
     title: "Retail readiness opportunity",
-    context: "Vendor Central Attribute Gaps",
-    skuCount: 342,
-    valueLabel: "$410K",
+    titleTooltip:
+      "Cleans up backend catalog data so SKUs meet retailer syndication requirements.",
+    context: "Vendor Central attribute gaps",
+    skuCount: 100,
+    valueLabel: "$224K",
     valueKind: "blocked",
     tone: "default",
     insight:
       "**100 SKUs** are missing **Amazon-required attributes**. Fixing these gaps will make the full catalog ready for syndication and more frequent updates.",
-    remainingLabel: "338 more SKUs, $389K blocked in total.",
+    remainingLabel: "96 more SKUs, $203K blocked in total.",
     buckets: [
       {
         id: "rr-mandatory",
         title: "Agent-drafted, ready for approval",
-        skuCount: 100,
-        fillTime: "~1 min each",
+        skuCount: 74,
+        fillTime: "~2 min total",
         badge: "Approval required",
-        alsoNote:
-          "These SKUs are not syndicatable. Make your catalog retail ready and unblock syndication.",
       },
       {
         id: "rr-recommended",
         title: "Missing mandatory attributes",
-        skuCount: 242,
+        skuCount: 26,
         fillMode: "input",
-        fillTime: "~1-2 min each",
+        fillTime: "~45 min total",
         badge: "Input required",
-        alsoNote:
-          "This will improve search and answer engine citation rate.",
+        ctaLabel: "Backfill SKUs",
       },
     ],
     rows: [

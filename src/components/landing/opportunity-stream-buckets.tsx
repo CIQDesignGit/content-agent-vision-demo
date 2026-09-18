@@ -222,7 +222,7 @@ function BucketCard({
             href={reviewHref(bucket, streamId)}
             className="text-sm font-semibold text-brand-700 underline-offset-2 transition-colors hover:text-brand-900 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
           >
-            Review {bucket.skuCount.toLocaleString()} SKUs
+            {bucket.ctaLabel ?? "Review SKUs"}
           </Link>
         ) : null}
       </div>

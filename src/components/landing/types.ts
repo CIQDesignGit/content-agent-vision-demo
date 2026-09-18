@@ -249,11 +249,15 @@ export interface OpportunityStreamBucket {
   momentId?: string
   /** Closed windows only — whether the job was published before the window shut. */
   outcome?: "captured" | "missed"
+  /** Overrides the default “Review SKUs” footer link (e.g. “Backfill SKUs”). */
+  ctaLabel?: string
 }
 
 export interface OpportunityStream {
   id: OpportunityStreamKind
   title: string
+  /** Info tooltip beside the stream title */
+  titleTooltip?: string
   /** Middle-column context when collapsed (and beside title when expanded) */
   context: string
   /** Highlighted suffix inside context — e.g. "5 days to act" */
