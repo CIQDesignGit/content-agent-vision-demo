@@ -50,7 +50,7 @@ export function RevealGroup({
   ...rest
 }: RevealGroupProps) {
   const Tag = motion[as] as typeof motion.div
-  const ref = useRef<HTMLElement>(null)
+  const ref = useRef<HTMLDivElement>(null)
   const variants = useMemo(
     () => staggerContainer(stagger, delay),
     [stagger, delay],
