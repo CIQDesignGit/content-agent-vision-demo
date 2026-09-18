@@ -7,6 +7,7 @@ import { DURATION, EASE_OUT } from "@/lib/motion"
 import { cn } from "@/lib/utils"
 import { AnimatedFigure } from "./animated-figure"
 import { seasonalChecklist } from "./analyst-tasks-data"
+import { reviewSkuCtaClassName } from "./review-sku-cta"
 
 /** Up-next seasonal moment — primary card in the analyst task strip. */
 export function SeasonalChecklistCard({ className }: { className?: string }) {
@@ -54,14 +55,14 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
           <p className="text-sm leading-snug text-slate-500">{event.subtitle}</p>
         </div>
 
-        <div className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
-          <span className="font-semibold tabular-nums text-slate-700">
+        <div className="mt-3.5 flex flex-wrap items-center gap-x-2.5 gap-y-1.5 text-base text-slate-500">
+          <span className="font-semibold tabular-nums text-slate-800">
             {event.skuCount.toLocaleString()} SKUs
           </span>
           <Dot />
-          <span>Publish by {event.publishBy}</span>
+          <span className="font-medium">Publish by {event.publishBy}</span>
           <Dot />
-          <span>Live {event.eventDate}</span>
+          <span className="font-medium">Live {event.eventDate}</span>
         </div>
 
         {started ? (
@@ -88,22 +89,20 @@ export function SeasonalChecklistCard({ className }: { className?: string }) {
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-brand-200/50 bg-white/50 px-5 py-3.5">
-        <p className="max-w-md text-xs leading-relaxed text-slate-500">
+        <p className="max-w-md text-sm leading-relaxed text-slate-500">
           {event.goesLiveNote}
         </p>
         <Link
           href={`/workbench?moment=${event.momentId}`}
-          className={cn(
-            "inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-brand-700 px-3.5 py-2",
-            "text-sm font-semibold text-white shadow-sm",
-            "transition-colors hover:bg-brand-800",
-            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-700",
-          )}
+          className={reviewSkuCtaClassName}
         >
           {started
             ? `Continue — ${remaining.toLocaleString()} left`
             : `Review ${event.skuCount.toLocaleString()} SKUs`}
-          <ArrowRight className="size-3.5" aria-hidden />
+          <ArrowRight
+            className="size-3.5 transition-transform group-hover:translate-x-0.5"
+            aria-hidden
+          />
         </Link>
       </div>
     </motion.div>

@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import type { OpportunityStream, UpNextData } from "./types"
 import { OpportunityStreamTable } from "./opportunity-stream-table"
 import { OpportunityStreamBuckets } from "./opportunity-stream-buckets"
+import { reviewSkuCtaClassName } from "./review-sku-cta"
 import { OpportunityStreamInsight } from "./opportunity-stream-insight"
 
 interface OpportunityStreamDetailProps {
@@ -61,10 +62,7 @@ export function OpportunityStreamDetail({
             <p className="text-sm text-slate-500">
               These issues are a slice of the queue — or open every SKU at once.
             </p>
-            <Button
-              className="group h-9 shrink-0 rounded-lg bg-brand-800 px-3.5 text-sm font-semibold text-white hover:bg-brand-900 focus-visible:outline-brand-800"
-              onClick={reviewAll}
-            >
+            <Button className={reviewSkuCtaClassName} onClick={reviewAll}>
               Review all {stream.skuCount.toLocaleString()} SKUs
               <ArrowRight
                 className="size-3.5 transition-transform group-hover:translate-x-0.5"

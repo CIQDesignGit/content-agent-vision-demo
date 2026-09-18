@@ -101,20 +101,42 @@ function BucketCard({
   return (
     <div
       className={cn(
-        "group flex h-full w-full flex-col overflow-hidden rounded-2xl text-left transition-colors duration-200 ease-out",
+        "group relative flex h-full w-full flex-col overflow-hidden rounded-2xl text-left transition-colors duration-200 ease-out",
         tone.surface,
       )}
     >
-      <div
-        className={cn(
-          "flex flex-1 flex-col p-5 transition-colors duration-200 ease-out",
-          tone.hover,
-        )}
-      >
-        <div className="flex w-full items-start justify-between gap-3">
+      <div className="relative flex min-h-0 flex-1 flex-col">
+        {tone.upNext ? (
+          <>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 bg-linear-to-b from-warning-100/80 via-warning-50/50 to-white transition-[background] duration-300 ease-out group-hover:from-warning-200/55 group-hover:via-warning-100/40 group-hover:to-white"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[radial-gradient(ellipse_90%_100%_at_50%_-15%,var(--color-warning-200)_0%,transparent_68%)] opacity-75 transition-opacity duration-300 ease-out group-hover:opacity-95"
+            />
+          </>
+        ) : null}
+
+        <div
+          className={cn(
+            "relative z-10 flex flex-1 flex-col p-5 transition-colors duration-200 ease-out",
+            tone.hover,
+          )}
+        >
+        <div className="flex items-start justify-between gap-3">
+          <p
+            className={cn(
+              "min-w-0 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em]",
+              tone.value,
+            )}
+          >
+            {formatStreamValue(bucket.valueThousands)}
+          </p>
           <span
             className={cn(
-              "inline-flex max-w-[85%] items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
+              "inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold tracking-widest",
               !bucket.badge && "uppercase",
               tone.chip,
             )}
@@ -126,20 +148,11 @@ function BucketCard({
           </span>
         </div>
 
-        <p
-          className={cn(
-            "mt-3.5 font-sans text-3xl font-semibold tabular-nums tracking-[-0.04em]",
-            tone.value,
-          )}
-        >
-          {formatStreamValue(bucket.valueThousands)}
-        </p>
-
-        <p className={cn("mt-1.5 text-sm font-medium leading-snug", tone.title)}>
+        <p className={cn("mt-1 text-sm font-medium leading-snug", tone.title)}>
           {bucket.title}
         </p>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
+        <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
           <span className={cn("font-semibold tabular-nums", tone.skuCount)}>
             {bucket.skuCount.toLocaleString()} SKUs
           </span>
@@ -148,11 +161,12 @@ function BucketCard({
           </span>
           <span className="font-medium text-slate-500">{tone.metaLabel}</span>
         </div>
+        </div>
       </div>
 
       <div
         className={cn(
-          "flex flex-col gap-3 px-5 py-3 transition-colors duration-200 ease-out",
+          "relative z-10 mt-auto shrink-0 rounded-b-2xl flex flex-col gap-3 px-5 py-3 transition-colors duration-200 ease-out",
           tone.footer,
         )}
       >

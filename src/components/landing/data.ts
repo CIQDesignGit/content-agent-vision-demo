@@ -228,12 +228,12 @@ export const secondaryStats: SecondaryStat[] = [
 export const upNext: UpNextData = {
   items: [
     {
-      id: "bf",
-      name: "Black Friday",
-      valueLabel: "$1.24M",
-      publishBy: "Sep 15",
-      skuCount: 384,
-      goesLiveNote: "4 days later",
+      id: "hw",
+      name: "Halloween",
+      valueLabel: "$335K",
+      publishBy: "Oct 8",
+      skuCount: 128,
+      goesLiveNote: "Oct 31",
     },
   ],
 }

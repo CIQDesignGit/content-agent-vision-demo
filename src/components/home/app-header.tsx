@@ -111,14 +111,14 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
                       {item.label}
                     </Link>
                   ) : (
-                    <span className="text-sm font-medium text-slate-900">{item.label}</span>
+                    <span className="text-sm font-semibold text-slate-900">{item.label}</span>
                   )}
                 </span>
               )
             })}
           </nav>
         ) : (
-          <span className="text-sm font-medium text-slate-900">{title}</span>
+          <span className="text-sm font-semibold text-slate-900">{title}</span>
         )}
       </div>
 
