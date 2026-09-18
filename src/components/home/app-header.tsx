@@ -1,11 +1,11 @@
 "use client"
 
 import Link from "next/link"
-import { ArrowLeft, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 import { AppModuleTabs } from "./app-module-tabs"
 import { ProfileSwitcher } from "./profile-switcher"
 
-const PARENT_APP_HOME_HREF = "https://allybrain.web.app/#/"
+const BRAND_NAME = "Ally"
 
 interface BreadcrumbItem {
   label: string
@@ -22,12 +22,20 @@ interface AppHeaderProps {
   breadcrumb?: BreadcrumbItem[]
 }
 
-export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: AppHeaderProps) {
+function AllyWordmark({ className }: { className?: string }) {
+  return (
+    <span className={className ?? "truncate text-3xl font-bold tracking-tight text-brand-900"}>
+      {BRAND_NAME}
+    </span>
+  )
+}
+
+export function AppHeader({ title = BRAND_NAME, backHref, breadcrumb }: AppHeaderProps) {
   const trail =
     breadcrumb ??
     (backHref
       ? [
-          { label: "Content Agent", href: backHref },
+          { label: BRAND_NAME, href: backHref },
           { label: title },
         ]
       : undefined)
@@ -35,30 +43,27 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
   return (
     <header className="relative flex h-14 shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/70 px-4 backdrop-blur-xl">
       <div className="flex min-w-0 items-center gap-3">
-        <a
-          href={PARENT_APP_HOME_HREF}
-          aria-label="Back to AllyBrain home"
-          title="Back to AllyBrain home"
-          className="grid size-8 shrink-0 place-items-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700"
-        >
-          <ArrowLeft className="size-5" />
-        </a>
-        <span aria-hidden className="h-4 w-px shrink-0 bg-slate-200" />
-
         {trail ? (
           <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-1">
             {trail.map((item, i) => {
               const isLast = i === trail.length - 1
+              const isBrand = item.label === BRAND_NAME
               return (
-                <span key={item.label} className="flex items-center gap-1">
+                <span key={`${item.label}-${i}`} className="flex items-center gap-1">
                   {i > 0 && <ChevronRight className="size-3.5 shrink-0 text-slate-300" />}
                   {item.href && !isLast ? (
                     <Link
                       href={item.href}
-                      className="truncate text-sm text-slate-400 transition-colors hover:text-slate-600"
+                      className={
+                        isBrand
+                          ? "truncate text-2xl font-bold tracking-tight text-brand-900 transition-colors hover:text-brand-950"
+                          : "truncate text-sm text-slate-400 transition-colors hover:text-slate-600"
+                      }
                     >
                       {item.label}
                     </Link>
+                  ) : isBrand && isLast ? (
+                    <AllyWordmark />
                   ) : (
                     <span className="truncate text-sm font-semibold text-slate-900">
                       {item.label}
@@ -69,7 +74,7 @@ export function AppHeader({ title = "Content Agent", backHref, breadcrumb }: App
             })}
           </nav>
         ) : (
-          <span className="truncate text-sm font-semibold text-slate-900">{title}</span>
+          <AllyWordmark />
         )}
       </div>
 

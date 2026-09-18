@@ -15,7 +15,7 @@ export function BrandPerformanceView() {
       <AppHeader
         backHref="/workbench"
         breadcrumb={[
-          { label: "Content Agent", href: "/workbench" },
+          { label: "Ally", href: "/workbench" },
           { label: "Brand Performance" },
         ]}
       />

@@ -9,8 +9,8 @@ const MODULES = [
   { id: "ally", label: "Home", href: ALLY_BRAIN_HREF, external: true },
   { id: "content", label: "Content", href: "/", external: false },
   { id: "media", label: "Media", href: null, external: false },
-  { id: "ops", label: "Ops", href: "#", external: false },
-  { id: "insights", label: "Insights", href: "#", external: false },
+  { id: "ops", label: "Ops", href: "https://allybrain.web.app/#/ops", external: true },
+  { id: "insights", label: "Insights", href: "https://allybrain.web.app/#/insights", external: true },
 ] as const
 
 type ModuleId = (typeof MODULES)[number]["id"]

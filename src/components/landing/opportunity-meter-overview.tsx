@@ -57,7 +57,7 @@ export function OpportunityMeterOverview({
     <div className={cn("flex w-full flex-col justify-between gap-8 lg:min-h-[22rem]", className)}>
       <div className="flex flex-col gap-2">
         <p className="text-[13px] font-medium text-brand-600">
-          Total Annualized Content Opportunity
+          Total Annualized Content Opportunity Remaining
         </p>
 
         {/* Hero + legend share one row so amounts sit on the $4.81M baseline;
